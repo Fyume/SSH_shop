@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="demo1">
+		<action name="userAction_add" class="userAction">
+			<result name="ok">index.jsp</result>
+			<result name="false">login.jsp</result>
+		</action>
+	</package>
+</struts>
