@@ -3,9 +3,12 @@ package zhku.jsj141.entity;
 public class User {
 	private String uid;
 	private String username;
+	private String name;
 	private String password;
 	private String address;
-	private String sex;
+	private String IDCN;//身份证号
+	private String telnum;//电话号码
+	private String email;//邮箱
 	public String getUid() {
 		return uid;
 	}
@@ -17,6 +20,13 @@ public class User {
 	}
 	public void setUsername(String username) {
 		this.username = username;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getPassword() {
 		return password;
@@ -30,17 +40,34 @@ public class User {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getSex() {
-		return sex;
+	public String getIDCN() {
+		return IDCN;
 	}
-	public void setSex(String sex) {
-		this.sex = sex;
+	public void setIDCN(String iDCN) {
+		IDCN = iDCN;
 	}
-	public User(String uid,String username,String password,String address,String sex){
+	public String getTelnum() {
+		return telnum;
+	}
+	public void setTelnum(String telnum) {
+		this.telnum = telnum;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public User(String uid,String username,String password,String address,String IDCN,String telnum,String email){
 		this.uid = uid;
 		this.username = username;
 		this.password = password;
 		this.address = address;
-		this.sex = sex;
+		this.IDCN = IDCN;
+		this.telnum = telnum;
+		this.email = email;
+	}
+	public User(){
+		
 	}
 }

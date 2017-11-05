@@ -1,6 +1,7 @@
 package zhku.jsj141.dao;
 
 import java.io.Serializable;
+import java.util.List;
 
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
@@ -10,4 +11,5 @@ public interface UserDao {
 
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate);
 	public Serializable add(User user);
+	public List<User> select(User user);
 }

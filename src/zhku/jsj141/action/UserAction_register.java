@@ -11,7 +11,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import zhku.jsj141.entity.User;
 import zhku.jsj141.service.UserService;
 
-public class UserAction extends ActionSupport{
+public class UserAction_register extends ActionSupport{
 	private UserService userService;
 
 	public void setUserService(UserService userService) {
@@ -23,8 +23,10 @@ public class UserAction extends ActionSupport{
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String address = request.getParameter("address");
-		String sex = request.getParameter("sex");
-		User user = new User(uid,username,password,address,sex);
+		String IDCN = request.getParameter("IDCN");
+		String telnum = request.getParameter("telnum");
+		String email = request.getParameter("email");
+		User user = new User(uid,username,password,address,IDCN,telnum,email);
 		Serializable s =userService.add(user);
 		if(s!=null||!s.equals("")){
 			request.getSession().setAttribute("uid", s);

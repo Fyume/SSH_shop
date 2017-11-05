@@ -4,9 +4,12 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 	<package name="demo1">
-		<action name="userAction_add" class="userAction">
-			<result name="ok">index.jsp</result>
-			<result name="false">login.jsp</result>
+		<action name="userAction_add" class="userAction_register">
+			<result name="ok">pages/user/index.jsp</result>
+			<result name="false">pages/user/login.jsp</result>
+		</action>
+		<action name="userAction_checkuid" class="userAction_checkuid">
+			<result name="SUCCESS">pages/user/register.jsp</result>
 		</action>
 	</package>
 </struts>

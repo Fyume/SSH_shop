@@ -16,5 +16,6 @@
 	<property name="user" value="root"></property>
 	<property name="password" value="root"></property>
  </bean>
-<bean id="userAction" class="zhku.jsj141.action.UserAction"></bean>
+<bean id="userAction_register" class="zhku.jsj141.action.UserAction_register"></bean>
+<bean id="userAction_checkuid" class="zhku.jsj141.action.UserAction_checkuid"></bean>
 </beans>
