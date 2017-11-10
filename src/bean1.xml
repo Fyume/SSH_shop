@@ -16,6 +16,40 @@
 	<property name="user" value="root"></property>
 	<property name="password" value="root"></property>
  </bean>
-<bean id="userAction_register" class="zhku.jsj141.action.UserAction_register"></bean>
-<bean id="userAction_checkuid" class="zhku.jsj141.action.UserAction_checkuid"></bean>
+ <!-- hibernate配置 -->
+ <bean id="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 指定hibernate核心配置文件的位置 <property name="configLocations" value="classpath:hibernate.cfg.xml"></property> -->
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+			</props>
+		</property>
+		<property name="mappingResources">
+			<list>
+				<value>zhku/jsj141/entity/User.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+ <!-- 配置事务 -->
+ <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+ 	<property name="sessionFactory" ref="sessionFactory"></property>
+ </bean>
+ <!-- 开启事务注解 -->
+ <tx:annotation-driven transaction-manager="transactionManager"/>
+ 
+<bean id="userAction" class="zhku.jsj141.action.UserAction" scope="prototype">
+	<property name="userService" ref="userService"></property>
+</bean>
+<bean id="userService" class="zhku.jsj141.service.UserService">
+	<property name="userDao" ref="userDao"></property>
+</bean>
+<bean id="userDao" class="zhku.jsj141.daoImpl.UserDaoImpl">
+	<property name="hibernateTemplate" ref="hibernateTemplate"></property>
+</bean>
+<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+	<property name="sessionFactory" ref="sessionFactory"></property>
+</bean>
 </beans>

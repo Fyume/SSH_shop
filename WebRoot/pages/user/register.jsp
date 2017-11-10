@@ -17,21 +17,20 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
 
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/register.css">
 
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/register.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/user/register.js"></script>
 </head>
 
 <body>
-	${sessionScope.uid_check}
+<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}">
 	<div class="register_body">
 		<div class="register_title">用户注册</div>
 		<div class="register_main">
-			<form action="/useraction" method="post">
+			<form id="form" action="/userAction_register" method="post">
 				<div class="register_dtable">
 					<div class="register_table">
 						<div class="register_table_left">
@@ -49,34 +48,35 @@
 						</div>
 						<div class="register_table_center">
 							<ul>
-								<li><input type="text" id="uid" name="uid">
+								<li><input type="text" id="uid" name="用户ID" onchange="checkuid()">
 								<div class="div_flag">*</div>
-								<c:if test="${sessionScope.uid_check}">用户id已存在</c:if>
 								</li>
-								<li><input type="text" id="username" name="username">
-								<div class="div_flag">*</div></li>
-								<li><input type="text" id="name" name="name">
-								<div class="div_flag">*</div></li>
-								<li><input type="password" id="password" name="password">
-								<div class="div_flag">*</div></li>
-								<li><input type="password" id="r_password"
+								<li><input type="text" id="username" name="用户名" onchange="checkusername(this.form)">
+								<div class="div_flag">*</div>
+								</li>
+								<li><input type="text" id="name" name="姓名">
+								<div class="div_flag">*</div>
+								</li>
+								<li><input type="password" id="password" name="密码">
+								<div class="div_flag">*</div>
+								</li>
+								<li><input type="password" id="二次密码"
 									name="r_password">
-								<div class="div_flag">*</div></li>
-								<li><input type="text" id="address" name="address"></li>
-								<li><input type="text" id="IDCN" name="IDCN">
-								<div class="div_flag">*</div></li>
-								<li><input type="text" id="telnum" name="telnum">
-								<div class="div_flag">*</div></li>
-								<li><input type="text" id="email" name="email">
-								<div class="div_flag">*</div></li>
+								<div class="div_flag">*</div>
+								</li>
+								<li><input type="text" id="address" name="地址"></li>
+								<li><input type="text" id="IDCN" name="身份证号码">
+								<div class="div_flag">*</div>
+								</li>
+								<li><input type="text" id="telnum" name="电话号码"></li>
+								<li><input type="text" id="email" name="邮箱">
+								<div class="div_flag">*</div>
+								</li>
 							</ul>
 						</div>
-						<div class="register_table_right">
-							<li></li>
-						</div>
 					</div>
-					<input class="register_table_submit" type="button" value="提交"
-						onclick="checkuid()">
+					<input id="register_table_submit" class="register_table_submit" type="submit" value="提交" onclick="return checkform()"
+						>
 				</div>
 			</form>
 		</div>

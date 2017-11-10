@@ -5,9 +5,10 @@ import java.util.List;
 
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
+import zhku.jsj141.dao.UserDao;
 import zhku.jsj141.entity.User;
 
-public class UserDaoImpl {
+public class UserDaoImpl implements UserDao {
 	private HibernateTemplate hibernateTemplate;
 
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
@@ -19,9 +20,6 @@ public class UserDaoImpl {
 	}
 	public List<User> select(User user){
 		List<User> list= (List<User>) hibernateTemplate.find("from User where uid=?",user.getUid());
-		for (User user2 : list) {
-			System.out.println("uid:"+user2.getUid()+" username:"+user2.getUsername());
-		}
 		return list;
 	}
 }
