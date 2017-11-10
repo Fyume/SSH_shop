@@ -4,9 +4,9 @@
 	"http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
 	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
-	<package name="demo1" extends="struts-default" namespace="/">
+	<package name="demo1" extends="struts-default,json-default" namespace="/">
 		<!-- <action name="userAction_add" class="userAction_register">
-			<result name="ok">pages/user/index.jsp</result>
+			<result name="ok">pages/user/index.jsp</.result>
 			<result name="false">pages/user/login.jsp</result>
 		</action> -->
 		<action name="userAction_*" class="userAction" method="{1}">

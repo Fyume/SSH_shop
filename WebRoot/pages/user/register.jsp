@@ -30,7 +30,7 @@
 	<div class="register_body">
 		<div class="register_title">用户注册</div>
 		<div class="register_main">
-			<form id="form" action="/userAction_register" method="post">
+			<form id="form" action="${pageContext.request.contextPath}/userAction_register" method="post" onsubmit="return checkform()">
 				<div class="register_dtable">
 					<div class="register_table">
 						<div class="register_table_left">
@@ -49,9 +49,9 @@
 						<div class="register_table_center">
 							<ul>
 								<li><input type="text" id="uid" name="用户ID" onchange="checkuid()">
-								<div class="div_flag">*</div>
+								<div id="uidwarnning" class="div_flag">*</div>
 								</li>
-								<li><input type="text" id="username" name="用户名" onchange="checkusername(this.form)">
+								<li><input type="text" id="username" name="用户名">
 								<div class="div_flag">*</div>
 								</li>
 								<li><input type="text" id="name" name="姓名">
@@ -60,22 +60,22 @@
 								<li><input type="password" id="password" name="密码">
 								<div class="div_flag">*</div>
 								</li>
-								<li><input type="password" id="二次密码"
-									name="r_password">
+								<li><input type="password" id="r_password"
+									name="二次密码">
 								<div class="div_flag">*</div>
 								</li>
 								<li><input type="text" id="address" name="地址"></li>
 								<li><input type="text" id="IDCN" name="身份证号码">
 								<div class="div_flag">*</div>
 								</li>
-								<li><input type="text" id="telnum" name="电话号码"></li>
+								<li><input type="text" id="telnum" name="电话"></li>
 								<li><input type="text" id="email" name="邮箱">
 								<div class="div_flag">*</div>
 								</li>
 							</ul>
 						</div>
 					</div>
-					<input id="register_table_submit" class="register_table_submit" type="submit" value="提交" onclick="return checkform()"
+					<input id="register_table_submit" class="register_table_submit" type="submit" value="提交" 
 						>
 				</div>
 			</form>

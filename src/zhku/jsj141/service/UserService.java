@@ -26,7 +26,7 @@ public class UserService {
 			return "用户id已存在";
 		}
 		System.out.println("该uid可用("+user.getUid()+")");
-		return " ";
+		return null;
 	}
 	public User find(User user){
 		List<User> list = userDao.select(user);
