@@ -19,7 +19,7 @@
 <meta http-equiv="expires" content="0">
 
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/register.css">
+	href="${pageContext.request.contextPath}/css/user/register.css">
 
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/user/register.js"></script>
@@ -49,7 +49,7 @@
 						<div class="register_table_center">
 							<ul>
 								<li><input type="text" id="uid" name="用户ID" onchange="checkuid()">
-								<div id="uidwarnning" class="div_flag">*</div>
+								<div class="div_flag">*</div>
 								</li>
 								<li><input type="text" id="username" name="用户名">
 								<div class="div_flag">*</div>

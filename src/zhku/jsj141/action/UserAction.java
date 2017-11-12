@@ -8,9 +8,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
-
 import org.apache.struts2.ServletActionContext;
+import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Actions;
+import org.apache.struts2.convention.annotation.Namespace;
+import org.apache.struts2.convention.annotation.ParentPackage;
+import org.apache.struts2.convention.annotation.Result;
 import org.springframework.stereotype.Controller;
 
 import zhku.jsj141.entity.User;
@@ -19,40 +22,56 @@ import zhku.jsj141.service.UserService;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.opensymphony.xwork2.ActionSupport;
+
 @Controller
+/*
+ * @Namespace("/")
+ * 
+ * @ParentPackage("struts-default,json-default")
+ * 
+ * @Actions({
+ * 
+ * @Action(value="checkuid"),
+ * 
+ * @Action(value="register") })
+ */
 public class UserAction extends ActionSupport {
 	private UserService userService;
+
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+
 	public UserService getUserService() {
 		return userService;
 	}
-	public String checkuid() throws Exception {
-		System.out.println("checkuid");
+
+	public String checkuid() throws Exception {// 检测用户ID重名
+		System.out.println("--checkuid--");
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setCharacterEncoding("UTF-8");//过滤器不知道为什么不起作用
+		response.setCharacterEncoding("UTF-8");// 过滤器不知道为什么不起作用（貌似是Struts2的问题）
 		String uid = request.getParameter("uid");
 		System.out.println("--action--");
-		System.out.println("uid:"+uid);
-		if(uid!=null&&uid!=""){
+		System.out.println("uid:" + uid);
+		if (uid != null && uid != "") {
 			User user = new User();
 			user.setUid(uid);
 			String checkresult = userService.checkuid(user);
-			Map<String,Object> map = new HashMap<String,Object>();
-			map.put("check_uid",checkresult);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("check_uid", checkresult);
 			String result = JSONObject.toJSONString(map);
-			System.out.println("result:"+result);
+			System.out.println("result:" + result);
 			PrintWriter out = response.getWriter();
 			out.write(result);
 			out.flush();
 			out.close();
 		}
 		return NONE;
-    }
-	public String register() throws Exception {
-		System.out.println("register");
+	}
+
+	public String register() throws Exception {// 注册
+		System.out.println("--register--");
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String uid = request.getParameter("用户ID");
 		String username = request.getParameter("用户名");
@@ -62,15 +81,60 @@ public class UserAction extends ActionSupport {
 		String IDCN = request.getParameter("身份证号码");
 		String telnum = request.getParameter("电话");
 		String email = request.getParameter("邮箱");
-		User user = new User(uid,name,username,password,address,IDCN,telnum,email);
+		User user = new User(uid, name, username, password, address, IDCN,
+				telnum, email);
 		System.out.println(user.toString());
-		if(user!=null){
-			Serializable s =userService.add(user);
-			request.setAttribute("uid", s);
-			request.setAttribute("functionname", "注册成功,");//loading页面需要显示
-			request.setAttribute("gohere", "/user/login.jsp");//loading页面需要显示
+		if (user != null) {/*
+							 * Serializable s =userService.add(user);
+							 * request.setAttribute("uid", s);
+							 */
+			request.setAttribute("functionname", "注册成功,");// loading页面需要显示
+			request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
 			return "register_ok";
 		}
-        return NONE;
-    }
+		return NONE;
+	}
+
+	@SuppressWarnings("unused")
+	public String login() throws Exception {// 登录
+		System.out.println("--login--");
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String s_vCode = (String) request.getSession()
+				.getAttribute("checkcode");
+		String vCode = (String) request.getParameter("验证码");
+		System.out.println("s_vCode:"+s_vCode+" vCode:"+vCode);
+		if (vCode != "" && vCode != null) {
+			if (vCode.equalsIgnoreCase(s_vCode)) {
+				String uid = request.getParameter("用户ID");
+				/*
+				 * String username = request.getParameter("用户名"); String name =
+				 * request.getParameter("姓名"); String email =
+				 * request.getParameter("邮箱");
+				 */
+				String password = request.getParameter("密码");
+				User user = new User();
+				user.setUid(uid);
+				user = userService.find(user);
+				System.out.println(user.toString());
+				if (user != null) {//有这个用户
+					String rpassword = user.getPassword();
+					if (rpassword.equals(password)) {
+						System.out.println("login_ok");
+						return "login_ok";
+					}else{
+						System.out.println("密码错误");
+						request.setAttribute("uidpass_flag", "用户或者密码错误");
+					}
+				}else{
+					System.out.println("用户名错误");
+					request.setAttribute("uidpass_flag", "用户或者密码错误");
+				}
+			} else {
+				System.out.println("验证码错误");
+				request.setAttribute("vCode_flag", "验证码错误");
+			}
+		}
+
+		return "login_false";
+	}
 }

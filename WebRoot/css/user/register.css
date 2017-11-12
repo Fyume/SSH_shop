@@ -6,7 +6,7 @@ li{
 .register_body{
 	width:1266px;
 	heigh:768px;
-	background-image: url("../images/background1.jpg");
+	background-image: url("../../images/background1.jpg");
 }
  .register_title{
  	text-align:center;
@@ -55,7 +55,7 @@ li{
 	margin-left:200px;
 	width:50px;
 	heigh:20px;
-	background-image: url("../images/button/1 (26).gif");
+	background-image: url("../../images/button/1 (26).gif");
 	border:1px black solid;
 	font-size:18px;
 	font-weight: 300px;
@@ -65,7 +65,7 @@ li{
 	margin-left:200px;
 	width:50px;
 	heigh:20px;
-	background-image: url("../images/button/1 (25).gif");
+	background-image: url("../../images/button/1 (25).gif");
 	border:1px black solid;
 	font-size:18px;
 	font-weight: 300px;

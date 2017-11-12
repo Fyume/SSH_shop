@@ -19,11 +19,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/user/loading.js"></script>
+<style type="text/css">
+div{
+float:left;
+}
+</style>
   </head>
   
   <body onload="show()">
-    ${requestScope.functionname }
-    <div id="num" style="float:left"></div>秒后跳转
-    <input type="hidden" id="path" name="${pageContext.request.contextPath }${requestScope.gohere }">
+    <div>${requestScope.functionname }</div>
+    <div id="num"></div>
+    <div>秒后自动跳转</div>
+    <input type="hidden" id="path" value="<%=basePath %>${requestScope.gohere }">
   </body>
 </html>
