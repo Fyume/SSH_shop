@@ -1,0 +1,122 @@
+body{
+	background-image: url("../../images/background/6d228ffdf9cc976affdb1c015cac498c.jpg");
+}
+a{
+	font-size:12px;
+	font-family: 宋体;
+}
+.login_form {
+	margin-top: 130px;
+	margin-right: 50px;
+	width: 400px;
+	height: 270px;
+	float: right;
+	border-radius: 2px;
+	border: 1px #c0c0c0 solid;
+	box-shadow: 5px 5px 10px #c0c0c0;
+	background-image: url("../../images/background/84587ec276ce232.jpg");
+}
+.login_table {
+	margin-left: 40px;
+	margin-top: 30px;
+	float: left;
+	width: 320px;
+	height: 230px;
+}
+
+.table_label{
+	width:320px;
+	float:left;
+	height:40px;
+	margin-top:5px;
+	margin-bottom: 10px;
+}
+.table_label >div{
+	float:left;
+	height:30px;
+	margin-top:20px;
+}
+.table_label_font{
+	width: 80px;
+	padding-right: 10px;
+	font-family: "Arial";
+	font-size: 15px;
+	text-align: right;
+	margin-left: 5px;
+}
+.table_label_input{
+	width:110px;
+	padding-left: 110px;
+}
+.table_label_input input,
+
+.code-box{
+	padding: 0 10px;
+	margin-left:-100px;
+    width: 150px;
+    height: 30px;
+    color: #000000;
+    text-shadow: 1px 1px 1px black;
+    background: rgba(0, 0, 0, 0.16);
+    border: 0;
+    border-radius: 5px;
+	outline: none;
+	box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.3), 0 1px rgba(255, 255, 255, 0.06);
+}
+#vCode_text {
+	float: left;
+	width: 70px;
+}
+
+#vCode {
+	float: left;
+	width: 100px;
+	height: 30px;
+	margin-left:200px;
+	margin-top: -53px;
+	cursor: pointer;
+}
+
+.login_table_submit {
+	float: left;
+	width: 140px;
+	heigh: 23px;
+	background-image:url("../../images/button/button3.png");
+	font-size: 18px;
+	font-weight: 300px;
+	margin-left: 95px;
+	margin-top: 24px;
+	border: white;
+}
+.login_table_submit:ACTIVE{
+	float: left;
+	width: 140px;
+	heigh: 23px;
+	background-image:url("../../images/button/button4.png");
+	font-size: 18px;
+	font-weight: 300px;
+	margin-left: 95px;
+	margin-top: 24px;
+	border: white;
+}
+.warning{
+	font-family: 黑体;
+	font-size:14px;
+	font-weight: 500px;
+	color:red;
+}
+#u_warn{
+	float:left;
+	margin-left:104px;
+	margin-top:-1px;
+	width:120px;
+	height:18px;
+	font-size:14px;
+}
+#vC_warn{
+	float:left;
+	margin-left:-198px;
+	margin-top:-1px;
+	height:18px;
+	font-size:14px;
+}
