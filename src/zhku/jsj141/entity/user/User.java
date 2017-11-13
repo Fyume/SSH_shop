@@ -1,4 +1,4 @@
-package zhku.jsj141.entity;
+package zhku.jsj141.entity.user;
 
 public class User {
 	private String uid;
@@ -9,6 +9,8 @@ public class User {
 	private String IDCN;//身份证号
 	private String telnum;//电话号码
 	private String email;//邮箱
+	private boolean u_status=false;//激活状态,默认未激活
+	private String code;
 	public String getUid() {
 		return uid;
 	}
@@ -58,7 +60,21 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public User(String uid,String name,String username,String password,String address,String IDCN,String telnum,String email){
+	
+	public boolean isU_status() {
+		return u_status;
+	}
+	public void setU_status(boolean u_status) {
+		this.u_status = u_status;
+	}
+	
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public User(String uid,String name,String username,String password,String address,String IDCN,String telnum,String email,String code){
 		this.uid = uid;
 		this.name = name;
 		this.username = username;
@@ -67,6 +83,7 @@ public class User {
 		this.IDCN = IDCN;
 		this.telnum = telnum;
 		this.email = email;
+		this.code = code;
 	}
 	public User(){
 		
@@ -75,7 +92,9 @@ public class User {
 	public String toString() {
 		return "User [uid=" + uid + ", username=" + username + ", name=" + name
 				+ ", password=" + password + ", address=" + address + ", IDCN="
-				+ IDCN + ", telnum=" + telnum + ", email=" + email + "]";
+				+ IDCN + ", telnum=" + telnum + ", email=" + email
+				+ ", u_status=" + u_status + ", code="+code+"]";
 	}
+	
 	
 }

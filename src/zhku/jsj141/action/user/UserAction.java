@@ -1,9 +1,10 @@
-package zhku.jsj141.action;
+package zhku.jsj141.action.user;
 
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,8 +17,9 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.stereotype.Controller;
 
-import zhku.jsj141.entity.User;
-import zhku.jsj141.service.UserService;
+import zhku.jsj141.entity.user.User;
+import zhku.jsj141.service.user.UserService;
+import zhku.jsj141.utils.user.userUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -81,20 +83,39 @@ public class UserAction extends ActionSupport {
 		String IDCN = request.getParameter("身份证号码");
 		String telnum = request.getParameter("电话");
 		String email = request.getParameter("邮箱");
+		String code = uid+new Random(999999999);
 		User user = new User(uid, name, username, password, address, IDCN,
-				telnum, email);
+				telnum, email,code);
 		System.out.println(user.toString());
 		if (user != null) {/*
 							 * Serializable s =userService.add(user);
 							 * request.setAttribute("uid", s);
+							 * userUtils util = new userUtils();	
+							 * util.sendmail(email,user.getCode());
 							 */
-			request.setAttribute("functionname", "注册成功,");// loading页面需要显示
+			
+			request.setAttribute("functionname", "注册成功,激活邮件已发送到您的邮箱上，");// loading页面需要显示
 			request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
 			return "register_ok";
 		}
 		return NONE;
 	}
-
+	public String activate() throws Exception{
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String code = request.getParameter("code");
+		User user = new User();
+		user.setCode(code);
+		user = userService.find(user, "Code");
+		if(user!=null){
+			user.setCode("");
+			user.setU_status(true);
+			userService.update(user);
+			request.setAttribute("functionname", "激活成功,");// loading页面需要显示
+			request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
+			return "activate_ok";
+		}
+		return NONE;
+	}
 	@SuppressWarnings("unused")
 	public String login() throws Exception {// 登录
 		System.out.println("--login--");
@@ -114,9 +135,9 @@ public class UserAction extends ActionSupport {
 				String password = request.getParameter("密码");
 				User user = new User();
 				user.setUid(uid);
-				user = userService.find(user);
+				user = userService.find(user,"Uid");
 				System.out.println(user.toString());
-				if (user != null) {//有这个用户
+				if (user.getUid() != null) {//有这个用户
 					String rpassword = user.getPassword();
 					if (rpassword.equals(password)) {
 						System.out.println("login_ok");

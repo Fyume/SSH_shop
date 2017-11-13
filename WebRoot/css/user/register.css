@@ -1,14 +1,12 @@
 @CHARSET "UTF-8";
 li{
 	list-style: none;
-	margin-bottom: 10px;
+	margin-bottom: 15px;
 }
-.register_body{
-	width:1266px;
-	heigh:768px;
-	background-image: url("../../images/background1.jpg");
+body{
+	background-image: url("../../images/background/4057a355fa8ffab.jpg");
 }
- .register_title{
+.register_title{
  	text-align:center;
 	margin-left:500px;
 	width:300px;
@@ -28,34 +26,33 @@ li{
 	display:block;
 	margin-left:400px;
 	margin-top:50px;
-	border:1px black solid;
+	background-image: url("../../images/background/2857a35a2ba577e.jpg");
 }
 
 .register_table{
 	float:left;
 	width:500px;
 	height:400px;
-	border:1px green solid;
 }
 .register_table_left{
 	float:left;
 	width:120px;
 	height: 400px;
-	border:2px red solid;
+	border-right:2px #c0c0c0 solid;
 }
 .register_table_center{
 	float:left;
 	width:370px;
 	height: 400px;
-	border:1px black solid;
 }
 
 .register_table_submit{
 	float:left;
 	margin-left:200px;
-	width:50px;
+	margin-top:-40px;
+	width:100px;
 	heigh:20px;
-	background-image: url("../../images/button/1 (26).gif");
+	background-image: url("../../images/button/1 (50).gif");
 	border:1px black solid;
 	font-size:18px;
 	font-weight: 300px;
@@ -63,9 +60,10 @@ li{
 .register_table_submit:ACTIVE{
 	float:left;
 	margin-left:200px;
-	width:50px;
+	margin-top:-40px;
+	width:100px;
 	heigh:20px;
-	background-image: url("../../images/button/1 (25).gif");
+	background-image: url("../../images/button/1 (54).gif");
 	border:1px black solid;
 	font-size:18px;
 	font-weight: 300px;

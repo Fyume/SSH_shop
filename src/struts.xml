@@ -9,6 +9,7 @@
 		<action name="userAction_*" class="userAction" method="{1}">
 			<result name="register_ok">/pages/user/loading.jsp</result>
 			<result name="login_ok">/pages/index.jsp</result>
+			<result name="activate_ok">/pages/index.jsp</result>
 			<result name="login_false">/pages/user/login.jsp</result>
 		</action>
 		<!-- 工具模块 -->

@@ -30,7 +30,7 @@
 	<div class="register_body">
 		<div class="register_title">用户注册</div>
 		<div class="register_main">
-			<form id="form" action="${pageContext.request.contextPath}/userAction_register" method="post" onsubmit="return checkform()">
+			<form id="form" action="${pageContext.request.contextPath}/user/userAction_register" method="post" onsubmit="return checkform()">
 				<div class="register_dtable">
 					<div class="register_table">
 						<div class="register_table_left">

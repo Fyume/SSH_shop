@@ -65,6 +65,7 @@
 		}
 	});
 	checkpw();
+	checkemail();
 	checkuid();
 	return flag;
 }
@@ -78,7 +79,7 @@ function checkuid() {
 	if ($("#uid").val().match(/[a-zA-Z0-9_]{1,16}/) != null) {//限制输入的用户ID只能有数字英文字符下划线组成的1到16位
 		var path = $("#contextPath").val();
 		$.ajax({
-			url : path + '/userAction_checkuid',
+			url : path + '/user/userAction_checkuid',
 			type : "POST",
 			data : {uid : $("#uid").val()},
 			dataType : "json",
@@ -97,5 +98,11 @@ function checkuid() {
 			},
 			
 		})
+	}
+}
+function checkemail(){
+	var str = "/\w+[@]{1}\w+[.]\w+/";//任意数字字符下划线+@+数字字符下划线+.+数字字符下划线
+	if(str.test(("#email").val())==false){
+		return false;
 	}
 }
