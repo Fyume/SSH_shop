@@ -32,12 +32,12 @@ public class UserDaoImpl implements UserDao {
 			if(name.equals("u_status")==false){
 			list = (List<User>) hibernateTemplate.find("from User where "
 					+ name + "=?",
-					user.getClass().getMethod("get" + name, String.class)
+					user.getClass().getMethod("get" + name)
 							.invoke(user));//反射机制调用方法
 			}else if(name.equals("u_status")){//布尔值的获取方法名不同
 				list = (List<User>) hibernateTemplate.find("from User where "
 						+ name + "=?",
-						user.getClass().getMethod("is" + name, boolean.class)
+						user.getClass().getMethod("is" + name)
 								.invoke(user));
 			}
 		} catch (DataAccessException e) {

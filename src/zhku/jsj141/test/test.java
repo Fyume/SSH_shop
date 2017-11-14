@@ -1,5 +1,7 @@
 package zhku.jsj141.test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.mail.Authenticator;
@@ -13,6 +15,7 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
+import org.junit.Test;
 
 public class test {
 /*	Logger log = Logger.getLogger(test.class);
@@ -66,5 +69,12 @@ public class test {
 
     // 发送邮件  
     Transport.send(message);  
+	}
+	@Test
+	public void testleng(){
+		String uid = "111";
+		String uid_code = "111222222";
+		System.out.println(Integer.parseInt(uid_code.substring(uid.length(),uid_code.length()))-11111);
+		System.out.println(uid_code.substring(uid_code.length()-3,uid_code.length()));
 	}
 }

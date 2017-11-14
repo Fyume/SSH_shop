@@ -30,7 +30,7 @@
 	<div class="register_body">
 		<div class="register_title">用户注册</div>
 		<div class="register_main">
-			<form id="form" action="${pageContext.request.contextPath}/user/userAction_register" method="post" onsubmit="return checkform()">
+			<form id="form" action="${pageContext.request.contextPath}/userAction_register" method="post" onsubmit="return checkform()">
 				<div class="register_dtable">
 					<div class="register_table">
 						<div class="register_table_left">
@@ -49,7 +49,7 @@
 						<div class="register_table_center">
 							<ul>
 								<li><input type="text" id="uid" name="用户ID" onchange="checkuid()">
-								<div class="div_flag">*</div>
+								<div class="div_flag" id="uidwarnning">*</div>
 								</li>
 								<li><input type="text" id="username" name="用户名">
 								<div class="div_flag">*</div>

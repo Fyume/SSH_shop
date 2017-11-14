@@ -42,6 +42,7 @@
  <!-- 用户 -->
 <bean id="userAction" class="zhku.jsj141.action.user.UserAction" scope="prototype">
 	<property name="userService" ref="userService"></property>
+	<property name="utils" ref="utilsAction"></property>
 </bean>
 <bean id="userService" class="zhku.jsj141.service.user.UserService">
 	<property name="userDao" ref="userDao"></property>
@@ -53,7 +54,7 @@
 	<property name="sessionFactory" ref="sessionFactory"></property>
 </bean>
 <!-- 工具 -->
-<bean id="utilsAction" class="zhku.jsj141.utils.usesr.Utils" scope="prototype">
+<bean id="utilsAction" class="zhku.jsj141.utils.user.userUtils">
 </bean>
 
 </beans>

@@ -25,84 +25,94 @@
 	}
 }
  */function checkform() {// 检查表单必填数据
-	/*
-	 * var a = form.email.indexOf("@"); var dot = form.email.indexOf(".") if(a<1||dot-a<2){
-	 * alert("邮箱不合法"); return false; } if(form.uid==""){ alert("用户ID不能为空！");
-	 * form.username.focus(); return false; } if(form.username==""){
-	 * alert("用户名不能为空！"); form.username.focus(); return false; }
-	 * if(form.name==""){ alert("姓名不能为空！"); form.name.focus(); return false; }
-	 * if(form.password==""){ alert("密码输入不能为空"); form.password.focus(); return
-	 * false; } if(form.r_password==""){ alert("第二次密码输入不能为空");
-	 * form.r_password.focus(); return false; }
-	 * if(form.password!=""&&form.r_password!=""){ if(password!=r_password){
-	 * alert("两次密码不一样！"); form.r_password.focus(); return false; } }
-	 * if(form.ICDN==""){ alert("身份证号码不能为空"); form.ICDN.focus(); return false; }
-	 * if(form.email==""){ alert("邮箱不能为空"); form.r_password.focus(); return
-	 * false; } }
-	 */
-	/*	
-	 $(document).ready(function(){ $("#uid").blur(function(){
-	 if($("#uid").target.value == ""){ alert("用户ID不能为空"); } });
-	 $("#username").blur(function(){ if($("#username").target.value == ""){
-	 alert("用户名不能为空"); } }); $("#name").blur(function(){
-	 if($("#name").target.value == ""){ alert("姓名不能为空"); } });
-	 $("#password").blur(function(){ if($("#password").target.value == ""){
-	 alert("密码不能为空"); } }); $("#r_password").blur(function(){
-	 if($("#r_password").target.value == ""){ alert("第二次密码输入不能为空"); } });
-	 $("#ICDN").blur(function(){ if($("#ICDN").target.value == ""){
-	 alert("身份证号码不能为空"); } }); $("#email").blur(function(){
-	 if($("#email").target.value == ""){ alert("邮箱不能为空"); } });
-	 */
 	var flag = true;
 	$("#form input[type='text'],input[type='password']").each(function() {
-		if(this.name!="地址"&&this.name!="电话"){
-		if (this.value.match(/\S+/) == null) {//若匹配不到非空白字符
-			alert(this.name + "不能为空");
-			this.focus();
-			flag = false;
-			return false;
-		}
+		if (this.name != "地址" && this.name != "电话") {
+			if (this.value.match(/\S+/) == null) {// 若匹配不到非空白字符
+				alert(this.name + "不能为空");
+				this.focus();
+				flag = false;
+				return false;// 跳出循环而不是返回值
+			}
 		}
 	});
-	checkpw();
-	checkemail();
 	checkuid();
+	if ($("#uidwarnning").text() != "*") {
+		return false;
+	}
+	if (flag == true) {
+		if (checkpw() == false || checkICDN() == false
+				|| checktelnum() == false || checkemail() == false) {
+			return false;
+		}
+	}
+
 	return flag;
 }
-function checkpw(){
-	if($("#password").val()!=$("#r_password").val()){
+function checkpw() {
+	if ($("#password").val() != $("#r_password").val()) {
 		alert("两次密码不一样！");
 		return false;
 	}
+	return true;
 }
 function checkuid() {
-	if ($("#uid").val().match(/[a-zA-Z0-9_]{1,16}/) != null) {//限制输入的用户ID只能有数字英文字符下划线组成的1到16位
+	if ($("#uid").val().match(/[a-zA-Z0-9_]{1,16}/) != null) {// 限制输入的用户ID只能有数字英文字符下划线组成的1到16位
 		var path = $("#contextPath").val();
 		$.ajax({
-			url : path + '/user/userAction_checkuid',
+			url : path + '/userAction_checkuid',
 			type : "POST",
-			data : {uid : $("#uid").val()},
+			data : {
+				uid : $("#uid").val()
+			},
 			dataType : "json",
 			timeout : 1000,
 			cache : false,
-			/*beforeSend : function sendBefore() {// 发送之前执行的方法
-				alert("发送中...");
-			},*/
+			/*
+			 * beforeSend : function sendBefore() {// 发送之前执行的方法 alert("发送中..."); },
+			 */
 			success : function messageSuccess(data) {// 返回时的方法
-				if(data.check_uid!=undefined){
-				$("#uidwarnning").html("*"+data.check_uid);
-				$("#uid").focus();
-				}else{
+				if (data.check_uid != undefined) {
+					$("#uidwarnning").html("*" + data.check_uid);
+					$("#uid").focus();
+				} else {
 					$("#uidwarnning").html("*");
 				}
 			},
-			
+
 		})
 	}
 }
-function checkemail(){
-	var str = "/\w+[@]{1}\w+[.]\w+/";//任意数字字符下划线+@+数字字符下划线+.+数字字符下划线
-	if(str.test(("#email").val())==false){
-		return false;
+function checkname(){
+	var str =/[\u4E00-\u9FA5]([\u4E00-\u9FA5])*/;
+}
+function checkICDN() {
+	var str = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/;
+	if ($("#ICDN").val() != null) {
+		if (str.test($("#ICDN").val()) == false) {
+			alert("身份证填写有误");
+			return false;
+		}
 	}
+	return true;
+}
+function checktelnum() {
+	var str = /^1[3|4|5|8][0-9]\d{8}/;
+	if ($("#telnum").val() != null) {
+		if (str.test($("#telnum").val()) == false) {
+			alert("电话填写有误！");
+			return false;
+		}
+	}
+	return true;
+}
+function checkemail() {
+	var str = /\w+[@]{1}\w+[.]\w+/;// 任意数字字符下划线+@+数字字符下划线+.+数字字符下划线
+	if ($("#email").val() != null) {
+		if (str.test($("#email").val()) == false) {
+			alert("邮箱填写有误！");
+			return false;
+		}
+	}
+	return true;
 }

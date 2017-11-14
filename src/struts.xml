@@ -7,10 +7,10 @@
 	<package name="demo1" extends="struts-default,json-default" namespace="/">
 		<!-- 用户模块 -->
 		<action name="userAction_*" class="userAction" method="{1}">
-			<result name="register_ok">/pages/user/loading.jsp</result>
 			<result name="login_ok">/pages/index.jsp</result>
-			<result name="activate_ok">/pages/index.jsp</result>
+			<result name="gotoLoading">/pages/user/loading.jsp</result>
 			<result name="login_false">/pages/user/login.jsp</result>
+			<result name="goto_activate">/pages/user/activate.jsp</result>
 		</action>
 		<!-- 工具模块 -->
 		<action name="utilsAction_*" class="utilsAction" method="{1}">
