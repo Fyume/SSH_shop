@@ -1,7 +1,11 @@
 @CHARSET "UTF-8";
-li{
+.u_center li{
 	list-style: none;
 	margin-bottom: 15px;
+}
+.u_left li{
+	list-style:none;
+	margin-bottom: 17px;
 }
 body{
 	background-image: url("../../images/background/4057a355fa8ffab.jpg");
@@ -58,15 +62,10 @@ body{
 	font-weight: 300px;
 }
 .register_table_submit:ACTIVE{
-	float:left;
-	margin-left:200px;
-	margin-top:-40px;
-	width:100px;
-	heigh:20px;
 	background-image: url("../../images/button/1 (54).gif");
-	border:1px black solid;
-	font-size:18px;
-	font-weight: 300px;
+}
+.register_table_submit:hover{
+	cursor:pointer;
 }
 .div_flag{
 	width:150px;

@@ -34,7 +34,7 @@
 				<div class="register_dtable">
 					<div class="register_table">
 						<div class="register_table_left">
-							<ul>
+							<ul class="u_left">
 								<li>用 户 ID:</li>
 								<li>用 户 名：</li>
 								<li>姓 名：</li>
@@ -47,7 +47,7 @@
 							</ul>
 						</div>
 						<div class="register_table_center">
-							<ul>
+							<ul class="u_center">
 								<li><input type="text" id="uid" name="用户ID" onchange="checkuid()">
 								<div class="div_flag" id="uidwarnning">*</div>
 								</li>
@@ -68,7 +68,7 @@
 								<li><input type="text" id="IDCN" name="身份证号码">
 								<div class="div_flag">*</div>
 								</li>
-								<li><input type="text" id="telnum" name="电话"></li>
+								<li><input type="text" id="telnum" name="电话" onchange="checktelnum()"></li>
 								<li><input type="text" id="email" name="邮箱">
 								<div class="div_flag">*</div>
 								</li>
@@ -77,6 +77,7 @@
 					</div>
 					<input id="register_table_submit" class="register_table_submit" type="submit" value="提交" 
 						>
+						<a href="${pageContext.request.contextPath}/pages/user/login.jsp" style="float:left;font-size:1px;margin-left:200px;">已有账号,前往登录</a>
 				</div>
 			</form>
 		</div>

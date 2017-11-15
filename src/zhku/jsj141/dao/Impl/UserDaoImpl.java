@@ -1,4 +1,4 @@
-package zhku.jsj141.daoImpl.user;
+package zhku.jsj141.dao.Impl;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
-import zhku.jsj141.dao.user.UserDao;
+import zhku.jsj141.dao.UserDao;
 import zhku.jsj141.entity.user.User;
 
 public class UserDaoImpl implements UserDao {

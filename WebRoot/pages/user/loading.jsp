@@ -43,6 +43,7 @@ div {
 	height: 25px;
 	margin-left: 118px;
 	margin-top: 3px;
+	border-bottom: 1px #c0c0c0 solid;
 }
 
 .div_main_buttom {
@@ -61,8 +62,8 @@ div {
 <body onload="show()">
 	<div class="div_main">
 		<div class="div_main_top">
-			<div class="div_functionname">${requestScope.functionname }111,</div>
-			<div id="num">111</div>
+			<div class="div_functionname">${requestScope.functionname },</div>
+			<div id="num"></div>
 			<div>秒后自动跳转</div>
 		</div>
 		<div class="div_main_buttom">

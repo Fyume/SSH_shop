@@ -48,9 +48,7 @@ a{
 	width:110px;
 	padding-left: 110px;
 }
-.table_label_input input,
-
-.code-box{
+.table_label_input input{
 	padding: 0 10px;
 	margin-left:-100px;
     width: 150px;
@@ -88,16 +86,11 @@ a{
 	margin-top: 24px;
 	border: white;
 }
+.login_table_submit:HOVER{
+	cursor:pointer;
+}
 .login_table_submit:ACTIVE{
-	float: left;
-	width: 140px;
-	heigh: 23px;
 	background-image:url("../../images/button/button4.png");
-	font-size: 18px;
-	font-weight: 300px;
-	margin-left: 95px;
-	margin-top: 24px;
-	border: white;
 }
 .warning{
 	font-family: 黑体;

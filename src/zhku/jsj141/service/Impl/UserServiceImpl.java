@@ -1,17 +1,19 @@
-package zhku.jsj141.service.user;
+package zhku.jsj141.service.Impl;
 
 import java.io.Serializable;
 import java.util.List;
 
-import zhku.jsj141.dao.user.UserDao;
+import zhku.jsj141.dao.UserDao;
 import zhku.jsj141.entity.user.User;
+import zhku.jsj141.service.UserService;
 
-public class UserService {
+public class UserServiceImpl implements UserService{
 	private UserDao userDao;
 
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
+	
 	public Serializable add(User user){//增
 		Serializable s= userDao.add(user);
 		return s;

@@ -60,6 +60,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					
 				</label> <input id="login_table_submit" class="login_table_submit"
 					type="submit" value="登  录">
+					<a href="${pageContext.request.contextPath }/pages/user/activate.jsp" style="float:left;margin-left:200px;margin-top:7px;">帐号未激活？去激活</a>
 			</div>
 		</form>
 	</div>

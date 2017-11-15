@@ -37,22 +37,21 @@
  <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
  	<property name="sessionFactory" ref="sessionFactory"></property>
  </bean>
+ <aop:config>
+ 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.UserServiceImpl.*(..))" id="userPointcut"/>
+ 	<aop:advisor advice-ref="userAdvice" pointcut-ref="userPointcut"/>
+ </aop:config>
+ <tx:advice id="userAdvice" transaction-manager="transactionManager">
+ 	<tx:attributes>
+ 		<tx:method name="add" read-only="false" propagation="REQUIRED"/>
+ 		<tx:method name="update" read-only="false" propagation="REQUIRED"/>
+ 		<tx:method name="select" propagation="REQUIRED"/>
+ 	</tx:attributes>
+ </tx:advice>
  <!-- 开启事务注解 -->
  <tx:annotation-driven transaction-manager="transactionManager"/>
  <!-- 用户 -->
-<bean id="userAction" class="zhku.jsj141.action.user.UserAction" scope="prototype">
-	<property name="userService" ref="userService"></property>
-	<property name="utils" ref="utilsAction"></property>
-</bean>
-<bean id="userService" class="zhku.jsj141.service.user.UserService">
-	<property name="userDao" ref="userDao"></property>
-</bean>
-<bean id="userDao" class="zhku.jsj141.daoImpl.user.UserDaoImpl">
-	<property name="hibernateTemplate" ref="hibernateTemplate"></property>
-</bean>
-<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
-	<property name="sessionFactory" ref="sessionFactory"></property>
-</bean>
+<import resource="classpath:zhku/jsj141/entity/user/user.xml"/>
 <!-- 工具 -->
 <bean id="utilsAction" class="zhku.jsj141.utils.user.userUtils">
 </bean>
