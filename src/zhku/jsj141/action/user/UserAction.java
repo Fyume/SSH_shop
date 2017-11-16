@@ -57,6 +57,31 @@ public class UserAction extends ActionSupport {
 		this.utils = utils;
 	}
 
+	public String register() throws Exception {// 注册
+		System.out.println("--register--");
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String uid = request.getParameter("用户ID");
+		String username = request.getParameter("用户名");
+		String name = request.getParameter("姓名");
+		String password = request.getParameter("密码");
+		String address = request.getParameter("地址");
+		String IDCN = request.getParameter("身份证号码");
+		String telnum = request.getParameter("电话");
+		String email = request.getParameter("邮箱");
+		String code = "" + System.currentTimeMillis();
+		code = code.substring(code.length() - 10, code.length());
+		User user = new User(uid, name, username, password, address, IDCN,
+				telnum, email, code);
+		System.out.println(user.toString());
+		if (user != null) {
+			userService.add(user);
+			utils.sendmail(email, user.getCode());
+			request.setAttribute("functionname", "注册成功,激活邮件已发送到您的邮箱上,注意查收,");// loading页面需要显示
+			request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
+			return "goto_Loading";
+		}
+		return NONE;
+	}
 	public String checkuid() throws Exception {// 检测用户ID重名（ajax）
 		System.out.println("--checkuid--");
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -80,49 +105,26 @@ public class UserAction extends ActionSupport {
 		}
 		return NONE;
 	}
-
-	public String register() throws Exception {// 注册
-		System.out.println("--register--");
-		HttpServletRequest request = ServletActionContext.getRequest();
-		String uid = request.getParameter("用户ID");
-		String username = request.getParameter("用户名");
-		String name = request.getParameter("姓名");
-		String password = request.getParameter("密码");
-		String address = request.getParameter("地址");
-		String IDCN = request.getParameter("身份证号码");
-		String telnum = request.getParameter("电话");
-		String email = request.getParameter("邮箱");
-		String code = uid + System.currentTimeMillis();
-		code = code.substring(code.length()-10,code.length());
-		User user = new User(uid, name, username, password, address, IDCN,
-				telnum, email, code);
-		System.out.println(user.toString());
-		if (user != null) {
-			userService.add(user);
-			utils.sendmail(email, user.getCode());
-			request.setAttribute("functionname", "注册成功,激活邮件已发送到您的邮箱上,注意查收,");// loading页面需要显示
-			request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
-			return "goto_Loading";
-		}
-		return NONE;
-	}
-
 	public String activate() throws Exception {// 激活帐号
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String code = request.getParameter("code");
+		System.out.println("code:" + code);
 		User user = new User();
 		user.setCode(code);
 		user = userService.find(user, "Code");// 找下数据库有没有这个账号
 		System.out.println(user.toString());
 		if (user != null) {
-			int uid_l = user.getUid().length();// uid长度，需要剪掉
-			int before = Integer.parseInt(code.substring(uid_l, code.length()));// 存入数据库时的时间
-			int between = (int) (System.currentTimeMillis() - before);// 相差毫秒数
+			String sys = "" + System.currentTimeMillis();
+			sys = sys.substring(sys.length() - 10, sys.length());
+			int now = Integer.parseInt(sys);
+			System.out.println("now:"+now);
+			int between =now-Integer.parseInt(code);// 相差毫秒数
+			System.out.println("between:" + between);
 			if (between >= 0 && between <= 600000) {// 有效期10分钟
 				user.setCode("");
 				user.setU_status(true);
 				userService.update(user);
-				request.getSession().setAttribute("user", user);//将用户信息存放到session方便操作
+				request.getSession().setAttribute("user", user);// 将用户信息存放到session方便操作
 				request.setAttribute("functionname", "激活成功,");// loading页面需要显示
 				request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
 				return "goto_Loading";
@@ -145,7 +147,7 @@ public class UserAction extends ActionSupport {
 	public String updateEmail() throws Exception {// 修改邮箱
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.setCharacterEncoding("UTF-8");
-		String uid = request.getParameter("uid");
+		String uid = request.getParameter("uid2");
 		String email = request.getParameter("email");
 		User user = new User();
 		user.setUid(uid);
@@ -156,8 +158,11 @@ public class UserAction extends ActionSupport {
 			} else {
 				user.setEmail(email);
 				// 重新设置成未激活状态
-				user.setCode(user.getUid() + System.currentTimeMillis());
+				String code = "" + System.currentTimeMillis();
+				code = code.substring(code.length() - 10, code.length());
+				user.setCode(code);// 更新时间戳
 				user.setU_status(false);
+				userService.update(user);
 				// 发送激活邮件
 				utils.sendmail(email, user.getCode());
 				request.setAttribute("functionname", "邮箱修改成功,激活邮件已发到邮箱,");// loading页面需要显示
@@ -169,16 +174,42 @@ public class UserAction extends ActionSupport {
 		}
 		return "goto_activate";
 	}
-
-	public String resendEmail() throws Exception {//重新发送激活邮件
+	public String checkE() throws Exception {// 检测邮箱有没有重复绑定（ajax）
+		System.out.println("--checkuid--");
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		response.setCharacterEncoding("UTF-8");// 过滤器不知道为什么不起作用（貌似是Struts2的问题）
+		String email = request.getParameter("email");
+		System.out.println("--action--");
+		System.out.println("E:" + email);
+		if (email != null && email != "") {
+			User user = new User();
+			user.setEmail(email);
+			String checkresult = userService.checkE(user);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("check_E", checkresult);
+			String result = JSONObject.toJSONString(map);
+			System.out.println("result:" + result);
+			PrintWriter out = response.getWriter();
+			out.write(result);
+			out.flush();
+			out.close();
+		}
+		return NONE;
+	}
+	public String resendEmail() throws Exception {// 重新发送激活邮件
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.setCharacterEncoding("UTF-8");
-		String uid = request.getParameter("uid");
+		String uid = request.getParameter("uid1");
 		User user = new User();
 		user.setUid(uid);
 		user = userService.find(user, "Uid");
+		System.out.println(user.toString());
 		if (user != null) {
-			user.setCode(user.getUid() + System.currentTimeMillis());// 更新时间戳
+			String code = "" + System.currentTimeMillis();
+			code = code.substring(code.length() - 10, code.length());
+			user.setCode(code);// 更新时间戳
+			userService.update(user);
 			utils.sendmail(user.getEmail(), user.getCode());// 重新发送邮件
 			request.setAttribute("functionname", "激活邮件已发重新送到您的邮箱上,");// loading页面需要显示
 			request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
@@ -211,17 +242,17 @@ public class UserAction extends ActionSupport {
 				user = userService.find(user, "Uid");
 				System.out.println(user.toString());
 				if (user.getUid() != null) {// 有这个用户
-					if(user.isU_status()){
-					String rpassword = user.getPassword();
-					if (rpassword.equals(password)) {
-						request.getSession().setAttribute("user", user);
-						System.out.println("login_ok");
-						return "goto_index";
+					if (user.isU_status()) {// 已激活
+						String rpassword = user.getPassword();
+						if (rpassword.equals(password)) {
+							request.getSession().setAttribute("user", user);
+							System.out.println("login_ok");
+							return "goto_index";
+						} else {
+							System.out.println("密码错误");
+							request.setAttribute("uidpass_flag", "用户或者密码错误");
+						}
 					} else {
-						System.out.println("密码错误");
-						request.setAttribute("uidpass_flag", "用户或者密码错误");
-					}
-					}else{
 						System.out.println("帐号未激活");
 						request.setAttribute("uidpass_flag", "该帐号未激活");
 					}

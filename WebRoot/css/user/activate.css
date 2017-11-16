@@ -1,38 +1,121 @@
 div{
 	float:left;
 }
+.button{
+	width:100px;
+	height:30px;
+	background-color: #808000;
+	margin-left:107px;
+	color:white;
+	font-weight:600;
+}
+div a{
+	margin-left:110px;
+	font-size:13px;
+}
+label div{
+	margin-left:40px;
+	margin-top:30px;
+}
 .act_form{
 	width:1300px;
 	height:768px;
-	border:1px black solid;
 }
+.title{
+	width:200px;
+	height:30px;
+	margin-left:520px;
+	font-family: 华文彩云;
+	font-weight:700;
+	font-size:30px;
+	margin-top:60px;
+	text-align: center;
+}
+/* 三步 */
+.act_step{
+	width:700px;
+	height:3px;
+	background-color:#c0c0c0;
+	margin-left: 300px;
+	margin-top: 100px;
+}
+.step{
+	width:50px;
+	height:50px;
+	margin-left:130px;
+	margin-top:-25px;
+	background-image: url("../../images/background/step1_min.png");
+}
+.step2{
+	width:50px;
+	height:50px;
+	margin-left:130px;
+	margin-top:-25px;
+	background-image: url("../../images/background/step1.1_min.png");
+}
+.stepinner{
+	width:50px;
+	height:20px;
+	margin-top: 12.5px;
+}
+/* main1 */
 .act_resend{
-	margin-top:150px;
-	width:800px;
-	height:400px;
-	background-color: #ffffff;
+	margin-left:300px;
+	width:400px;
+	height:350px;
+}
+#act_resend2,#act_resend3{
+	display:none;
 }
 .form_label{
 	float:left;
-	margin-left:100px;
-	margin-top:80px;
+	margin-left:120px;
 	width:400px;
-	height:100px;
-	border:1px #0000a0 solid;
+	height:300px;
+	box-shadow:2px 2px 2px #c0c0c0;
+	background-color:#80ffff;	
+	margin-top:10px;
 }
 .form_label_font{
-	width:100px;
+	width:70px;
 	height:30px;
 	text-align:right;
-	font-weight:400px;
+	font-weight:700;
 	font-family:serif;
-	border:1px green solid;
+	margin-top:80px;
 }
 input{
 	box-shadow:2px 3px 5px #8080ff;
 }
 .form_label_input{
-	width:200px;
+	width:190px;
 	height:30px;
-	border:1px green solid;
+	margin-top:80px;
+}
+input{
+	width:190px;
+	height:30px;
+	border-redius:15px;
+	border:none;
+	box-shadow:2px 2px 3px #c0c0c0;
+}
+/* main2  */
+.act_changeE{
+	margin-left:300px;
+	margin-top:10px;
+	width:400px;
+	height:150px;
+}
+#form_label2,#form_label3{
+	display:none;
+}
+.div_flag{
+	width:150px;
+	height:20px;
+	float:left;
+	margin-left:180px;
+	margin-top:-100px;
+	color:red;
+	font-family: 宋体;
+	font-size:13px;
 }

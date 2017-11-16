@@ -28,7 +28,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <body>
 	<div class="login_form">
 		<form id="form"
-			action="${pageContext.request.contextPath }/user/userAction_login"
+			action="${pageContext.request.contextPath }/userAction_login"
 			method="post" onsubmit="return checkform()">
 			<div class="login_table">
 				<label class="table_label">

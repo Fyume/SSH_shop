@@ -23,12 +23,19 @@ public class UserServiceImpl implements UserService{
 		String name = "Uid";
 		List<User> list = userDao.select(user,name);
 		if(list!=null&&!list.isEmpty()){
-			for (User user2 : list) {
-				System.out.println("uid:"+user2.getUid()+" username:"+user2.getUsername());
-			}
 			return "用户id已存在";
 		}
 		System.out.println("该uid可用("+user.getUid()+")");
+		return null;
+	}
+	public String checkE(User user){//查询邮箱是否重复
+		System.out.println("--service--");
+		String name = "Email";
+		List<User> list = userDao.select(user,name);
+		if(list!=null&&!list.isEmpty()){
+			return "邮箱已被绑定";
+		}
+		System.out.println("该E可用("+user.getEmail()+")");
 		return null;
 	}
 	public User find(User user,String name){

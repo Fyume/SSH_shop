@@ -75,7 +75,7 @@ public class userUtils extends ActionSupport {
 	    message.setSubject("激活邮件");  
 
 	    // 设置邮件的内容体  
-	    message.setContent("<h1>激活请点击以下链接(有效时间10分钟)</h1><h3><a href='http://localhost:8080/SSH_test/userAction_activate?code='"+code+">点击跳转激活</a></h3>", "text/html;charset=UTF-8");  
+	    message.setContent("<h1>激活请点击以下链接(有效时间10分钟)</h1><h3><a href='http://localhost:8080/SSH_test/userAction_activate?code="+code+"'>点击跳转激活</a></h3>", "text/html;charset=UTF-8");  
 
 	    // 发送邮件  
 	    Transport.send(message);  
