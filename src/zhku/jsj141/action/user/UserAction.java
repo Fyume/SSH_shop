@@ -82,12 +82,15 @@ public class UserAction extends ActionSupport {
 		}
 		return NONE;
 	}
+
 	public String checkuid() throws Exception {// 检测用户ID重名（ajax）
 		System.out.println("--checkuid--");
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setCharacterEncoding("UTF-8");// 过滤器不知道为什么不起作用（貌似是Struts2的问题）
-		String uid = request.getParameter("uid");
+		/*
+		 * response.setCharacterEncoding("UTF-8");//
+		 * 过滤器不知道为什么不起作用（貌似是Struts2的问题）
+		 */String uid = request.getParameter("uid");
 		System.out.println("--action--");
 		System.out.println("uid:" + uid);
 		if (uid != null && uid != "") {
@@ -105,6 +108,7 @@ public class UserAction extends ActionSupport {
 		}
 		return NONE;
 	}
+
 	public String activate() throws Exception {// 激活帐号
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String code = request.getParameter("code");
@@ -117,17 +121,23 @@ public class UserAction extends ActionSupport {
 			String sys = "" + System.currentTimeMillis();
 			sys = sys.substring(sys.length() - 10, sys.length());
 			int now = Integer.parseInt(sys);
-			System.out.println("now:"+now);
-			int between =now-Integer.parseInt(code);// 相差毫秒数
+			System.out.println("now:" + now);
+			int between = now - Integer.parseInt(code);// 相差毫秒数
 			System.out.println("between:" + between);
 			if (between >= 0 && between <= 600000) {// 有效期10分钟
-				user.setCode("");
-				user.setU_status(true);
-				userService.update(user);
-				request.getSession().setAttribute("user", user);// 将用户信息存放到session方便操作
-				request.setAttribute("functionname", "激活成功,");// loading页面需要显示
-				request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
-				return "goto_Loading";
+				if (!user.isU_status()) {// 若未激活
+					user.setCode("");
+					user.setU_status(true);
+					userService.update(user);
+					request.getSession().setAttribute("user", user);// 将用户信息存放到session方便操作
+					request.setAttribute("functionname", "激活成功,");// loading页面需要显示
+					request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
+					return "goto_Loading";
+				} else {
+					request.setAttribute("functionname", "该帐号已激活,");// loading页面需要显示
+					request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
+					return "goto_Loading";
+				}
 			} else {
 				request.setAttribute("functionname", "激活过时,");// loading页面需要显示
 				request.setAttribute("gohere", "pages/user/activate.jsp");// loading页面需要显示
@@ -137,13 +147,14 @@ public class UserAction extends ActionSupport {
 		return NONE;
 	}
 
-	/*
-	 * public String updateall() throws Exception{ HttpServletRequest request =
-	 * ServletActionContext.getRequest(); request.setCharacterEncoding("UTF-8");
-	 * request.getParameter(""); return NONE;
-	 * 
-	 * }
-	 */
+	public String updateall() throws Exception {
+		HttpServletRequest request = ServletActionContext.getRequest();
+
+		request.getParameter("");
+		return NONE;
+
+	}
+
 	public String updateEmail() throws Exception {// 修改邮箱
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.setCharacterEncoding("UTF-8");
@@ -174,6 +185,7 @@ public class UserAction extends ActionSupport {
 		}
 		return "goto_activate";
 	}
+
 	public String checkE() throws Exception {// 检测邮箱有没有重复绑定（ajax）
 		System.out.println("--checkuid--");
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -197,6 +209,7 @@ public class UserAction extends ActionSupport {
 		}
 		return NONE;
 	}
+
 	public String resendEmail() throws Exception {// 重新发送激活邮件
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.setCharacterEncoding("UTF-8");
@@ -206,14 +219,20 @@ public class UserAction extends ActionSupport {
 		user = userService.find(user, "Uid");
 		System.out.println(user.toString());
 		if (user != null) {
-			String code = "" + System.currentTimeMillis();
-			code = code.substring(code.length() - 10, code.length());
-			user.setCode(code);// 更新时间戳
-			userService.update(user);
-			utils.sendmail(user.getEmail(), user.getCode());// 重新发送邮件
-			request.setAttribute("functionname", "激活邮件已发重新送到您的邮箱上,");// loading页面需要显示
-			request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
-			return "goto_Loading";
+			if (!user.isU_status()) {//激活状态判断
+				String code = "" + System.currentTimeMillis();
+				code = code.substring(code.length() - 10, code.length());
+				user.setCode(code);// 更新时间戳
+				userService.update(user);
+				utils.sendmail(user.getEmail(), user.getCode());// 重新发送邮件
+				request.setAttribute("functionname", "激活邮件已发重新送到您的邮箱上,");// loading页面需要显示
+				request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
+				return "goto_Loading";
+			} else {
+				request.setAttribute("functionname", "该帐号已激活,");// loading页面需要显示
+				request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
+				return "goto_Loading";
+			}
 		} else {
 			request.setAttribute("resendE_uid", "用户名不存在");
 		}
@@ -268,4 +287,5 @@ public class UserAction extends ActionSupport {
 
 		return "goto_login";
 	}
+
 }

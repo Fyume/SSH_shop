@@ -64,7 +64,8 @@
 			<div class="act_resend" id="act_resend2">
 				<label class="form_label">
 					<div>
-						<input type="button" class="button" value="重发激活邮件" onclick="step3()">
+						<input type="button" class="button" value="重发激活邮件"
+							onclick="step3()"style="margin-left:40px;">
 					</div>
 					<div>
 						<input type="button" class="button" value="返回" onclick="step1()">
@@ -86,34 +87,41 @@
 						<div class="form_label_font">用户ID:</div>
 						<div class="form_label_input">
 							<input id="uid2" name="uid2" type="text">
-						</div> 
+						</div>
 						<div>
-							<input type="button" value="下一步" class="button" onclick="c_step2()">
+							<input type="button" value="下一步" class="button"
+								onclick="c_step2()">
 						</div>
-						<div><a
-						href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=1">前往重新激活</a>
+						<div>
+							<a
+								href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=1">前往重新激活</a>
 						</div>
-					</label>
-					<label class="form_label" id="form_label2">
+					</label> <label class="form_label" id="form_label2">
 						<div class="form_label_font">新邮箱:</div>
 						<div class="form_label_input">
 							<input id="email" name="email" type="text" onchange="AjaxE()">
-						</div> 
-						<div>
-							<input type="button" value="发送激活邮件" class="button" onclick="c_step3()">
 						</div>
-						<div><a
-						href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=1">前往重新激活</a>
+						<div>
+							<input type="button" value="发送激活邮件" class="button"
+								onclick="c_step3()">
+						</div>
+						<div>
+							<a
+								href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=1">前往重新激活</a>
 						</div>
 						<div id="Ewarnning" class="div_flag"></div>
-					</label>
-					<label class="form_label" id="form_label3">
+					</label> <label class="form_label" id="form_label3">
 						<div>激活邮件已发送至新邮箱,有效时间10分钟,请注意查收</div>
 					</label>
 				</form>
 			</div>
 		</c:if>
 	</div>
-	<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}">
+	<div class="login_a">
+		<a href="${pageContext.request.contextPath }/pages/user/login.jsp">
+			前往登录</a>
+	</div>
+	<input id="contextPath" type="hidden"
+		value="${pageContext.request.contextPath}">
 </body>
 </html>

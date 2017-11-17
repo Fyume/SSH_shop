@@ -12,11 +12,10 @@ function checkform(){
 	$("#form input[type='text']").each(function() {
 		if(this.value.match(/\S+/) == null){
 			flag=false;
-			this.focue();
 			alert(this.name+"不能为空");
+			this.focue();
 			return false;
 		}
-		return true;
 	});
 	return flag;
 }

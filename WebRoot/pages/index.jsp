@@ -16,11 +16,33 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/user/index.js"></script>
+<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/user/index.css">
+	
 </head>
 <body>
-	<div></div>
+	<div class="header">
+		<div class="header_index">图标</div>
+		<div class="header_classify" onmouseover="classify()"onmouseout="classify()">分类</div>
+		<div class="header_user">
+			<div>头像</div>
+			<div>用户名${sessionScope.user.username }</div>
+			<div>注销</div>
+		</div>
+	</div>
+	<div class="classify_st" id="classify_st"onmouseover="classify()"onmouseout="classify()">
+	<ul>
+	<li>1</li>
+	<li>1</li>
+	<li>1</li>
+	<li>1</li>
+	<li>1</li>
+	<li>1</li>
+	<li>1</li>
+	<li>1</li>
+	<li>1</li>
+	</ul>
+	</div>
 </body>
 </html>

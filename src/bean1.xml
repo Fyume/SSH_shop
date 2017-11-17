@@ -38,7 +38,7 @@
  	<property name="sessionFactory" ref="sessionFactory"></property>
  </bean>
  <aop:config>
- 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.UserServiceImpl.*(..))" id="userPointcut"/>
+ 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.*(..))" id="userPointcut"/>
  	<aop:advisor advice-ref="userAdvice" pointcut-ref="userPointcut"/>
  </aop:config>
  <tx:advice id="userAdvice" transaction-manager="transactionManager">
