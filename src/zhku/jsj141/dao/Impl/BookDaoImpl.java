@@ -7,42 +7,34 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
-import zhku.jsj141.dao.UserDao;
-import zhku.jsj141.entity.user.User;
+import zhku.jsj141.dao.BookDao;
+import zhku.jsj141.entity.user.Book;
 
-public class UserDaoImpl implements UserDao{
+public class BookDaoImpl implements BookDao{
 	private HibernateTemplate hibernateTemplate;
 	@Override
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 		this.hibernateTemplate = hibernateTemplate;
 	}
-
 	@Override
-	public Serializable add(User user) {
-		Serializable s = hibernateTemplate.save(user);
+	public Serializable add(Book book) {
+		Serializable s = hibernateTemplate.save(book);
 		return s;
 	}
 	@Override
-	public void update(User user){
-		hibernateTemplate.saveOrUpdate(user);
+	public void update(Book book){
+		hibernateTemplate.saveOrUpdate(book);
 	}
 	@Override
 	@SuppressWarnings("unchecked")
-	public List<User> select(User user, String name) {
+	public List<Book> select(Book book, String name) {
 
-		List<User> list = null;
+		List<Book> list = null;
 		try {
-			if(name.equals("u_status")==false){
-			list = (List<User>) hibernateTemplate.find("from User where "
+			list = (List<Book>) hibernateTemplate.find("from Book where "
 					+ name + "=?",
-					user.getClass().getMethod("get" + name)
-							.invoke(user));//反射机制调用方法
-			}else if(name.equals("u_status")){//布尔值的获取方法名不同
-				list = (List<User>) hibernateTemplate.find("from User where "
-						+ name + "=?",
-						user.getClass().getMethod("is" + name)
-								.invoke(user));
-			}
+					book.getClass().getMethod("get" + name)
+							.invoke(book));//反射机制调用方法
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

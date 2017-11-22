@@ -10,14 +10,17 @@ import zhku.jsj141.service.UserService;
 public class UserServiceImpl implements UserService{
 	private UserDao userDao;
 
+	@Override
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
 	
+	@Override
 	public Serializable add(User user){//增
 		Serializable s= userDao.add(user);
 		return s;
 	}
+	@Override
 	public String checkuid(User user){//查询用户id是否重复
 		System.out.println("--service--");
 		String name = "Uid";
@@ -28,6 +31,7 @@ public class UserServiceImpl implements UserService{
 		System.out.println("该uid可用("+user.getUid()+")");
 		return null;
 	}
+	@Override
 	public String checkE(User user){//查询邮箱是否重复
 		System.out.println("--service--");
 		String name = "Email";
@@ -38,6 +42,7 @@ public class UserServiceImpl implements UserService{
 		System.out.println("该E可用("+user.getEmail()+")");
 		return null;
 	}
+	@Override
 	public User find(User user,String name){
 		List<User> list = userDao.select(user,name);
 		User u = new User(); 
@@ -48,6 +53,7 @@ public class UserServiceImpl implements UserService{
 		}
 		return u;
 	}
+	@Override
 	public boolean update(User user){
 		userDao.update(user);
 		return false;

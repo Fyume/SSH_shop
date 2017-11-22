@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+ 	<class name="zhku.jsj141.entity.user.Book" table="t_Book"> 
+ 		<id name="bid" column="bid">
+ 		</id>
+ 		<property name="bname"></property>
+ 		<property name="ISBN"></property>
+ 		<property name="publish"></property>
+ 		<property name="description"></property>
+ 		<property name="author"></property>
+ 		<property name="type"></property>
+ 		<property name="path"></property>
+ 		<property name="image"></property>
+ 	</class>
+ </hibernate-mapping>

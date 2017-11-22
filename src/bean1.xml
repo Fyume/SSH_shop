@@ -30,9 +30,10 @@
 		<property name="mappingResources">
 			<list>
 				<value>zhku/jsj141/entity/user/User.hbm.xml</value>
+				<value>zhku/jsj141/entity/user/Book.hbm.xml</value>
 			</list>
 		</property>
-	</bean>
+</bean>
  <!-- 配置事务 -->
  <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
  	<property name="sessionFactory" ref="sessionFactory"></property>
@@ -50,10 +51,9 @@
  </tx:advice>
  <!-- 开启事务注解 -->
  <tx:annotation-driven transaction-manager="transactionManager"/>
- <!-- 用户 -->
+ <!--（引入） 用户 -->
 <import resource="classpath:zhku/jsj141/entity/user/user.xml"/>
 <!-- 工具 -->
 <bean id="utilsAction" class="zhku.jsj141.utils.user.userUtils">
 </bean>
-
 </beans>

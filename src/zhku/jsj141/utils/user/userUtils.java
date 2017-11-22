@@ -129,6 +129,7 @@ public class userUtils extends ActionSupport {
 	    Transport.send(message);  
 	    return "email_ok";
 	}
+	//生成验证码
 	public String checkCode() throws Exception{
 		System.out.println("--checkCode--");
 		// TODO Auto-generated method stub

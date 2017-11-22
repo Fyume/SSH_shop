@@ -23,15 +23,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 	<div class="header">
-		<div class="header_index">图标</div>
+		<div class="header_logo"></div>
+		<div class="header_index"><a href="${pageContext.request.contextPath}/pages/index.jsp">首页</a></div>
 		<div class="header_classify" onmouseover="classify()"onmouseout="classify()">分类</div>
+		<div class="header_random" >随机</div>
 		<div class="header_user">
 			<div>头像</div>
 			<div>用户名${sessionScope.user.username }</div>
 			<div>注销</div>
 		</div>
 	</div>
-	<div class="classify_st" id="classify_st"onmouseover="classify()"onmouseout="classify()">
+	<div class="classify_st" id="classify_st" onmouseover="classify()" onmouseout="classify()">
 	<ul>
 	<li>1</li>
 	<li>1</li>

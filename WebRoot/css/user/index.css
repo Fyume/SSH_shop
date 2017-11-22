@@ -6,18 +6,30 @@ li{
 	list-style: none;
 	margin-top:10px;
 }
+a{
+	text-decoration: none;
+}
 .header{
 	width:1300px;
 	height:50px;
 	border:1px red solid;
 }
-
-.header_index,.header_classify{
+.header_logo{
+	width:50px;
+	height:50px;
+	border:1px green solid;
+	background-image:url("../../images/background/logo.png");
+}
+.header_index,.header_classify,.header_random{
 	padding-top:10px;
 	text-align:center;
 	width:100px;
 	height:40px;
 	border:1px green solid;
+	cursor:pointer;
+}
+.header_index:hover,.header_classify:hover,.header_random:hover{
+	background-image:url("../../images/background/header_min.png");
 }
 .header_user{
 	width:306px;
@@ -31,6 +43,10 @@ li{
 	width:100px;
 	height:40px;
 	border:1px red solid;
+	cursor:pointer;
+}
+.header_user div :hover{
+	background-image:url("../../images/background/header_min.png");
 }
 .classify_st{
 	display:none;

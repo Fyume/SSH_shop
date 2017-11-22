@@ -5,17 +5,17 @@ import java.util.List;
 
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
-import zhku.jsj141.entity.user.User;
+import zhku.jsj141.entity.user.Book;
 
-public interface UserDao {
+public interface BookDao {
 
 	public abstract void setHibernateTemplate(
 			HibernateTemplate hibernateTemplate);
 
-	public abstract Serializable add(User user);
+	public Serializable add(Book book);
 
-	public abstract void update(User user);
+	public abstract void update(Book book);
 
-	public abstract List<User> select(User user, String name);
+	public abstract List<Book> select(Book book, String name);
 
 }
