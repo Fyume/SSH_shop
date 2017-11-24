@@ -15,5 +15,6 @@
  		<property name="email"></property>
  		<property name="u_status"></property>
  		<property name="code"></property>
+ 		<property name="activateTime"></property>
  	</class>
  </hibernate-mapping>

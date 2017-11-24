@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -94,6 +96,21 @@ public class uploadtest extends ActionSupport {
 				System.out.println("222");
 			}
 		}*/
-		System.out.println(file.listFiles()==null);//不是文件夹
+		/*String str = "D:111.txt";*/
+		String str = "D:\\111.txt";
+		int a = str.indexOf(".");
+		str = str.substring(0,a);
+		System.out.println(str+a);
+		/*System.out.println(file.listFiles()==null);//不是文件夹
+*/	}
+	@Test
+	public void datetest(){
+		int publish_yyyy = 1996;
+		int publish_MM = 2;
+		int publish_dd = 10;
+		Date publish = new Date(publish_yyyy-1900, publish_MM-1, publish_dd);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+		String time = format.format(publish);
+		System.out.println(time);
 	}
 }

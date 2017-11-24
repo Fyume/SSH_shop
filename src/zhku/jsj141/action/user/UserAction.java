@@ -70,8 +70,7 @@ public class UserAction extends ActionSupport {
 		String email = request.getParameter("邮箱");
 		String code = "" + System.currentTimeMillis();
 		code = code.substring(code.length() - 10, code.length());
-		User user = new User(uid, name, username, password, address, IDCN,
-				telnum, email, code);
+		User user = new User(uid, username, name, password, address, IDCN, telnum, email, code);
 		System.out.println(user.toString());
 		if (user != null) {
 			userService.add(user);
@@ -128,6 +127,7 @@ public class UserAction extends ActionSupport {
 				if (!user.isU_status()) {// 若未激活
 					user.setCode("");
 					user.setU_status(true);
+					user.setActivateTime(System.currentTimeMillis());
 					userService.update(user);
 					request.getSession().setAttribute("user", user);// 将用户信息存放到session方便操作
 					request.setAttribute("functionname", "激活成功,");// loading页面需要显示
@@ -147,7 +147,7 @@ public class UserAction extends ActionSupport {
 		return NONE;
 	}
 
-	public String updateall() throws Exception {
+	public String updateall() throws Exception {//修改个人信息
 		HttpServletRequest request = ServletActionContext.getRequest();
 
 		request.getParameter("");
@@ -210,6 +210,7 @@ public class UserAction extends ActionSupport {
 		return NONE;
 	}
 
+	@SuppressWarnings("unused")
 	public String resendEmail() throws Exception {// 重新发送激活邮件
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.setCharacterEncoding("UTF-8");
@@ -239,7 +240,6 @@ public class UserAction extends ActionSupport {
 		return "goto_activate";
 	}
 
-	@SuppressWarnings("unused")
 	public String login() throws Exception {// 登录
 		System.out.println("--login--");
 		HttpServletRequest request = ServletActionContext.getRequest();

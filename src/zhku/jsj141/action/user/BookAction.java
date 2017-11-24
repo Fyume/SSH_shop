@@ -1,6 +1,7 @@
 package zhku.jsj141.action.user;
 
 import java.io.File;
+import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -19,6 +20,9 @@ public class BookAction extends ActionSupport {
 	private File upload;
 	private String uploadFileName;
 	private String uploadContentType;
+	private File image;
+	private String imageFileName;
+	private String imageContentType;
 	private bookUtils bookUtils;
 	
 	public bookUtils getBookUtils() {
@@ -60,16 +64,29 @@ public class BookAction extends ActionSupport {
 	public void setUploadContentType(String uploadContentType) {
 		this.uploadContentType = uploadContentType;
 	}
-	public String upload() throws Exception {
-		System.out.println("uploadFileName:" + uploadFileName);
-		System.out.println("uploadContentType:" + uploadContentType);
-		HttpServletRequest request = ServletActionContext.getRequest();
-		User user =(User) request.getSession().getAttribute("user");
-		Book book = new Book();
-		String result = bookUtils.uploadbook(upload, user.getUid(), uploadContentType);
-		if(result!=""){
-			book.setPath(result);//
-		}
-		return "goto_test";
+	
+	public File getImage() {
+		return image;
 	}
+
+	public void setImage(File image) {
+		this.image = image;
+	}
+
+	public String getImageFileName() {
+		return imageFileName;
+	}
+
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+
+	public String getImageContentType() {
+		return imageContentType;
+	}
+
+	public void setImageContentType(String imageContentType) {
+		this.imageContentType = imageContentType;
+	}
+
 }

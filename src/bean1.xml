@@ -31,6 +31,7 @@
 			<list>
 				<value>zhku/jsj141/entity/user/User.hbm.xml</value>
 				<value>zhku/jsj141/entity/user/Book.hbm.xml</value>
+				<value>zhku/jsj141/entity/user/Work.hbm.xml</value>
 			</list>
 		</property>
 </bean>
@@ -51,9 +52,18 @@
  </tx:advice>
  <!-- 开启事务注解 -->
  <tx:annotation-driven transaction-manager="transactionManager"/>
- <!--（引入） 用户 -->
-<import resource="classpath:zhku/jsj141/entity/user/user.xml"/>
+ <!--（引入）-->
+ 	<!-- 用户 -->
+	<import resource="classpath:zhku/jsj141/action/user/user.xml"/>
+	<!-- 书本 -->
+	<import resource="classpath:zhku/jsj141/action/user/book.xml"/>
+	<!-- 用户作品 -->
+	<import resource="classpath:zhku/jsj141/action/user/work.xml"/>
 <!-- 工具 -->
-<bean id="utilsAction" class="zhku.jsj141.utils.user.userUtils">
+<bean id="uutils" class="zhku.jsj141.utils.user.userUtils">
+</bean>
+<bean id="butils" class="zhku.jsj141.utils.user.bookUtils">
+</bean>
+<bean id="wutils" class="zhku.jsj141.utils.user.workUtils">
 </bean>
 </beans>

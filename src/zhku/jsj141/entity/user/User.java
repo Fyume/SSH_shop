@@ -1,16 +1,19 @@
 package zhku.jsj141.entity.user;
 
+import java.util.Date;
+
 public class User {
-	private String uid;
-	private String username;
-	private String name;
-	private String password;
-	private String address;
+	private String uid;//用户ID
+	private String username;//用户名
+	private String name;//真实姓名
+	private String password;//密码
+	private String address;//地址
 	private String IDCN;//身份证号
 	private String telnum;//电话号码
 	private String email;//邮箱
 	private boolean u_status=false;//激活状态,默认未激活
-	private String code;
+	private String code;//激活用激活码
+	private long activateTime;//第一次激活的时间
 	public String getUid() {
 		return uid;
 	}
@@ -74,13 +77,22 @@ public class User {
 	public void setCode(String code) {
 		this.code = code;
 	}
-	public User(String uid,String name,String username,String password,String address,String IDCN,String telnum,String email,String code){
+	
+	public long getActivateTime() {
+		return activateTime;
+	}
+	public void setActivateTime(long activateTime) {
+		this.activateTime = activateTime;
+	}
+	public User(String uid, String username, String name, String password,
+			String address, String iDCN, String telnum, String email, String code) {
+		super();
 		this.uid = uid;
-		this.name = name;
 		this.username = username;
+		this.name = name;
 		this.password = password;
 		this.address = address;
-		this.IDCN = IDCN;
+		IDCN = iDCN;
 		this.telnum = telnum;
 		this.email = email;
 		this.code = code;
@@ -93,7 +105,8 @@ public class User {
 		return "User [uid=" + uid + ", username=" + username + ", name=" + name
 				+ ", password=" + password + ", address=" + address + ", IDCN="
 				+ IDCN + ", telnum=" + telnum + ", email=" + email
-				+ ", u_status=" + u_status + ", code="+code+"]";
+				+ ", u_status=" + u_status + ", code=" + code
+				+ ", activateTime=" + activateTime + "]";
 	}
 	
 	

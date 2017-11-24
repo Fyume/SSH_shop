@@ -7,22 +7,26 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 
 public class bookUtils {
-	private static String DiskPath = "D:\\SSH_test\\";// 默认存取路径
-
-	// 读取磁盘文件
-	public String readbook(String type, String FileName)
+	private static String DiskPath = "D:\\SSH_test\\main\\";// 默认存取路径
+	private static String managerPath = "manager\\";
+	// 读取管理员上传的文件
+	public List<String> readbook(String type, String bpath)
 			throws FileNotFoundException, UnsupportedEncodingException {
-		File dir = new File(DiskPath + type);// 文件按分类存放
-		if (!dir.exists()) {// 若不存在，则创建
-			return "没有这个文件夹";
+		String totalpath = DiskPath + managerPath +type;
+		File dir = new File(totalpath);// 文件按分类存放
+		List<String> list = new LinkedList<String>();
+		if (!dir.exists()) {//若不存在，则创建
+			System.out.println("找不到"+totalpath); 
 		} else {
-			File text = new File(dir, FileName);
+			File text = new File(dir, bpath);
 			if (!text.exists()) {
-				return "没有这个文件";
+				System.out.println("找不到"+totalpath+"\\"+bpath);
 			} else {
 				try {
 					BufferedReader in = new BufferedReader(
@@ -30,70 +34,53 @@ public class bookUtils {
 									"GBK"));
 					String read = null;
 					while ((read = in.readLine()) != null) {
-						System.out.println(read);
+						list.add(read);
 					}
 					in.close();
+					return list;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
-		return "success";
+		return list;
 	}
 
-	// 读取用户作品
-	public String readUbook(String uid, String FileName)
-			throws FileNotFoundException, UnsupportedEncodingException {
-		File dir = new File(DiskPath + uid);// 每个用户拥有自己的文件夹存放自己的作品,不进行分类了
-		if (!dir.exists()) {// 若不存在，则创建
-			return "该用户不存在";
-		} else {
-			File text = new File(dir, FileName);
-			if (!text.exists()) {
-				return "没有这个作品";
-			} else {
-				try {
-					BufferedReader in = new BufferedReader(
-							new InputStreamReader(new FileInputStream(text),
-									"GBK"));
-					String read = null;
-					while ((read = in.readLine()) != null) {
-						System.out.println(read);
-					}
-					in.close();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}
-		return "success";
-	}
-
-	// 用户上传作品
-	public String uploadbook(File upload, String uid, String uploadContentType) {
-		File dir = new File(DiskPath + uid);// 每个用户拥有自己的文件夹存放自己的作品
-		String type = null;// 文件后缀
+	// 管理员功能
+	// 上传书本
+	public String uploadbook(File upload, String type,
+			String uploadContentType, String bname) {
+		String folder = bname;
+		String totalpath = DiskPath + managerPath +type + "\\";
+		File dir = new File(totalpath + folder);//
+		String ctype = null;// 文件后缀
 		if (upload != null) {
 			if (!dir.exists()) {// 若文件夹不存在，则创建
 				dir.mkdir();
+			} else {// 若有重名文件
+				int i = 1;
+				while (dir.exists()) {
+					folder = bname + "(" + i + ")";
+					dir = new File(totalpath + folder);
+					i++;
+				}
 			}
 			if (uploadContentType.equals("text/plain")) {
-				type = ".txt";
+				ctype = ".txt";
 			} else if (uploadContentType.equals("application/msword")) {
-				type = ".doc";
+				ctype = ".doc";
 			} else if (uploadContentType
 					.equals("application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
-				type = ".docx";
+				ctype = ".docx";
 			}
-			if (type != null) {
+			if (ctype != null) {
 				try {
 					String time = "" + System.currentTimeMillis();
 					time = time.substring(time.length() - 10, time.length());// 保留后10位的时间戳
-					FileUtils
-							.moveFile(upload, new File(dir, uid + time + type));// 存放到磁盘的时候重新命名，以免重复
-					return uid + time + type;// 返回文件名
+					FileUtils.moveFile(upload, new File(dir, bname + time
+							+ ctype));// 存放到磁盘的时候重新命名，以免重复
+					return folder + "\\" + bname + time + ctype;// 返回部分路径
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -102,5 +89,33 @@ public class bookUtils {
 		}
 		return "";
 	}
-	// 管理员功能
+
+	// 上传书本的封面（由于是先上传书本，所以直接用上传作品之后返回的路径）
+	public String uploadbookI(File image, String type,
+			String uploadContentType, String path) {
+		if (image != null) {
+			int len = path.indexOf("\\");
+			int len2 = path.indexOf(".");
+			if (len > 0 && len2 > 0) {
+				String filename = path.substring(len + 1, len2);// 书本的文件名
+				String folder = path.substring(0, len);// 书本所在的文件夹
+				File dir = new File(DiskPath + managerPath +type + "\\" + folder);
+				String ctype = null;// 文件后缀
+				if (uploadContentType.equals("image/jpeg")) {
+					ctype = ".jpg";
+				}
+				if (ctype != null) {
+					try {
+						FileUtils.moveFile(image, new File(dir, filename
+								+ "_img" + ctype));// 存放到磁盘的时候重新命名，以免重复
+						return folder + "\\" + filename + "_img" + ctype;// 返回部分路径
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return "";
+	}
 }
