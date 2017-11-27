@@ -25,15 +25,23 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div class="header">
 		<div class="header_logo"></div>
 		<div class="header_index"><a href="${pageContext.request.contextPath}/pages/index.jsp">首页</a></div>
-		<div class="header_classify" onmouseover="classify()"onmouseout="classify()">分类</div>
+		<div class="header_classify" onmouseover="classifyon()" onmouseout="classifyoff()">分类</div>
 		<div class="header_random" >随机</div>
 		<div class="header_user">
-			<div>头像</div>
-			<div>用户名${sessionScope.user.username }</div>
-			<div>注销</div>
+			<div class="user_img" onmouseover="infoon()" onmouseout="infooff()">头像</div>
+			<div class="user_message">消息</div>
+			<div class="user_favorite">收藏夹</div>
+			<div class="user_logout"><a href="${pageContext.request.contextPath}/pages/user/upload.jsp">上传</a></div>
 		</div>
 	</div>
-	<div class="classify_st" id="classify_st" onmouseover="classify()" onmouseout="classify()">
+	<div id="user_info" class="user_info" onmouseover="infoon()" onmouseout="infooff()">
+	<div class="list_all">ID：。。。。</div>
+	<div class="list_all">用户名${sessionScope.user.username }</div>
+	<div class="list_all">个人中心</div>
+	<div class="list_half">设置</div>
+	<div class="list_half">退出</div>
+	</div>
+	<div class="classify_st" id="classify_st"  onmouseover="classifyon()" onmouseout="classifyoff()">
 	<ul>
 	<li>1</li>
 	<li>1</li>

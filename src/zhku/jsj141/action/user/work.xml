@@ -11,15 +11,12 @@
         ">
 <bean id="workAction" class="zhku.jsj141.action.user.WorkAction" scope="prototype">
 	<property name="workService" ref="workService"></property>
-	<property name="worksutils" ref="wutils"></property>
+	<property name="workUtils" ref="wutils"></property>
 </bean>
 <bean id="workService" class="zhku.jsj141.service.Impl.WorkServiceImpl">
 	<property name="workDao" ref="workDao"></property>
 </bean>
 <bean id="workDao" class="zhku.jsj141.dao.Impl.WorkDaoImpl">
 	<property name="hibernateTemplate" ref="hibernateTemplate"></property>
-</bean>
-<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
-	<property name="sessionFactory" ref="sessionFactory"></property>
 </bean>
 </beans>

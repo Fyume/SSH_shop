@@ -11,15 +11,12 @@
         ">
 <bean id="userAction" class="zhku.jsj141.action.user.UserAction" scope="prototype">
 	<property name="userService" ref="userService"></property>
-	<property name="utils" ref="utilsAction"></property>
+	<property name="userUtils" ref="uutils"></property>
 </bean>
 <bean id="userService" class="zhku.jsj141.service.Impl.UserServiceImpl">
 	<property name="userDao" ref="userDao"></property>
 </bean>
 <bean id="userDao" class="zhku.jsj141.dao.Impl.UserDaoImpl">
 	<property name="hibernateTemplate" ref="hibernateTemplate"></property>
-</bean>
-<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
-	<property name="sessionFactory" ref="sessionFactory"></property>
 </bean>
 </beans>

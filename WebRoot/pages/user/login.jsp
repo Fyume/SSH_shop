@@ -26,6 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 
 <body>
+<div style="float:right;width:50px;height:50px;font-size:15px;font-weight: 900;"><a href="${pageContext.request.contextPath}/pages/index.jsp">前往首页</a></div>
 	<div class="login_form">
 		<form id="form"
 			action="${pageContext.request.contextPath }/userAction_login"
@@ -54,7 +55,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<div>
 						<!-- 发现li标签会限制img的大小，使得交互的大小不等于图片的大小，故单独拉出来-->
 						<img id="vCode" alt="验证码"
-							src="<%=basePath %>utilsAction_checkCode" onclick="changeimg()">
+							src="<%=basePath %>uutils_checkCode" onclick="changeimg()">
 					</div>
 					<div id="vC_warn" class="warning">${requestScope.vCode_flag}</div>
 					

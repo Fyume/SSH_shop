@@ -1,6 +1,8 @@
 package zhku.jsj141.entity.user;
 
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class User {
 	private String uid;//用户ID
@@ -14,6 +16,15 @@ public class User {
 	private boolean u_status=false;//激活状态,默认未激活
 	private String code;//激活用激活码
 	private long activateTime;//第一次激活的时间
+	
+	private Set<Work> work = new HashSet<Work>();
+	
+	public Set<Work> getWork() {
+		return work;
+	}
+	public void setWork(Set<Work> work) {
+		this.work = work;
+	}
 	public String getUid() {
 		return uid;
 	}

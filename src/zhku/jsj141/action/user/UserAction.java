@@ -39,7 +39,7 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 public class UserAction extends ActionSupport {
 	private UserService userService;
-	private userUtils utils;
+	private userUtils userUtils;
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
@@ -49,12 +49,13 @@ public class UserAction extends ActionSupport {
 		return userService;
 	}
 
-	public userUtils getUtils() {
-		return utils;
+
+	public userUtils getUserUtils() {
+		return userUtils;
 	}
 
-	public void setUtils(userUtils utils) {
-		this.utils = utils;
+	public void setUserUtils(userUtils userUtils) {
+		this.userUtils = userUtils;
 	}
 
 	public String register() throws Exception {// 注册
@@ -74,7 +75,7 @@ public class UserAction extends ActionSupport {
 		System.out.println(user.toString());
 		if (user != null) {
 			userService.add(user);
-			utils.sendmail(email, user.getCode());
+			userUtils.sendmail(email, user.getCode());
 			request.setAttribute("functionname", "注册成功,激活邮件已发送到您的邮箱上,注意查收,");// loading页面需要显示
 			request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
 			return "goto_Loading";
@@ -175,7 +176,7 @@ public class UserAction extends ActionSupport {
 				user.setU_status(false);
 				userService.update(user);
 				// 发送激活邮件
-				utils.sendmail(email, user.getCode());
+				userUtils.sendmail(email, user.getCode());
 				request.setAttribute("functionname", "邮箱修改成功,激活邮件已发到邮箱,");// loading页面需要显示
 				request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
 				return "goto_Loading";
@@ -225,7 +226,7 @@ public class UserAction extends ActionSupport {
 				code = code.substring(code.length() - 10, code.length());
 				user.setCode(code);// 更新时间戳
 				userService.update(user);
-				utils.sendmail(user.getEmail(), user.getCode());// 重新发送邮件
+				userUtils.sendmail(user.getEmail(), user.getCode());// 重新发送邮件
 				request.setAttribute("functionname", "激活邮件已发重新送到您的邮箱上,");// loading页面需要显示
 				request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
 				return "goto_Loading";

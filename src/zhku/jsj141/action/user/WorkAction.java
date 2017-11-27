@@ -15,21 +15,21 @@ import zhku.jsj141.utils.user.workUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class WorkAction extends ActionSupport {
-	private WorkService worksService;
+	private WorkService workService;
 	private File upload;
 	private String uploadFileName;
 	private String uploadContentType;
 	private File image;
 	private String imageFileName;
 	private String imageContentType;
-	private workUtils worksUtils;
+	private workUtils workUtils;
 	
-	public WorkService getWorksService() {
-		return worksService;
+	public WorkService getWorkService() {
+		return workService;
 	}
 
-	public void setWorksService(WorkService worksService) {
-		this.worksService = worksService;
+	public void setWorkService(WorkService workService) {
+		this.workService = workService;
 	}
 
 	public File getUpload() {
@@ -80,20 +80,23 @@ public class WorkAction extends ActionSupport {
 		this.imageContentType = imageContentType;
 	}
 
-	public workUtils getWorksUtils() {
-		return worksUtils;
+	public workUtils getWorkUtils() {
+		return workUtils;
 	}
 
-	public void setWorksUtils(workUtils worksUtils) {
-		this.worksUtils = worksUtils;
+	public void setWorkUtils(workUtils workUtils) {
+		this.workUtils = workUtils;
 	}
 
 	//上传用户作品（不允许重名）
 	public String upload_U() throws Exception {
 		System.out.println("uploadFileName:" + uploadFileName);
 		System.out.println("uploadContentType:" + uploadContentType);
+		System.out.println("imageFileName:" + imageFileName);
+		System.out.println("imageContentType:" + imageContentType);
 		HttpServletRequest request = ServletActionContext.getRequest();
-		User user =(User) request.getSession().getAttribute("user");
+		/*User user =(User) request.getSession().getAttribute("user");
+		if(user!=null){
 		String bname = request.getParameter("bname");
 		String iSBN = request.getParameter("ISBN");
 		int publish_yyyy = Integer.parseInt(request.getParameter("publish_yyyy"));
@@ -104,15 +107,36 @@ public class WorkAction extends ActionSupport {
 		String author = request.getParameter("author");
 		String type = request.getParameter("type");
 		Work work= new Work(bname, publish, description, author);
-		String bookpath = worksUtils.uploadbook_U(upload, user.getUid(), uploadContentType,work.getWname());
-		if(bookpath!=""){
-			work.setPath(bookpath);//
+		String workpath = workUtils.uploadbook_U(upload, user.getUid(), uploadContentType,work.getWname());
+		if(workpath!=""){
+			work.setPath(workpath);//
 		}
-		String imgpath = worksUtils.uploadbookI_U(upload, user.getUid(), uploadContentType,work.getWname());
+		String imgpath = workUtils.uploadbookI_U(image, user.getUid(), uploadContentType,work.getWname());
 		if(imgpath!=""){
 			work.setImage(imgpath);//
 		}
-		/*bookService.update(book);*/
-		return "goto_test";
+		}*/
+		/*workService.update(book);*/
+		String result = workUtils.uploadbook_U(upload, "uid", uploadContentType,"workname");
+		if(result!=""){
+			if(result.equals("typefalse")){
+				System.out.println("作品文件有误,请上传doc,docx,txt类型的文件");
+			}else if(result.equals("dirfalse")){
+				System.out.println("该作品已存在");
+			}else{
+				System.out.println("上传成功");
+				String result2 = workUtils.uploadbookI_U(image, "uid", imageContentType,"workname");
+				if(result2!=""){
+					if(result2.equals("typefalse")){
+						System.out.println("图片文件有误,请上传jpg类型的文件");
+					}else{
+						System.out.println("上传成功");
+					}
+				}
+				
+			}
+		}
+		return "goto_upload";
+		
 	}
 }

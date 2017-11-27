@@ -11,15 +11,12 @@
         ">
 <bean id="bookAction" class="zhku.jsj141.action.user.BookAction" scope="prototype">
 	<property name="bookService" ref="bookService"></property>
-	<property name="bookutils" ref="butils"></property>
+	<property name="bookUtils" ref="butils"></property>
 </bean>
 <bean id="bookService" class="zhku.jsj141.service.Impl.BookServiceImpl">
 	<property name="bookDao" ref="bookDao"></property>
 </bean>
 <bean id="bookDao" class="zhku.jsj141.dao.Impl.BookDaoImpl">
 	<property name="hibernateTemplate" ref="hibernateTemplate"></property>
-</bean>
-<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
-	<property name="sessionFactory" ref="sessionFactory"></property>
 </bean>
 </beans>

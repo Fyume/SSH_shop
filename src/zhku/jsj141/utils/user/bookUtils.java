@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 
 public class bookUtils {
 	private static String DiskPath = "D:\\SSH_test\\main\\";// 默认存取路径
+	private static String imagePath = "F:\\java\\SSH_test\\WebRoot\\WEB-INF\\bimg";//默认图片存放位置
 	private static String managerPath = "manager\\";
 	// 读取管理员上传的文件
 	public List<String> readbook(String type, String bpath)

@@ -6,13 +6,15 @@
  	<class name="zhku.jsj141.entity.user.Work" table="t_Work"> 
  		<id name="wid" column="wid">
  			<generator class="native"></generator>
+ 			
  		</id>
  		<property name="wname"></property>
  		<property name="uploadtime"></property>
  		<property name="description"></property>
- 		<property name="author"></property>
- 		<property name="type"></property>
  		<property name="path"></property>
  		<property name="image"></property>
+ 		<!-- 外键配置 -->
+ 		<many-to-one name="user" class="zhku.jsj141.entity.user.User" column="author">
+ 		</many-to-one>
  	</class>
  </hibernate-mapping>

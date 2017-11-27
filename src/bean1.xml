@@ -59,6 +59,9 @@
 	<import resource="classpath:zhku/jsj141/action/user/book.xml"/>
 	<!-- 用户作品 -->
 	<import resource="classpath:zhku/jsj141/action/user/work.xml"/>
+<bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
+	<property name="sessionFactory" ref="sessionFactory"></property>
+</bean>
 <!-- 工具 -->
 <bean id="uutils" class="zhku.jsj141.utils.user.userUtils">
 </bean>

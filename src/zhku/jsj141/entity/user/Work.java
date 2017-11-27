@@ -1,17 +1,26 @@
 package zhku.jsj141.entity.user;
 
 public class Work {
-	private String wid;// 作品ID           自增
+	private int wid;// 作品ID           自增
 	private String wname;// 作品名（标题）
 	private long uploadtime;// 上传日期
 	private String description;// 描述
-	private String author;// 用户ID        外键
+	private String author;// 作者                              外键
 	private String path;// 磁盘路径
 	private String image;// 书本封面路径
-	public String getWid() {
+	
+	private User user;
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public int getWid() {
 		return wid;
 	}
-	public void setWid(String wid) {
+	public void setWid(int wid) {
 		this.wid = wid;
 	}
 	public String getWname() {

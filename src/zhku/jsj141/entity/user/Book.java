@@ -1,9 +1,8 @@
 package zhku.jsj141.entity.user;
 
-import java.sql.Date;
 
 public class Book {
-	private String bid;// 书ID
+	private int bid;// 书ID
 	private String bname;// 书名
 	private String ISBN;
 	private long publish;// 出版日期
@@ -13,11 +12,12 @@ public class Book {
 	private String path;// 磁盘路径
 	private String image;// 书本封面路径
 
-	public String getBid() {
+
+	public int getBid() {
 		return bid;
 	}
 
-	public void setBid(String bid) {
+	public void setBid(int bid) {
 		this.bid = bid;
 	}
 

@@ -16,5 +16,9 @@
  		<property name="u_status"></property>
  		<property name="code"></property>
  		<property name="activateTime"></property>
+ 		<set name="work">
+ 			<key column="author"></key>
+ 			<one-to-many class="zhku.jsj141.entity.user.Work"/>
+ 		</set>
  	</class>
  </hibernate-mapping>
