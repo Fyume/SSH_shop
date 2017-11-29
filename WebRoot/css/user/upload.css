@@ -1,10 +1,50 @@
 @CHARSET "UTF-8";
+div{
+	float:left;
+}
+.upload_form{
+	width:500px;
+	height:450px;
+	border:1px black solid;
+}
+.upload_title{
+	padding-left:10px;
+	padding-top:5px;
+	width:310px;
+	height:63px;
+	border:1px red solid;
+}
+.title_font{
+	font-size:20px;
+	font-weight: 900;
+}
+#upload_title{
+	margin-top:3px;
+	width:200px;
+	height:30px;
+	font-size:15px;
+}
+.upload_img{
+	margin-left:30px;
+	width:130px;
+	height:163px;
+	border:1px green solid;
+	background-image: url("../../images/background/bookimg-default.jpg");
+	background-size: cover;
+	-moz-background-size: cover;
+}
+.img_button{
+	margin-top:5px;
+	margin-right:10px;
+	float:right;
+}
 .upload_file{
 	display:none;
 }
 .upload_div{
-	width:100px;
-	height:100px;
+	padding-left:30px;
+	width:140px;
+	height:50px;
 	border:1px green solid;
 	cursor:pointer;
 }

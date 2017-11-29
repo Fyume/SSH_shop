@@ -87,7 +87,6 @@ public class WorkAction extends ActionSupport {
 	public void setWorkUtils(workUtils workUtils) {
 		this.workUtils = workUtils;
 	}
-
 	//上传用户作品（不允许重名）
 	public String upload_U() throws Exception {
 		System.out.println("uploadFileName:" + uploadFileName);
