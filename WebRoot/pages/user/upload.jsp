@@ -31,11 +31,19 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div class="title_input">
 				<input id="upload_title" type="text" maxlength="15" placeholder="输入标题/作品名">
 			</div>
+			<div class="upload_flag"></div>
 		</div>
-		<div class="upload_img"></div>
-		<div class="img_button"><input type="button" value="上传封面" onclick="uploadi()"><br>(仅限jpg,jpeg)</div>
+		<img id="upload_img" alt="预览图" src="${pageContext.request.contextPath }/images/background/bookimg-default.jpg">
+		<div class="img_button">
+			<input type="button" value="上传封面" onclick="uploadi()">
+			<div style="float:right;margin-top:0px;" class="upload_flag"></div>
+			<br><div style="font-size:12px;color:red;">(仅限jpg,jpeg)</div>
+		</div>
 		<input class="upload_file" type="file" id="image" name="image" accept="image/*">
-		<div class="upload_div" onclick="uploadf()">上传文本文件<br/>(仅限doc,docx,txt)</div>
+		<div class="upload_div">
+			<input type="button" value="上传文本文件" onclick="uploadf()">
+			<br>(仅限doc,docx,txt)
+		</div>
 		<input class="upload_file" type="file" accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain" id="upload" name="upload" > 
 		<br/>
 		<input class="upload_content" type="text" placeholder="输入内容">

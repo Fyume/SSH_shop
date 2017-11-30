@@ -2,17 +2,26 @@
 div{
 	float:left;
 }
+.upload_flag{
+	margin-top:7px;
+	margin-left:2px;
+	width:20px;
+	height:20px;
+	background-image: url("../../images/flag/flag-default.png");
+	background-size:cover;
+}
 .upload_form{
 	width:500px;
 	height:450px;
 	border:1px black solid;
+	margin-top:100px;
+	margin-left:300px;
 }
 .upload_title{
 	padding-left:10px;
 	padding-top:5px;
 	width:310px;
 	height:63px;
-	border:1px red solid;
 }
 .title_font{
 	font-size:20px;
@@ -24,19 +33,19 @@ div{
 	height:30px;
 	font-size:15px;
 }
-.upload_img{
+#upload_img{
 	margin-left:30px;
 	width:130px;
 	height:163px;
 	border:1px green solid;
-	background-image: url("../../images/background/bookimg-default.jpg");
 	background-size: cover;
 	-moz-background-size: cover;
 }
 .img_button{
 	margin-top:5px;
-	margin-right:10px;
+	margin-right:25px;
 	float:right;
+	text-align: center;
 }
 .upload_file{
 	display:none;

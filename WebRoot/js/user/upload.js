@@ -7,8 +7,7 @@ $(document).ready(function() {
 			alert("图片格式不对啊！");
 		} else {
 			var path = getObjectURL(this.files[0]);
-			alert(path);
-			$("#upload_img").css("background-image",path);
+			$("#upload_img").attr("src",path);
 		}
 	});
 });

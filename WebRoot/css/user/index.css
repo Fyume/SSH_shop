@@ -19,7 +19,7 @@ a{
 	width:50px;
 	height:50px;
 	border:1px green solid;
-	background-image:url("../../images/background/logo.png");
+	background-image:url("../../images/flag/logo.png");
 }
 .header_index,.header_classify,.header_random{
 	padding-top:10px;
@@ -30,7 +30,7 @@ a{
 	cursor:pointer;
 }
 .header_index:hover,.header_classify:hover,.header_random:hover{
-	background-image:url("../../images/background/header_min.png");
+	background-image:url("../../images/flag/header_min.png");
 }
 .header_user{
 	width:308px;
