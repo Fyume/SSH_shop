@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -49,7 +50,6 @@ public class UserAction extends ActionSupport {
 		return userService;
 	}
 
-
 	public userUtils getUserUtils() {
 		return userUtils;
 	}
@@ -69,9 +69,10 @@ public class UserAction extends ActionSupport {
 		String IDCN = request.getParameter("身份证号码");
 		String telnum = request.getParameter("电话");
 		String email = request.getParameter("邮箱");
-		String code = "" + System.currentTimeMillis();
-		code = code.substring(code.length() - 10, code.length());
-		User user = new User(uid, username, name, password, address, IDCN, telnum, email, code);
+		String code = String.valueOf(System.currentTimeMillis());
+		code = code.substring(code.length() - 8, code.length());
+		User user = new User(uid, username, name, password, address, IDCN,
+				telnum, email, code);
 		System.out.println(user.toString());
 		if (user != null) {
 			userService.add(user);
@@ -87,9 +88,9 @@ public class UserAction extends ActionSupport {
 		System.out.println("--checkuid--");
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
-		/*
-		 * response.setCharacterEncoding("UTF-8");//
-		 * 过滤器不知道为什么不起作用（貌似是Struts2的问题）
+		 response.setCharacterEncoding("UTF-8");//
+		 /*
+		 ** 过滤器不知道为什么不起作用（貌似是Struts2的问题）
 		 */String uid = request.getParameter("uid");
 		System.out.println("--action--");
 		System.out.println("uid:" + uid);
@@ -118,8 +119,9 @@ public class UserAction extends ActionSupport {
 		user = userService.find(user, "Code");// 找下数据库有没有这个账号
 		System.out.println(user.toString());
 		if (user != null) {
-			String sys = "" + System.currentTimeMillis();
-			sys = sys.substring(sys.length() - 10, sys.length());
+			String sys = String.valueOf(System.currentTimeMillis());
+			sys = sys.substring(sys.length() - 8, sys.length());
+			System.out.println(sys);
 			int now = Integer.parseInt(sys);
 			System.out.println("now:" + now);
 			int between = now - Integer.parseInt(code);// 相差毫秒数
@@ -148,7 +150,7 @@ public class UserAction extends ActionSupport {
 		return NONE;
 	}
 
-	public String updateall() throws Exception {//修改个人信息
+	public String updateall() throws Exception {// 修改个人信息
 		HttpServletRequest request = ServletActionContext.getRequest();
 
 		request.getParameter("");
@@ -221,9 +223,9 @@ public class UserAction extends ActionSupport {
 		user = userService.find(user, "Uid");
 		System.out.println(user.toString());
 		if (user != null) {
-			if (!user.isU_status()) {//激活状态判断
-				String code = "" + System.currentTimeMillis();
-				code = code.substring(code.length() - 10, code.length());
+			if (!user.isU_status()) {// 激活状态判断
+				String code = String.valueOf(System.currentTimeMillis());
+				code = code.substring(code.length() - 8, code.length());
 				user.setCode(code);// 更新时间戳
 				userService.update(user);
 				userUtils.sendmail(user.getEmail(), user.getCode());// 重新发送邮件
@@ -288,5 +290,9 @@ public class UserAction extends ActionSupport {
 
 		return "goto_login";
 	}
-
+	public String logOut() throws Exception {// 注销
+		HttpServletRequest request = ServletActionContext.getRequest();
+		request.getSession().setAttribute("user", null);//清空
+		return "goto_index";
+	}
 }

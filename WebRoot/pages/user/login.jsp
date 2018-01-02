@@ -27,6 +27,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <body>
 <div style="float:right;width:50px;height:50px;font-size:15px;font-weight: 900;"><a href="${pageContext.request.contextPath}/pages/index.jsp">前往首页</a></div>
+	<div style="font-family: 华文彩云;font-size:33px;font-weight: 500;margin-left:1020px;margin-top:100px;color:green;">在 线 阅 读</div>
 	<div class="login_form">
 		<form id="form"
 			action="${pageContext.request.contextPath }/userAction_login"

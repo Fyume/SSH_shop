@@ -48,7 +48,7 @@
 						</div>
 						<div class="register_table_center">
 							<ul class="u_center">
-								<li><input type="text" id="uid" name="用户ID" maxlength="8" placeholder="只能由数字字符下划线组成，最长8位"onchange="checkuid()">
+								<li><input type="text" id="uid" name="用户ID" maxlength="8" placeholder="只能由字母数字字符下划线组成，最长8位"onchange="checkuid()">
 								<div class="div_flag" id="uidwarnning">*</div>
 								</li>
 								<li><input type="text" id="username" name="用户名">
@@ -61,7 +61,7 @@
 								<div class="div_flag">*</div>
 								</li>
 								<li><input type="password" id="r_password" maxlength="16" placeholder="再次输入密码"
-									name="二次密码">
+									name="二次密码" onchange="return checkpw()">
 								<div class="div_flag">*</div>
 								</li>
 								<li><input type="text" id="address" name="地址"></li>

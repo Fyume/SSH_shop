@@ -60,12 +60,14 @@ public class Work {
 		this.image = image;
 	}
 	public Work( String wname, long uploadtime, String description,
-			String author) {
+			String author,String path,String image) {
 		super();
 		this.wname = wname;
 		this.uploadtime = uploadtime;
 		this.description = description;
 		this.author = author;
+		this.path = path;
+		this.image = image;
 	}
 	public Work() {
 	}
