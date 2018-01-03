@@ -27,6 +27,11 @@ public class WorkDaoImpl implements WorkDao {
 		hibernateTemplate.saveOrUpdate(work);
 	}
 	@Override
+	public List<Work> selectAll(){
+		List<Work> list = (List<Work>) hibernateTemplate.find("from Work");
+		return list;
+	}
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<Work> select(Work work, String name) {
 

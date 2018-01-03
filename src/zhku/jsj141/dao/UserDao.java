@@ -18,4 +18,6 @@ public interface UserDao {
 
 	public abstract List<User> select(User user, String name);
 
+	public abstract void delete(User user);
+
 }

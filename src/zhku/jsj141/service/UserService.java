@@ -19,4 +19,6 @@ public interface UserService {
 
 	public abstract boolean update(User user);
 
+	public abstract boolean delete(User user);
+
 }

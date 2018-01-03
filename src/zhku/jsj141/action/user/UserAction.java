@@ -3,6 +3,7 @@ package zhku.jsj141.action.user;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -18,7 +19,10 @@ import org.apache.struts2.convention.annotation.ParentPackage;
 import org.apache.struts2.convention.annotation.Result;
 import org.springframework.stereotype.Controller;
 
+import zhku.jsj141.entity.Type;
+import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
+import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.UserService;
 import zhku.jsj141.utils.user.userUtils;
 
@@ -40,7 +44,17 @@ import com.opensymphony.xwork2.ActionSupport;
  */
 public class UserAction extends ActionSupport {
 	private UserService userService;
+	private BookService bookService;
 	private userUtils userUtils;
+
+	
+	public BookService getBookService() {
+		return bookService;
+	}
+
+	public void setBookService(BookService bookService) {
+		this.bookService = bookService;
+	}
 
 	public void setUserService(UserService userService) {
 		this.userService = userService;
@@ -269,6 +283,15 @@ public class UserAction extends ActionSupport {
 						if (rpassword.equals(password)) {
 							request.getSession().setAttribute("user", user);
 							System.out.println("login_ok");
+							List<Type> typelist = null;
+							List<Book> booklist = null;
+							Book book = new Book();
+							book.setType("网络小说");
+							typelist = bookService.findT();
+							booklist = bookService.find(book, "type");	
+							request.getSession().setAttribute("typelist", typelist);
+							request.getSession().setAttribute("classfy", "网络小说");
+							request.getSession().setAttribute("booklist", booklist);
 							if(user.isU_permission()){//如果是管理员
 								return "goto_manager";
 							}else{

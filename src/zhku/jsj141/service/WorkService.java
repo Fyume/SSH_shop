@@ -18,4 +18,6 @@ public interface WorkService {
 
 	public abstract boolean update(Work work);
 
+	public abstract List<Work> findAll();
+
 }

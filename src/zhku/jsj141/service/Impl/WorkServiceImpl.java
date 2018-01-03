@@ -37,5 +37,9 @@ public class WorkServiceImpl implements WorkService {
 		workDao.update(work);
 		return false;
 	}
-
+	@Override
+	public List<Work> findAll(){
+		List<Work> list = workDao.selectAll();
+		return list;
+	}
 }

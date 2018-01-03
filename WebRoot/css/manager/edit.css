@@ -11,6 +11,10 @@ li{
 	list-style: none;
 	border-bottom:1px #ffffff solid;
 }
+th,td{
+	text-align:center;
+	border:1px black solid;
+}
 a,a:hover{
 	text-decoration: none;
 	color:black;
@@ -27,7 +31,7 @@ a,a:hover{
 	background-image:url("../../images/flag/logo.png");
 	background-size:50px 50px;
 }
-.header_index,.header_classify,.header_random{
+.header_index,.h_user,.h_book{
 	padding-top:10px;
 	text-align:center;
 	width:100px;
@@ -35,7 +39,7 @@ a,a:hover{
 	border:1px #c0c0c0 solid;
 	cursor:pointer;
 }
-.header_index:hover,.header_classify:hover,.header_random:hover{
+.header_index:hover,.h_user:hover,.h_book:hover{
 	background-image:url("../../images/flag/header_min.png");
 }
 .header_user{

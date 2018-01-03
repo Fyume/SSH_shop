@@ -68,9 +68,10 @@ function checktitle(){
 	var title = /\S+/;
 	if(title.test($("#upload_title").val())==false){
 		$("#title_F").attr('class',"upload_flag_false");
-		alert("标题不能为空");
+		$("#title_warning").html("标题不能为空") ;
 		return false;
 	}else{
+		$("#title_warning").html("");
 		$("#title_F").attr('class',"upload_flag_true");
 		return true;
 	}

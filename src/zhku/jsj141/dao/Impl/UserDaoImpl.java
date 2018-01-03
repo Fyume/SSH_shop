@@ -27,6 +27,10 @@ public class UserDaoImpl implements UserDao{
 		hibernateTemplate.saveOrUpdate(user);
 	}
 	@Override
+	public void delete(User user){
+		hibernateTemplate.delete(user);
+	}
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<User> select(User user, String name) {
 		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());

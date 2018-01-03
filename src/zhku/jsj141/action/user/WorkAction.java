@@ -2,11 +2,14 @@ package zhku.jsj141.action.user;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 
+import zhku.jsj141.entity.Type;
+import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.entity.user.Work;
 import zhku.jsj141.service.WorkService;
@@ -132,5 +135,28 @@ public class WorkAction extends ActionSupport {
 		}
 		return "goto_upload";
 
+	}
+	public String getData() throws Exception {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		List<Work> worklist = null;
+		Work work = new Work();
+		worklist = workService.findAll();
+		request.getSession().setAttribute("classfy", "用户作品");
+		request.getSession().setAttribute("worklist", worklist);
+		return "goto_index";
+	}
+	public String readWork() throws Exception{
+		HttpServletRequest request = ServletActionContext.getRequest();
+		int wid = Integer.parseInt(request.getParameter("wid"));
+		Work work = new Work();
+		work.setWid(wid);
+		List<Work> list = workService.find(work, "wid");
+		work = list.get(0);
+		if(work.getWname()!=null&&!work.getWname().isEmpty()){
+			List<String> str = workUtils.readbook_U(work.getAuthor(), work.getPath());
+			request.getSession().setAttribute("content", str);
+			return "goto_read";
+		}
+		return "goto_index";
 	}
 }

@@ -11,6 +11,7 @@
         ">
 <bean id="userAction" class="zhku.jsj141.action.user.UserAction" scope="prototype">
 	<property name="userService" ref="userService"></property>
+	<property name="bookService" ref="bookService"></property>
 	<property name="userUtils" ref="uutils"></property>
 </bean>
 <bean id="userService" class="zhku.jsj141.service.Impl.UserServiceImpl">

@@ -133,6 +133,7 @@
 						placeholder="输入标题/作品名" onblur="checktitle()">
 				</div>
 				<div id="title_F" class="upload_flag_default"></div>
+				<div id="title_warning" class="title_warning"></div>
 			</div>
 			<img id="upload_img" alt="预览图"
 				src="${pageContext.request.contextPath }/images/background/bookimg-default.jpg">

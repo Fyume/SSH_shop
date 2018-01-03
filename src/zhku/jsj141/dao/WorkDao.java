@@ -18,4 +18,6 @@ public interface WorkDao {
 
 	public abstract List<Work> select(Work work, String name);
 
+	public abstract List<Work> selectAll();
+
 }

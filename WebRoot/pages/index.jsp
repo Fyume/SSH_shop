@@ -43,8 +43,8 @@
 		<div class="header_random">随机</div>
 		<c:if test="${sessionScope.user.u_permission }">
 			<div
-				style="border:1px red solid; width:100px; height:30px; margin-top:10px;margin-left:100px;padding-top:5px;">
-				<a href="${pageContext.request.contextPath}/pages/manager/eidt.jsp">前往管理员界面</a>
+				style="border:1px #c0c0c0 solid; width:100px; height:30px; margin-top:10px;margin-left:100px;padding-top:5px;">
+				<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">前往管理员界面</a>
 			</div>
 		</c:if>
 		<div class="header_user">
@@ -55,7 +55,7 @@
 			<c:if test="${!empty sessionScope.user }">
 				<div class="user_message">消息</div>
 				<div class="user_favorite">收藏夹</div>
-				<div class="user_logout">
+				<div class="user_upload">
 					<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
 						<span class="glyphicon glyphicon-arrow-up">上传</span>
 					</a>
@@ -122,19 +122,32 @@
 		</c:forEach>
 		<div class="class_title"
 			style="background-color:red;border-right:1px #c0c0c0 solid">
-			用户作品</div>
+			<a href="${pageContext.request.contextPath}/workAction_getData">用户作品</a>
+		</div>
 	</div>
 	<c:choose>
 		<c:when test="${sessionScope.classfy=='用户作品'}">
 			<c:forEach items="${sessionScope.worklist }" var="work">
+
 				<div class="book_border">
 					<div>
-						<img class="book_img"
+						<a
+							href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
+							<img class="book_img"
 							src="${pageContext.request.contextPath}/images/user/workImg/${work.image }"
 							alt="作品封面">
+						</a>
 					</div>
-					<div class="book_title">${work.wname }</div>
-					<div class="book_description">${work.description }</div>
+					<div class="book_title">
+						<a
+							href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
+							${work.wname } </a>
+					</div>
+					<div class="book_description">
+						<a
+							href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
+							${work.description } </a>
+					</div>
 				</div>
 			</c:forEach>
 		</c:when>
@@ -142,12 +155,24 @@
 			<c:forEach items="${sessionScope.booklist }" var="book">
 				<div class="book_border">
 					<div>
-						<img class="book_img"
+						<a
+							href="${pageContext.request.contextPath}/pages/user/bookAction_readBook?bid=${book.bid}">
+
+							<img class="book_img"
 							src="${pageContext.request.contextPath}/images/bookImg/${book.image }"
 							alt="书本封面">
+						</a>
 					</div>
-					<div class="book_title">${book.bname }</div>
-					<div class="book_description">${book.description }</div>
+					<div class="book_title">
+						<a
+							href="${pageContext.request.contextPath}/pages/user/bookAction_readBook?bid=${book.bid}">
+							${book.bname } </a>
+					</div>
+					<div class="book_description">
+						<a
+							href="${pageContext.request.contextPath}/pages/user/bookAction_readBook?bid=${book.bid}">
+							${book.description } </a>
+					</div>
 				</div>
 			</c:forEach>
 		</c:otherwise>
