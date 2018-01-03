@@ -13,7 +13,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>用户上传作品</title>
+<title>管理员上传作品</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -124,7 +124,7 @@
 	<c:if test="${!empty sessionScope.user}">
 	<input id="uploadResult" type="text" value="${requestScope.uploadResult}" style="display:none">
 	<div class="upload_form">
-		<form action="${pageContext.request.contextPath }/workAction_upload_U"
+		<form action="${pageContext.request.contextPath }/bookAction_upload_U"
 			method="post" enctype="multipart/form-data" onsubmit="return check()">
 			<div class="upload_title">
 				<div class="title_font">标题/作品名 ：</div>

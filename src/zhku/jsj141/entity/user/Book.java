@@ -8,10 +8,10 @@ public class Book {
 	private long publish;// 出版日期
 	private String description;// 描述
 	private String author;// 作者
-	private String type;// 分类
+	private String type;// 大分类
 	private String path;// 磁盘路径
 	private String image;// 书本封面路径
-
+	private String type_flag;//书本类型（建立在大分类下的）,用“;”分开
 
 	public int getBid() {
 		return bid;
@@ -84,9 +84,17 @@ public class Book {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	
+	public String getType_flag() {
+		return type_flag;
+	}
+
+	public void setType_flag(String type_flag) {
+		this.type_flag = type_flag;
+	}
 
 	public Book(String bname, String iSBN, long publish, String description,
-			String author, String type) {
+			String author, String type,String type_flag) {
 		super();
 		this.bname = bname;
 		ISBN = iSBN;
@@ -94,6 +102,7 @@ public class Book {
 		this.description = description;
 		this.author = author;
 		this.type = type;
+		this.type_flag = type_flag;
 	}
 
 	public Book() {

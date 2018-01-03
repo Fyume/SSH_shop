@@ -95,14 +95,11 @@ public class WorkAction extends ActionSupport {
 		System.out.println("imageFileName:" + imageFileName);
 		System.out.println("imageContentType:" + imageContentType);
 		HttpServletRequest request = ServletActionContext.getRequest();
-		String title = (String) request.getAttribute("upload_title");
-		String description = (String) request.getAttribute("description");
+		String title = (String) request.getParameter("upload_title");
+		String description = (String) request.getParameter("description");
 		User user = (User) request.getSession().getAttribute("user");
 		if (user != null) {
-			int publish_yyyy = Integer.parseInt(request.getParameter("publish_yyyy"));
-			int publish_MM = Integer.parseInt(request.getParameter("publish_MM")); 
-			int  publish_dd = Integer.parseInt(request.getParameter("publish_dd")); 
-			long publish = new Date(publish_yyyy-1900, publish_MM-1,publish_dd).getTime();
+			long publish = System.currentTimeMillis();
 			String result = workUtils.uploadbook_U(upload, user.getUid(),
 					uploadContentType, title);
 			Work work = new Work();
@@ -118,7 +115,7 @@ public class WorkAction extends ActionSupport {
 				} else {
 					work.setPath(result);
 					String result2 = workUtils.uploadbookI_U(image, "uid",
-							imageContentType, "workname");
+							imageContentType);
 					if (result2 != "") {
 						if (result2.equals("typefalse")) {
 							request.setAttribute("uploadResult", "图片文件有误,请上传jpg类型的文件");

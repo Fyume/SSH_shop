@@ -116,7 +116,7 @@ public class UserAction extends ActionSupport {
 		System.out.println("code:" + code);
 		User user = new User();
 		user.setCode(code);
-		user = userService.find(user, "Code");// 找下数据库有没有这个账号
+		user = userService.find(user, "code");// 找下数据库有没有这个账号
 		System.out.println(user.toString());
 		if (user != null) {
 			String sys = String.valueOf(System.currentTimeMillis());
@@ -149,7 +149,7 @@ public class UserAction extends ActionSupport {
 		}
 		return NONE;
 	}
-
+	//未实现
 	public String updateall() throws Exception {// 修改个人信息
 		HttpServletRequest request = ServletActionContext.getRequest();
 
@@ -165,7 +165,7 @@ public class UserAction extends ActionSupport {
 		String email = request.getParameter("email");
 		User user = new User();
 		user.setUid(uid);
-		user = userService.find(user, "Uid");
+		user = userService.find(user, "uid");
 		if (user != null) {
 			if (user.getEmail().equals(email)) {
 				request.setAttribute("upmail_email", "邮箱不需要修改");
@@ -220,7 +220,7 @@ public class UserAction extends ActionSupport {
 		String uid = request.getParameter("uid1");
 		User user = new User();
 		user.setUid(uid);
-		user = userService.find(user, "Uid");
+		user = userService.find(user, "uid");
 		System.out.println(user.toString());
 		if (user != null) {
 			if (!user.isU_status()) {// 激活状态判断
@@ -261,7 +261,7 @@ public class UserAction extends ActionSupport {
 				String password = request.getParameter("密码");
 				User user = new User();
 				user.setUid(uid);
-				user = userService.find(user, "Uid");
+				user = userService.find(user, "uid");
 				System.out.println(user.toString());
 				if (user.getUid() != null) {// 有这个用户
 					if (user.isU_status()) {// 已激活
@@ -269,7 +269,11 @@ public class UserAction extends ActionSupport {
 						if (rpassword.equals(password)) {
 							request.getSession().setAttribute("user", user);
 							System.out.println("login_ok");
-							return "goto_index";
+							if(user.isU_permission()){//如果是管理员
+								return "goto_manager";
+							}else{
+								return "goto_index";
+							}
 						} else {
 							System.out.println("密码错误");
 							request.setAttribute("uidpass_flag", "用户或者密码错误");

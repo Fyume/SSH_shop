@@ -11,6 +11,10 @@ $(document).ready(function() {
 			$("#upload_img").attr("src",path);
 		}
 	});
+	var result = $("#uploadResult").val();
+	if(result!=null&&result!="[object HTMLInputElement]"&&result!=""){
+		alert(result);
+	}
 });
 function getObjectURL(file) {
 	var url = null;
@@ -32,7 +36,9 @@ function uploadi() {
 }
 //文件格式检查
 function check() {
-	if (!checkdoc()) {
+	if (!checktitle()||!checkF()){
+		return false;
+	}else if(!checkdoc()) {
 		alert("文档文件格式有误，请上传txt,doc,docx类型的文件！");
 		return false;
 	} else if (!checkimg()) {
@@ -58,25 +64,24 @@ function checkimg() {
 	var res = str.test(path);
 	return res;
 }
-function checkresult(uploadResult){
-	if(uploadResult!=null){
-		alert(uploadResult);
-	}
-}
 function checktitle(){
 	var title = /\S+/;
 	if(title.test($("#upload_title").val())==false){
 		$("#title_F").attr('class',"upload_flag_false");
 		alert("标题不能为空");
+		return false;
 	}else{
 		$("#title_F").attr('class',"upload_flag_true");
+		return true;
 	}
 }
 function checkF(){
 	if($("#upload").val()==""){
 		$("#file_F").attr('class',"upload_flag_false");
 		alert("上传的文件不能为空");
+		return false;
 	}else{
 		$("#file_F").attr('class',"upload_flag_true");
+		return true;
 	}
 }

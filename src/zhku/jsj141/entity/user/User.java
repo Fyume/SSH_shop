@@ -16,6 +16,7 @@ public class User {
 	private boolean u_status=false;//激活状态,默认未激活
 	private String code;//激活用激活码
 	private long activateTime;//第一次激活的时间
+	private boolean u_permission = false;//用户权限(默认为普通用户，只有修改为true的时候才是管理员)
 	
 	private Set<Work> work = new HashSet<Work>();
 	
@@ -94,6 +95,13 @@ public class User {
 	}
 	public void setActivateTime(long activateTime) {
 		this.activateTime = activateTime;
+	}
+	
+	public boolean isU_permission() {
+		return u_permission;
+	}
+	public void setU_permission(boolean u_permission) {
+		this.u_permission = u_permission;
 	}
 	public User(String uid, String username, String name, String password,
 			String address, String iDCN, String telnum, String email, String code) {

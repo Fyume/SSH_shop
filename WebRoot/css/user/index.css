@@ -2,9 +2,14 @@
 div{
 	float:left;
 }
+ul{
+	float:left;
+}
 li{
-	list-style: none;
 	margin-top:10px;
+	padding-right:5px;
+	list-style: none;
+	border-bottom:1px #ffffff solid;
 }
 a,a:hover{
 	text-decoration: none;
@@ -35,16 +40,15 @@ a,a:hover{
 }
 .header_user{
 	margin-top:5px;
-	width:308px;
+	width:317px;
 	height:44px;
 	float:right;
-	border-left:1px #c0c0c0 solid;
 	border-right:1px #c0c0c0 solid;
 }
 .user_img{
 	padding-top:10px;
 	text-align:center;
-	width:50px;
+	width:60px;
 	height:44px;
 	border-left:1px #c0c0c0 solid;
 	border-right:1px #c0c0c0 solid;
@@ -68,20 +72,56 @@ a,a:hover{
 	border-right:1px #c0c0c0 solid;
 	cursor:pointer;
 }
-
 .classify_st{
 	position:absolute;
 	top:50px;  
     left:0%; 
 	display:none;
-	width:800px;
-	border:1px red solid;
-	animation:showclassify 1.5s;
+	width:400px;
+	animation:showclassify 1s;
 	animation-fill-mode: forwards;
 }
 @keyframes showclassify{
+	0%{background:#ffffff;height:0px;opacity:0.0;}
+	100%{background:#ffffff;height:30px;}
+}
+.class_title{
+	padding-top:4px;
+	text-align:center;
+	width:100px;
+	height:30px;
+	border-bottom:1px red solid;
+}
+.class_ul1{
+	position:absolute;
+	display:none;
+	top:30px;  
+    left:0%; 
+	width:180px;
+	animation:showclassul 1s;
+	animation-fill-mode: forwards;
+}
+.class_ul2{
+	position:absolute;
+	display:none;
+	top:30px;  
+    left:90px; 
+	width:120px;
+	animation:showclassul 1s;
+	animation-fill-mode: forwards;
+}
+.class_ul3{
+	position:absolute;
+	display:none;
+	top:30px;  
+    left:200px; 
+	width:120px;
+	animation:showclassul 1s;
+	animation-fill-mode: forwards;
+}
+@keyframes showclassul{
 	0%{background:#c0c0c0;height:0px;opacity:0.0;}
-	100%{background:#c0c0c0;height:400px;}
+	100%{background:#c0c0c0;height:260px;}
 }
 .user_info{
 	position:absolute;
@@ -124,4 +164,16 @@ a,a:hover{
 @keyframes showInformation{
 	0%{height:0px;opacity:0.0;}
 	100%{height:105px;}
+}
+.bookborder{
+	border:1px red solid;width:250px;height:180px;margin-left:10px;margin-top:50px;
+}
+.book_img{
+	border:1px black solid;width:130px;height:163px;
+}
+.book_title{
+	font-weight:600;text-align:center;border:1px black solid;width:118px;height:20px;
+}
+.book_description{
+	padding-top:5px;padding-left:3px;border:1px black solid;width:118px;height:143px;word-wrap:break-word;
 }

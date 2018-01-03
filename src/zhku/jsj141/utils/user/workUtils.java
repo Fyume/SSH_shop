@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 
 public class workUtils {
 	private static String DiskPath = "D:\\SSH_test\\main\\";// 默认存取路径
+	private static String FimagePath = "F:\\java\\SSH_test\\WebRoot\\images\\user\\workImg";// 图片最终存放路径
 	private static String userPath = "user\\";
 
 	// 读取用户作品
@@ -90,9 +91,8 @@ public class workUtils {
 
 	// 用户上传作品的封面
 	public String uploadbookI_U(File image, String uid,
-			String uploadContentType, String bname) {
-		String totalpath = DiskPath + userPath + uid + "\\" + bname;
-		File dir = new File(totalpath);
+			String uploadContentType) {
+		File dir = new File(FimagePath);
 		String ctype = null;// 文件后缀
 		if (image != null) {
 			if (uploadContentType.equals("image/jpeg")) {
@@ -102,9 +102,8 @@ public class workUtils {
 				try {
 					String time = "" + System.currentTimeMillis();
 					time = time.substring(time.length() - 10, time.length());// 保留后10位的时间戳
-					FileUtils.moveFile(image, new File(dir, uid + "_img_"
-							+ time + ctype));// 存放到磁盘的时候重新命名，以免重复
-					return bname + "\\" + uid + time + ctype;// 返回部分路径
+					FileUtils.moveFile(image, new File(dir, uid + time + ctype));// 存放到磁盘的时候重新命名，以免重复
+					return   "\\" + uid + time + ctype;// 返回部分路径
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

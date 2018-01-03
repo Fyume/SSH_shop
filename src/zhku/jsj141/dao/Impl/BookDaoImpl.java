@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
 import zhku.jsj141.dao.BookDao;
+import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
 
 public class BookDaoImpl implements BookDao{
@@ -28,12 +29,12 @@ public class BookDaoImpl implements BookDao{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<Book> select(Book book, String name) {
-
+		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
 		List<Book> list = null;
 		try {
 			list = (List<Book>) hibernateTemplate.find("from Book where "
 					+ name + "=?",
-					book.getClass().getMethod("get" + name)
+					book.getClass().getMethod("get" + name_m)
 							.invoke(book));//反射机制调用方法
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block
@@ -54,6 +55,12 @@ public class BookDaoImpl implements BookDao{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Type> selectT(){
+		List<Type> list = (List<Type>) hibernateTemplate.find("from Type");
 		return list;
 	}
 }

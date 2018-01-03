@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import zhku.jsj141.dao.BookDao;
+import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.service.BookService;
-import zhku.jsj141.utils.user.bookUtils;
 
 public class BookServiceImpl implements BookService {
 	private BookDao bookDao;
@@ -26,7 +26,7 @@ public class BookServiceImpl implements BookService {
 	}
 	@Override
 	public String checkbid(Book book){//查询用户id是否重复
-		String name = "Bid";
+		String name = "bid";
 		List<Book> list = bookDao.select(book,name);
 		if(list!=null&&!list.isEmpty()){
 			return "书本id已存在";
@@ -44,5 +44,9 @@ public class BookServiceImpl implements BookService {
 		bookDao.update(book);
 		return false;
 	}
-	
+	@Override
+	public List<Type> findT(){
+		List<Type> list = bookDao.selectT();
+		return list;
+	}
 }

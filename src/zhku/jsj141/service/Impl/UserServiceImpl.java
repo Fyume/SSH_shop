@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public String checkuid(User user){//查询用户id是否重复
 		System.out.println("--service--");
-		String name = "Uid";
+		String name = "uid";
 		List<User> list = userDao.select(user,name);
 		if(list!=null&&!list.isEmpty()){
 			return "用户id已存在";

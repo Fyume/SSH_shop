@@ -32,6 +32,7 @@
 				<value>zhku/jsj141/entity/user/User.hbm.xml</value>
 				<value>zhku/jsj141/entity/user/Book.hbm.xml</value>
 				<value>zhku/jsj141/entity/user/Work.hbm.xml</value>
+				<value>zhku/jsj141/entity/Type.hbm.xml</value>
 			</list>
 		</property>
 </bean>
@@ -59,6 +60,8 @@
 	<import resource="classpath:zhku/jsj141/action/user/book.xml"/>
 	<!-- 用户作品 -->
 	<import resource="classpath:zhku/jsj141/action/user/work.xml"/>
+	<!-- 管理员 -->
+	<import resource="classpath:zhku/jsj141/action/manager/manager.xml"/>
 <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
 	<property name="sessionFactory" ref="sessionFactory"></property>
 </bean>

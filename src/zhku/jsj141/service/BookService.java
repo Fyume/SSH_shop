@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 import zhku.jsj141.dao.BookDao;
+import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
-import zhku.jsj141.utils.user.bookUtils;
 
 public interface BookService {
 
@@ -20,5 +20,7 @@ public interface BookService {
 	public abstract List<Book> find(Book book, String name);
 
 	public abstract boolean update(Book book);
+
+	public abstract List<Type> findT();
 
 }

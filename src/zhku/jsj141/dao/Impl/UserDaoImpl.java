@@ -29,18 +29,18 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<User> select(User user, String name) {
-
+		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
 		List<User> list = null;
 		try {
 			if(name.equals("u_status")==false){
 			list = (List<User>) hibernateTemplate.find("from User where "
 					+ name + "=?",
-					user.getClass().getMethod("get" + name)
+					user.getClass().getMethod("get" + name_m)
 							.invoke(user));//反射机制调用方法
 			}else if(name.equals("u_status")){//布尔值的获取方法名不同
 				list = (List<User>) hibernateTemplate.find("from User where "
 						+ name + "=?",
-						user.getClass().getMethod("is" + name)
+						user.getClass().getMethod("is" + name_m)
 								.invoke(user));
 			}
 		} catch (DataAccessException e) {

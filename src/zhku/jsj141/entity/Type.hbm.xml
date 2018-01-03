@@ -3,18 +3,11 @@
     "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
  <hibernate-mapping>
- 	<class name="zhku.jsj141.entity.user.Book" table="t_Book"> 
- 		<id name="bid" column="bid">
+ 	<class name="zhku.jsj141.entity.Type" table="t_Type"> 
+ 		<id name="tid" column="tid">
  			<generator class="native"></generator>
  		</id>
- 		<property name="bname"></property>
- 		<property name="ISBN"></property>
- 		<property name="publish"></property>
- 		<property name="description"></property>
- 		<property name="author"></property>
  		<property name="type"></property>
- 		<property name="path"></property>
- 		<property name="image"></property>
  		<property name="type_flag"></property>
  	</class>
  </hibernate-mapping>

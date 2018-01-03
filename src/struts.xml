@@ -19,6 +19,7 @@
 			<result name="goto_Loading">/pages/user/loading.jsp</result>
 			<result name="goto_login">/pages/user/login.jsp</result>
 			<result name="goto_activate">/pages/user/activate.jsp</result>
+			<result name="goto_manager">/pages/manager/edit.jsp</result>
 		</action>
 		<!-- 书本相关模块 -->
 		<action name="bookAction_*" class="bookAction" method="{1}">
@@ -29,6 +30,9 @@
 			<interceptor-ref name="defaultStack" />
 			<!-- 临时存放路径 -->
 			<param name="savePath">/WEB-INF/upload</param>
+			<result name="goto_index">/pages/index.jsp</result>
+			<result name="goto_login">/pages/user/login.jsp</result>
+			<result name="goto_upload">/pages/manager/upload.jsp</result>
 		</action>
 		<!--     用户作品         -->
 		<action name="workAction_*" class="workAction" method="{1}">

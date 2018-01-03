@@ -14,20 +14,22 @@ import org.apache.commons.io.FileUtils;
 
 public class bookUtils {
 	private static String DiskPath = "D:\\SSH_test\\main\\";// 默认存取路径
-	private static String imagePath = "F:\\java\\SSH_test\\WebRoot\\WEB-INF\\bimg";//默认图片存放位置
+	private static String FimagePath = "F:\\java\\SSH_test\\WebRoot\\images\\bookImg";// 图片最终存放路径
+	private static String imagePath = "F:\\java\\SSH_test\\WebRoot\\WEB-INF\\bimg";// 默认图片存放位置
 	private static String managerPath = "manager\\";
+
 	// 读取管理员上传的文件
 	public List<String> readbook(String type, String bpath)
 			throws FileNotFoundException, UnsupportedEncodingException {
-		String totalpath = DiskPath + managerPath +type;
+		String totalpath = DiskPath + managerPath + type;
 		File dir = new File(totalpath);// 文件按分类存放
 		List<String> list = new LinkedList<String>();
-		if (!dir.exists()) {//若不存在，则创建
-			System.out.println("找不到"+totalpath); 
+		if (!dir.exists()) {// 若不存在，则创建
+			System.out.println("找不到" + totalpath);
 		} else {
 			File text = new File(dir, bpath);
 			if (!text.exists()) {
-				System.out.println("找不到"+totalpath+"\\"+bpath);
+				System.out.println("找不到" + totalpath + "\\" + bpath);
 			} else {
 				try {
 					BufferedReader in = new BufferedReader(
@@ -53,7 +55,7 @@ public class bookUtils {
 	public String uploadbook(File upload, String type,
 			String uploadContentType, String bname) {
 		String folder = bname;
-		String totalpath = DiskPath + managerPath +type + "\\";
+		String totalpath = DiskPath + managerPath + type + "\\";
 		File dir = new File(totalpath + folder);//
 		String ctype = null;// 文件后缀
 		if (upload != null) {
@@ -91,32 +93,40 @@ public class bookUtils {
 		return "";
 	}
 
-	// 上传书本的封面（由于是先上传书本，所以直接用上传作品之后返回的路径）
-	public String uploadbookI(File image, String type,
-			String uploadContentType, String path) {
+	/*
+	 * // 上传书本的封面（由于是先上传书本，所以直接用上传作品之后返回的路径） public String uploadbookI(File
+	 * image, String type, String uploadContentType, String path) { if (image !=
+	 * null) { int len = path.indexOf("\\"); int len2 = path.indexOf("."); if
+	 * (len > 0 && len2 > 0) { String filename = path.substring(len + 1,
+	 * len2);// 书本的文件名 String folder = path.substring(0, len);// 书本所在的文件夹 File
+	 * dir = new File(DiskPath + managerPath +type + "\\" + folder); String
+	 * ctype = null;// 文件后缀 if (uploadContentType.equals("image/jpeg")) { ctype
+	 * = ".jpg"; } if (ctype != null) { try { FileUtils.moveFile(image, new
+	 * File(dir, filename + "_img" + ctype));// 存放到磁盘的时候重新命名，以免重复 return folder
+	 * + "\\" + filename + "_img" + ctype;// 返回部分路径 } catch (IOException e) { //
+	 * TODO Auto-generated catch block e.printStackTrace(); } } } } return ""; }
+	 */
+	// 上传书本的封面
+	public String uploadbookI(File image, String type, String uploadContentType) {
 		if (image != null) {
-			int len = path.indexOf("\\");
-			int len2 = path.indexOf(".");
-			if (len > 0 && len2 > 0) {
-				String filename = path.substring(len + 1, len2);// 书本的文件名
-				String folder = path.substring(0, len);// 书本所在的文件夹
-				File dir = new File(DiskPath + managerPath +type + "\\" + folder);
-				String ctype = null;// 文件后缀
-				if (uploadContentType.equals("image/jpeg")) {
-					ctype = ".jpg";
-				}
-				if (ctype != null) {
-					try {
-						FileUtils.moveFile(image, new File(dir, filename
-								+ "_img" + ctype));// 存放到磁盘的时候重新命名，以免重复
-						return folder + "\\" + filename + "_img" + ctype;// 返回部分路径
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+			String time = String.valueOf(System.currentTimeMillis());
+			String filename = time.substring(time.length() - 10, time.length());// 文件名
+			File dir = new File(FimagePath);
+			String ctype = null;// 文件后缀
+			if (uploadContentType.equals("image/jpeg")) {
+				ctype = ".jpg";
+			}
+			if (ctype != null) {
+				try {
+					FileUtils.moveFile(image, new File(dir, filename + ctype));// 存放到磁盘的时候重新命名，以免重复
+					return "\\" + filename + ctype;// 返回部分路径
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 		}
 		return "";
+
 	}
 }
