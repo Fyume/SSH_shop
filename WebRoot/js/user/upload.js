@@ -86,3 +86,36 @@ function checkF(){
 		return true;
 	}
 }
+/****************/
+function check2() {
+	if (!checktitle()||!checkF()){
+		return false;
+	}else if(!checkdoc()) {
+		alert("文档文件格式有误，请上传txt,doc,docx类型的文件！");
+		return false;
+	} else if (!checkimg()) {
+		alert("图片文件格式有误，请上传jpg,jpeg类型的文件！");
+		return false;
+	} else if(!checkdate()){
+		return false;
+	}else{
+		alert("loading...");
+		return true;
+	}
+
+}
+function checkdate(){
+	var year = /^\d{4}$/;
+	var month = /^\d{1,2}$/;
+	var day = /^\d{1,2}$/;
+	var ISBN = /^[0-9]*$/;
+	if(year.test($("#year").val())==false||month.test($("#month").val())==false||day.test($("#day").val())==false){
+		alert("日期输入错误");
+		return false;
+	}else if(ISBN.test($("#ISBN").val())==false){
+		alert("ISBN错误");
+		return false;
+	}else{
+		return true;
+	}
+}

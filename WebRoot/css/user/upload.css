@@ -105,3 +105,33 @@ div{
 .title_warning{
 	width:120px;height:20px;margin-left:-200px;margin-top:35px;color:red;font-size:13px;font-weight:500;
 }
+
+/********/
+.upload_form2{
+	width:500px;
+	height:500px;
+	border:1px #000000 solid;
+	box-shadow:2px 2px 2px #c0c0c0;
+	margin-top:80px;
+	margin-left:400px;
+	background-color: #ffffff;
+}
+.date{
+	margin-left:5px;
+	width:40px;
+}
+.upload_font{
+	margin-top:5px;
+	width:85px;
+	height:25px;
+}
+.upload_button2{
+	margin-top:70px;
+	margin-left:0px;
+	width:100px;
+	height:40px; 
+}
+.upload_button2 input{
+	width:100px;
+	height:40px;
+}

@@ -51,7 +51,7 @@
 			<c:if test="${!empty sessionScope.user }">
 				<div class="user_message">消息</div>
 				<div class="user_favorite">收藏夹</div>
-				<div class="user_logout">
+				<div class="user_upload">
 					<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
 						<span class="glyphicon glyphicon-arrow-up">上传</span>
 					</a>

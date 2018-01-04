@@ -4,6 +4,7 @@ import java.util.List;
 
 import zhku.jsj141.dao.ManagerDao;
 import zhku.jsj141.service.ManagerService;
+import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
 public class ManagerServiceImpl implements ManagerService {
 	private ManagerDao managerDao;
@@ -19,6 +20,12 @@ public class ManagerServiceImpl implements ManagerService {
 	public List<User> selectAllU(){
 		List<User> list = null;
 		list = managerDao.selectAllU();
+		return list;
+	}
+	@Override
+	public List<Book> selectAllB(){
+		List<Book> list = null;
+		list = managerDao.selectAllB();
 		return list;
 	}
 }

@@ -25,40 +25,44 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/manager/edit.js"></script>
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/user/upload.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/upload.css">
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 <link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/user/index.css">
+	href="${pageContext.request.contextPath}/css/manager/edit.css">
 </head>
 <body>
 	<div class="header">
-		<div class="header_logo"></div>
-		<div class="header_index">
-			<a target="_top"
-				href="${pageContext.request.contextPath}/pages/index.jsp">首页</a>
-		</div>
-		<div class="header_classify" onmouseover="classifyon()"
-			onmouseout="classifyoff()">分类</div>
-		<div class="header_random">随机</div>
-		<div class="header_user">
-			<div class="user_img" onmouseover="infoon()" onmouseout="infooff()">
-				<span class="glyphicon glyphicon-user"></span>
-				 <span style="color:red;font-weight:400">${sessionScope.user.username }</span>
+			<div class="header_logo"></div>
+			<div class="header_index">
+				<a target="_top"
+					href="${pageContext.request.contextPath}/pages/index.jsp">首页</a>
 			</div>
-			<c:if test="${!empty sessionScope.user }">
-				<div class="user_message">消息</div>
-				<div class="user_favorite">收藏夹</div>
-				<div class="user_logout">
-					<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
-						<span class="glyphicon glyphicon-arrow-up">上传</span>
-					</a>
+			<div class="h_user">
+				<a href="${pageContext.request.contextPath}/managerAction_getUser">管理用户</a>
+			</div>
+			<div class="h_book">
+				<a href="${pageContext.request.contextPath}/managerAction_getBook">管理书本</a>
+			</div>
+			<div class="header_user">
+				<div class="user_img" onmouseover="infoon()" onmouseout="infooff()">
+					<span class="glyphicon glyphicon-user"></span> <span
+						style="color:red;font-weight:400">${sessionScope.user.username }</span>
 				</div>
-			</c:if>
+				<c:if test="${!empty sessionScope.user }">
+					<div class="user_upload">
+						<a
+							href="${pageContext.request.contextPath}/pages/manager/upload.jsp">
+							<span class="glyphicon glyphicon-arrow-up">上传</span>
+						</a>
+					</div>
+				</c:if>
+			</div>
 		</div>
-	</div>
 	<div id="user_info" class="user_info" onmouseover="infoon()"
 		onmouseout="infooff()">
 		<c:choose>
@@ -123,7 +127,7 @@
 	</div>
 	<c:if test="${!empty sessionScope.user}">
 	<input id="uploadResult" type="text" value="${requestScope.uploadResult}" style="display:none">
-	<div class="upload_form">
+	<div class="upload_form2">
 		<form action="${pageContext.request.contextPath }/bookAction_upload_U"
 			method="post" enctype="multipart/form-data" onsubmit="return check()">
 			<div class="upload_title">
@@ -160,11 +164,40 @@
 					<textarea name="description" class="desc_content" placeholder="输入概述"></textarea>
 				</div>
 			</div>
-			<div class="upload_button">
+			
+			<div style="margin-top:20px;">
+				<div class="upload_font">出版日期:</div>
+				<div style="margin-left:5px;width:310px;height:25px;">
+				<input type="text" id="year" name="year" class="date" style="width:40px;">年
+				<input type="text" id="month" name="month" class="date" style="width:30px;">月
+				<input type="text" id="day" name="day" class="date" style="width:30px;">日
+				<div style="font-size:12px;margin-left:190px;margin-top:-20px;color:blue">例如1990;1;2</div>
+				</div>
+			</div>
+			<div>
+				<div class="upload_font">ISBN:</div>
+				<div style="margin-left:5px;width:210px;height:25px;">
+				<input type="text" name="ISBN">
+				</div>
+			</div>
+			<br>
+			<div>
+			    <div class="upload_font" style="text-align:center">类别:</div>
+				<select id="type" name="type" class="upload_font">
+					<option value="网络小说" selected>网络小说</option>
+					<option value="文学作品">文学作品</option>
+					<option value="社会科学">社会科学</option>
+				</select>
+			</div>
+			<div>
+				<div class="upload_font">作者:</div>
+				<input type="text" id="author" name="author" style="width:80px;">
+			</div>
+			<div class="upload_button2">
 				<input type="submit" value="提交">
 			</div>
-			<div style="width:120px;height:30px;margin-left:-100px;margin-top:230px;">
-				<a href="${pageContext.request.contextPath }/pages/user/editWork.jsp" style="color:blue;">修改上传作品信息</a>
+			<div style="width:120px;height:30px;margin-left:-100px;margin-top:115px;">
+				<a href="${pageContext.request.contextPath }/managerAction_getBook" style="color:blue;">修改上传书本信息</a>
 			</div>
 		</form>
 	</div>

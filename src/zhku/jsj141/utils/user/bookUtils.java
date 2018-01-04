@@ -34,7 +34,7 @@ public class bookUtils {
 				try {
 					BufferedReader in = new BufferedReader(
 							new InputStreamReader(new FileInputStream(text),
-									"GBK"));
+									"UTF-8"));
 					String read = null;
 					while ((read = in.readLine()) != null) {
 						list.add(read);

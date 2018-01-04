@@ -8,6 +8,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
 import zhku.jsj141.dao.UserDao;
+import zhku.jsj141.entity.user.Favour;
 import zhku.jsj141.entity.user.User;
 
 public class UserDaoImpl implements UserDao{
@@ -29,6 +30,10 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public void delete(User user){
 		hibernateTemplate.delete(user);
+	}
+	@Override
+	public void addF(Favour favour){
+		hibernateTemplate.save(favour);
 	}
 	@Override
 	@SuppressWarnings("unchecked")

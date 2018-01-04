@@ -3,6 +3,7 @@ package zhku.jsj141.service;
 import java.io.Serializable;
 
 import zhku.jsj141.dao.UserDao;
+import zhku.jsj141.entity.user.Favour;
 import zhku.jsj141.entity.user.User;
 
 public interface UserService {
@@ -20,5 +21,7 @@ public interface UserService {
 	public abstract boolean update(User user);
 
 	public abstract boolean delete(User user);
+
+	public abstract boolean addF(Favour favour);
 
 }

@@ -32,6 +32,7 @@
 				<value>zhku/jsj141/entity/user/User.hbm.xml</value>
 				<value>zhku/jsj141/entity/user/Book.hbm.xml</value>
 				<value>zhku/jsj141/entity/user/Work.hbm.xml</value>
+				<value>zhku/jsj141/entity/user/favour.hbm.xml</value>
 				<value>zhku/jsj141/entity/Type.hbm.xml</value>
 			</list>
 		</property>

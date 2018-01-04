@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 
 import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
+import zhku.jsj141.entity.user.Favour;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.UserService;
@@ -321,5 +322,21 @@ public class UserAction extends ActionSupport {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.getSession().setAttribute("user", null);//清空
 		return "goto_index";
+	}
+	public String addF() throws Exception{//添加收藏
+		HttpServletRequest request = ServletActionContext.getRequest();
+		int bid = Integer.parseInt(request.getParameter("bid"));
+		String page = (String)request.getParameter("page");
+		User user = (User) request.getSession().getAttribute("user");
+		Favour favour = new Favour();
+		if(page!=null){
+			favour.setBid(bid);
+			favour.setUid(user.getUid());
+			long time = System.currentTimeMillis();
+			favour.setTime(time);
+			userService.addF(favour);
+			request.getSession().setAttribute("page", page);
+		}
+		return "goto_read";
 	}
 }

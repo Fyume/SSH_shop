@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import zhku.jsj141.dao.UserDao;
+import zhku.jsj141.entity.user.Favour;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.service.UserService;
 
@@ -61,6 +62,11 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean delete(User user){
 		userDao.delete(user);
+		return false;
+	}
+	@Override
+	public boolean addF(Favour favour){
+		userDao.addF(favour);
 		return false;
 	}
 }

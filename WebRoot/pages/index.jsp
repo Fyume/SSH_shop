@@ -19,6 +19,7 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
@@ -47,6 +48,15 @@
 				<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">前往管理员界面</a>
 			</div>
 		</c:if>
+		<!-- 未实现 -->
+		<div>
+		<div style="margin-left:100px;padding-top:10px;border :1px red solid; widht:50px; height:50px;">
+		<input type="text" name="selectmessage">
+		</div>
+		<div style="border :1px red solid; padding-top:10px;widht:50px; height:50px;">
+		<input type="button" value="搜索" onclick="selectmess()">
+		</div>
+		</div>
 		<div class="header_user">
 			<div class="user_img" onmouseover="infoon()" onmouseout="infooff()">
 				<span class="glyphicon glyphicon-user"></span> <span
@@ -99,7 +109,7 @@
 					onmouseover="classUl${num.count}on()"
 					onmouseout="classUl${num.count}off()">
 					<a
-						href="${pageContext.request.contextPath}/BookAction_selectB?type=${type.type}">${type.type }</a>
+						href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=${type.type}">${type.type }</a>
 				</div>
 
 			</div>
@@ -110,12 +120,12 @@
 				<c:set value="${fn:split(type.type_flag,';') }" var="type_flag"></c:set>
 				<c:forEach items="${type_flag }" var="flag" begin="0" end="5">
 					<ul>
-						<li>${flag }</li>
+						<li><a href="${pageContext.request.contextPath}/bookAction_selectB?flag=type_flag&message=${type.type}">${flag }</a></li>
 					</ul>
 				</c:forEach>
 				<c:forEach items="${type_flag }" var="flag" begin="6" end="12">
 					<ul>
-						<li>${flag }</li>
+						<li><a href="${pageContext.request.contextPath}/bookAction_selectB?flag=type_flag&message=${type.type}">${flag }</a></li>
 					</ul>
 				</c:forEach>
 			</div>
@@ -156,7 +166,7 @@
 				<div class="book_border">
 					<div>
 						<a
-							href="${pageContext.request.contextPath}/pages/user/bookAction_readBook?bid=${book.bid}">
+							href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
 
 							<img class="book_img"
 							src="${pageContext.request.contextPath}/images/bookImg/${book.image }"
@@ -165,12 +175,12 @@
 					</div>
 					<div class="book_title">
 						<a
-							href="${pageContext.request.contextPath}/pages/user/bookAction_readBook?bid=${book.bid}">
+							href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
 							${book.bname } </a>
 					</div>
 					<div class="book_description">
 						<a
-							href="${pageContext.request.contextPath}/pages/user/bookAction_readBook?bid=${book.bid}">
+							href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
 							${book.description } </a>
 					</div>
 				</div>

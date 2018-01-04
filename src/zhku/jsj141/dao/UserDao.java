@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
+import zhku.jsj141.entity.user.Favour;
 import zhku.jsj141.entity.user.User;
 
 public interface UserDao {
@@ -19,5 +20,7 @@ public interface UserDao {
 	public abstract List<User> select(User user, String name);
 
 	public abstract void delete(User user);
+
+	public abstract void addF(Favour favour);
 
 }

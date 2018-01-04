@@ -129,7 +129,7 @@ public class BookAction extends ActionSupport {
 		book.setPublish(publish);
 		User user = (User) request.getSession().getAttribute("user");
 		if (user != null) {
-			String result = bookUtils.uploadbook(upload, user.getUid(),
+			String result = bookUtils.uploadbook(upload, type,
 					uploadContentType, title);
 
 			if (result != "") {
@@ -170,7 +170,35 @@ public class BookAction extends ActionSupport {
 		if(book.getBname()!=null&&!book.getBname().isEmpty()){
 			List<String> str = bookUtils.readbook(book.getType(), book.getPath());
 			request.getSession().setAttribute("content", str);
+			request.getSession().setAttribute("doc_count", str.size());
+			request.getSession().setAttribute("page", 1);
+			request.getSession().setAttribute("book", book);
 			return "goto_read";
+		}
+		return "goto_index";
+	}
+	public String selectB() throws Exception{//查询书本
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String message = request.getParameter("message");//具体参数
+		message = new String(message.getBytes("ISO-8859-1"),"utf-8"); 
+		String flag = request.getParameter("flag");//book的某个属性
+		System.out.println("message:"+message);
+		System.out.println("flag:"+flag);
+		Book book = new Book();
+		if(message!=null&&flag!=null){
+			/*String Flag = flag.substring(0, 1).toUpperCase()+flag.substring(1,flag.length());
+			book.getClass().getMethod("set" + Flag).invoke(book,message);
+			System.out.println(book.getClass().getMethod("get" + Flag)
+							.invoke(book));*/
+			if(flag.equals("type")){
+				book.setType(message);
+			}else if(flag.equals("type_flag")){
+				book.setType_flag(message);
+			}else if(flag.equals("bname")){
+				book.setBname(message);
+			}
+			List<Book> list = bookService.find(book, flag);
+			request.getSession().setAttribute("booklist", list);
 		}
 		return "goto_index";
 	}

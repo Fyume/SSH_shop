@@ -28,4 +28,14 @@ public class ManagerDaoImpl implements ManagerDao{
 		}
 		return list;
 	}
+	@Override
+	public List<Book> selectAllB(){
+		List<Book> list = null;
+		list = (List<Book>) hibernateTemplate.find("from Book");
+		System.out.println("------ManagerDao");
+		for (Book book : list) {
+			System.out.println(book.toString());
+		}
+		return list;
+	}
 }
