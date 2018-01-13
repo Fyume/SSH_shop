@@ -35,8 +35,13 @@ public class BookServiceImpl implements BookService {
 		return null;
 	}
 	@Override
-	public List<Book> find(Book book,String name){
+	public List<Book> find(Book book,String name){//精确查询
 		List<Book> list = bookDao.select(book,name);
+		return list;
+	}
+	@Override
+	public List<Book> find_indistinct(Book book,String name){//模糊查询
+		List<Book> list = bookDao.select_indistinct(book,name);
 		return list;
 	}
 	@Override

@@ -34,7 +34,7 @@ public class userUtils extends ActionSupport {
 	private int height = 30;
 	//发送邮件
 	//发送uid+时间戳的
-	public String sendmail(String emailAddress ,String code) throws Exception{//发送邮件
+	public String sendmail(String emailAddress ,String code) throws Exception{//发送激活链接
 		final Properties props = new Properties();  
 	    /* 
 	     * 可用的属性： mail.store.protocol / mail.transport.protocol / mail.host / 
@@ -82,7 +82,7 @@ public class userUtils extends ActionSupport {
 	    return "email_ok";
 	}
 	//发送时间戳后7位（暂定）
-	public String sendmail(String emailAddress ,long s_message) throws Exception{//发送邮件
+	public String sendmail(String emailAddress ,long s_message) throws Exception{//发送激活码
 		final Properties props = new Properties();  
 	    /* 
 	     * 可用的属性： mail.store.protocol / mail.transport.protocol / mail.host / 

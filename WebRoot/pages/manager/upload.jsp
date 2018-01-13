@@ -75,13 +75,12 @@
 				<div class="list_all">ID：${sessionScope.user.uid }</div>
 				<div class="list_all">用户名:${sessionScope.user.username }</div>
 				<div class="list_all">
-					<!-- 未实现 -->
 					<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">个人中心</a>
 				</div>
-				<!-- 未实现 -->
+				<!-- 未实现暂时用User.jsp过渡 -->
 				<div class="list_half">
 					<a
-						href=" ${pageContext.request.contextPath}/pages/user/setting.jsp">设置</a>
+						href="${ pageContext.request.contextPath}/pages/user/User.jsp">设置</a>
 				</div>
 				<div class="list_half">
 					<a href="${pageContext.request.contextPath}/userAction_logOut">退出</a>
@@ -99,7 +98,7 @@
 					onmouseover="classUl${num.count}on()"
 					onmouseout="classUl${num.count}off()">
 					<a
-						href="${pageContext.request.contextPath}/BookAction_selectB?type=${type.type}">${type.type }</a>
+						href="${pageContext.request.contextPath}/bookAction_selectB?type=${type.type}">${type.type }</a>
 				</div>
 
 			</div>
@@ -134,7 +133,7 @@
 				<div class="title_font">标题/作品名 ：</div>
 				<div class="title_input">
 					<input id="upload_title" name="upload_title" type="text" maxlength="15"
-						placeholder="输入标题/作品名" onblur="checktitle()">
+						placeholder="输入标题/书名(1-20个字符、数字)" onblur="checktitle()">
 				</div>
 				<div id="title_F" class="upload_flag_default"></div>
 				<div id="title_warning" class="title_warning"></div>

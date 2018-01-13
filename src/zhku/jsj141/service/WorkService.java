@@ -20,4 +20,6 @@ public interface WorkService {
 
 	public abstract List<Work> findAll();
 
+	public abstract List<Work> find_indistinct(Work work, String name);
+
 }

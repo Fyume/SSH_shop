@@ -1,8 +1,37 @@
 @CHARSET "UTF-8";
 h4{
+	text-align:left;
 	padding-left:20px;
 	margin-top:5px;
+	padding-right:10px;
 }
 div{
 	float:left;
+}
+.content_div{
+	margin-left:200px;
+	text-align:center;
+	width:800px;
+	border:1px #c0c0c0 solid;
+	word-wrap:break-word;
+}
+.page_div{
+	margin:5px;
+	float:left;
+	width:20px;
+	height:10px;
+	font-size:10px;
+	color:#0080c0;
+}
+.function_div{
+	border:1px red solid;
+	text-align:center;
+	width:100px;
+	height:20px;
+	margin-left:160px;
+	margin-top:70px;
+	margin-bottom:30px;
+	border-left:1px #8080ff solid;
+	border-right:1px #8080ff solid;
+	border-bottom:1px #8080ff solid;
 }

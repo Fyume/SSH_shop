@@ -21,4 +21,6 @@ public interface BookDao {
 
 	public abstract List<Type> selectT();
 
+	public abstract List<Book> select_indistinct(Book book, String name);
+
 }

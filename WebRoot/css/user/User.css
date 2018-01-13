@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+a{
+	text-decoration: none;
+}
+div{
+	float:left;
+}
+.user_left{
+	width:100px;
+	height:500px;
+	border-right:1px #c0c0c0 solid;
+	text-align:center;
+}
+.select_div{
+	margin-top:20px;
+	width:100px;
+	height:50px;
+	border-top:1px #c0c0c0 solid;
+	border-bottom:1px #c0c0c0 solid;
+	padding-top:14px;
+	cursor: pointer;
+}
+.user_right{
+	width:800px;
+	height:500px;
+	border-right:1px #c0c0c0 solid;
+	text-align:center;
+}

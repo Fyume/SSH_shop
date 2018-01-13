@@ -25,13 +25,13 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/manager/edit.js"></script>
+	src="${pageContext.request.contextPath}/js/user/read.js"></script>
 	<link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/read.css">
 </head>
 
 <body onload="page2(${sessionScope.doc_count})">
-	<div>
+	<div class="content_div">
 		<c:choose>
 			<c:when test="${empty param.page }">
 				<c:forEach items="${sessionScope.content }" var="line" begin="0"
@@ -48,14 +48,27 @@
 		</c:choose>
 		<c:forEach items="${sessionScope.content }" var="line" begin="0"
 			end="${sessionScope.doc_count/100}" varStatus="num">
-			<div style="margin:5px;float:left;width:15px;height:10px;font-size:10px;">
-			<a href="${pageContext.request.contextPath}/pages/user/read.jsp?page=${num.count }">${num.count }</a></div>
+			<div class="page_div">
+			<a id="a_${num.count }" href="${pageContext.request.contextPath}/pages/user/read.jsp?page=${num.count }">${num.count }</a></div>
 		</c:forEach>
-		<input type="text" value="1" id="page" style="display:none">
-		<div style="border:1px red solid;text-align:center;width:100px;height:20px;margin-left:50px;margin-top:70px;">
+		<c:choose>
+			<c:when test="${empty sessionScope.page }">
+				<c:if test="${empty param.page }">
+					<input type="text" value="1" id="page" style="display:none">
+				</c:if>
+				<c:if test="${!empty param.page }">
+					<input type="text" value="${param.page }" id="page" style="display:none">
+				</c:if>
+			</c:when>
+			<c:otherwise>
+				<input type="text" value="${sessionScope.page }" id="page" style="display:none">
+			</c:otherwise>
+		</c:choose>
+		
+		<div class="function_div">
 			<a href="${pageContext.request.contextPath}/pages/index.jsp">返回主页</a>
 		</div>
-		<div style="border:1px red solid;text-align:center;width:100px;height:20px;margin-left:50px;margin-top:70px;">
+		<div class="function_div">
 			<a href="${pageContext.request.contextPath}/uesrAction_addF?bid=${sessionScope.book.bid }&page=${param.page }">添加收藏</a>
 		</div>
 	</div>

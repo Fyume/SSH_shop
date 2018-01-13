@@ -27,11 +27,15 @@ public class WorkServiceImpl implements WorkService {
 	}
 
 	@Override
-	public List<Work> find(Work work, String name) {
+	public List<Work> find(Work work, String name) {//精确查询
 		List<Work> list = workDao.select(work, name);
 		return list;
 	}
-
+	@Override
+	public List<Work> find_indistinct(Work work, String name) {//模糊查询
+		List<Work> list = workDao.select_indistinct(work, name);
+		return list;
+	}
 	@Override
 	public boolean update(Work work) {
 		workDao.update(work);

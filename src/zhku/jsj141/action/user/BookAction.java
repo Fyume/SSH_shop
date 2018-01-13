@@ -133,6 +133,7 @@ public class BookAction extends ActionSupport {
 					uploadContentType, title);
 
 			if (result != "") {
+				book.setType(type);
 				if (result.equals("typefalse")) {
 					request.setAttribute("uploadResult",
 							"作品文件有误,请上传doc,docx,txt类型的文件");
@@ -196,8 +197,13 @@ public class BookAction extends ActionSupport {
 				book.setType_flag(message);
 			}else if(flag.equals("bname")){
 				book.setBname(message);
+			}else if(flag.equals("author")){
+				book.setAuthor(message);
 			}
-			List<Book> list = bookService.find(book, flag);
+			List<Book> list = bookService.find_indistinct(book, flag);
+			for (Book book2 : list) {
+				System.out.println(book2.toString());
+			}
 			request.getSession().setAttribute("booklist", list);
 		}
 		return "goto_index";

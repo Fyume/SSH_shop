@@ -65,10 +65,10 @@ function checkimg() {
 	return res;
 }
 function checktitle(){
-	var title = /\S+/;
+	var title = /^[a-zA-Z0-9\u4e00-\u9fa5 ]{1,20}$/;
 	if(title.test($("#upload_title").val())==false){
 		$("#title_F").attr('class',"upload_flag_false");
-		$("#title_warning").html("标题不能为空") ;
+		$("#title_warning").html("标题输入有误") ;
 		return false;
 	}else{
 		$("#title_warning").html("");

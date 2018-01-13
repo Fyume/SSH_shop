@@ -23,4 +23,6 @@ public interface BookService {
 
 	public abstract List<Type> findT();
 
+	public abstract List<Book> find_indistinct(Book book, String name);
+
 }

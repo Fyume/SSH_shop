@@ -28,12 +28,42 @@ public class BookDaoImpl implements BookDao{
 	}
 	@Override
 	@SuppressWarnings("unchecked")
+	public List<Book> select_indistinct(Book book, String name) {
+		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
+		List<Book> list = null;
+		try {
+			list = (List<Book>) hibernateTemplate.find("from Book where "
+					+ name + " like ?","%"+
+					book.getClass().getMethod("get" + name_m)
+							.invoke(book)+"%");//反射机制调用方法
+		} catch (DataAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	@SuppressWarnings("unchecked")
 	public List<Book> select(Book book, String name) {
 		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
 		List<Book> list = null;
 		try {
 			list = (List<Book>) hibernateTemplate.find("from Book where "
-					+ name + "=?",
+					+ name + " =?",
 					book.getClass().getMethod("get" + name_m)
 							.invoke(book));//反射机制调用方法
 		} catch (DataAccessException e) {

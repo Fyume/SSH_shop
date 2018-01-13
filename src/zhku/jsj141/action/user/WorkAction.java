@@ -1,14 +1,12 @@
 package zhku.jsj141.action.user;
 
 import java.io.File;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 
-import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.entity.user.Work;
@@ -155,7 +153,32 @@ public class WorkAction extends ActionSupport {
 		if(work.getWname()!=null&&!work.getWname().isEmpty()){
 			List<String> str = workUtils.readbook_U(work.getAuthor(), work.getPath());
 			request.getSession().setAttribute("content", str);
+			request.getSession().setAttribute("doc_count", str.size());
+			request.getSession().setAttribute("page", 1);
+			request.getSession().setAttribute("book", work);
 			return "goto_read";
+		}
+		return "goto_index";
+	}
+	public String selectW() throws Exception{//查询作品
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String message = request.getParameter("message");//具体参数
+		message = new String(message.getBytes("ISO-8859-1"),"utf-8"); 
+		String flag = request.getParameter("flag");//book的某个属性
+		System.out.println("message:"+message);
+		System.out.println("flag:"+flag);
+		Work work = new Work();
+		if(message!=null&&flag!=null){
+			/*String Flag = flag.substring(0, 1).toUpperCase()+flag.substring(1,flag.length());
+			book.getClass().getMethod("set" + Flag).invoke(book,message);
+			System.out.println(book.getClass().getMethod("get" + Flag)
+							.invoke(book));*/
+			if(flag.equals("wname")){
+				work.setWname(message);
+			}
+			List<Work> list = workService.find_indistinct(work, flag);
+			request.getSession().setAttribute("worklist", list);
+			request.getSession().setAttribute("classfy", "用户作品");
 		}
 		return "goto_index";
 	}

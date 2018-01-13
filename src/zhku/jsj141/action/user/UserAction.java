@@ -339,4 +339,10 @@ public class UserAction extends ActionSupport {
 		}
 		return "goto_read";
 	}
+	public String getData() throws Exception{
+		HttpServletRequest request = ServletActionContext.getRequest();
+		User user = (User) request.getSession().getAttribute("user");
+		
+		return "goto_User";
+	}
 }

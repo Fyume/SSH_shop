@@ -20,4 +20,6 @@ public interface WorkDao {
 
 	public abstract List<Work> selectAll();
 
+	public abstract List<Work> select_indistinct(Work work, String name);
+
 }
