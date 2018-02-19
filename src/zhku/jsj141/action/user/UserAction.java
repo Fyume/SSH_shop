@@ -326,6 +326,7 @@ public class UserAction extends ActionSupport {
 	public String addF() throws Exception{//添加收藏
 		HttpServletRequest request = ServletActionContext.getRequest();
 		int bid = Integer.parseInt(request.getParameter("bid"));
+		int wid = Integer.parseInt(request.getParameter("wid"));
 		String page = (String)request.getParameter("page");
 		User user = (User) request.getSession().getAttribute("user");
 		Favour favour = new Favour();
@@ -337,6 +338,17 @@ public class UserAction extends ActionSupport {
 			userService.addF(favour);
 			request.getSession().setAttribute("page", page);
 		}
+		return "goto_read";
+	}
+	public String history() throws Exception{//记录浏览历史
+		HttpServletRequest request = ServletActionContext.getRequest();
+		String json = (String)request.getParameter("json");
+		JSONObject jsonObj = JSONObject.parseObject(json);
+		System.out.println(jsonObj.get("s1"));
+		System.out.println(jsonObj.get("s2"));
+		System.out.println(jsonObj.get("s3"));
+		String page = (String) jsonObj.get("s3");
+		request.getSession().setAttribute("page", page);
 		return "goto_read";
 	}
 	public String getData() throws Exception{

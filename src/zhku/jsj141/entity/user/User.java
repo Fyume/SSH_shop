@@ -19,13 +19,20 @@ public class User {
 	private boolean u_permission = false;//用户权限(默认为普通用户，只有修改为true的时候才是管理员)
 	
 	private Set<Work> work = new HashSet<Work>();
-	
+	private Set<Favour> favour = new HashSet<Favour>();
+	public Set<Favour> getFavour() {
+		return favour;
+	}
+	public void setFavour(Set<Favour> favour) {
+		this.favour = favour;
+	}
 	public Set<Work> getWork() {
 		return work;
 	}
 	public void setWork(Set<Work> work) {
 		this.work = work;
 	}
+	
 	public String getUid() {
 		return uid;
 	}

@@ -13,7 +13,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>My JSP 'edit.jsp' starting page</title>
+<title>管理页面</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -74,20 +74,19 @@
 					</div>
 				</c:when>
 				<c:otherwise>
-				<div class="list_all">ID：${sessionScope.user.uid }</div>
-				<div class="list_all">用户名:${sessionScope.user.username }</div>
-				<div class="list_all">
-					<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">个人中心</a>
-				</div>
-				<!-- 未实现暂时用User.jsp过渡 -->
-				<div class="list_half">
-					<a
-						href="${ pageContext.request.contextPath}/pages/user/User.jsp">设置</a>
-				</div>
-				<div class="list_half">
-					<a href="${pageContext.request.contextPath}/userAction_logOut">退出</a>
-				</div>
-			</c:otherwise>
+					<div class="list_all">ID：${sessionScope.user.uid }</div>
+					<div class="list_all">用户名:${sessionScope.user.username }</div>
+					<div class="list_all">
+						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">个人中心</a>
+					</div>
+					<!-- 未实现暂时用User.jsp过渡 -->
+					<div class="list_half">
+						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">设置</a>
+					</div>
+					<div class="list_half">
+						<a href="${pageContext.request.contextPath}/userAction_logOut">退出</a>
+					</div>
+				</c:otherwise>
 			</c:choose>
 		</div>
 		<div class="manager_content">
@@ -138,7 +137,7 @@
 										</c:otherwise>
 									</c:choose></td>
 								<td><input type="button" value="修改"
-									onclick="alter(${num.count })"></td>
+									onclick="alter_U(${num.count })"></td>
 								<td><a
 									href="${ pageContext.request.contextPath}/managerAction_delete?uid=${user.uid}">删除</a>
 								</td>
@@ -198,98 +197,139 @@
 			</c:if>
 			<!-- 书本 -->
 			<c:if test="${sessionScope.managerType=='book' }">
-				<table align="center">
-					<tr>
-						<th colspan=10>书本管理</th>
-					</tr>
-					<tr>
-						<td>书本ID</td>
-						<td>书名</td>
-						<td>ISBN</td>
-						<td>出版时间</td>
-						<td>描述</td>
-						<td>作者</td>
-						<!-- 未实现 -->
-						<td>类型</td>
-						<td>图片</td>
-						<td colspan=2>操作</td>
-					</tr>
-					<c:if test="${!empty param.page }">
-						<input id="page" type="text" value="${param.page }"
-							style="display:none">
-						<c:forEach items="${sessionScope.booklist }" var="book"
-							begin="${(param.page-1)*10 }" end="${param.page*10-1 }"
-							varStatus="num">
-							<tr>
-								<td><input id="bid${num.count }" name="bid" type="text"
-									value="${book.bid }" style="display:none">${book.bid }</td>
-								<td><input id="bname${num.count }" name="bname" type="text"
-									value="${book.bname }"></td>
-								<td><input id="ISBN${num.count }" name="ISBN" type="text"
-									value="${book.ISBN }"></td>
-								<td><input type="text" id="publish${num.count }"
-									name="publish" value="${book.publish }"></td>
-								<td><input id="description${num.count }" name="description"
-									type="text" value="${book.description }"></td>
-								<td><input id="author${num.count }" name="author"
-									type="text" value="${book.author }"></td>
-								<td><input id="type${num.count }" name="type" type="text"
-									value="${book.type }"></td>
-								<td><img
-									style="width:130px;height:163px;background-size: cover;-moz-background-size: cover;"
-									id="image${num.count }" name="image"
-									src="${ pageContext.request.contextPath}/images/bookImg/${book.image }"></td>
-								<td><input type="button" value="修改"
-									onclick="alter(${num.count })"></td>
-								<td><a
-									href="${ pageContext.request.contextPath}/managerAction_delete_B?uid=${book.bid}">删除</a>
-								</td>
-							</tr>
-						</c:forEach>
-					</c:if>
-					<c:if test="${empty param.page }">
-						<input id="page" type="text" value="1" style="display:none">
-						<c:forEach items="${sessionScope.booklist }" var="book" begin="0"
-							end="9" varStatus="num">
-							<tr>
-								<td><input id="bid${num.count }" name="bid" type="text"
-									value="${book.bid }" style="display:none">${book.bid }</td>
-								<td><input id="bname${num.count }" name="bname" type="text"
-									value="${book.bname }"></td>
-								<td><input id="ISBN${num.count }" name="ISBN" type="text"
-									value="${book.ISBN }"></td>
-								<td><input type="text" id="publish${num.count }"
-									name="publish" value="${book.publish }"></td>
-								<td><input id="description${num.count }" name="description"
-									type="text" value="${book.description }"></td>
-								<td><input id="author${num.count }" name="author"
-									type="text" value="${book.author }"></td>
-								<td><input id="type${num.count }" name="type" type="text"
-									value="${book.type }"></td>
-								<td><img
-									style="width:130px;height:163px;background-size: cover;-moz-background-size: cover;"
-									id="image${num.count }" name="image"
-									src="${ pageContext.request.contextPath}/images/bookImg/${book.image }"></td>
-								<td><input type="button" value="修改"
-									onclick="alter(${num.count })"></td>
-								<td><a
-									href="${ pageContext.request.contextPath}/managerAction_delete_B?uid=${book.bid}">删除</a>
-								</td>
-							</tr>
-						</c:forEach>
-					</c:if>
-					<tr>
-						<td colspan=10 style="text-align:left;">页码: <c:forEach
-								items="${sessionScope.booklist }" var="book" varStatus="num"
-								begin="0" end="${sessionScope.count/10 }">
-								<a id="a_${num.count }"
-									href="${ pageContext.request.contextPath}/pages/manager/edit.jsp?page=${num.count}"
-									style="margin-left:10px;">${num.count }</a>
+				<div id="bookTable" class="bookTable">
+					<div id="T-header" class="T-header">图 书 管 理</div>
+					<div id="T-font" class="T-font">
+						<div class="font-font">书本ID</div>
+						<div class="font-font">书名</div>
+						<div class="font-font">ISBN</div>
+						<div class="font-font">出版时间</div>
+						<div class="font-font">描述</div>
+						<div class="font-font">作者</div>
+						<div class="font-font">类型</div>
+						<div class="font-font">图片</div>
+						<div class="font-font2">操作</div>
+					</div>
+					<c:choose>
+						<c:when test="${!empty param.page }">
+							<input id="page" type="text" value="${param.page }"
+								style="display:none">
+							<c:forEach items="${sessionScope.booklist }" var="book"
+								begin="${(param.page-1)*10 }" end="${param.page*10-1 }"
+								varStatus="num">
+								<div id="T-content" class="T-content">
+									<div class="cont-cont">
+										<input id="bid${num.count }" name="bid" type="text"
+											value="${book.bid }" style="display:none">${book.bid }
+									</div>
+									<div class="cont-cont">
+										<input id="bname${num.count }" name="bname" type="text"
+											value="${book.bname }">
+									</div>
+									<div class="cont-cont">
+										<input id="ISBN${num.count }" name="ISBN" type="text"
+											value="${book.ISBN }">
+									</div>
+									<div class="cont-cont">
+										<input type="text" id="publish${num.count }" name="publish"
+											value="${book.publish }">
+									</div>
+									<div class="cont-cont">
+										<input id="description${num.count }" name="description"
+											type="text" value="${book.description }">
+									</div>
+									<div class="cont-cont">
+										<input id="author${num.count }" name="author" type="text"
+											value="${book.author }">
+									</div>
+									<div class="cont-cont">
+										<input id="type${num.count }" name="type" type="text"
+											value="${book.type }">
+									</div>
+									<div class="cont-cont2">
+										<img id="image${num.count }" class="cont-img" alt="书本封面小图"
+											src="${ pageContext.request.contextPath}/images/bookImg/${book.image }" onclick="alter_Img('image${num.count }')">
+									</div>
+									<div class="cont-cont">
+										<input type="button" value="修改"
+											onclick="alter_B(${num.count })">
+									</div>
+									<div class="cont-cont">
+										<a
+											href="${ pageContext.request.contextPath}/managerAction_delete_B?uid=${book.bid}">删除</a>
+									</div>
+								</div>
 							</c:forEach>
-						</td>
-					</tr>
-				</table>
+						</c:when>
+						<c:otherwise>
+							<input id="page" type="text" value="1"
+								style="display:none">
+							<c:forEach items="${sessionScope.booklist }" var="book"
+								begin="0" end="9"
+								varStatus="num">
+								<div id="T-content" class="T-content">
+									<div class="cont-cont">
+										<input id="bid${num.count }" name="bid" type="text"
+											value="${book.bid }" style="display:none">${book.bid }
+									</div>
+									<div class="cont-cont">
+										<input id="bname${num.count }" name="bname" type="text"
+											value="${book.bname }">
+									</div>
+									<div class="cont-cont">
+										<input id="ISBN${num.count }" name="ISBN" type="text"
+											value="${book.ISBN }">
+									</div>
+									<div class="cont-cont">
+										<input type="text" id="publish${num.count }" name="publish"
+											value="${book.publish }">
+									</div>
+									<div class="cont-cont">
+										<input id="description${num.count }" name="description"
+											type="text" value="${book.description }">
+									</div>
+									<div class="cont-cont">
+										<input id="author${num.count }" name="author" type="text"
+											value="${book.author }">
+									</div>
+									<div class="cont-cont">
+										<input id="type${num.count }" name="type" type="text"
+											value="${book.type }">
+									</div>
+									<div class="cont-cont2">
+										<img id="image${num.count }" class="cont-img" alt="书本封面小图"
+											src="${ pageContext.request.contextPath}/images/bookImg/${book.image }" onclick="alter_Img('image${num.count }')">
+									</div>
+									<div class="cont-cont">
+										<input type="button" value="修改"
+											onclick="alter_B(${num.count })">
+									</div>
+									<div class="cont-cont">
+										<a
+											href="${ pageContext.request.contextPath}/managerAction_delete_B?uid=${book.bid}">删除</a>
+									</div>
+								</div>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+					<div class="pageNum" style="width:100%;height:8%;border:1px red solid;padding-top:5px;">
+						<span style="font-size:15px;font-weight: 700;float:left;margin-left:5px;">页码</span>
+						<c:forEach items="${sessionScope.booklist }" var="book" varStatus="num" begin="0" end="${sessionScope.count/10 }">
+							<a id="a_${num.count }" href="${ pageContext.request.contextPath}/pages/manager/edit.jsp?page=${num.count}"
+								style="margin-left:10px;">${num.count }</a>
+						</c:forEach>
+					</div>
+				</div>
 			</c:if>
+		</div>
+		<div id="B-I" class="Bimg" style="display:none;">
+			<img id="B-img" src="${ pageContext.request.contextPath}/images/bookImg/5031868592.jpg" alt="书本封面大图" onclick="disapper('${ pageContext.request.contextPath}')">
+			<div style="position:absolute;width:100px;height:30px;left:45%;top:0;">
+				<form id="ImageForm" action="${pageContext.request.contextPath }/bookAction_updateI" >
+					<input id="image" name="image" type="file">
+				</form>
+				<input type="button" style="width:100%;height:100%;" value="修改封面" onclick="checkForm()">
+			</div>
 		</div>
 	</c:if>
 </body>

@@ -13,7 +13,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>管理员上传作品</title>
+<title>管理员上传书本</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -141,9 +141,9 @@
 			<img id="upload_img" alt="预览图"
 				src="${pageContext.request.contextPath }/images/background/bookimg-default.jpg">
 			<div class="img_button">
-				<input type="button" value="上传封面" onclick="uploadi()">
+				<input type="button" value="上传封面" onclick="uploadi()" style="width:100px;margin-right:-18px;">
 				<br>
-				<div style="font-size:12px;color:red;">(仅限jpg,jpeg)</div>
+				<div style="margin-left:5px;font-size:12px;color:red;">(仅限jpg,jpeg)</div>
 			</div>
 			<input type="file" id="image" name="image"
 				accept="image/*" style="display:none;">

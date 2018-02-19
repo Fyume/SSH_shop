@@ -33,8 +33,9 @@
 			<param name="savePath">/WEB-INF/upload</param>
 			<result name="goto_index">/pages/index.jsp</result>
 			<result name="goto_login">/pages/user/login.jsp</result>
-			<result name="goto_upload">/pages/manager/upload.jsp</result>
 			<result name="goto_read">/pages/user/read.jsp</result>
+			<result name="goto_upload">/pages/manager/upload.jsp</result>
+			<result name="goto_edit">/pages/manage/edit.jsp</result>
 		</action>
 		<!--     用户作品         -->
 		<action name="workAction_*" class="workAction" method="{1}">

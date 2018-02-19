@@ -64,12 +64,12 @@ public class WorkDaoImpl implements WorkDao {
 	}
 	@SuppressWarnings("unchecked")
 	public List<Work> select(Work work, String name) {
-		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
+		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());//get方法 字段首字母大写
 		List<Work> list = null;
 		try {
 			list = (List<Work>) hibernateTemplate.find("from Work where "
 					+ name + "=?",
-					work.getClass().getMethod("get" + name)
+					work.getClass().getMethod("get" + name_m)
 							.invoke(work));//反射机制调用方法
 		} catch (DataAccessException e) {
 			// TODO Auto-generated catch block

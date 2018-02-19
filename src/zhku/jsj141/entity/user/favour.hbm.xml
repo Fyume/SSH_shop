@@ -7,8 +7,9 @@
  		<id name="fid" column="fid">
  			<generator class="native"></generator>
  		</id>
- 		<property name="uid"></property>
- 		<property name="bid"></property>
  		<property name="time"></property>
+ 		<many-to-one name="user" class="zhku.jsj141.entity.user.User" column="uid"></many-to-one>
+ 		<many-to-one name="work" class="zhku.jsj141.entity.user.Work" column="wid"></many-to-one>
+ 		<many-to-one name="book" class="zhku.jsj141.entity.user.Book" column="bid"></many-to-one>
  	</class>
  </hibernate-mapping>

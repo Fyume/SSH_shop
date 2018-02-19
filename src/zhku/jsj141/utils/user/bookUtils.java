@@ -15,7 +15,7 @@ import org.apache.commons.io.FileUtils;
 public class bookUtils {
 	private static String DiskPath = "D:\\SSH_test\\main\\";// 默认存取路径
 	private static String FimagePath = "F:\\java\\SSH_test\\WebRoot\\images\\bookImg";// 图片最终存放路径
-	private static String imagePath = "F:\\java\\SSH_test\\WebRoot\\WEB-INF\\bimg";// 默认图片存放位置
+	private static String imagePath = "F:\\java\\SSH_test\\WebRoot\\WEB-INF\\bimg";// 默认图片暂存位置
 	private static String managerPath = "manager\\";
 
 	// 读取管理员上传的文件
@@ -128,5 +128,14 @@ public class bookUtils {
 		}
 		return "";
 
+	}
+	public boolean removeBookI(String path){//删除磁盘中存放的书本封面
+		try{
+			FileUtils.forceDelete(new File(FimagePath+"\\"+path));
+			return true;
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

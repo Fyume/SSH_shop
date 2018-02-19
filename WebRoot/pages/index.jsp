@@ -13,7 +13,7 @@
 <head>
 <base href="<%=basePath%>">
 
-<title>My JSP 'index.jsp' starting page</title>
+<title>Index.jsp</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
@@ -32,7 +32,7 @@
 	href="${pageContext.request.contextPath}/css/user/index.css">
 
 </head>
-<body>
+<body onload="start(${empty sessionScope.typelist })">
 	<div class="header">
 		<div class="header_logo"></div>
 		<div class="header_index">
@@ -126,7 +126,7 @@
 			<div id="class_ul${num.count}" class="class_ul${num.count}"
 				onmouseover="classUl${num.count}on()"
 				onmouseout="classUl${num.count}off()">
-
+		<!-- 数据库里面用";"分开 -->
 				<c:set value="${fn:split(type.type_flag,';') }" var="type_flag"></c:set>
 				<c:forEach items="${type_flag }" var="flag" begin="0" end="5">
 					<ul>

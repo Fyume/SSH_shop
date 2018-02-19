@@ -11,9 +11,23 @@ div{
 .content_div{
 	margin-left:200px;
 	text-align:center;
-	width:800px;
+	width:900px;
 	border:1px #c0c0c0 solid;
 	word-wrap:break-word;
+}
+.cont_top{
+	width:95%;
+	height:25px;
+	border-bottom:2px #c0c0c0 solid;
+	text-align: center;
+	font-size:15px;
+	font-weight: 600;
+	margin-left:2.5%;
+}
+.top_pageNum{
+	height:100%;
+	font-weight:900;
+	color:red;
 }
 .page_div{
 	margin:5px;

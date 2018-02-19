@@ -1,5 +1,8 @@
 package zhku.jsj141.entity.user;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class Work {
 	private int wid;// 作品ID           自增
 	private String wname;// 作品名（标题）
@@ -9,14 +12,22 @@ public class Work {
 	private String path;// 磁盘路径
 	private String image;// 书本封面路径
 	
+	private Set<Favour> favour = new HashSet<Favour>();
 	private User user;
-	
 	public User getUser() {
 		return user;
 	}
 	public void setUser(User user) {
 		this.user = user;
 	}
+	public Set<Favour> getFavour() {
+		return favour;
+	}
+	public void setFavour(Set<Favour> favour) {
+		this.favour = favour;
+	}
+	
+	
 	public int getWid() {
 		return wid;
 	}

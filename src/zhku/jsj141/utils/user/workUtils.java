@@ -114,5 +114,15 @@ public class workUtils {
 		}
 		return "";
 	}
+	//删除上传的用户作品封面
+	public boolean removeWorkI(String path){//删除磁盘中存放的封面
+		try{
+			FileUtils.forceDelete(new File(FimagePath+"\\"+path));
+			return true;
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
 
 }

@@ -1,5 +1,8 @@
 package zhku.jsj141.entity.user;
 
+import java.util.HashSet;
+import java.util.Set;
+
 
 public class Book {
 	private int bid;// 书ID
@@ -12,7 +15,16 @@ public class Book {
 	private String path;// 磁盘路径
 	private String image;// 书本封面路径
 	private String type_flag;//书本类型（建立在大分类下的）,用“;”分开
-
+	
+	private Set<Favour> favour = new HashSet<Favour>();
+	public Set<Favour> getFavour() {
+		return favour;
+	}
+	public void setFavour(Set<Favour> favour) {
+		this.favour = favour;
+	}
+	
+	
 	public int getBid() {
 		return bid;
 	}

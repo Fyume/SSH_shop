@@ -42,7 +42,6 @@ function getJsonData1(num){
 			username:$("#username"+num).val(),
 			u_permission:$("#u_permission"+num).val()
 	}
-	alert(JSON.stringify(json));
 	return json;
 }
 function getJsonData2(num){
@@ -54,7 +53,6 @@ function getJsonData2(num){
 			description:$("#description"+num).val(),
 			type:$("#type"+num).val()
 	}
-	alert(JSON.stringify(json));
 	return json;
 }
 function page(){
@@ -76,4 +74,62 @@ function page2(count){
 			$("#a_"+page).css("font-weight","0");
 		}
 	}
+}
+function alter_Img(ID){
+	var src = $("#"+ID)[0].src;//选择器选择img标签的结果是个数组
+	$("#B-I").css("display","block");
+	$("#B-I").css("background",'rgba(0, 0, 0, 0.5)');
+	$("#B-img").css("opacity",1);
+	$("#B-img").attr('src',src);
+	adjust();
+/*	alert($("#B-img").width()+";"+$("#B-img").height());*/
+	$("#B-img").css('margin-left','20%');
+}
+function adjust(){//修改大图的比例
+	var width=$("#B-img").width();
+	var height=$("#B-img").height();
+	if(width>0&&height>0){
+		var ratio = 800/width;//大致比例(默认大图宽800px)
+		height = height*ratio;
+		$("#B-img").attr('width','800px');
+		$("#B-img").attr('height',height+"px");
+	}
+}
+function disapper(path){//恢复正常视图
+	var str = $("#image")[0].value;
+	if(str!=""){
+		var point = str.indexOf(".");
+		var len = str.length-point;
+		/*alert("len:"+len);*/
+		if(len>3&&len<6){
+			var suffix = str.substring(point+1, str.length);
+			/*alert("suffix:"+suffix);*/
+			if(suffix=="jpg"||suffix=="jpeg"){
+				if(confirm("确定修改封面吗？")){
+					/*alert($("#image")[0].value);*/
+					var formData = new FormData($("#ImageForm")[0]);
+					$.ajax({
+						url:path+'/bookAction_updateI',
+						type:'POST',
+						data:formData,
+						async: false,
+						cache: false,
+						contentType: false,
+						processData:false,
+						success:function (){
+							alert("上传成功");
+						},
+						error:function (){
+							alert("上传错误");
+						}
+					});
+				}
+			}
+		}
+	}
+	$("#image")[0].value="";//清空选择的文件 
+	$("#B-I").css("display","none");
+}
+function checkForm(){
+	$("#image").click();
 }

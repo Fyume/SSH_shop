@@ -155,7 +155,8 @@ public class WorkAction extends ActionSupport {
 			request.getSession().setAttribute("content", str);
 			request.getSession().setAttribute("doc_count", str.size());
 			request.getSession().setAttribute("page", 1);
-			request.getSession().setAttribute("book", work);
+			request.getSession().setAttribute("work", work);
+			request.getSession().setAttribute("book", null);//清空（暂时保留这个，1.减少存储的大小2.方便前端判断）
 			return "goto_read";
 		}
 		return "goto_index";

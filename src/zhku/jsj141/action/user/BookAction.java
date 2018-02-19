@@ -161,6 +161,7 @@ public class BookAction extends ActionSupport {
 		return "goto_upload";
 
 	}
+	//获取书本内容
 	public String readBook() throws Exception{
 		HttpServletRequest request = ServletActionContext.getRequest();
 		int bid = Integer.parseInt(request.getParameter("bid"));
@@ -170,18 +171,20 @@ public class BookAction extends ActionSupport {
 		book = list.get(0);
 		if(book.getBname()!=null&&!book.getBname().isEmpty()){
 			List<String> str = bookUtils.readbook(book.getType(), book.getPath());
-			request.getSession().setAttribute("content", str);
-			request.getSession().setAttribute("doc_count", str.size());
-			request.getSession().setAttribute("page", 1);
+			request.getSession().setAttribute("content", str);//书本内容
+			request.getSession().setAttribute("doc_count", str.size());//读取到的行数
+			request.getSession().setAttribute("page", 1);//默认为第1页
 			request.getSession().setAttribute("book", book);
+			request.getSession().setAttribute("work", null);//类似workaction里面的
 			return "goto_read";
 		}
 		return "goto_index";
 	}
-	public String selectB() throws Exception{//查询书本
+	//查询书本
+	public String selectB() throws Exception{
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String message = request.getParameter("message");//具体参数
-		message = new String(message.getBytes("ISO-8859-1"),"utf-8"); 
+		message = new String(message.getBytes("ISO-8859-1"),"utf-8"); //URL传参好像是默认ISO-8859-1？反正试了发现这个可以
 		String flag = request.getParameter("flag");//book的某个属性
 		System.out.println("message:"+message);
 		System.out.println("flag:"+flag);
@@ -207,5 +210,17 @@ public class BookAction extends ActionSupport {
 			request.getSession().setAttribute("booklist", list);
 		}
 		return "goto_index";
+	}
+	//修改书本封面
+	public String updateI() throws Exception{
+		HttpServletRequest request = ServletActionContext.getRequest();
+		/*int bid = Integer.parseInt(request.getParameter("bid"));
+		Book book = new Book();
+		book.setBid(bid);
+		List<Book> list = bookService.find(book, "bid");
+		book = list.get(0);*/
+		
+		System.out.println("image: "+image+"\nimageFN: "+imageFileName+"\nimageCT:"+imageContentType);
+		return "goto_edit";
 	}
 }

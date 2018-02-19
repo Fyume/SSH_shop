@@ -1,13 +1,20 @@
 /**
  * 
  */
-$(document).ready($.ajax({
-	url : 'http://localhost:8080/SSH_test/bookAction_getData',
-	type : "POST",
-	timeout : 1000,
-	cache : false,
-	async : false,// 取消异步请求
-}))
+function start(msg) {
+	$.ajax({
+		url : 'http://localhost:8080/SSH_test/bookAction_getData',
+		type : "POST",
+		timeout : 1000,
+		cache : false,
+		async : false,// 取消异步请求
+		success:function refresh(){
+				if(msg==true){
+					window.location.reload(true);
+				}
+		},
+	})
+}
 function classifyon() {
 	$("#classify_st").css("display", "inline");
 }
@@ -53,8 +60,7 @@ function selectmess() {
 	var flag;
 	var message = $("#select_message").val();
 	if (num == 1) {
-		$
-				.ajax({
+		$.ajax({
 					url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag=bname&message='
 							+ message,
 					type : "POST",
@@ -66,8 +72,7 @@ function selectmess() {
 					}
 				})
 	} else if (num == 3) {
-		$
-				.ajax({
+		$.ajax({
 					url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag=author&message='
 							+ message,
 					type : "POST",
@@ -79,8 +84,7 @@ function selectmess() {
 					}
 				})
 	} else if (num == 2) {
-		$
-				.ajax({
+		$.ajax({
 					url : 'http://localhost:8080/SSH_test/workAction_selectW?flag=wname&message='
 							+ message,
 					type : "POST",
