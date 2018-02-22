@@ -107,13 +107,13 @@ public class bookUtils {
 	 * TODO Auto-generated catch block e.printStackTrace(); } } } } return ""; }
 	 */
 	// 上传书本的封面
-	public String uploadbookI(File image, String type, String uploadContentType) {
+	public String uploadbookI(File image, String type, String imageContentType) {
 		if (image != null) {
 			String time = String.valueOf(System.currentTimeMillis());
 			String filename = time.substring(time.length() - 10, time.length());// 文件名
 			File dir = new File(FimagePath);
 			String ctype = null;// 文件后缀
-			if (uploadContentType.equals("image/jpeg")) {
+			if (imageContentType.equals("image/jpeg")) {
 				ctype = ".jpg";
 			}
 			if (ctype != null) {

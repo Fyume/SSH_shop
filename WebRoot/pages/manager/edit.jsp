@@ -248,7 +248,7 @@
 									</div>
 									<div class="cont-cont2">
 										<img id="image${num.count }" class="cont-img" alt="书本封面小图"
-											src="${ pageContext.request.contextPath}/images/bookImg/${book.image }" onclick="alter_Img('image${num.count }')">
+											src="${ pageContext.request.contextPath}/images/bookImg${book.image }" onclick="alter_Img('image${num.count }','${book.bid }')">
 									</div>
 									<div class="cont-cont">
 										<input type="button" value="修改"
@@ -298,7 +298,7 @@
 									</div>
 									<div class="cont-cont2">
 										<img id="image${num.count }" class="cont-img" alt="书本封面小图"
-											src="${ pageContext.request.contextPath}/images/bookImg/${book.image }" onclick="alter_Img('image${num.count }')">
+											src="${ pageContext.request.contextPath}/images/bookImg${book.image }" onclick="alter_Img('image${num.count }','${book.bid }')">
 									</div>
 									<div class="cont-cont">
 										<input type="button" value="修改"
@@ -325,7 +325,7 @@
 		<div id="B-I" class="Bimg" style="display:none;">
 			<img id="B-img" src="${ pageContext.request.contextPath}/images/bookImg/5031868592.jpg" alt="书本封面大图" onclick="disapper('${ pageContext.request.contextPath}')">
 			<div style="position:absolute;width:100px;height:30px;left:45%;top:0;">
-				<form id="ImageForm" action="${pageContext.request.contextPath }/bookAction_updateI" >
+				<form id="ImageForm" style="display:none;">
 					<input id="image" name="image" type="file">
 				</form>
 				<input type="button" style="width:100%;height:100%;" value="修改封面" onclick="checkForm()">

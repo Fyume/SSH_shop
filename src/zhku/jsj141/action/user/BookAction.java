@@ -1,10 +1,12 @@
 package zhku.jsj141.action.user;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 
@@ -25,7 +27,16 @@ public class BookAction extends ActionSupport {
 	private String imageFileName;
 	private String imageContentType;
 	private bookUtils bookUtils;
+/*	private String bid;
+	
+	public String getBid() {
+		return bid;
+	}
 
+	public void setBid(String bid) {
+		this.bid = bid;
+	}
+*/
 	public bookUtils getBookUtils() {
 		return bookUtils;
 	}
@@ -214,13 +225,26 @@ public class BookAction extends ActionSupport {
 	//修改书本封面
 	public String updateI() throws Exception{
 		HttpServletRequest request = ServletActionContext.getRequest();
-		/*int bid = Integer.parseInt(request.getParameter("bid"));
+		HttpServletResponse response = ServletActionContext.getResponse();
+		int bid = Integer.parseInt(request.getParameter("bid"));
 		Book book = new Book();
 		book.setBid(bid);
 		List<Book> list = bookService.find(book, "bid");
-		book = list.get(0);*/
-		
+		book = list.get(0);
+		System.out.println("bid:"+bid);
 		System.out.println("image: "+image+"\nimageFN: "+imageFileName+"\nimageCT:"+imageContentType);
+		if(book.getBname()!=null){
+			String path = bookUtils.uploadbookI(image, book.getType(), imageContentType);
+			if(path!=""){//把原来的图片删除掉,数据库的路径也改了
+				bookUtils.removeBookI(book.getImage());
+				book.setImage(path);
+				bookService.update(book);
+				/*PrintWriter out = response.getWriter();
+				out.print(path);
+				out.flush();
+				out.close();*/
+			}
+		}
 		return "goto_edit";
 	}
 }

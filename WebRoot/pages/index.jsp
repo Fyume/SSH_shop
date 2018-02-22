@@ -69,7 +69,7 @@
 			</div>
 		</div>
 		<div class="header_user">
-			<div class="user_img" onmouseover="infoon()" onmouseout="infooff()">
+			<div class="user_img" onmouseover="infoon()" onmouseout="infooff()" onclick="login('${pageContext.request.contextPath}')">
 				<span class="glyphicon glyphicon-user"></span> <span
 					style="color:red;font-weight:400">${sessionScope.user.username }</span>
 			</div>

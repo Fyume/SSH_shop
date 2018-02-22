@@ -15,6 +15,9 @@ function start(msg) {
 		},
 	})
 }
+function login(path){
+	window.location.href=path+"/pages/user/login.jsp";
+}
 function classifyon() {
 	$("#classify_st").css("display", "inline");
 }

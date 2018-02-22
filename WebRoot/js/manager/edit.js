@@ -75,7 +75,9 @@ function page2(count){
 		}
 	}
 }
-function alter_Img(ID){
+function alter_Img(ID,bid){
+	window.Iid=ID;
+	window.bid=bid;//全局方便操作
 	var src = $("#"+ID)[0].src;//选择器选择img标签的结果是个数组
 	$("#B-I").css("display","block");
 	$("#B-I").css("background",'rgba(0, 0, 0, 0.5)');
@@ -107,22 +109,34 @@ function disapper(path){//恢复正常视图
 			if(suffix=="jpg"||suffix=="jpeg"){
 				if(confirm("确定修改封面吗？")){
 					/*alert($("#image")[0].value);*/
-					var formData = new FormData($("#ImageForm")[0]);
-					$.ajax({
-						url:path+'/bookAction_updateI',
-						type:'POST',
-						data:formData,
-						async: false,
-						cache: false,
-						contentType: false,
-						processData:false,
-						success:function (){
-							alert("上传成功");
-						},
-						error:function (){
-							alert("上传错误");
-						}
-					});
+					var bid = window.bid;
+					if(bid!=null){
+						var formData = new FormData($("#ImageForm")[0]);
+						formData.append("bid", bid);//后台直接getparameter试过可以
+						$.ajax({
+							url:path+'/bookAction_updateI',
+							type:'POST',
+							data:formData,
+							async: false,
+							cache: false,
+							contentType: false,
+							processData:false,
+							success:function (data){
+							//刷新重新设置image的src(这里涉及到tomcat和eclipse的文件部署问题，已在server.xml加入相应配置，详情看浏览器收藏夹)
+							/*	var image = $("#"+window.Iid);//获取修改的图片
+								var src1 = image[0].src;
+								var sign = src1.indexOf("\\");
+								image[0].src=src1.substring(0, sign)+data;
+								alert("数据："+data);
+								alert("image[0].src:"+image[0].src);*/
+								alert("修改成功");
+								window.location.reload();
+							},
+							error:function (){
+								alert("上传错误");
+							}
+						});
+					}
 				}
 			}
 		}
