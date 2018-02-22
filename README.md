@@ -52,6 +52,6 @@
 
 在host标签内加入
 
-<Context path="eclipse项目下的路径（例如/SSH_text/images）" docBase="相对于磁盘中的绝对路径" debug="0" reloadable="false" privilege="true"/>
+`<Context path="eclipse项目下的路径（例如/SSH_text/images）" docBase="相对于磁盘中的绝对路径" debug="0" reloadable="false" privilege="true"/>`
 
 ④
