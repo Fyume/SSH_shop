@@ -25,4 +25,6 @@ public interface BookService {
 
 	public abstract List<Book> find_indistinct(Book book, String name);
 
+	public abstract List<Book> findAll();
+
 }

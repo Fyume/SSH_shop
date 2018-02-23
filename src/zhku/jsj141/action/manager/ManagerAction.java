@@ -4,22 +4,22 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.json.JSONString;
-
 import org.apache.struts2.ServletActionContext;
 
+import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
+import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.ManagerService;
 import zhku.jsj141.service.UserService;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class ManagerAction extends ActionSupport {
 	private ManagerService managerService;
 	private UserService userService;
+	private BookService bookService;
 
 	public ManagerService getManagerService() {
 		return managerService;
@@ -36,6 +36,15 @@ public class ManagerAction extends ActionSupport {
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
+	
+	public BookService getBookService() {
+		return bookService;
+	}
+
+	public void setBookService(BookService bookService) {
+		this.bookService = bookService;
+	}
+
 	//获取用户信息
 	public String getUser() throws Exception {
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -48,7 +57,10 @@ public class ManagerAction extends ActionSupport {
 	//获取书本信息
 	public String getBook() throws Exception{
 		HttpServletRequest request = ServletActionContext.getRequest();
+		List<Type> typelist = null;
 		List<Book> list = managerService.selectAllB();
+		typelist = bookService.findT();
+		request.getSession().setAttribute("typelist", typelist);
 		request.getSession().setAttribute("booklist", list);
 		request.getSession().setAttribute("managerType", "book");
 		request.getSession().setAttribute("count", list.size());

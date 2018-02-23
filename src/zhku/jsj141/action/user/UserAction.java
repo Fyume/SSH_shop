@@ -164,7 +164,7 @@ public class UserAction extends ActionSupport {
 		}
 		return NONE;
 	}
-	//未实现
+	/****************************未实现**************************/
 	public String updateall() throws Exception {// 修改个人信息
 		HttpServletRequest request = ServletActionContext.getRequest();
 
@@ -172,7 +172,7 @@ public class UserAction extends ActionSupport {
 		return NONE;
 
 	}
-
+	/********************************************************/
 	public String updateEmail() throws Exception {// 修改邮箱
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.setCharacterEncoding("UTF-8");
@@ -287,9 +287,8 @@ public class UserAction extends ActionSupport {
 							List<Type> typelist = null;
 							List<Book> booklist = null;
 							Book book = new Book();
-							book.setType("网络小说");
 							typelist = bookService.findT();
-							booklist = bookService.find(book, "type");	
+							booklist = bookService.findAll();
 							request.getSession().setAttribute("typelist", typelist);
 							request.getSession().setAttribute("classfy", "网络小说");
 							request.getSession().setAttribute("booklist", booklist);
@@ -340,6 +339,7 @@ public class UserAction extends ActionSupport {
 		}
 		return "goto_read";
 	}
+	/**************************未完成**************************/
 	public String history() throws Exception{//记录浏览历史
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String json = (String)request.getParameter("json");
@@ -351,10 +351,12 @@ public class UserAction extends ActionSupport {
 		request.getSession().setAttribute("page", page);
 		return "goto_read";
 	}
+	
 	public String getData() throws Exception{
 		HttpServletRequest request = ServletActionContext.getRequest();
 		User user = (User) request.getSession().getAttribute("user");
 		
 		return "goto_User";
 	}
+	/********************************************************/
 }

@@ -27,6 +27,11 @@ public class BookDaoImpl implements BookDao{
 		hibernateTemplate.saveOrUpdate(book);
 	}
 	@Override
+	public List<Book> selectAll(){
+		List<Book> list = (List<Book>) hibernateTemplate.find("from Book");
+		return list;
+	}
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<Book> select_indistinct(Book book, String name) {
 		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());

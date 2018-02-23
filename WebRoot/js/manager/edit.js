@@ -8,33 +8,37 @@ function infoon(){
 function infooff(){
 	$("#user_info").css("display","none");
 }
-function alter_U(num){
-	$.ajax({
-		url : 'http://localhost:8080/SSH_test/managerAction_alter_U',
-		type : "POST",
-		timeout : 1000,
-		data :{json:JSON.stringify(getJsonData1(num))},
-		async:false,//取消异步请求
-		dataType : "json",
-		cache : false,
-		success : function messageSuccess(data) {// 返回时的方法
-			alert($("#u_permission"+num).val());
-		},
-	})
+function alter_U(num,uid){
+	if(confirm("确定修改用户ID为 "+uid+" 的信息吗？")){
+		$.ajax({
+			url : 'http://localhost:8080/SSH_test/managerAction_alter_U',
+			type : "POST",
+			timeout : 1000,
+			data :{json:JSON.stringify(getJsonData1(num))},
+			async:false,//取消异步请求
+			dataType : "json",
+			cache : false,
+			success : function messageSuccess(data) {// 返回时的方法
+				alert($("#u_permission"+num).val());
+			},
+		});
+	}
 }
-function alter_B(num){
-	$.ajax({
-		url : 'http://localhost:8080/SSH_test/managerAction_alter_B',
-		type : "POST",
-		timeout : 1000,
-		data :{json:JSON.stringify(getJsonData2(num))},
-		async:false,//取消异步请求
-		dataType : "json",
-		cache : false,
-		success : function messageSuccess(data) {// 返回时的方法
-			alert($("#u_permission"+num).val());
-		},
-	})
+function alter_B(num,bid){
+	if(confirm("确定修改书本ID为 "+bid+" 的信息吗？")){
+		$.ajax({
+			url : 'http://localhost:8080/SSH_test/managerAction_alter_B',
+			type : "POST",
+			timeout : 1000,
+			data :{json:JSON.stringify(getJsonData2(num))},
+			async:false,//取消异步请求
+			dataType : "json",
+			cache : false,
+			success : function messageSuccess(data) {// 返回时的方法
+				alert($("#u_permission"+num).val());
+			},
+		});
+	}
 }
 function getJsonData1(num){
 	var json={
@@ -49,7 +53,9 @@ function getJsonData2(num){
 			bid:$("#bid"+num).val(),
 			bname:$("#bname"+num).val(),
 			ISBN:$("#ISBN"+num).val(),
-			publish:$("#publish"+num).val(),
+			year:$("#year"+num).val(),
+			month:$("#month"+num).val(),
+			date:$("#date"+num).val(),
 			description:$("#description"+num).val(),
 			type:$("#type"+num).val()
 	}
@@ -97,7 +103,7 @@ function adjust(){//修改大图的比例
 		$("#B-img").attr('height',height+"px");
 	}
 }
-function disapper(path){//恢复正常视图
+function disapper(path){//恢复正常视图 假如需要修改图片 则弹出询问框
 	var str = $("#image")[0].value;
 	if(str!=""){
 		var point = str.indexOf(".");
@@ -138,12 +144,37 @@ function disapper(path){//恢复正常视图
 						});
 					}
 				}
+			}else{
+				alert("请选择jpg类型的图片文件");
 			}
 		}
 	}
 	$("#image")[0].value="";//清空选择的文件 
 	$("#B-I").css("display","none");
 }
-function checkForm(){
-	$("#image").click();
+function showPublish(page){
+	if(page==""){
+		var num = 1;
+	}else{
+		var num = (page-1)*5;//该页初始的num
+	}
+	for(var i=num;i<(num+5);i++){
+		DateFormat($("#publish"+i).val(), i);
+	}
+}
+function DateFormat(timeStamp, num){
+	var time = new Date(timeStamp*1000*60*60);
+	$("#year"+num).val(time.getYear());
+	$("#month"+num).val(time.getMonth());
+	$("#date"+num).val(time.getDate());
+}
+function checkPublish(num){
+	var year = /^\d{4}$/;
+	var month = /^\d{1,2}$/;
+	var date = /^\d{1,2}$/;
+	if(year.test($("#year"+num).val())==false||month.test($("#month"+num).val())==false||date.test($("#date"+num).val())==false){
+		alert("日期输入有误，请修改");
+		return false;
+	}
+	return true;
 }

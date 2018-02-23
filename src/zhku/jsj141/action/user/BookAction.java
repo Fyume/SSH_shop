@@ -100,7 +100,7 @@ public class BookAction extends ActionSupport {
 	public void setImageContentType(String imageContentType) {
 		this.imageContentType = imageContentType;
 	}
-
+	//页面初始数据获取
 	public String getData() throws Exception {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		List<Type> typelist = null;
@@ -129,7 +129,7 @@ public class BookAction extends ActionSupport {
 		int year = Integer.parseInt(request.getParameter("year"));
 		int month = Integer.parseInt(request.getParameter("month"));
 		int day = Integer.parseInt(request.getParameter("day"));
-		long publish = new Date(year - 1900, month - 1, day).getTime();// 转换成时间戳
+		long publish = new Date(year, month, day).getTime()/(1000*60*60);// 转换成时间戳(只需要年月日,为了不丢失精度，保留时)
 		String description = (String) request.getParameter("description");
 		String author = (String) request.getParameter("author");
 		Book book = new Book();

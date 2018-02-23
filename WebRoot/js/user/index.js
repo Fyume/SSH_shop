@@ -13,7 +13,7 @@ function start(msg) {
 					window.location.reload(true);
 				}
 		},
-	})
+	});
 }
 function login(path){
 	window.location.href=path+"/pages/user/login.jsp";

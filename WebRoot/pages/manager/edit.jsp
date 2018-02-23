@@ -137,7 +137,7 @@
 										</c:otherwise>
 									</c:choose></td>
 								<td><input type="button" value="修改"
-									onclick="alter_U(${num.count })"></td>
+									onclick="alter_U('${num.count }','${user.uid }')"></td>
 								<td><a
 									href="${ pageContext.request.contextPath}/managerAction_delete?uid=${user.uid}">删除</a>
 								</td>
@@ -176,7 +176,7 @@
 										</c:otherwise>
 									</c:choose></td>
 								<td><input type="button" value="修改"
-									onclick="alter_U(${num.count })"></td>
+									onclick="alter_U('${num.count }','${user.uid }')"></td>
 								<td><a
 									href="${ pageContext.request.contextPath}/managerAction_delete_U?uid=${user.uid}">删除</a>
 								</td>
@@ -197,25 +197,26 @@
 			</c:if>
 			<!-- 书本 -->
 			<c:if test="${sessionScope.managerType=='book' }">
-				<div id="bookTable" class="bookTable">
+				<div id="bookTable" class="bookTable" onmouseover="showPublish('${param.page }')">
 					<div id="T-header" class="T-header">图 书 管 理</div>
 					<div id="T-font" class="T-font">
 						<div class="font-font">书本ID</div>
 						<div class="font-font">书名</div>
 						<div class="font-font">ISBN</div>
-						<div class="font-font">出版时间</div>
+						<div class="font-font2">出版时间</div>
 						<div class="font-font">描述</div>
 						<div class="font-font">作者</div>
 						<div class="font-font">类型</div>
 						<div class="font-font">图片</div>
 						<div class="font-font2">操作</div>
 					</div>
+					<div class="T-center">
 					<c:choose>
 						<c:when test="${!empty param.page }">
 							<input id="page" type="text" value="${param.page }"
 								style="display:none">
 							<c:forEach items="${sessionScope.booklist }" var="book"
-								begin="${(param.page-1)*10 }" end="${param.page*10-1 }"
+								begin="${(param.page-1)*5 }" end="${param.page*5-1 }"
 								varStatus="num">
 								<div id="T-content" class="T-content">
 									<div class="cont-cont">
@@ -230,21 +231,28 @@
 										<input id="ISBN${num.count }" name="ISBN" type="text"
 											value="${book.ISBN }">
 									</div>
-									<div class="cont-cont">
-										<input type="text" id="publish${num.count }" name="publish"
-											value="${book.publish }">
+									<div class="cont-cont3">
+										<input id="publish${num.count }" type="text" value="${book.publish }" style="display:none;">
+										<input id="year${num.count }" type="text" onchange="return checkPublish('${num.count }');">年
+										<input id="month${num.count }" type="text" onchange="return checkPublish('${num.count }');">月
+										<input id="date${num.count }" type="text" onchange="return checkPublish('${num.count }');">日
 									</div>
-									<div class="cont-cont">
-										<input id="description${num.count }" name="description"
-											type="text" value="${book.description }">
+									<div class="cont-cont" style="padding-top:0px;">
+										<textarea style="width:90%;height:100%;border:1px #3366FF solid;"  id="description${num.count }" name="description">${book.description }</textarea>
 									</div>
 									<div class="cont-cont">
 										<input id="author${num.count }" name="author" type="text"
 											value="${book.author }">
 									</div>
 									<div class="cont-cont">
-										<input id="type${num.count }" name="type" type="text"
-											value="${book.type }">
+										<select size='1' id="type${num.count }">
+											<option value="${book.type}" checked>${book.type }</option>
+											<c:forEach items="${sessionScope.typelist }" var="type">
+												<c:if test="${book.type ne type.type }">
+													<option value="${type.type }" checked>${type.type }</option>
+												</c:if>
+											</c:forEach>
+										</select>
 									</div>
 									<div class="cont-cont2">
 										<img id="image${num.count }" class="cont-img" alt="书本封面小图"
@@ -252,7 +260,7 @@
 									</div>
 									<div class="cont-cont">
 										<input type="button" value="修改"
-											onclick="alter_B(${num.count })">
+											onclick="alter_B('${num.count }','${book.bid }')">
 									</div>
 									<div class="cont-cont">
 										<a
@@ -265,7 +273,7 @@
 							<input id="page" type="text" value="1"
 								style="display:none">
 							<c:forEach items="${sessionScope.booklist }" var="book"
-								begin="0" end="9"
+								begin="0" end="4"
 								varStatus="num">
 								<div id="T-content" class="T-content">
 									<div class="cont-cont">
@@ -280,21 +288,28 @@
 										<input id="ISBN${num.count }" name="ISBN" type="text"
 											value="${book.ISBN }">
 									</div>
-									<div class="cont-cont">
-										<input type="text" id="publish${num.count }" name="publish"
-											value="${book.publish }">
+									<div class="cont-cont3">
+										<input id="publish${num.count }" type="text" value="${book.publish }" style="display:none;">
+										<input id="year${num.count }" type="text">年
+										<input id="month${num.count }" type="text">月
+										<input id="date${num.count }" type="text">日
 									</div>
-									<div class="cont-cont">
-										<input id="description${num.count }" name="description"
-											type="text" value="${book.description }">
+									<div class="cont-cont" style="padding-top:0px;">
+										<textarea style="width:90%;height:100%;border:1px #3366FF solid;"  id="description${num.count }" name="description">${book.description }</textarea>
 									</div>
 									<div class="cont-cont">
 										<input id="author${num.count }" name="author" type="text"
 											value="${book.author }">
 									</div>
 									<div class="cont-cont">
-										<input id="type${num.count }" name="type" type="text"
-											value="${book.type }">
+										<select size='1' id="type${num.count }">
+											<option value="${book.type}" checked>${book.type }</option>
+											<c:forEach items="${sessionScope.typelist }" var="type">
+												<c:if test="${book.type ne type.type }">
+													<option value="${type.type }" checked>${type.type }</option>
+												</c:if>
+											</c:forEach>
+										</select>
 									</div>
 									<div class="cont-cont2">
 										<img id="image${num.count }" class="cont-img" alt="书本封面小图"
@@ -302,7 +317,7 @@
 									</div>
 									<div class="cont-cont">
 										<input type="button" value="修改"
-											onclick="alter_B(${num.count })">
+											onclick="alter_B('${num.count }','${book.bid }')">
 									</div>
 									<div class="cont-cont">
 										<a
@@ -312,9 +327,10 @@
 							</c:forEach>
 						</c:otherwise>
 					</c:choose>
+					</div>
 					<div class="pageNum" style="width:100%;height:8%;border:1px red solid;padding-top:5px;">
 						<span style="font-size:15px;font-weight: 700;float:left;margin-left:5px;">页码</span>
-						<c:forEach items="${sessionScope.booklist }" var="book" varStatus="num" begin="0" end="${sessionScope.count/10 }">
+						<c:forEach items="${sessionScope.booklist }" var="book" varStatus="num" begin="0" end="${sessionScope.count/5 }">
 							<a id="a_${num.count }" href="${ pageContext.request.contextPath}/pages/manager/edit.jsp?page=${num.count}"
 								style="margin-left:10px;">${num.count }</a>
 						</c:forEach>
@@ -326,7 +342,7 @@
 			<img id="B-img" src="${ pageContext.request.contextPath}/images/bookImg/5031868592.jpg" alt="书本封面大图" onclick="disapper('${ pageContext.request.contextPath}')">
 			<div style="position:absolute;width:100px;height:30px;left:45%;top:0;">
 				<form id="ImageForm" style="display:none;">
-					<input id="image" name="image" type="file">
+					<input id="image" name="image" type="file" accept="image/*">
 				</form>
 				<input type="button" style="width:100%;height:100%;" value="修改封面" onclick="checkForm()">
 			</div>

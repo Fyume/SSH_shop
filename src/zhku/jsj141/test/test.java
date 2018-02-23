@@ -88,4 +88,20 @@ public class test {
 		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
 		System.out.println(name_m);
 	}
+	@Test
+	public void time(){
+		/*long tramp = 1519315200;
+		Date time = new Date(tramp*1000);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
+		String str = format.format(time);
+		System.out.println(time.getDay());*/
+		long tramp = new Date(2018, 2, 26).getTime()/(1000*60*60);
+		long tramp2 = new Date(1990,2,3).getTime()/(1000*60*60);
+		System.out.println(tramp);
+		System.out.println(tramp2);
+		Date time = new Date(tramp*(1000*60*60));
+		Date time2 = new Date(tramp2*(1000*60*60));
+		System.out.println(time.getYear()+"年"+time.getMonth()+"月"+time.getDate()+"日");
+		System.out.println(time2.getYear()+"年"+time2.getMonth()+"月"+time2.getDate()+"日");
+	}
 }

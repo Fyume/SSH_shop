@@ -35,6 +35,11 @@ public class BookServiceImpl implements BookService {
 		return null;
 	}
 	@Override
+	public List<Book> findAll(){//获取所有书本
+		List<Book> list = bookDao.selectAll();
+		return list;
+	}
+	@Override
 	public List<Book> find(Book book,String name){//精确查询
 		List<Book> list = bookDao.select(book,name);
 		return list;

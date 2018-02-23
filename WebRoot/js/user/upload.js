@@ -34,6 +34,7 @@ function uploadf() {
 function uploadi() {
 	$("#image").click();
 }
+/*************用户上传作品部分****************/
 //文件格式检查
 function check() {
 	if (!checktitle()||!checkF()){
@@ -64,6 +65,7 @@ function checkimg() {
 	var res = str.test(path);
 	return res;
 }
+// 检查标题格式
 function checktitle(){
 	var title = /^[a-zA-Z0-9\u4e00-\u9fa5 ]{1,20}$/;
 	if(title.test($("#upload_title").val())==false){
@@ -76,6 +78,7 @@ function checktitle(){
 		return true;
 	}
 }
+// 检查上传文件是否为空
 function checkF(){
 	if($("#upload").val()==""){
 		$("#file_F").attr('class',"upload_flag_false");
@@ -86,7 +89,6 @@ function checkF(){
 		return true;
 	}
 }
-/****************/
 function check2() {
 	if (!checktitle()||!checkF()){
 		return false;
@@ -104,6 +106,7 @@ function check2() {
 	}
 
 }
+/*************用户上传书本多出来的部分****************/
 function checkdate(){
 	var year = /^\d{4}$/;
 	var month = /^\d{1,2}$/;
