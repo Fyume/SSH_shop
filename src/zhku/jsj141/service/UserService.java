@@ -1,6 +1,7 @@
 package zhku.jsj141.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import zhku.jsj141.dao.UserDao;
 import zhku.jsj141.entity.user.Favour;
@@ -8,20 +9,22 @@ import zhku.jsj141.entity.user.User;
 
 public interface UserService {
 
-	public abstract void setUserDao(UserDao userDao);
+	public void setUserDao(UserDao userDao);
 
-	public abstract Serializable add(User user);
+	public Serializable add(User user);
 
-	public abstract String checkuid(User user);
+	public String checkuid(User user);
 
-	public abstract String checkE(User user);
+	public String checkE(User user);
 
-	public abstract User find(User user, String name);
+	public User find(User user, String name);
 
-	public abstract boolean update(User user);
+	public boolean update(User user);
 
-	public abstract boolean delete(User user);
+	public boolean delete(User user);
 
-	public abstract boolean addF(Favour favour);
+	public boolean addF(Favour favour);
+
+	public List<User> finds(User user, int status, int permission);
 
 }

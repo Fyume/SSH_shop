@@ -27,4 +27,6 @@ public interface BookService {
 
 	public abstract List<Book> findAll();
 
+	public abstract boolean delete(Book book);
+
 }

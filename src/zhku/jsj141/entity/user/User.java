@@ -132,8 +132,8 @@ public class User {
 				+ ", password=" + password + ", address=" + address + ", IDCN="
 				+ IDCN + ", telnum=" + telnum + ", email=" + email
 				+ ", u_status=" + u_status + ", code=" + code
-				+ ", activateTime=" + activateTime + "]";
+				+ ", activateTime=" + activateTime + ", u_permission="
+				+ u_permission + ", work=" + work + ", favour=" + favour + "]";
 	}
-	
 	
 }

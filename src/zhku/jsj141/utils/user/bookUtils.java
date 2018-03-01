@@ -138,4 +138,27 @@ public class bookUtils {
 		}
 		return false;
 	}
+	public boolean removeBook(String path,String type){//删除磁盘中存放的书本
+		String totalpath = DiskPath + managerPath + type + "\\";
+		String folder = path.substring(0, path.indexOf("\\"));//获取文件夹名（可能有重名）
+		try{
+			FileUtils.forceDelete(new File(totalpath+folder));
+			return true;
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean moveBook(String path,String type,String newType){//移动磁盘中存放的书本
+		String totalpath = DiskPath + managerPath + type + "\\";
+		String totalpath2 = DiskPath + managerPath + newType + "\\";
+		try{
+			FileUtils.moveDirectoryToDirectory(new File(totalpath+path), new File(totalpath2), true);//测试一下
+			return true;
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
 }

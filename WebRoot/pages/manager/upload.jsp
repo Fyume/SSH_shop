@@ -88,42 +88,6 @@
 			</c:otherwise>
 		</c:choose>
 	</div>
-	<div class="classify_st" id="classify_st" onmouseover="classifyon()"
-		onmouseout="classifyoff()">
-		<c:forEach items="${sessionScope.typelist }" var="type"
-			varStatus="num">
-			<div>
-
-				<div class="class_title" style="border-right:1px #c0c0c0 solid"
-					onmouseover="classUl${num.count}on()"
-					onmouseout="classUl${num.count}off()">
-					<a
-						href="${pageContext.request.contextPath}/bookAction_selectB?type=${type.type}">${type.type }</a>
-				</div>
-
-			</div>
-			<div id="class_ul${num.count}" class="class_ul${num.count}"
-				onmouseover="classUl${num.count}on()"
-				onmouseout="classUl${num.count}off()">
-
-				<c:set value="${fn:split(type.type_flag,';') }" var="type_flag"></c:set>
-				<c:forEach items="${type_flag }" var="flag" begin="0" end="5">
-					<ul>
-						<li>${flag }</li>
-					</ul>
-				</c:forEach>
-				<c:forEach items="${type_flag }" var="flag" begin="6" end="12">
-					<ul>
-						<li>${flag }</li>
-					</ul>
-				</c:forEach>
-			</div>
-		</c:forEach>
-		<div class="class_title"
-			style="background-color:red;border-right:1px #c0c0c0 solid">
-			用户作品
-		</div>
-	</div>
 	<c:if test="${!empty sessionScope.user}">
 	<input id="uploadResult" type="text" value="${requestScope.uploadResult}" style="display:none">
 	<div class="upload_form2">
@@ -163,20 +127,19 @@
 					<textarea name="description" class="desc_content" placeholder="输入概述"></textarea>
 				</div>
 			</div>
-			
 			<div style="margin-top:20px;">
 				<div class="upload_font">出版日期:</div>
-				<div style="margin-left:5px;width:310px;height:25px;">
-				<input type="text" id="year" name="year" class="date" style="width:40px;">年
-				<input type="text" id="month" name="month" class="date" style="width:30px;">月
-				<input type="text" id="day" name="day" class="date" style="width:30px;">日
-				<div style="font-size:12px;margin-left:190px;margin-top:-20px;color:blue">例如1990;1;2</div>
+				<div style="width:310px;height:25px;margin-left:-5px;">
+					<input type="text" id="year" name="year" class="date" style="width:40px;">年
+					<input type="text" id="month" name="month" class="date" style="width:30px;">月
+					<input type="text" id="day" name="day" class="date" style="width:30px;">日
+					<div style="font-size:12px;margin-left:190px;margin-top:-20px;color:blue">例如1990;1;2</div>
 				</div>
 			</div>
 			<div>
 				<div class="upload_font">ISBN:</div>
-				<div style="margin-left:5px;width:210px;height:25px;">
-				<input type="text" name="ISBN">
+				<div style="width:210px;height:25px;">
+					<input type="text" name="ISBN" style="width:60%;">
 				</div>
 			</div>
 			<br>
@@ -195,7 +158,7 @@
 			<div class="upload_button2">
 				<input type="submit" value="提交">
 			</div>
-			<div style="width:120px;height:30px;margin-left:-100px;margin-top:115px;">
+			<div style="width:120px;height:30px;margin-left:-100px;margin-top:110px;">
 				<a href="${pageContext.request.contextPath }/managerAction_getBook" style="color:blue;">修改上传书本信息</a>
 			</div>
 		</form>

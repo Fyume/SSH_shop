@@ -10,17 +10,25 @@ import zhku.jsj141.entity.user.User;
 
 public interface UserDao {
 
-	public abstract void setHibernateTemplate(
+	public void setHibernateTemplate(
 			HibernateTemplate hibernateTemplate);
 
-	public abstract Serializable add(User user);
+	public Serializable add(User user);
 
-	public abstract void update(User user);
+	public void update(User user);
 
-	public abstract List<User> select(User user, String name);
+	public List<User> select(User user, String name);
 
-	public abstract void delete(User user);
+	public void delete(User user);
 
-	public abstract void addF(Favour favour);
+	public void addF(Favour favour);
+
+	public List<User> findByIN(User user);
+
+	public List<User> findByINSP(User user);
+
+	public List<User> findByINS(User user);
+
+	public List<User> findByINP(User user);
 
 }

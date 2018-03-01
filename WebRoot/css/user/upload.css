@@ -80,7 +80,7 @@ div{
 }
 .desc_font{
 	margin-left:10px;
-	padding-top:10px;
+	padding-top:5px;
 	width:60px;
 	height:20px;
 	font-size:13px;
@@ -96,14 +96,19 @@ div{
 	margin-left:-58px;
 	width:100px;
 	height:40px; 
-	border:1px red solid;
 }
 .upload_button input{
 	width:100px;
 	height:40px;
 }
 .title_warning{
-	width:120px;height:20px;margin-left:-200px;margin-top:35px;color:red;font-size:13px;font-weight:500;
+	width:120px;
+	height:20px;
+	margin-left:-200px;
+	margin-top:35px;
+	color:red;
+	font-size:13px;
+	font-weight:500;
 }
 
 /********/
@@ -112,7 +117,7 @@ div{
 	height:500px;
 	border:1px #000000 solid;
 	box-shadow:2px 2px 2px #c0c0c0;
-	margin-top:80px;
+	margin-top:60px;
 	margin-left:400px;
 	background-color: #ffffff;
 }
@@ -122,16 +127,18 @@ div{
 }
 .upload_font{
 	margin-top:5px;
+	margin-left:5px;
 	width:85px;
 	height:25px;
 }
 .upload_button2{
 	margin-top:70px;
-	margin-left:0px;
+	margin-left:5px;
 	width:100px;
 	height:40px; 
 }
 .upload_button2 input{
+	margin-left:5px;
 	width:100px;
 	height:40px;
 }

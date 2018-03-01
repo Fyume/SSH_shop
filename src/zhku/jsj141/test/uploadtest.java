@@ -98,7 +98,7 @@ public class uploadtest extends ActionSupport {
 		}*/
 		/*String str = "D:111.txt";*/
 		String str = "D:\\111.txt";
-		int a = str.indexOf(".");
+		int a = str.indexOf("\\");
 		str = str.substring(0,a);
 		System.out.println(str+a);
 		/*System.out.println(file.listFiles()==null);//不是文件夹

@@ -98,4 +98,14 @@ public class BookDaoImpl implements BookDao{
 		List<Type> list = (List<Type>) hibernateTemplate.find("from Type");
 		return list;
 	}
+	@Override
+	public boolean delete(Book book){
+		try{
+			hibernateTemplate.delete(book);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 }

@@ -15,8 +15,12 @@ function start(msg) {
 		},
 	});
 }
-function login(path){
-	window.location.href=path+"/pages/user/login.jsp";
+function login(user,path){
+	if(user){//没登陆
+		window.location.href=path+"/pages/user/login.jsp";
+	}else{
+		window.location.href=path+"/pages/user/User.jsp";
+	}
 }
 function classifyon() {
 	$("#classify_st").css("display", "inline");
