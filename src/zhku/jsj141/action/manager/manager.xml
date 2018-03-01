@@ -13,6 +13,7 @@
 	<property name="managerService" ref="managerService"></property>
 	<property name="userService" ref="userService"></property>
 	<property name="bookService" ref="bookService"></property>
+	<property name="bookUtils" ref="butils"></property>
 </bean>
 <bean id="managerService" class="zhku.jsj141.service.Impl.ManagerServiceImpl">
 	<property name="managerDao" ref="managerDao"></property>

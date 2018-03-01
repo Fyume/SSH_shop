@@ -69,4 +69,18 @@ public class UserServiceImpl implements UserService{
 		userDao.addF(favour);
 		return false;
 	}
+	@Override
+	public List<User> finds(User user,int status,int permission){
+		List<User> list = null;
+		if(status==2&&permission==2){
+			list = userDao.findByIN(user);
+		}else if(status==2&&permission!=2){
+			list = userDao.findByINP(user);
+		}else if(status!=2&&permission==2){
+			list = userDao.findByINS(user);
+		}else{
+			list = userDao.findByINSP(user);
+		}
+		return list;
+	}
 }

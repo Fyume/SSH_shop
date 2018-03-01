@@ -25,4 +25,6 @@ public interface BookDao {
 
 	public abstract List<Book> selectAll();
 
+	public abstract boolean delete(Book book);
+
 }

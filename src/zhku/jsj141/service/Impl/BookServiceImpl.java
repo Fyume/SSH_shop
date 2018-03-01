@@ -59,4 +59,9 @@ public class BookServiceImpl implements BookService {
 		List<Type> list = bookDao.selectT();
 		return list;
 	}
+	@Override
+	public boolean delete(Book book){
+		boolean rs = bookDao.delete(book);
+		return rs;
+	}
 }

@@ -126,10 +126,6 @@
 					style="display:none">
 			</c:otherwise>
 		</c:choose>
-
-		<div class="function_div">
-			<a href="${pageContext.request.contextPath}/pages/index.jsp">返回主页</a>
-		</div>
 		<div class="function_div">
 		<c:choose>
 			<c:when test="${empty sessionScope.work }">
@@ -141,7 +137,9 @@
 				href="${pageContext.request.contextPath}/uesrAction_addF?wid=${sessionScope.work.wid }&page=${num.count }">添加收藏</a>
 			</c:otherwise>
 		</c:choose>
-			
+		</div>
+		<div class="function_div">
+			<a href="${pageContext.request.contextPath}/pages/index.jsp">返回主页</a>
 		</div>
 	</div>
 </body>
