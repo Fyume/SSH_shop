@@ -1,7 +1,6 @@
 package zhku.jsj141.action.manager;
 
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +17,6 @@ import zhku.jsj141.service.ManagerService;
 import zhku.jsj141.service.UserService;
 import zhku.jsj141.utils.user.bookUtils;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.opensymphony.xwork2.ActionSupport;
 
