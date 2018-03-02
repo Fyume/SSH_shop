@@ -133,7 +133,7 @@ public class User {
 				+ IDCN + ", telnum=" + telnum + ", email=" + email
 				+ ", u_status=" + u_status + ", code=" + code
 				+ ", activateTime=" + activateTime + ", u_permission="
-				+ u_permission + ", work=" + work + ", favour=" + favour + "]";
+				+ u_permission + "]";
 	}
 	
 }

@@ -169,7 +169,7 @@ public class ManagerAction extends ActionSupport {
 		}
 		return "goto_edit";
 	}
-	public String select_B() throws Exception{
+	public String select_U() throws Exception{//筛选用户信息
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
 		String json = (String)request.getParameter("json");
@@ -198,6 +198,71 @@ public class ManagerAction extends ActionSupport {
 			System.out.println(user2.toString());
 		}*/
 		request.getSession().setAttribute("userlist", list);
+		JSONObject jobj = new JSONObject();
+		jobj.put("select_U", true);
+		PrintWriter out = response.getWriter();
+		out.print(jobj.toString());
+		out.flush();
+		out.close();
+		return "goto_edit";
+	}
+	public String select_B() throws Exception{//筛选书本信息
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		String json = (String)request.getParameter("json");
+		JSONObject jsonobj = JSONObject.parseObject(json);
+		int bid = -1;
+		int year1 = 0;
+		int month1 = 0;
+		int date1 = 0;
+		int year2 = 0;
+		int month2 = 0;
+		int date2 = 0;
+		if((String) jsonobj.get("uid")!=""){
+			bid = Integer.parseInt((String) jsonobj.get("uid"));
+		}
+		String bname = (String) jsonobj.get("bname");
+		String ISBN = (String) jsonobj.get("ISBN");
+		if((String) jsonobj.get("year1")!=""){
+			year1 = Integer.parseInt((String) jsonobj.get("year1"));
+		}
+		if((String) jsonobj.get("month1")!=""){
+			month1 = Integer.parseInt((String) jsonobj.get("month1"));
+		}
+		if((String) jsonobj.get("date1")!=""){
+			date1 = Integer.parseInt((String) jsonobj.get("date1"));
+		}
+		if((String) jsonobj.get("year2")!=""){
+			year2 = Integer.parseInt((String) jsonobj.get("year2"));
+		}
+		if((String) jsonobj.get("month2")!=""){
+			month2 = Integer.parseInt((String) jsonobj.get("month2"));
+		}
+		if((String) jsonobj.get("date2")!=""){
+			date2 = Integer.parseInt((String) jsonobj.get("date2"));
+		}
+		long time1 = new Date(year1, month1, date1).getTime()/(1000*60*60);
+		if(time1<0){
+			time1=0;
+		}
+		long time2 = new Date(year2, month2, date2).getTime()/(1000*60*60);
+		if(time2<0){
+			time2=0;
+		}
+		String author = (String) jsonobj.get("author");
+		String type = (String) jsonobj.get("type");
+		Book book1 = new Book();
+		Book book2 = new Book();
+		book1.setBid(bid);
+		book1.setBname(bname);
+		book1.setISBN(ISBN);
+		book1.setPublish(time1);//小
+		book2.setPublish(time2);//大
+		book1.setAuthor(author);
+		book1.setType(type);
+		System.out.println("book1: "+book1.toString()+"\nbook2: "+book2.toString());
+		List<Book> list = bookService.finds(book1,book2);
+		request.getSession().setAttribute("booklist", list);
 		JSONObject jobj = new JSONObject();
 		jobj.put("select_B", true);
 		PrintWriter out = response.getWriter();

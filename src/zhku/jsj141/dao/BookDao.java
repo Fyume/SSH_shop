@@ -27,4 +27,6 @@ public interface BookDao {
 
 	public abstract boolean delete(Book book);
 
+	public abstract List<Book> findByINIPAT(Book book1, Book book2);
+	
 }

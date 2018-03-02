@@ -197,6 +197,7 @@ function checkPublish(num) {
 function checkForm() {
 	$("#image")[0].click();
 }
+//用户筛选部分
 function u_select() {
 	if ($("#u_select").css("display") == "block") {
 		$("#u_select").css("display", "none");
@@ -213,6 +214,49 @@ function select_u(){
 			username : $("#slt_name").val(),
 			u_status : $("#slt_status").val(),
 			u_permission : $("#slt_permission").val()
+	}
+	$.ajax({
+		url : '/SSH_test/managerAction_select_U',
+		type : "POST",
+		timeout : 1000,
+		data : {
+			json : JSON.stringify(json)
+		},
+		async : false,// 取消异步请求
+		dataType : "json",
+		cache : false,
+		success : function () {// 返回时的方法
+			window.location.href='/SSH_test/pages/manager/edit.jsp';
+		},
+		error : function(){
+			alert("错误");
+		}
+	});
+}
+//书本筛选部分
+function b_select() {
+	if ($("#b_select").css("display") == "block") {
+		$("#b_select").css("display", "none");
+		$("#slt_flag2").attr("class", "glyphicon glyphicon-chevron-down");
+	} else {
+		$("#b_select").css("display", "block");
+		$("#slt_flag2").attr("class", "glyphicon glyphicon-chevron-up");
+	}
+	// alert($("#u_select").css("display"));
+}
+function select_b(){
+	var json = {
+			bid : $("#slt_bid").val(),
+			bname : $("#slt_bname").val(),
+			ISBN : $("#slt_ISBN").val(),
+			year1 : $("#slt_year1").val(),
+			month1 : $("#slt_month1").val(),
+			date1 : $("#slt_date1").val(),
+			year2 : $("#slt_year2").val(),
+			month2 : $("#slt_month2").val(),
+			date2 : $("#slt_date2").val(),
+			author : $("#slt_author").val(),
+			type : $("#slt_type").val()
 	}
 	$.ajax({
 		url : '/SSH_test/managerAction_select_B',

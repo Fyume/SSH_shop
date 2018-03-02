@@ -100,18 +100,18 @@
 							筛选<span id="slt_flag" class="glyphicon glyphicon-chevron-down" style="margin-left:2px;"></span>
 						</div>
 						<div class="font2-font">用户ID</div>
-						<div id="u_select" class="font2_select">
+						<div id="u_select" class="font2_select1">
 							<input id="slt_id" type="text" placeholder="筛选条件">
 							<input id="slt_name" type="text" placeholder="筛选条件">
 							<select id="slt_status" >
 								<option value="0">未激活</option>
 								<option value="1">已激活</option>
-								<option value="2">无</option>
+								<option value="2">所有状态</option>
 							</select>
 							<select id="slt_permission" >
 								<option value="0">普通用户</option>
 								<option value="1">管理员</option>
-								<option value="2">无</option>
+								<option value="2">所有权限</option>
 							</select>
 							<div class="f2s_button" onclick="select_u()">
 								<span
@@ -254,6 +254,9 @@
 					onmouseover="showPublish('${param.page }')">
 					<div id="T-header" class="T-header">图 书 管 理</div>
 					<div id="T-font" class="T-font">
+						<div class="select_div" onclick="b_select()">
+							筛选<span id="slt_flag2" class="glyphicon glyphicon-chevron-down" style="margin-left:2px;"></span>
+						</div>
 						<div class="font-font">书本ID</div>
 						<div class="font-font">书名</div>
 						<div class="font-font">ISBN</div>
@@ -263,6 +266,32 @@
 						<div class="font-font">类型</div>
 						<div class="font-font3">图片</div>
 						<div class="font-font2">操作</div>
+						<div id="b_select" class="font2_select2">
+							<input id="slt_bid" type="text" placeholder="书本ID">
+							<input id="slt_bname" type="text" placeholder="书名">
+							<input id="slt_ISBN" type="text" placeholder="ISBN">
+							<div class="s2_time">
+								<input id="slt_year1" type="text" onchange="return checkPublish('${num.count }');" placeholder="1999">年
+								<input id="slt_month1" type="text" onchange="return checkPublish('${num.count }');" placeholder="1" style="width:6.5%">月
+								<input id="slt_date1" type="text" onchange="return checkPublish('${num.count }');" placeholder="1" style="width:6.5%">日
+								至
+								<input id="slt_year2" type="text" onchange="return checkPublish('${num.count }');" placeholder="1999">年
+								<input id="slt_month2" type="text" onchange="return checkPublish('${num.count }');" placeholder="1" style="width:6.5%">月
+								<input id="slt_date2" type="text" onchange="return checkPublish('${num.count }');" placeholder="1" style="width:6.5%">日
+							</div>
+							<input id="slt_author" type="text" placeholder="作者" style="margin-left:310px;">
+							<select id="slt_type">
+								<option value="网络小说">网络小说</option>
+								<option value="文学作品">文学作品</option>
+								<option value="社会科学">社会科学</option>
+								<option value="*">所有</option>
+							</select>
+							<div class="f2s_button" onclick="select_b()">
+								<span
+									class="glyphicon glyphicon-search"
+									style="margin-left:20px;font-size:20px;color:black;"> 筛选</span>
+							</div>
+						</div>
 					</div>
 					<div class="T-center">
 						<c:choose>

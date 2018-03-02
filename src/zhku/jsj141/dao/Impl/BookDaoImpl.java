@@ -2,6 +2,7 @@ package zhku.jsj141.dao.Impl;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -107,5 +108,17 @@ public class BookDaoImpl implements BookDao{
 			return false;
 		}
 		return true;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Book> findByINIPAT(Book book1, Book book2){//不定项筛选
+		List<Book> list = null;
+		if(book2.getPublish()!=0){
+			list = (List<Book>) hibernateTemplate.find("from Book where bid like ? and bname like ? and ISBN like ? and publish >= ? and publish <= ? and author like ? and type = ?", book1.getBid(),book1.getBname(),book1.getISBN(),book1.getPublish(),book2.getPublish(),book1.getAuthor(),book1.getType());
+		}else{
+			list = (List<Book>) hibernateTemplate.find("from Book where bid like ? and bname like ? and ISBN like ? and publish >= ? and author like ? and type = ?", book1.getBid(),book1.getBname(),book1.getISBN(),book1.getPublish(),book1.getAuthor(),book1.getType());
+		}
+		
+		return list;
 	}
 }

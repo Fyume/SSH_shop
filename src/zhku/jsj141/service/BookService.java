@@ -29,4 +29,6 @@ public interface BookService {
 
 	public abstract boolean delete(Book book);
 
+	public abstract List<Book> finds(Book book1, Book book2);
+
 }

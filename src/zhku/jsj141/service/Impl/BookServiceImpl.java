@@ -64,4 +64,10 @@ public class BookServiceImpl implements BookService {
 		boolean rs = bookDao.delete(book);
 		return rs;
 	}
+	@Override
+	public List<Book> finds(Book book1, Book book2){
+		List<Book> list = null;
+		list = bookDao.findByINIPAT(book1,book2);
+		return list;
+	}
 }
