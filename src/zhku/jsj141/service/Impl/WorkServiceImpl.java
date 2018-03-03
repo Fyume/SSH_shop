@@ -39,11 +39,16 @@ public class WorkServiceImpl implements WorkService {
 	@Override
 	public boolean update(Work work) {
 		workDao.update(work);
-		return false;
+		return true;
 	}
 	@Override
 	public List<Work> findAll(){
 		List<Work> list = workDao.selectAll();
 		return list;
+	}
+	@Override
+	public boolean delete(Work work){
+		boolean rs = workDao.delete(work);
+		return rs;
 	}
 }

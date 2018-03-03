@@ -13,7 +13,6 @@ import zhku.jsj141.entity.user.Work;
 
 public class WorkDaoImpl implements WorkDao {
 	private HibernateTemplate hibernateTemplate;
-	@Override
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 		this.hibernateTemplate = hibernateTemplate;
 	}
@@ -91,5 +90,15 @@ public class WorkDaoImpl implements WorkDao {
 			e.printStackTrace();
 		}
 		return list;
+	}
+	@Override
+	public boolean delete(Work work){
+		try{
+			hibernateTemplate.delete(work);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 }

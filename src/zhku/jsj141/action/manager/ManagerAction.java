@@ -12,10 +12,13 @@ import org.apache.struts2.ServletActionContext;
 import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
+import zhku.jsj141.entity.user.Work;
 import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.ManagerService;
 import zhku.jsj141.service.UserService;
+import zhku.jsj141.service.WorkService;
 import zhku.jsj141.utils.user.bookUtils;
+import zhku.jsj141.utils.user.workUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.opensymphony.xwork2.ActionSupport;
@@ -24,7 +27,9 @@ public class ManagerAction extends ActionSupport {
 	private ManagerService managerService;
 	private UserService userService;
 	private BookService bookService;
+	private WorkService workService;
 	private bookUtils bookUtils;
+	private workUtils workUtils;
 	
 	public ManagerService getManagerService() {
 		return managerService;
@@ -50,6 +55,14 @@ public class ManagerAction extends ActionSupport {
 		this.bookService = bookService;
 	}
 	
+	public WorkService getWorkService() {
+		return workService;
+	}
+
+	public void setWorkService(WorkService workService) {
+		this.workService = workService;
+	}
+
 	public bookUtils getBookUtils() {
 		return bookUtils;
 	}
@@ -135,11 +148,24 @@ public class ManagerAction extends ActionSupport {
 		}
 		return "goto_edit";
 	}
-	public String delete_U() throws Exception{
+	public String delete_U() throws Exception{//删除用户信息
 		HttpServletRequest request = ServletActionContext.getRequest();
 		User user = new User();
 		String uid = (String)request.getParameter("uid");
 		if(uid!=""){
+			user.setUid(uid);
+			Work work = new Work();
+			work.setAuthor(uid);
+			List<Work> list = workService.find(work, "author");
+			if(list!=null){//如果有作品，把作品信息也删了
+				workUtils.removeWork(uid);//磁盘
+				for (Work work2 : list) {//数据库
+					boolean rs = workService.delete(work2);
+					/*if(!rs){
+						request.setAttribute("w_deleteRs", "删除作品期间出错了");
+					}*/
+				}
+			}
 			userService.delete(user);
 		}
 		return "goto_edit";
@@ -209,36 +235,15 @@ public class ManagerAction extends ActionSupport {
 		HttpServletResponse response = ServletActionContext.getResponse();
 		String json = (String)request.getParameter("json");
 		JSONObject jsonobj = JSONObject.parseObject(json);
-		int bid = -1;
-		int year1 = 0;
-		int month1 = 0;
-		int date1 = 0;
-		int year2 = 0;
-		int month2 = 0;
-		int date2 = 0;
-		if((String) jsonobj.get("uid")!=""){
-			bid = Integer.parseInt((String) jsonobj.get("uid"));
-		}
+		int bid = (int) jsonobj.get("bid");
 		String bname = (String) jsonobj.get("bname");
 		String ISBN = (String) jsonobj.get("ISBN");
-		if((String) jsonobj.get("year1")!=""){
-			year1 = Integer.parseInt((String) jsonobj.get("year1"));
-		}
-		if((String) jsonobj.get("month1")!=""){
-			month1 = Integer.parseInt((String) jsonobj.get("month1"));
-		}
-		if((String) jsonobj.get("date1")!=""){
-			date1 = Integer.parseInt((String) jsonobj.get("date1"));
-		}
-		if((String) jsonobj.get("year2")!=""){
-			year2 = Integer.parseInt((String) jsonobj.get("year2"));
-		}
-		if((String) jsonobj.get("month2")!=""){
-			month2 = Integer.parseInt((String) jsonobj.get("month2"));
-		}
-		if((String) jsonobj.get("date2")!=""){
-			date2 = Integer.parseInt((String) jsonobj.get("date2"));
-		}
+		int year1 = Integer.valueOf((String) jsonobj.get("year1"));
+		int month1 =Integer.valueOf((String)jsonobj.get("month1"));
+		int date1 = Integer.valueOf((String)jsonobj.get("date1"));
+		int year2 = Integer.valueOf((String) jsonobj.get("year2"));
+		int month2 =Integer.valueOf((String)jsonobj.get("month2"));
+		int date2 = Integer.valueOf((String)jsonobj.get("date2"));
 		long time1 = new Date(year1, month1, date1).getTime()/(1000*60*60);
 		if(time1<0){
 			time1=0;

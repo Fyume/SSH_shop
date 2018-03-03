@@ -101,8 +101,8 @@
 						</div>
 						<div class="font2-font">用户ID</div>
 						<div id="u_select" class="font2_select1">
-							<input id="slt_id" type="text" placeholder="筛选条件">
-							<input id="slt_name" type="text" placeholder="筛选条件">
+							<input id="slt_id" type="text" placeholder="筛选条件" onchange="return checkUid()">
+							<input id="slt_name" type="text" placeholder="筛选条件" onchange="return checkUname()">
 							<select id="slt_status" >
 								<option value="0">未激活</option>
 								<option value="1">已激活</option>
@@ -267,25 +267,24 @@
 						<div class="font-font3">图片</div>
 						<div class="font-font2">操作</div>
 						<div id="b_select" class="font2_select2">
-							<input id="slt_bid" type="text" placeholder="书本ID">
-							<input id="slt_bname" type="text" placeholder="书名">
-							<input id="slt_ISBN" type="text" placeholder="ISBN">
-							<div class="s2_time">
-								<input id="slt_year1" type="text" onchange="return checkPublish('${num.count }');" placeholder="1999">年
-								<input id="slt_month1" type="text" onchange="return checkPublish('${num.count }');" placeholder="1" style="width:6.5%">月
-								<input id="slt_date1" type="text" onchange="return checkPublish('${num.count }');" placeholder="1" style="width:6.5%">日
-								至
-								<input id="slt_year2" type="text" onchange="return checkPublish('${num.count }');" placeholder="1999">年
-								<input id="slt_month2" type="text" onchange="return checkPublish('${num.count }');" placeholder="1" style="width:6.5%">月
-								<input id="slt_date2" type="text" onchange="return checkPublish('${num.count }');" placeholder="1" style="width:6.5%">日
-							</div>
+							<input id="slt_bid" type="text" placeholder="书本ID" onchange="return checkBid()">
+							<input id="slt_bname" type="text" placeholder="书名" onchange="return checkBname()">
+							<input id="slt_ISBN" type="text" placeholder="ISBN" onchange="return checkISBN()">
 							<input id="slt_author" type="text" placeholder="作者" style="margin-left:310px;">
 							<select id="slt_type">
 								<option value="网络小说">网络小说</option>
 								<option value="文学作品">文学作品</option>
 								<option value="社会科学">社会科学</option>
-								<option value="*">所有</option>
+								<option value="">所有</option>
 							</select>
+							日期: 
+							<input id="slt_year1" type="text" placeholder="1999" onchange="return checkYear(1)">年
+							<input id="slt_month1" type="text" placeholder="1" style="width:6.5%" onchange="return checkMonth(1)">月
+							<input id="slt_date1" type="text" placeholder="1" style="width:6.5%" onchange="return checkDate(1)">日
+							至
+							<input id="slt_year2" type="text" placeholder="1999" onchange="return checkYear(2)">年
+							<input id="slt_month2" type="text" placeholder="1" style="width:6.5%" onchange="return checkMonth(2)">月
+							<input id="slt_date2" type="text" placeholder="1" style="width:6.5%" onchange="return checkDate(2)">日
 							<div class="f2s_button" onclick="select_b()">
 								<span
 									class="glyphicon glyphicon-search"
@@ -442,13 +441,15 @@
 				src="${ pageContext.request.contextPath}/images/bookImg/5031868592.jpg"
 				alt="书本封面大图"
 				onclick="disapper('${ pageContext.request.contextPath}')">
-			<div
-				style="position:absolute;width:100px;height:30px;left:45%;top:0;">
+			<span style="width:10%;height:10%;margin-top:-45%;color:white;font-size:15px;font-weight:700;">点击图片回到回到原来页面</span>
+			<div style="position:absolute;width:200px;height:30px;left:43%;top:0;">
 				<form id="ImageForm" style="display:none;">
-					<input id="image" name="image" type="file" accept="image/*">
+					<input id="image" name="image" type="file" accept="image/*" onchange="alt_btn()">
 				</form>
-				<input type="button" style="width:100%;height:100%;" value="修改封面"
+				<input type="button" style="width:48%;height:100%;" value="修改封面"
 					onclick="checkForm()">
+				<input id="alt_btn" type="button" style="width:48%;height:100%;display:none" value="确认修改"
+					onclick="update_Img()">
 			</div>
 		</div>
 	</c:if>

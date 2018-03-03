@@ -17,6 +17,8 @@
  		<property name="code"></property>
  		<property name="activateTime"></property>
  		<property name="u_permission"></property>
+ 		<property name="ps_false"></property>
+ 		<property name="ps_time"></property>
  		<set name="work">
  			<key column="author"></key>
  			<one-to-many class="zhku.jsj141.entity.user.Work"/>

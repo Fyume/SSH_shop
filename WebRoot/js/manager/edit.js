@@ -113,6 +113,19 @@ function adjust() {// 修改大图的比例
 	}
 }
 function disapper(path) {// 恢复正常视图 假如需要修改图片 则弹出询问框
+	$("#image")[0].value = "";// 清空选择的文件
+	$("#alt_btn").css("display","none");
+	$("#B-I").css("display", "none");
+}
+function alt_btn(){
+	var str = $("#image")[0].value;
+	if (str != "") {
+		$("#alt_btn").css("display","inline");
+	}else{
+		$("#alt_btn").css("display","none");
+	}
+}
+function update_Img(){
 	var str = $("#image")[0].value;
 	if (str != "") {
 		var point = str.indexOf(".");
@@ -160,9 +173,8 @@ function disapper(path) {// 恢复正常视图 假如需要修改图片 则弹�
 			}
 		}
 	}
-	$("#image")[0].value = "";// 清空选择的文件
-	$("#B-I").css("display", "none");
 }
+
 function showPublish(page) {
 	if (page == "" || page == null) {
 		var num = 1;
@@ -197,7 +209,7 @@ function checkPublish(num) {
 function checkForm() {
 	$("#image")[0].click();
 }
-//用户筛选部分
+// 用户筛选部分
 function u_select() {
 	if ($("#u_select").css("display") == "block") {
 		$("#u_select").css("display", "none");
@@ -208,12 +220,12 @@ function u_select() {
 	}
 	// alert($("#u_select").css("display"));
 }
-function select_u(){
+function select_u() {
 	var json = {
-			uid : $("#slt_id").val(),
-			username : $("#slt_name").val(),
-			u_status : $("#slt_status").val(),
-			u_permission : $("#slt_permission").val()
+		uid : $("#slt_id").val(),
+		username : $("#slt_name").val(),
+		u_status : $("#slt_status").val(),
+		u_permission : $("#slt_permission").val()
 	}
 	$.ajax({
 		url : '/SSH_test/managerAction_select_U',
@@ -225,15 +237,15 @@ function select_u(){
 		async : false,// 取消异步请求
 		dataType : "json",
 		cache : false,
-		success : function () {// 返回时的方法
-			window.location.href='/SSH_test/pages/manager/edit.jsp';
+		success : function() {// 返回时的方法
+			window.location.href = '/SSH_test/pages/manager/edit.jsp';
 		},
-		error : function(){
+		error : function() {
 			alert("错误");
 		}
 	});
 }
-//书本筛选部分
+// 书本筛选部分
 function b_select() {
 	if ($("#b_select").css("display") == "block") {
 		$("#b_select").css("display", "none");
@@ -244,35 +256,170 @@ function b_select() {
 	}
 	// alert($("#u_select").css("display"));
 }
-function select_b(){
-	var json = {
-			bid : $("#slt_bid").val(),
+function select_b() {
+	var bid = $("#slt_bid").val();
+	if (bid == "") {
+		bid = -1;
+	}
+	var arr = [ $("#slt_year1").val(), $("#slt_month1").val(),
+				$("#slt_date1").val(), $("#slt_year2").val(),
+				$("#slt_month2").val(), $("#slt_date2").val() ];
+	if (checkBook(arr)) {
+		var json = {
+			bid : bid,
 			bname : $("#slt_bname").val(),
 			ISBN : $("#slt_ISBN").val(),
-			year1 : $("#slt_year1").val(),
-			month1 : $("#slt_month1").val(),
-			date1 : $("#slt_date1").val(),
-			year2 : $("#slt_year2").val(),
-			month2 : $("#slt_month2").val(),
-			date2 : $("#slt_date2").val(),
+			year1 : arr[0],
+			month1 : arr[1],
+			date1 : arr[2],
+			year2 : arr[3],
+			month2 : arr[4],
+			date2 : arr[5],
 			author : $("#slt_author").val(),
 			type : $("#slt_type").val()
-	}
-	$.ajax({
-		url : '/SSH_test/managerAction_select_B',
-		type : "POST",
-		timeout : 1000,
-		data : {
-			json : JSON.stringify(json)
-		},
-		async : false,// 取消异步请求
-		dataType : "json",
-		cache : false,
-		success : function () {// 返回时的方法
-			window.location.href='/SSH_test/pages/manager/edit.jsp';
-		},
-		error : function(){
-			alert("错误");
 		}
-	});
+		$.ajax({
+			url : '/SSH_test/managerAction_select_B',
+			type : "POST",
+			timeout : 1000,
+			data : {
+				json : JSON.stringify(json)
+			},
+			async : false,// 取消异步请求
+			dataType : "json",
+			cache : false,
+			success : function() {// 返回时的方法
+				window.location.href = '/SSH_test/pages/manager/edit.jsp';
+			},
+			error : function() {
+				alert("筛选出错");
+			}
+		});
+	}
+}
+function checkTime(arr) {
+	for (var i = 0; i < arr.length; i++) {
+		if (arr[i] == "") {
+			arr[i] = "0";
+		}
+	}
+	var time1 = new Date(arr[0], arr[1], arr[2]).getTime();
+	var time2 = new Date(arr[3], arr[4], arr[5]).getTime();
+	var time3 = new Date(0,0,0).getTime();
+	if(time1>=time3&&time2>=time3){
+		if (time1 <= time2||time2==time3) {
+			return true;
+		}
+	}
+	alert("日期错误！");
+	return false;
+}
+function checkUser() {// 统一检查user筛选条件
+	if (checkUid() == true && checkUname() == true) {
+		return true;
+	}
+	return false;
+}
+function checkBook(arr1) {// 统一检查book筛选条件
+	var arr = [ checkBid(), checkBname(), checkISBN(), checkYear(1),
+			checkMonth(1), checkDate(1), checkYear(2), checkMonth(2),
+			checkDate(2), checkTime(arr1) ];
+	var j = 0;
+	for (var i = 0; i < arr.length; i++) {
+		if (arr[i] == true) {
+			j++;
+		}
+	}
+	if (j == arr.length) {
+		return true;
+	}
+	return false;
+}
+function checkUid() {
+	var str = /[a-zA-Z0-9_]{0,16}/;
+	if ($("#slt_id").val() != "") {
+		if ($("#slt_id").val().match(str) == null) {
+			alert("由0到16位数字字母下划线组成！");
+			return false;
+		}
+	}
+	return true;
+}
+function checkUname() {
+	var str = /^[\u4E00-\u9FA5]{2,4}$/;// 2个到4个中文
+	if ($("#slt_name").val() != "") {
+		if (str.test($("#slt_name").val()) == false) {
+			alert("由2-4个中文组成！");
+			$("#slt_name").focus();
+			return false;
+		}
+	}
+	return true;
+}
+function checkBid() {
+	var str = /[0-9]{0,16}/;
+	if ($("#slt_bid").val() != "") {
+		if ($("#slt_bid").val().match(str) == null) {
+			alert("由0到16位数字组成！");
+			$("#slt_id").focus();
+			return false;
+		}
+	}
+	return true;
+}
+function checkBname() {
+	var str = /^[a-zA-Z0-9\u4e00-\u9fa5 ]{1,20}$/;// 1到20个中文字母数字
+	if ($("#slt_bname").val() != "") {
+		if (str.test($("#slt_bname").val()) == false) {
+			alert("书名填写有误");
+			$("#slt_bname").focus();
+			return false;
+		}
+	}
+	return true;
+}
+function checkISBN() {
+	var str = /^[0-9]*$/;
+	if ($("#slt_ISBN").val() != "") {
+		if (str.test($("#slt_ISBN").val()) == false) {
+			alert("ISBN填写有误");
+			$("#slt_ISBN").focus();
+			return false;
+		}
+	}
+	return true;
+}
+function checkYear(num) {
+	var str = /^\d{4}$/;
+	if ($("#slt_year" + num).val() != "") {
+		if (str.test($("#slt_year" + num).val()) == false) {
+			alert("第"+num+"个年份填写有误");
+			$("#slt_year" + num).focus();
+			return false;
+		}
+	}
+	return true;
+}
+function checkMonth(num) {
+	var str = /^\d{1,2}$/;
+	if ($("#slt_month" + num).val() != "") {
+		if (str.test($("#slt_month" + num).val()) == false) {
+			alert("第"+num+"个月份填写有误");
+			$("#slt_month" + num).focus();
+			return false;
+		}
+	}
+	return true;
+
+}
+function checkDate(num) {
+	var str = /^\d{1,2}$/;
+	if ($("#slt_date" + num).val() != "") {
+		if (str.test($("#slt_date" + num).val()) == false) {
+			alert("第"+num+"个日子填写有误");
+			$("#slt_date" + num).focus();
+			return false;
+		}
+	}
+	return true;
 }

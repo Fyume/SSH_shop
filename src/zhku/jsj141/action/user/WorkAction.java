@@ -170,10 +170,6 @@ public class WorkAction extends ActionSupport {
 		System.out.println("flag:"+flag);
 		Work work = new Work();
 		if(message!=null&&flag!=null){
-			/*String Flag = flag.substring(0, 1).toUpperCase()+flag.substring(1,flag.length());
-			book.getClass().getMethod("set" + Flag).invoke(book,message);
-			System.out.println(book.getClass().getMethod("get" + Flag)
-							.invoke(book));*/
 			if(flag.equals("wname")){
 				work.setWname(message);
 			}

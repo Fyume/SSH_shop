@@ -51,8 +51,8 @@ public class workUtils {
 
 	// 用户上传作品(标题不允许重复)
 	public String uploadbook_U(File upload, String uid,
-			String uploadContentType, String bname) {
-		String totalpath = DiskPath + userPath + uid + "\\" + bname;// 每个用户拥有自己的文件夹存放自己的作品,不进行分类了
+			String uploadContentType, String wname) {
+		String totalpath = DiskPath + userPath + uid + "\\" + wname;// 每个用户拥有自己的文件夹存放自己的作品,不进行分类了
 		File dir = new File(totalpath);
 		String ctype = null;// 文件后缀
 		if (upload != null) {
@@ -74,7 +74,7 @@ public class workUtils {
 								.substring(time.length() - 10, time.length());// 保留后10位的时间戳
 						FileUtils.moveFile(upload, new File(dir, uid + time
 								+ ctype));// 存放到磁盘的时候重新命名，以免重复
-						return bname + "\\" + uid + time + ctype;// 返回部分路径名
+						return wname + "\\" + uid + time + ctype;// 返回部分路径名
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -118,6 +118,28 @@ public class workUtils {
 	public boolean removeWorkI(String path){//删除磁盘中存放的封面
 		try{
 			FileUtils.forceDelete(new File(FimagePath+"\\"+path));
+			return true;
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	//删除磁盘中的某个用户作品
+	public boolean removeWork(String uid,String wname){
+		String totalpath = DiskPath + userPath + uid;
+		try{
+			FileUtils.forceDelete(new File(totalpath+"\\"+wname));
+			return true;
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+		return false;
+	}
+	//删除磁盘中的所有用户作品
+	public boolean removeWork(String uid){
+		String totalpath = DiskPath + userPath + uid;
+		try{
+			FileUtils.forceDelete(new File(totalpath));
 			return true;
 		}catch(IOException e){
 			e.printStackTrace();

@@ -87,7 +87,7 @@ public class UserAction extends ActionSupport {
 		String code = String.valueOf(System.currentTimeMillis());
 		code = code.substring(code.length() - 8, code.length());
 		User user = new User(uid, username, name, password, address, IDCN,
-				telnum, email, code);
+				telnum, email, code,0,0);
 		System.out.println(user.toString());
 		if (user != null) {
 			userService.add(user);
@@ -280,26 +280,43 @@ public class UserAction extends ActionSupport {
 				System.out.println(user.toString());
 				if (user.getUid() != null) {// 有这个用户
 					if (user.isU_status()) {// 已激活
-						String rpassword = user.getPassword();
-						if (rpassword.equals(password)) {
-							request.getSession().setAttribute("user", user);
-							System.out.println("login_ok");
-							List<Type> typelist = null;
-							List<Book> booklist = null;
-							Book book = new Book();
-							typelist = bookService.findT();
-							booklist = bookService.findAll();
-							request.getSession().setAttribute("typelist", typelist);
-							request.getSession().setAttribute("classfy", "网络小说");
-							request.getSession().setAttribute("booklist", booklist);
-							if(user.isU_permission()){//如果是管理员
-								return "goto_manager";
-							}else{
-								return "goto_index";
+						String time = String.valueOf(System.currentTimeMillis());
+						time = time.substring(time.length() - 8, time.length());
+						long time2 = user.getPs_time() - Integer.parseInt(time);
+						if(time2>=180000){
+							String rpassword = user.getPassword();
+							if (rpassword.equals(password)) {
+								request.getSession().setAttribute("user", user);
+								System.out.println("login_ok");
+								List<Type> typelist = null;
+								List<Book> booklist = null;
+								Book book = new Book();
+								typelist = bookService.findT();
+								booklist = bookService.findAll();
+								request.getSession().setAttribute("typelist", typelist);
+								request.getSession().setAttribute("classfy", "网络小说");
+								request.getSession().setAttribute("booklist", booklist);
+								if(user.isU_permission()){//如果是管理员
+									return "goto_manager";
+								}else{
+									return "goto_index";
+								}
+							} else {
+								System.out.println("密码错误");
+								int num = user.getPs_false();
+								if(num==3){
+									user.setPs_false(0);
+								}else{
+									user.setPs_false(num+1);
+								}
+								String ps_time = String.valueOf(System.currentTimeMillis());
+								ps_time = ps_time.substring(ps_time.length() - 8, ps_time.length());
+								user.setPs_time(Integer.valueOf(ps_time));
+								userService.update(user);
+								request.setAttribute("uidpass_flag", "用户或者密码错误");
 							}
-						} else {
-							System.out.println("密码错误");
-							request.setAttribute("uidpass_flag", "用户或者密码错误");
+						}else{
+							request.setAttribute("uidpass_flag", "密码输错3次,请3分钟后再试");
 						}
 					} else {
 						System.out.println("帐号未激活");

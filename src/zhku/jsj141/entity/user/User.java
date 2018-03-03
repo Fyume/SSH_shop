@@ -17,6 +17,8 @@ public class User {
 	private String code;//激活用激活码
 	private long activateTime;//第一次激活的时间
 	private boolean u_permission = false;//用户权限(默认为普通用户，只有修改为true的时候才是管理员)
+	private int ps_false;//密码错误次数
+	private long ps_time;//最近一次输错密码的时间戳
 	
 	private Set<Work> work = new HashSet<Work>();
 	private Set<Favour> favour = new HashSet<Favour>();
@@ -110,8 +112,20 @@ public class User {
 	public void setU_permission(boolean u_permission) {
 		this.u_permission = u_permission;
 	}
+	public int getPs_false() {
+		return ps_false;
+	}
+	public void setPs_false(int ps_false) {
+		this.ps_false = ps_false;
+	}
+	public long getPs_time() {
+		return ps_time;
+	}
+	public void setPs_time(long ps_time) {
+		this.ps_time = ps_time;
+	}
 	public User(String uid, String username, String name, String password,
-			String address, String iDCN, String telnum, String email, String code) {
+			String address, String iDCN, String telnum, String email, String code, int ps_false, long ps_time) {
 		super();
 		this.uid = uid;
 		this.username = username;
@@ -122,6 +136,8 @@ public class User {
 		this.telnum = telnum;
 		this.email = email;
 		this.code = code;
+		this.ps_false = ps_false;
+		this.ps_time = ps_time;
 	}
 	public User(){
 		
@@ -133,7 +149,8 @@ public class User {
 				+ IDCN + ", telnum=" + telnum + ", email=" + email
 				+ ", u_status=" + u_status + ", code=" + code
 				+ ", activateTime=" + activateTime + ", u_permission="
-				+ u_permission + "]";
+				+ u_permission+ ", ps_false=" + ps_false+ ", ps_time="
+				+ ps_time + "]";
 	}
 	
 }

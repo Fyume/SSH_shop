@@ -113,12 +113,19 @@ public class BookDaoImpl implements BookDao{
 	@Override
 	public List<Book> findByINIPAT(Book book1, Book book2){//不定项筛选
 		List<Book> list = null;
-		if(book2.getPublish()!=0){
-			list = (List<Book>) hibernateTemplate.find("from Book where bid like ? and bname like ? and ISBN like ? and publish >= ? and publish <= ? and author like ? and type = ?", book1.getBid(),book1.getBname(),book1.getISBN(),book1.getPublish(),book2.getPublish(),book1.getAuthor(),book1.getType());
+		if(book1.getBid()==-1){
+			if(book2.getPublish()!=0){
+				list = (List<Book>) hibernateTemplate.find("from Book where bname like ? and ISBN like ? and publish >= ? and publish <= ? and author like ? and type like ?","%"+book1.getBname()+"%","%"+book1.getISBN()+"%",book1.getPublish(),book2.getPublish(),"%"+book1.getAuthor()+"%","%"+book1.getType()+"%");
+			}else{
+				list = (List<Book>) hibernateTemplate.find("from Book where bname like ? and ISBN like ? and publish >= ? and author like ? and type like ?","%"+book1.getBname()+"%","%"+book1.getISBN()+"%",book1.getPublish(),"%"+book1.getAuthor()+"%","%"+book1.getType()+"%");
+			}
 		}else{
-			list = (List<Book>) hibernateTemplate.find("from Book where bid like ? and bname like ? and ISBN like ? and publish >= ? and author like ? and type = ?", book1.getBid(),book1.getBname(),book1.getISBN(),book1.getPublish(),book1.getAuthor(),book1.getType());
+			if(book2.getPublish()!=0){
+				list = (List<Book>) hibernateTemplate.find("from Book where bid like ? and bname like ? and ISBN like ? and publish >= ? and publish <= ? and author like ? and type like ?", book1.getBid(),"%"+book1.getBname()+"%","%"+book1.getISBN()+"%",book1.getPublish(),book2.getPublish(),"%"+book1.getAuthor()+"%","%"+book1.getType()+"%");
+			}else{
+				list = (List<Book>) hibernateTemplate.find("from Book where bid like ? and bname like ? and ISBN like ? and publish >= ? and author like ? and type like ?", book1.getBid(),"%"+book1.getBname()+"%","%"+book1.getISBN()+"%",book1.getPublish(),"%"+book1.getAuthor()+"%","%"+book1.getType()+"%");
+			}
 		}
-		
 		return list;
 	}
 }

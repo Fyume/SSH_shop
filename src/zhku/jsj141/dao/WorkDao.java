@@ -9,9 +9,6 @@ import zhku.jsj141.entity.user.Work;
 
 public interface WorkDao {
 
-	public abstract void setHibernateTemplate(
-			HibernateTemplate hibernateTemplate);
-
 	public abstract Serializable add(Work work);
 
 	public abstract void update(Work work);
@@ -21,5 +18,7 @@ public interface WorkDao {
 	public abstract List<Work> selectAll();
 
 	public abstract List<Work> select_indistinct(Work work, String name);
+
+	public abstract boolean delete(Work work);
 
 }

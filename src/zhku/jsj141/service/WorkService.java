@@ -22,4 +22,6 @@ public interface WorkService {
 
 	public abstract List<Work> find_indistinct(Work work, String name);
 
+	public abstract boolean delete(Work work);
+
 }
