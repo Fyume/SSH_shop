@@ -1,7 +1,13 @@
 /**
  * 
  */
-
+function login(user, path) {
+	if (user == "true") {// 没登陆
+		window.location.href = path + "/pages/user/login.jsp";
+	} else {
+		window.location.href = path + "/pages/user/User.jsp";
+	}
+}
 function infoon() {
 	$("#user_info").css("display", "inline");
 }
@@ -142,7 +148,7 @@ function update_Img(){
 						var formData = new FormData($("#ImageForm")[0]);
 						formData.append("bid", bid);// 后台直接getparameter试过可以
 						$.ajax({
-							url : path + '/bookAction_updateI',
+							url : '/SSH_test/bookAction_updateI',
 							type : 'POST',
 							data : formData,
 							async : false,

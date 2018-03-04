@@ -283,7 +283,7 @@ public class UserAction extends ActionSupport {
 						String time = String.valueOf(System.currentTimeMillis());
 						time = time.substring(time.length() - 8, time.length());
 						long time2 = user.getPs_time() - Integer.parseInt(time);
-						if(time2>=180000){
+						if(time2>=180000||user.getPs_time()==0){
 							String rpassword = user.getPassword();
 							if (rpassword.equals(password)) {
 								request.getSession().setAttribute("user", user);

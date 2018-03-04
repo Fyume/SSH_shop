@@ -48,24 +48,26 @@
 				</div>
 				<div class="header_classify" onmouseover="classifyon()"
 					onmouseout="classifyoff()">分类</div>
-
+				<div class="header_work">
+					<a href="${pageContext.request.contextPath}/workAction_getData">
+						用户作品
+					</a>
+				</div>
 				<!-- <div class="header_random">随机</div> -->
-
+				
 				<c:if test="${sessionScope.user.u_permission }">
-					<div
-						style="border:1px #c0c0c0 solid; width:100px; height:30px; margin-top:10px;margin-left:100px;padding-top:5px;">
+					<div class="managerPage">
 						<a
 							href="${pageContext.request.contextPath}/pages/manager/edit.jsp">前往管理员界面</a>
 					</div>
 				</c:if>
-				<!-- 未实现 -->
-				<div>
+				<div class="header_select">
 					<div class="select_text">
 						<input id="select_message" type="text" name="select_message"
 							placeholder="输入作品名/书名(1-20个字符、数字)" onblur="check_selecttext()">
 					</div>
 					<div class="select_select">
-						<select id="select_select" style="margin-top:10px;height:26px;">
+						<select id="select_select">
 							<option value="1">书名</option>
 							<option value="2">作品名</option>
 							<option value="3">作者</option>
@@ -77,10 +79,9 @@
 					</div>
 				</div>
 				<div class="header_user">
-					<div class="user_img" onmouseover="infoon()" onmouseout="infooff()"
-						onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
-						<span class="glyphicon glyphicon-user"></span> <span
-							style="color:red;font-weight:400">${sessionScope.user.username }</span>
+					<div class="user_img" onmouseover="infoon()" onmouseout="infooff()" onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
+					<span class="glyphicon glyphicon-user"></span> <span
+						style="color:red;font-weight:400">${sessionScope.user.username }</span>
 					</div>
 					<c:if test="${!empty sessionScope.user }">
 						<div class="user_message">消息</div>

@@ -49,9 +49,9 @@
 				<a href="${pageContext.request.contextPath}/managerAction_getBook">管理书本</a>
 			</div>
 			<div class="header_user">
-				<div class="user_img" onmouseover="infoon()" onmouseout="infooff()">
-					<span class="glyphicon glyphicon-user"></span> <span
-						style="color:red;font-weight:400">${sessionScope.user.username }</span>
+				<div class="user_img" onmouseover="infoon()" onmouseout="infooff()" onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
+				<span class="glyphicon glyphicon-user"></span> <span
+					style="color:red;font-weight:400">${sessionScope.user.username }</span>
 				</div>
 				<c:if test="${!empty sessionScope.user }">
 					<div class="user_upload">

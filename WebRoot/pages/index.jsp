@@ -19,7 +19,7 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
@@ -34,30 +34,37 @@
 </head>
 <body onload="start(${empty sessionScope.typelist })">
 	<div class="header">
-		<div class="header_logo"></div>
 		<div class="header_index">
 			<a target="_top"
 				href="${pageContext.request.contextPath}/pages/index.jsp">首页</a>
 		</div>
 		<div class="header_classify" onmouseover="classifyon()"
-			onmouseout="classifyoff()">分类</div>
+			onmouseout="classifyoff()">
+			<a target="_top" href="${pageContext.request.contextPath}/pages/index.jsp">
+				全部分类
+			</a>
+		</div>
+		<div class="header_work">
+			<a href="${pageContext.request.contextPath}/workAction_getData">
+				用户作品
+			</a>
+		</div>
 			
 		<!-- <div class="header_random">随机</div> -->
 		
 		<c:if test="${sessionScope.user.u_permission }">
-			<div
-				style="border:1px #c0c0c0 solid; width:100px; height:30px; margin-top:10px;margin-left:100px;padding-top:5px;">
+			<div class="managerPage">
 				<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">前往管理员界面</a>
 			</div>
 		</c:if>
 		<!-- 未实现 -->
-		<div>
+		<div class="header_select">
 			<div class="select_text">
 				<input id="select_message" type="text" name="select_message" placeholder="输入作品名/书名(1-20个字符、数字)"
 					onblur="check_selecttext()">
 			</div>
 			<div class="select_select">
-				<select id="select_select" style="margin-top:10px;height:26px;">
+				<select id="select_select">
 					<option value="1">书名</option>
 					<option value="2">作品名</option>
 					<option value="3">作者</option>
@@ -84,8 +91,16 @@
 			</c:if>
 		</div>
 	</div>
-	<div id="user_info" class="user_info" onmouseover="infoon()"
-		onmouseout="infooff()">
+	<div class="second">
+		<div class="sec_logo"></div>
+		<div class="sec_font">在线阅读网站</div>
+		<div class="sec_video">
+			<video width="100%" height="100%" loop="loop" autoplay="autoplay" poster="xx.png" style="object-fit:fill;">
+				<source src="${pageContext.request.contextPath}/images/video/sec(2).mp4"  type="video/mp4">
+			</video>
+		</div>
+	</div>
+	<div id="user_info" class="user_info" onmouseover="infoon()" onmouseout="infooff()">
 		<c:choose>
 			<c:when test="${empty sessionScope.user }">
 				<div class="list_login">
@@ -116,16 +131,16 @@
 			<div>
 
 				<div class="class_title" style="border-right:1px #c0c0c0 solid"
-					onmouseover="classUl${num.count}on()"
-					onmouseout="classUl${num.count}off()">
+					onmouseover="classUlon(${num.count})"
+					onmouseout="classUloff(${num.count})">
 					<a
 						href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=${type.type}">${type.type }</a>
 				</div>
 
 			</div>
 			<div id="class_ul${num.count}" class="class_ul${num.count}"
-				onmouseover="classUl${num.count}on()"
-				onmouseout="classUl${num.count}off()">
+				onmouseover="classUlon(${num.count})"
+				onmouseout="classUloff(${num.count})">
 		<!-- 数据库里面用";"分开 -->
 				<c:set value="${fn:split(type.type_flag,';') }" var="type_flag"></c:set>
 				<c:forEach items="${type_flag }" var="flag" begin="0" end="5">
@@ -142,60 +157,39 @@
 				</c:forEach>
 			</div>
 		</c:forEach>
-		<div class="class_title"
-			style="background-color:red;border-right:1px #c0c0c0 solid">
-			<a href="${pageContext.request.contextPath}/workAction_getData">用户作品</a>
-		</div>
 	</div>
 	<div class="bottom">
 		<div class="totalBook">
 			<c:choose>
 				<c:when test="${sessionScope.classfy=='用户作品'}">
 					<c:forEach items="${sessionScope.worklist }" var="work">
-
-						<div class="book_border">
-							<div>
-								<a
-									href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
-									<img class="book_img"
-									src="${pageContext.request.contextPath}/images/user/workImg/${work.image }"
-									alt="作品封面">
-								</a>
-							</div>
-							<div class="book_title">
-								<a
-									href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
-									书名:${work.wname } </a>
-							</div>
-							<div class="book_description">
-								<a
-									href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
-									${work.description } </a>
-							</div>
-						</div>
 					</c:forEach>
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${sessionScope.booklist }" var="book">
 						<div class="book_border">
-							<div>
-								<a
-									href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-
-									<img class="book_img"
-									src="${pageContext.request.contextPath}/images/bookImg/${book.image }"
-									alt="书本封面">
-								</a>
-							</div>
 							<div class="book_title">
 								<a
 									href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
 									${book.bname } </a>
 							</div>
+							<div class="book_img">
+								<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+									<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+								</a>
+							</div>
 							<div class="book_description">
-								<a
-									href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-									${book.description } </a>
+								<span class="desc_font">作者</span>
+								<br>
+								<span class="desc_value">${book.author }</span>
+								<br>
+								<span class="desc_font">概述</span>
+								<br>
+								<div class="desc_value">${book.description }</div>
+								<br>
+								<span class="desc_font">分类</span>
+								<br>
+								<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
 							</div>
 						</div>
 					</c:forEach>

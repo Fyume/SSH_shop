@@ -105,12 +105,10 @@ public class BookAction extends ActionSupport {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		List<Type> typelist = null;
 		List<Book> booklist = null;
-		Book book = new Book();
-		book.setType("网络小说");
 		typelist = bookService.findT();
-		booklist = bookService.find(book, "type");
+		booklist = bookService.findAll();
 		request.getSession().setAttribute("typelist", typelist);
-		request.getSession().setAttribute("classfy", "网络小说");
+		request.getSession().setAttribute("classfy", "全部分类");
 		request.getSession().setAttribute("booklist", booklist);
 		return "goto_index";
 	}
@@ -226,21 +224,22 @@ public class BookAction extends ActionSupport {
 	public String updateI() throws Exception{
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
+		System.out.println(image+";"+imageFileName+";"+imageContentType);
 		int bid = Integer.parseInt(request.getParameter("bid"));
 		Book book = new Book();
 		book.setBid(bid);
 		List<Book> list = bookService.find(book, "bid");
 		book = list.get(0);
-		System.out.println("bid:"+bid);
-		System.out.println("image: "+image+"\nimageFN: "+imageFileName+"\nimageCT:"+imageContentType);
+		/*System.out.println("bid:"+bid);
+		System.out.println("image: "+image+"\nimageFN: "+imageFileName+"\nimageCT:"+imageContentType);*/
 		if(book.getBname()!=null){
 			String path = bookUtils.uploadbookI(image, book.getType(), imageContentType);
 			if(path!=""){//把原来的图片删除掉,数据库的路径也改了
 				bookUtils.removeBookI(book.getImage());
 				book.setImage(path);
 				bookService.update(book);
-				/*PrintWriter out = response.getWriter();
-				out.print(path);
+				PrintWriter out = response.getWriter();
+				/*out.print("");
 				out.flush();
 				out.close();*/
 			}

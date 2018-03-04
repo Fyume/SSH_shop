@@ -70,6 +70,14 @@ public class ManagerAction extends ActionSupport {
 	public void setBookUtils(bookUtils bookUtils) {
 		this.bookUtils = bookUtils;
 	}
+	
+	public workUtils getWorkUtils() {
+		return workUtils;
+	}
+
+	public void setWorkUtils(workUtils workUtils) {
+		this.workUtils = workUtils;
+	}
 
 	//获取用户信息
 	public String getUser() throws Exception {
@@ -118,7 +126,7 @@ public class ManagerAction extends ActionSupport {
 		}*/
 		return "goto_edit";
 	}
-	public String alter_B() throws Exception{
+	public String alter_B() throws Exception{//修改书本信息
 		HttpServletRequest request = ServletActionContext.getRequest();
 		User user = new User();
 		String json = (String)request.getParameter("json");

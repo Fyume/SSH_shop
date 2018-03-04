@@ -111,7 +111,8 @@
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
-		<c:choose>
+		<div class="hide_page">
+			<c:choose>
 			<c:when test="${empty sessionScope.page }">
 				<c:if test="${empty param.page }">
 					<input type="text" value="1" id="page" style="display:none">
@@ -126,15 +127,23 @@
 					style="display:none">
 			</c:otherwise>
 		</c:choose>
+		</div>
 		<div class="function_div">
 		<c:choose>
-			<c:when test="${empty sessionScope.work }">
-			<a
-				href="${pageContext.request.contextPath}/uesrAction_addF?bid=${sessionScope.book.bid }&page=${num.count }">添加收藏</a>
+			<c:when test="${empty sessionScope.user }">
+				<a href="${pageContext.request.contextPath}/pages/user/login.jsp">添加收藏</a>
 			</c:when>
 			<c:otherwise>
-			<a
-				href="${pageContext.request.contextPath}/uesrAction_addF?wid=${sessionScope.work.wid }&page=${num.count }">添加收藏</a>
+				<c:choose>
+				<c:when test="${empty sessionScope.work }">
+				<a
+					href="${pageContext.request.contextPath}/uesrAction_addF?bid=${sessionScope.book.bid }&page=${num.count }">添加收藏</a>
+				</c:when>
+				<c:otherwise>
+				<a
+					href="${pageContext.request.contextPath}/uesrAction_addF?wid=${sessionScope.work.wid }&page=${num.count }">添加收藏</a>
+				</c:otherwise>
+			</c:choose>
 			</c:otherwise>
 		</c:choose>
 		</div>

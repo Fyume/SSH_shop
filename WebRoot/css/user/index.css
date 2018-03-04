@@ -17,64 +17,98 @@ a,a:hover{
 }
 .header{
 	width:1350px;
-	height:50px;
+	height:30px;
 	border-bottom:1px #c0c0c0 solid;
 }
-.header_logo{
-	width:50px;
-	height:50px;
-	border:1px #c0c0c0 solid;
-	background-image:url("../../images/flag/logo.png");
-	background-size:50px 50px;
-}
-.header_index,.header_classify,.header_random{
-	padding-top:10px;
+.header_index,.header_classify,.header_random,.header_work{
+	padding-top:3px;
 	text-align:center;
 	width:100px;
-	height:50px;
+	height:100%;
 	border:1px #c0c0c0 solid;
 	cursor:pointer;
+}
+.header_work:hover{
+	background-color:#ff8040;
 }
 .header_index:hover,.header_classify:hover,.header_random:hover{
 	background-image:url("../../images/flag/header_min.png");
 }
+.managerPage{
+	border:1px #c0c0c0 solid;
+	width:100px;
+	height:30px;
+	padding-top:5px;
+	background-color:#ec373c;
+	color:#c0c0c0;
+}
+.header_select{
+	width:310px;height:30px;margin-left:100px;
+}
+.select_text{
+	padding-top:1px;
+	margin-left:2%;
+	width:55%; 
+	height:95%;
+}
+.select_text input{
+	width:100%;
+	height:100%;
+}
+.select_select{
+	padding-top:1px;
+	width:20%; 
+	height:95%;
+}
+.select_select select{
+	width:100%;
+	height:100%;
+}
+.select_button{
+	padding-top:1px;
+	width:20%; 
+	height:95%;
+}
+.select_button input[type="button"]{
+	width:100%;
+	height:100%;
+}
 .header_user{
-	margin-top:5px;
 	width:317px;
-	height:44px;
+	height:100%;
 	float:right;
 	border-right:1px #c0c0c0 solid;
 }
 .user_img{
-	padding-top:10px;
+	padding-top:5px;
 	text-align:center;
 	width:60px;
-	height:44px;
+	height:100%;
 	border-left:1px #c0c0c0 solid;
 	border-right:1px #c0c0c0 solid;
 	cursor:pointer;
 }
 .user_message{
-	padding-top:10px;
+	padding-top:3px;
 	text-align:center;
 	width:56px;
-	height:44px;
+	height:100%;
 	border-left:1px #c0c0c0 solid;
 	border-right:1px #c0c0c0 solid;
 	cursor:pointer;
 }
 .user_favorite,.user_upload{
-	padding-top:10px;
+	padding-top:3px;
 	text-align:center;
 	width:100px;
-	height:44px;
+	height:100%;
 	border-left:1px #c0c0c0 solid;
 	border-right:1px #c0c0c0 solid;
 	cursor:pointer;
 }
 .classify_st{
 	position:absolute;
-	top:50px;  
+	top:29px;  
     left:0%; 
 	display:none;
 	width:400px;
@@ -91,6 +125,9 @@ a,a:hover{
 	width:100px;
 	height:30px;
 	border-bottom:1px red solid;
+}
+.class_title:HOVER{
+	background-color:#83bcb5;
 }
 .class_ul1{
 	position:absolute;
@@ -120,16 +157,17 @@ a,a:hover{
 	animation-fill-mode: forwards;
 }
 @keyframes showclassul{
-	0%{background:#c0c0c0;height:0px;opacity:0.0;}
-	100%{background:#c0c0c0;height:260px;}
+	0%{background:#e3dfe2;height:0px;opacity:0.0;}
+	100%{background:#e3dfe2;height:260px;}
 }
 .user_info{
 	position:absolute;
-	top:50px;  
+	top:29px;  
     right:200px; 
 	display:none;
-	border-left:1px #0080ff solid;
-	border-right:1px #0080ff solid;
+	border:1px #0080ff solid;
+	border-bottom:1px white solid;
+	border-top:1px #c0c0c0 solid;
 	width:204px;
 	font-size:8px;
 	text-align:center;
@@ -165,32 +203,29 @@ a,a:hover{
 	0%{height:0px;opacity:0.0;}
 	100%{height:105px;}
 }
-.book_border{
-	border:1px #808080 solid;width:250px;height:180px;margin-left:20px;margin-top:50px;
+.second{
+	width:100%;
+	height:85px;
+	border-bottom:5px #4bd1a6 solid;
+	padding-left:200px;
 }
-.book_img{
-	border:1px black solid;width:130px;height:163px;
+.sec_logo{
+	width:80px;
+	height:80px;
+	background-image:url("../../images/flag/logo.png");
+	background-size:80px 80px;
 }
-.book_title{
-	font-weight:600;text-align:center;border-bottom:1px black solid;width:118px;height:20px;
+.sec_font{
+	margin-top:27px;
+	width:180px;
+	height:20px;
+	font-size:20px;
+	color:#0000ff;
+	font-weight: 700;
 }
-.book_description{
-	padding-top:5px;padding-left:3px;border-bottom:1px black solid;width:118px;height:143px;word-wrap:break-word;
-}
-.select_text{
-	margin-left:100px;
-	padding-top:10px;
-	widht:50px; 
-	height:50px;
-}
-.select_select{
-	widht:50px; 
-	height:60px;
-}
-.select_button{
-	padding-top:10px;
-	widht:50px; 
-	height:50px;
+.sec_video{
+	width:66.2%;
+	height:80px;
 }
 .bottom{
 	height:1000px;
@@ -201,8 +236,29 @@ a,a:hover{
 	border-left:1px #c0c0c0 solid;
 	border-right:1px #c0c0c0 solid;
 	border-bottom:1px #c0c0c0 solid;
-	width:1000px;
+	width:80%;
 	height:1000px;
-	margin-left:100px;
+	margin-left:10%;
 	background-color:#ffffff;
+}
+.book_border{
+	width:230px;height:180px;margin-left:20px;margin-top:50px;
+}
+.book_border a{
+	color:#8080ff;
+}
+.book_title{
+	font-weight:600;text-align:left;width:99%;height:15%;padding-left:1%;font-size:18px;
+}
+.book_img{
+	border:1px #808080 solid;width:60%;height:85%;
+}
+.book_description{
+	padding-left:3px;width:40%;height:85%;word-wrap:break-word;color:black;
+}
+.desc_font{
+	font-size:12px;font-weight: 550;margin-right:5px;
+}
+.desc_value{
+	width:100%;height:36%;font-size:15px;font-weight: 500;padding-left:3px;padding-right:1px;
 }

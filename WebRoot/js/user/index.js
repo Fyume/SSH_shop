@@ -8,18 +8,18 @@ function start(msg) {
 		timeout : 1000,
 		cache : false,
 		async : false,// 取消异步请求
-		success:function refresh(){
-				if(msg==true){
-					window.location.reload(true);
-				}
+		success : function() {
+			if (msg == true) {
+				window.location.reload(true);
+			}
 		},
 	});
 }
-function login(user,path){
-	if(user){//没登陆
-		window.location.href=path+"/pages/user/login.jsp";
-	}else{
-		window.location.href=path+"/pages/user/User.jsp";
+function login(user, path) {
+	if (user == "true") {// 没登陆
+		window.location.href = path + "/pages/user/login.jsp";
+	} else {
+		window.location.href = path + "/pages/user/User.jsp";
 	}
 }
 function classifyon() {
@@ -29,27 +29,12 @@ function classifyoff() {
 	$("#classify_st").css("display", "none");
 }
 
-function classUl1on() {
-	$("#class_ul1").css("display", "inline");
+function classUlon(num) {
+	$("#class_ul"+num).css("display", "inline");
 }
-function classUl1off() {
-	$("#class_ul1").css("display", "none");
+function classUloff(num) {
+	$("#class_ul"+num).css("display", "none");
 }
-
-function classUl2on() {
-	$("#class_ul2").css("display", "inline");
-}
-function classUl2off() {
-	$("#class_ul2").css("display", "none");
-}
-
-function classUl3on() {
-	$("#class_ul3").css("display", "inline");
-}
-function classUl3off() {
-	$("#class_ul3").css("display", "none");
-}
-
 function infoon() {
 	$("#user_info").css("display", "inline");
 }
@@ -67,7 +52,8 @@ function selectmess() {
 	var flag;
 	var message = $("#select_message").val();
 	if (num == 1) {
-		$.ajax({
+		$
+				.ajax({
 					url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag=bname&message='
 							+ message,
 					type : "POST",
@@ -79,7 +65,8 @@ function selectmess() {
 					}
 				})
 	} else if (num == 3) {
-		$.ajax({
+		$
+				.ajax({
 					url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag=author&message='
 							+ message,
 					type : "POST",
@@ -91,7 +78,8 @@ function selectmess() {
 					}
 				})
 	} else if (num == 2) {
-		$.ajax({
+		$
+				.ajax({
 					url : 'http://localhost:8080/SSH_test/workAction_selectW?flag=wname&message='
 							+ message,
 					type : "POST",
