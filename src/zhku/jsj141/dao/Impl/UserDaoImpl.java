@@ -8,8 +8,11 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
 import zhku.jsj141.dao.UserDao;
+import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.Favour;
+import zhku.jsj141.entity.user.History;
 import zhku.jsj141.entity.user.User;
+import zhku.jsj141.entity.user.Work;
 
 public class UserDaoImpl implements UserDao{
 	private HibernateTemplate hibernateTemplate;
@@ -19,21 +22,44 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public Serializable add(User user) {
-		Serializable s = hibernateTemplate.save(user);
-		return s;
+	public boolean add(User user) {
+		try{
+			hibernateTemplate.save(user);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	@Override
-	public void update(User user){
-		hibernateTemplate.saveOrUpdate(user);
+	public boolean update(User user){
+		try{
+			hibernateTemplate.saveOrUpdate(user);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	@Override
-	public void delete(User user){
-		hibernateTemplate.delete(user);
+	public boolean delete(User user){
+		try{
+			hibernateTemplate.delete(user);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	@Override
-	public void addF(Favour favour){
-		hibernateTemplate.save(favour);
+	public boolean addF(Favour favour){
+		try{
+			hibernateTemplate.save(favour);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	@Override
 	@SuppressWarnings("unchecked")
@@ -73,6 +99,38 @@ public class UserDaoImpl implements UserDao{
 		}
 		return list;
 	}
+	@Override
+	public boolean addHistory(History history) {
+		try{
+			hibernateTemplate.saveOrUpdate(history);;
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<History> findH(User user) {
+		List<History> list = null;
+		list = (List<History>) hibernateTemplate.find("from History where uid = ?",user.getUid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<History> findH(User user,Book book) {
+		List<History> list = null;
+		list = (List<History>) hibernateTemplate.find("from History where uid = ? and bid = ?",user.getUid(),book.getBid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<History> findH(User user,Work work) {
+		List<History> list = null;
+		list = (List<History>) hibernateTemplate.find("from History where uid = ? and wid = ?",user.getUid(),work.getWid());
+		return list;
+	}
+	//用于管理员筛选用户资料
 	@Override
 	public List<User> findByINSP(User user){
 		@SuppressWarnings("unchecked")

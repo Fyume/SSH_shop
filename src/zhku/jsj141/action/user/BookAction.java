@@ -12,14 +12,17 @@ import org.apache.struts2.ServletActionContext;
 
 import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
+import zhku.jsj141.entity.user.History;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.service.BookService;
+import zhku.jsj141.service.UserService;
 import zhku.jsj141.utils.user.bookUtils;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 public class BookAction extends ActionSupport {
 	private BookService bookService;
+	private UserService userService;
 	private File upload;
 	private String uploadFileName;
 	private String uploadContentType;
@@ -43,6 +46,14 @@ public class BookAction extends ActionSupport {
 
 	public void setBookUtils(bookUtils bookUtils) {
 		this.bookUtils = bookUtils;
+	}
+	
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
 
 	public BookService getBookService() {
@@ -174,8 +185,18 @@ public class BookAction extends ActionSupport {
 	public String readBook() throws Exception{
 		HttpServletRequest request = ServletActionContext.getRequest();
 		int bid = Integer.parseInt(request.getParameter("bid"));
+		User user = (User) request.getSession().getAttribute("user");
 		Book book = new Book();
 		book.setBid(bid);
+		if(user!=null){//不为空则查找历史记录
+			List<History> list_h = userService.findH(user, book);
+			if(list_h!=null){
+				History b_History = list_h.get(0);
+				request.getSession().setAttribute("b_History", b_History);
+			}else{
+				request.getSession().setAttribute("b_History", null);
+			}
+		}
 		List<Book> list = bookService.find(book, "bid");
 		book = list.get(0);
 		if(book.getBname()!=null&&!book.getBname().isEmpty()){
@@ -185,7 +206,7 @@ public class BookAction extends ActionSupport {
 			request.getSession().setAttribute("page", 1);//默认为第1页
 			request.getSession().setAttribute("book", book);
 			request.getSession().setAttribute("work", null);//类似workaction里面的
-			return "goto_read";
+			return "goto_book";
 		}
 		return "goto_index";
 	}

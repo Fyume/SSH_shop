@@ -16,9 +16,12 @@ a,a:hover{
 	color:black;
 }
 .header{
+	position:fixed;
+	top:0;
 	width:1350px;
 	height:30px;
 	border-bottom:1px #c0c0c0 solid;
+	background-color:rgba(128,255,255,0.2);
 }
 .header_index,.header_classify,.header_random,.header_work{
 	padding-top:3px;
@@ -28,11 +31,15 @@ a,a:hover{
 	border:1px #c0c0c0 solid;
 	cursor:pointer;
 }
+.header_index{
+	background-color:#ee3d28;
+}
 .header_work:hover{
 	background-color:#ff8040;
 }
-.header_index:hover,.header_classify:hover,.header_random:hover{
+.header_index:hover,.header_classify:hover,.header_random:hover,.user_message:hover,.user_favour:hover,.user_upload:hover{
 	background-image:url("../../images/flag/header_min.png");
+	background-size:100% 100%;
 }
 .managerPage{
 	border:1px #c0c0c0 solid;
@@ -97,7 +104,7 @@ a,a:hover{
 	border-right:1px #c0c0c0 solid;
 	cursor:pointer;
 }
-.user_favorite,.user_upload{
+.user_favour,.user_upload{
 	padding-top:3px;
 	text-align:center;
 	width:100px;
@@ -107,7 +114,7 @@ a,a:hover{
 	cursor:pointer;
 }
 .classify_st{
-	position:absolute;
+	position:fixed;
 	top:29px;  
     left:0%; 
 	display:none;
@@ -130,27 +137,27 @@ a,a:hover{
 	background-color:#83bcb5;
 }
 .class_ul1{
-	position:absolute;
+	position:fixed;
 	display:none;
-	top:30px;  
+	top:59px;  
     left:0%; 
 	width:180px;
 	animation:showclassul 1s;
 	animation-fill-mode: forwards;
 }
 .class_ul2{
-	position:absolute;
+	position:fixed;
 	display:none;
-	top:30px;  
+	top:59px;  
     left:90px; 
 	width:120px;
 	animation:showclassul 1s;
 	animation-fill-mode: forwards;
 }
 .class_ul3{
-	position:absolute;
+	position:fixed;
 	display:none;
-	top:30px;  
+	top:59px;  
     left:200px; 
 	width:120px;
 	animation:showclassul 1s;
@@ -161,7 +168,7 @@ a,a:hover{
 	100%{background:#e3dfe2;height:260px;}
 }
 .user_info{
-	position:absolute;
+	position:fixed;
 	top:29px;  
     right:200px; 
 	display:none;
@@ -204,6 +211,7 @@ a,a:hover{
 	100%{height:105px;}
 }
 .second{
+	margin-top:30px;
 	width:100%;
 	height:85px;
 	border-bottom:5px #4bd1a6 solid;

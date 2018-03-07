@@ -37,6 +37,18 @@ public class bookUtils {
 									"UTF-8"));
 					String read = null;
 					while ((read = in.readLine()) != null) {
+						int line = 50;//根据页面的显示要求 每50个字符换一行显示(虽然我也觉得这样做挺滑稽的，或许应该交给前端 方便前后端分离？)
+						int num = read.length()/line;
+						if(num>=1){
+							String str1 = "";
+							String str2 = "";
+							for(int i=1;i<=num;i++){
+								str1 = str1+read.substring(line*(i-1),line*i)+"</h4><h4>";
+							}
+							str2 = read.substring(num*line, read.length());
+							read = str1 + str2;
+						}
+						read = "　　"+read;
 						list.add(read);
 					}
 					in.close();

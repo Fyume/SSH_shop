@@ -9,25 +9,21 @@ import zhku.jsj141.entity.user.Book;
 
 public interface BookService {
 
-	public abstract BookDao getBookDao();
+	public boolean add(Book book);
 
-	public abstract void setBookDao(BookDao bookDao);
+	public String checkbid(Book book);
 
-	public abstract Serializable add(Book book);
+	public List<Book> find(Book book, String name);
 
-	public abstract String checkbid(Book book);
+	public boolean update(Book book);
 
-	public abstract List<Book> find(Book book, String name);
+	public List<Type> findT();
 
-	public abstract boolean update(Book book);
+	public List<Book> find_indistinct(Book book, String name);
 
-	public abstract List<Type> findT();
+	public List<Book> findAll();
 
-	public abstract List<Book> find_indistinct(Book book, String name);
+	public boolean delete(Book book);
 
-	public abstract List<Book> findAll();
-
-	public abstract boolean delete(Book book);
-
-	public abstract List<Book> finds(Book book1, Book book2);
+	public List<Book> finds(Book book1, Book book2);
 }

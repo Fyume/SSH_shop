@@ -22,7 +22,9 @@ import org.springframework.stereotype.Controller;
 import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.Favour;
+import zhku.jsj141.entity.user.History;
 import zhku.jsj141.entity.user.User;
+import zhku.jsj141.entity.user.Work;
 import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.UserService;
 import zhku.jsj141.utils.user.userUtils;
@@ -229,7 +231,7 @@ public class UserAction extends ActionSupport {
 	}
 
 	@SuppressWarnings("unused")
-	public String resendEmail() throws Exception {// 重新发送激活邮件
+	public String resendEmail() throws Exception {// 重发激活邮件
 		HttpServletRequest request = ServletActionContext.getRequest();
 		request.setCharacterEncoding("UTF-8");
 		String uid = request.getParameter("uid1");
@@ -268,7 +270,7 @@ public class UserAction extends ActionSupport {
 		if (vCode != "" && vCode != null) {
 			if (vCode.equalsIgnoreCase(s_vCode)) {
 				String uid = request.getParameter("用户ID");
-				/*
+				/*或许可以搞个手机绑定然后通过手机也可以登录，后面再搞了
 				 * String username = request.getParameter("用户名"); String name =
 				 * request.getParameter("姓名"); String email =
 				 * request.getParameter("邮箱");
@@ -359,14 +361,53 @@ public class UserAction extends ActionSupport {
 	/**************************未完成**************************/
 	public String history() throws Exception{//记录浏览历史
 		HttpServletRequest request = ServletActionContext.getRequest();
-		String json = (String)request.getParameter("json");
-		JSONObject jsonObj = JSONObject.parseObject(json);
-		System.out.println(jsonObj.get("s1"));
-		System.out.println(jsonObj.get("s2"));
-		System.out.println(jsonObj.get("s3"));
-		String page = (String) jsonObj.get("s3");
-		request.getSession().setAttribute("page", page);
-		return "goto_read";
+		HttpServletResponse response = ServletActionContext.getResponse();
+		User user = (User) request.getSession().getAttribute("user");
+		if(user!=null){
+			String uid = user.getUid();
+			String json = (String)request.getParameter("json");
+			JSONObject jsonObj = JSONObject.parseObject(json);
+			System.out.println("font:"+jsonObj.get("font"));
+			System.out.println("id:"+jsonObj.get("id"));
+			System.out.println("page:"+jsonObj.get("page"));
+			String font = (String)jsonObj.get("font");
+			int id = (int) jsonObj.get("id");
+			int page = (int) jsonObj.get("page");
+			request.getSession().setAttribute("page", page);
+			History history = new History();
+			List<History> list = null;
+			history.setUid(uid);
+			if(font=="bid"){
+				Book book = new Book();
+				book.setBid(id);
+				history.setBid(id);
+				list = userService.findH(user,book);
+				if(list!=null){//假如数据库有过记录则沿用原来的记录，更新一下就好
+					history = list.get(0);
+				}
+				history.setPageNum(page);
+				long time = System.currentTimeMillis()/(1000*60);//只保留到分
+				history.setTime(time);
+				userService.addHistory(history);
+			}else if(font=="wid"){
+				Work work = new Work();
+				work.setWid(id);
+				history.setWid(id);
+				list = userService.findH(user,work);
+				if(list!=null){//假如数据库有过记录则沿用原来的记录，更新一下就好
+					history = list.get(0);
+				}
+				history.setPageNum(page);
+				long time = System.currentTimeMillis()/(1000*60);//只保留到分
+				history.setTime(time);
+				userService.addHistory(history);
+			}
+		}
+		PrintWriter out = response.getWriter();//好像不返回数据ajax会没反应..
+		out.print("1");
+		out.flush();
+		out.close();
+		return "goto_book";
 	}
 	
 	public String getData() throws Exception{

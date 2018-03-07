@@ -10,23 +10,20 @@ import zhku.jsj141.entity.user.Book;
 
 public interface BookDao {
 
-	public abstract void setHibernateTemplate(
-			HibernateTemplate hibernateTemplate);
+	public boolean add(Book book);
 
-	public Serializable add(Book book);
+	public boolean update(Book book);
 
-	public abstract void update(Book book);
+	public List<Book> select(Book book, String name);
 
-	public abstract List<Book> select(Book book, String name);
+	public List<Type> selectT();
 
-	public abstract List<Type> selectT();
+	public List<Book> select_indistinct(Book book, String name);
 
-	public abstract List<Book> select_indistinct(Book book, String name);
+	public List<Book> selectAll();
 
-	public abstract List<Book> selectAll();
+	public boolean delete(Book book);
 
-	public abstract boolean delete(Book book);
-
-	public abstract List<Book> findByINIPAT(Book book1, Book book2);
+	public List<Book> findByINIPAT(Book book1, Book book2);
 	
 }

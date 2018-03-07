@@ -4,14 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 
 import zhku.jsj141.dao.UserDao;
+import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.Favour;
+import zhku.jsj141.entity.user.History;
 import zhku.jsj141.entity.user.User;
+import zhku.jsj141.entity.user.Work;
 
 public interface UserService {
 
-	public void setUserDao(UserDao userDao);
-
-	public Serializable add(User user);
+	public boolean add(User user);
 
 	public String checkuid(User user);
 
@@ -26,5 +27,13 @@ public interface UserService {
 	public boolean addF(Favour favour);
 
 	public List<User> finds(User user, int status, int permission);
+
+	public boolean addHistory(History history);
+	
+	public List<History> findH(User user);
+
+	public List<History> findH(User user, Book book);
+	
+	public List<History> findH(User user, Work work);
 
 }

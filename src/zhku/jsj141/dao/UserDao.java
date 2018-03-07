@@ -5,23 +5,27 @@ import java.util.List;
 
 import org.springframework.orm.hibernate5.HibernateTemplate;
 
+
+import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.Favour;
+import zhku.jsj141.entity.user.History;
 import zhku.jsj141.entity.user.User;
+import zhku.jsj141.entity.user.Work;
 
 public interface UserDao {
 
 	public void setHibernateTemplate(
 			HibernateTemplate hibernateTemplate);
 
-	public Serializable add(User user);
+	public boolean add(User user);
 
-	public void update(User user);
+	public boolean update(User user);
 
 	public List<User> select(User user, String name);
 
-	public void delete(User user);
+	public boolean delete(User user);
 
-	public void addF(Favour favour);
+	public boolean addF(Favour favour);
 
 	public List<User> findByIN(User user);
 
@@ -30,5 +34,13 @@ public interface UserDao {
 	public List<User> findByINS(User user);
 
 	public List<User> findByINP(User user);
+
+	public boolean addHistory(History history);
+	
+	public List<History> findH(User user);
+
+	public List<History> findH(User user, Book book);
+	
+	public List<History> findH(User user, Work work);
 
 }

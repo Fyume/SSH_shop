@@ -11,18 +11,16 @@ import zhku.jsj141.service.BookService;
 public class BookServiceImpl implements BookService {
 	private BookDao bookDao;
 	
-	@Override
 	public BookDao getBookDao() {
 		return bookDao;
 	}
-	@Override
 	public void setBookDao(BookDao bookDao) {
 		this.bookDao = bookDao;
 	}
 	@Override
-	public Serializable add(Book book){//增
-		Serializable s= bookDao.add(book);
-		return s;
+	public boolean add(Book book){//增
+		boolean rs= bookDao.add(book);
+		return rs;
 	}
 	@Override
 	public String checkbid(Book book){//查询用户id是否重复
@@ -51,8 +49,8 @@ public class BookServiceImpl implements BookService {
 	}
 	@Override
 	public boolean update(Book book){
-		bookDao.update(book);
-		return false;
+		boolean rs = bookDao.update(book);
+		return rs;
 	}
 	@Override
 	public List<Type> findT(){

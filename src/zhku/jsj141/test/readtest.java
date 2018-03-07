@@ -26,18 +26,33 @@ public class readtest {
 			dir.mkdir();
 		}
 		List<String> list = new LinkedList<String>();
-		File text = new File(dir,"111.txt");
+		File text = new File(dir,"东野圭吾 风雪追击.txt");
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader( new FileInputStream(text),"GBK"));
+			BufferedReader in = new BufferedReader(new InputStreamReader( new FileInputStream(text),"UTF-8"));
 			String read =null;
 			while((read=in.readLine())!=null){
+				list.add(String.valueOf(read.length())+":");
+				/*if(read.length()>=60){
+					String str1 = read.substring(0, 60);
+					str1 = str1+"\n";
+					String str2 = read.substring(60, read.length());
+					read = str1 + str2;
+				}*/
 				list.add(read);
 			}
 			in.close();
+			int i = 0;
 			for (String string : list) {
-				System.out.println(string);
+				i++;
+				if(i%2==0){
+					System.out.println(string);
+				}else{
+					System.out.print(string);
+				}
 			}
-		} catch (FileNotFoundException e) {
+			//网页一行的字数（60）
+			/*System.out.println("本书由“尹子”整理. 想获得更多免费电子书请加小编微信：ynventon QQ群：534205772 小编喜欢结交一些喜".length());
+*/		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

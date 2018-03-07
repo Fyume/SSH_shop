@@ -10,20 +10,17 @@ import zhku.jsj141.service.WorkService;
 public class WorkServiceImpl implements WorkService {
 	private WorkDao workDao;
 
-	@Override
 	public WorkDao getWorkDao() {
 		return workDao;
 	}
-
-	@Override
 	public void setWorkDao(WorkDao workDao) {
 		this.workDao = workDao;
 	}
 
 	@Override
-	public Serializable add(Work work) {// 增
-		Serializable s = workDao.add(work);
-		return s;
+	public boolean add(Work work) {// 增
+		boolean rs = workDao.add(work);
+		return rs;
 	}
 
 	@Override

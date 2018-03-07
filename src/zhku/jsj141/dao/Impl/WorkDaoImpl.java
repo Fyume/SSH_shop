@@ -17,13 +17,24 @@ public class WorkDaoImpl implements WorkDao {
 		this.hibernateTemplate = hibernateTemplate;
 	}
 	@Override
-	public Serializable add(Work work) {
-		Serializable s = hibernateTemplate.save(work);
-		return s;
+	public boolean add(Work work) {
+		try{
+			hibernateTemplate.save(work);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	@Override
-	public void update(Work work){
-		hibernateTemplate.saveOrUpdate(work);
+	public boolean update(Work work){
+		try{
+			hibernateTemplate.saveOrUpdate(work);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	@Override
 	public List<Work> selectAll(){

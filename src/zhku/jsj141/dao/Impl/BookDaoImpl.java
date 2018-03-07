@@ -14,18 +14,27 @@ import zhku.jsj141.entity.user.Book;
 
 public class BookDaoImpl implements BookDao{
 	private HibernateTemplate hibernateTemplate;
-	@Override
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 		this.hibernateTemplate = hibernateTemplate;
 	}
-	@Override
-	public Serializable add(Book book) {
-		Serializable s = hibernateTemplate.save(book);
-		return s;
+	public boolean add(Book book) {
+		try{
+			hibernateTemplate.save(book);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	@Override
-	public void update(Book book){
-		hibernateTemplate.saveOrUpdate(book);
+	public boolean update(Book book){
+		try{
+			hibernateTemplate.saveOrUpdate(book);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	@Override
 	public List<Book> selectAll(){

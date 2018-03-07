@@ -27,5 +27,9 @@
  			<key column="uid"></key>
  			<one-to-many class="zhku.jsj141.entity.user.Favour"/>
  		</set>
+ 		<set name="history">
+ 			<key column="uid"></key>
+ 			<one-to-many class="zhku.jsj141.entity.user.History"/>
+ 		</set>
  	</class>
  </hibernate-mapping>

@@ -22,6 +22,13 @@ public class User {
 	
 	private Set<Work> work = new HashSet<Work>();
 	private Set<Favour> favour = new HashSet<Favour>();
+	private Set<History> history = new HashSet<History>();
+	public Set<History> getHistory() {
+		return history;
+	}
+	public void setHistory(Set<History> history) {
+		this.history = history;
+	}
 	public Set<Favour> getFavour() {
 		return favour;
 	}

@@ -97,7 +97,7 @@ function page2(count) {
 	}
 }
 function alter_Img(ID, bid) {
-	window.Iid = ID;
+	/*window.Iid = ID;// 全局方便操作*/
 	window.bid = bid;// 全局方便操作
 	var src = $("#" + ID)[0].src;// 选择器选择img标签的结果是个数组
 	$("#B-I").css("display", "block");

@@ -95,13 +95,11 @@ public class test {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
 		String str = format.format(time);
 		System.out.println(time.getDay());*/
-		long tramp = new Date(2018, 2, 26).getTime()/(1000*60*60);
+		/*long tramp = new Date(2018, 2, 26).getTime()/(1000*60*60);
 		long tramp2 = new Date(1990,2,3).getTime()/(1000*60*60);
 		System.out.println(tramp);
-		System.out.println(tramp2);
-		Date time = new Date(tramp*(1000*60*60));
-		Date time2 = new Date(tramp2*(1000*60*60));
-		System.out.println(time.getYear()+"年"+time.getMonth()+"月"+time.getDate()+"日");
-		System.out.println(time2.getYear()+"年"+time2.getMonth()+"月"+time2.getDate()+"日");
+		System.out.println(tramp2);*/
+		Date time = new Date(System.currentTimeMillis()/(1000*60)*(1000*60));
+		System.out.println((time.getYear()+1900)+"年"+(time.getMonth()+1)+"月"+time.getDate()+"日"+time.getHours()+"时"+time.getMinutes()+"分"+time.getSeconds()+"秒");
 	}
 }

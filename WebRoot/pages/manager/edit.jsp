@@ -90,6 +90,26 @@
 				</c:otherwise>
 			</c:choose>
 		</div>
+		<c:if test="${empty sessionScope.managerType }">
+			<div class="notice">
+				<div class="not_div">
+					<div class="not_div_font">
+						<a href="${pageContext.request.contextPath}/managerAction_getUser">管理用户</a>
+					</div>
+					<div id="arrow">
+						<img src="${pageContext.request.contextPath}/images/flag/arrow.png" width=100% height=100%>
+					</div>
+				</div>
+				<div class="not_div" style="margin-left:0px;">
+					<div class="not_div_font">
+						<a href="${pageContext.request.contextPath}/managerAction_getBook">管理书本</a>
+					</div>
+					<div id="arrow">
+						<img src="${pageContext.request.contextPath}/images/flag/arrow.png" width=100% height=100%>
+					</div>
+				</div>
+			</div>
+		</c:if>
 		<div class="manager_content">
 			<!-- 用户 -->
 			<c:if test="${sessionScope.managerType=='user' }">
@@ -106,12 +126,12 @@
 							<select id="slt_status" >
 								<option value="0">未激活</option>
 								<option value="1">已激活</option>
-								<option value="2">所有状态</option>
+								<option value="2" checked>所有状态</option>
 							</select>
 							<select id="slt_permission" >
 								<option value="0">普通用户</option>
 								<option value="1">管理员</option>
-								<option value="2">所有权限</option>
+								<option value="2" checked>所有权限</option>
 							</select>
 							<div class="f2s_button" onclick="select_u()">
 								<span
@@ -275,7 +295,7 @@
 								<option value="网络小说">网络小说</option>
 								<option value="文学作品">文学作品</option>
 								<option value="社会科学">社会科学</option>
-								<option value="">所有</option>
+								<option value="" checked>所有类型</option>
 							</select>
 							日期: 
 							<input id="slt_year1" type="text" placeholder="1999" onchange="return checkYear(1)">年
@@ -343,7 +363,7 @@
 											</select>
 										</div>
 										<div class="cont-cont2">
-											<img id="image${num.count }" class="cont-img" alt="书本封面小图"
+											<img id="image${num.count }" class="cont-img" title="${book.bname }" alt="书本封面小图"
 												src="${ pageContext.request.contextPath}/images/bookImg${book.image }"
 												onclick="alter_Img('image${num.count }','${book.bid }')">
 										</div>
@@ -405,7 +425,7 @@
 											</select>
 										</div>
 										<div class="cont-cont2">
-											<img id="image${num.count }" class="cont-img" alt="书本封面小图"
+											<img id="image${num.count }" class="cont-img" title="${book.bname }" alt="书本封面小图"
 												src="${ pageContext.request.contextPath}/images/bookImg${book.image }"
 												onclick="alter_Img('image${num.count }','${book.bid }')">
 										</div>

@@ -8,20 +8,16 @@ import zhku.jsj141.entity.user.Work;
 
 public interface WorkService {
 
-	public abstract WorkDao getWorkDao();
+	public boolean add(Work work);
 
-	public abstract void setWorkDao(WorkDao workDao);
+	public List<Work> find(Work work, String name);
 
-	public abstract Serializable add(Work work);
+	public boolean update(Work work);
 
-	public abstract List<Work> find(Work work, String name);
+	public List<Work> findAll();
 
-	public abstract boolean update(Work work);
+	public List<Work> find_indistinct(Work work, String name);
 
-	public abstract List<Work> findAll();
-
-	public abstract List<Work> find_indistinct(Work work, String name);
-
-	public abstract boolean delete(Work work);
+	public boolean delete(Work work);
 
 }

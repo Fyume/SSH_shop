@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -14,8 +15,8 @@
 
 <title>
 	<c:choose>
-		<c:when test="${empty sessionScope.book}">${sessionScope.work.wname }</c:when>
-		<c:otherwise>${sessionScope.book.bname }</c:otherwise>
+		<c:when test="${empty sessionScope.book}">《${sessionScope.work.wname }》</c:when>
+		<c:otherwise>《${sessionScope.book.bname }》</c:otherwise>
 	</c:choose>
 </title>
 
@@ -33,37 +34,10 @@
 	src="${pageContext.request.contextPath}/js/user/read.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/read.css">
-<script type="text/javascript">
-	function history(path,ID,pageNum){//放到js文件的话会无效，可能是页面元素加载的问题？
-		var before = "";
-		var str=new Array(2);
-		str=ID.split(";");
-		/* alert(path+","+str[0]+","+str[1]+","+pageNum); */
-		var json={
-			s1:str[0],
-			s2:str[1],
-			s3:pageNum,
-		};
-		JSON.stringify(json);
-		$.ajax({
-			url : path + '/userAction_history',
-			type : "POST",
-			data : {
-				json : json
-			},
-			dataType : "json",
-			timeout : 1000,
-			cache : false,
-			success:function ok(){
-				alert("ok");
-			}
-		})
-	}
-</script>
 </head>
 
 <body onload="page2(${sessionScope.doc_count})">
-	<div class="content_div">
+	<div id="content_div" class="content_div">
 		<c:choose>
 			<c:when test="${empty param.page }">
 				<div class="cont_top">
@@ -74,7 +48,9 @@
 				<br>
 				<c:forEach items="${sessionScope.content }" var="line" begin="0"
 					end="49">
-					<h4>${line }</h4>
+					<c:if test="${line != '　　' }">
+						<h4>${line }</h4>
+					</c:if>
 				</c:forEach>
 			</c:when>
 			<c:otherwise>
@@ -87,30 +63,13 @@
 				<br>
 				<c:forEach items="${sessionScope.content }" var="line"
 					begin="${(param.page-1)*100 }" end="${param.page*100-1 }">
-					<h4>${line }</h4>
+					<c:if test="${line != '　　' }">
+						<h4>${line }</h4>
+					</c:if>
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
-		<c:choose>
-			<c:when test="${empty sessionScope.book}">
-				<c:forEach items="${sessionScope.content }" var="line" begin="0" end="${sessionScope.doc_count/100}" varStatus="num">
-					<div class="page_div">
-					<a id="a_${num.count }"
-						href="${pageContext.request.contextPath}/pages/user/read.jsp?page=${num.count }" onclick="history('${pageContext.request.contextPath}','wid;${sessionScope.work.wid }',${num.count})">
-						${num.count } </a>
-					</div>
-				</c:forEach>
-			</c:when>
-			<c:otherwise>
-				<c:forEach items="${sessionScope.content }" var="line" begin="0" end="${sessionScope.doc_count/100}" varStatus="num">
-					<div class="page_div">
-					<a id="a_${num.count }"
-						href="${pageContext.request.contextPath}/pages/user/read.jsp?page=${num.count }" onclick="history('${pageContext.request.contextPath}','bid;${sessionScope.book.bid }',${num.count})">
-						${num.count } </a>
-					</div>
-				</c:forEach>
-			</c:otherwise>
-		</c:choose>
+		<div class="cont_tips">鼠标双击进入下一页</div>
 		<div class="hide_page">
 			<c:choose>
 			<c:when test="${empty sessionScope.page }">
@@ -128,27 +87,57 @@
 			</c:otherwise>
 		</c:choose>
 		</div>
-		<div class="function_div">
-		<c:choose>
-			<c:when test="${empty sessionScope.user }">
-				<a href="${pageContext.request.contextPath}/pages/user/login.jsp">添加收藏</a>
-			</c:when>
-			<c:otherwise>
+	</div>
+	<c:choose>
+		<c:when test="${empty sessionScope.work }">
+			<div id="cont_showMenu" class="cont_showMenu" onclick="showMenu('${empty sessionScope.user }','wid;${sessionScope.work.wid }',${sessionScope.doc_count})">
+				<input id="Menu_page" type="text" value="1" style="display:none;">
+				<span id="show_Flag" class="glyphicon glyphicon-chevron-left"></span>
+			</div>
+		</c:when>
+		<c:otherwise>
+			<div id="cont_showMenu" class="cont_showMenu" onclick="showMenu('${empty sessionScope.user }','bid;${sessionScope.book.bid }',${sessionScope.doc_count})">
+				<input id="Menu_page" type="text" value="1" style="display:none;">
+				<span id="show_Flag" class="glyphicon glyphicon-chevron-left"></span>
+			</div>
+		</c:otherwise>
+	</c:choose>
+	
+	<div id="cont_menu" class="cont_menu">
+		<div class="menu_top">
+			<div class="function_div">
 				<c:choose>
-				<c:when test="${empty sessionScope.work }">
-				<a
-					href="${pageContext.request.contextPath}/uesrAction_addF?bid=${sessionScope.book.bid }&page=${num.count }">添加收藏</a>
-				</c:when>
-				<c:otherwise>
-				<a
-					href="${pageContext.request.contextPath}/uesrAction_addF?wid=${sessionScope.work.wid }&page=${num.count }">添加收藏</a>
-				</c:otherwise>
-			</c:choose>
-			</c:otherwise>
-		</c:choose>
+					<c:when test="${empty sessionScope.user }">
+						<a href="${pageContext.request.contextPath}/pages/user/login.jsp">添加收藏</a>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+						<c:when test="${empty sessionScope.work }">
+						<a
+							href="${pageContext.request.contextPath}/uesrAction_addF?bid=${sessionScope.book.bid }&page=${num.count }">添加收藏</a>
+						</c:when>
+						<c:otherwise>
+						<a
+							href="${pageContext.request.contextPath}/uesrAction_addF?wid=${sessionScope.work.wid }&page=${num.count }">添加收藏</a>
+						</c:otherwise>
+					</c:choose>
+					</c:otherwise>
+				</c:choose>
+				</div>
+				<div class="function_div">
+					<a href="${pageContext.request.contextPath}/pages/user/book.jsp">返回章节选择</a>
+				</div>
 		</div>
-		<div class="function_div">
-			<a href="${pageContext.request.contextPath}/pages/index.jsp">返回主页</a>
+		<div class="menu_center">
+			<span>页数选择：</span>
+			<br>
+			<div id="menu_page" class="menu_page">
+				<!-- 放页码 -->
+			</div>
+		</div>
+		<div class="menu_bottom">
+			<input id="menu_dec" class="menu_bottom_btn1" type="button" value="上一页" onclick="decpage()">
+			<input id="menu_add" class="menu_bottom_btn1" type="button" value="下一页" onclick="addpage()">
 		</div>
 	</div>
 </body>
