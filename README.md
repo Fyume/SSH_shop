@@ -52,7 +52,7 @@
 
 **③**上传的图片没有立刻显示：由于我图片是存到项目文件夹下面的，需要手动刷新项目才出现上传的文件。根据网上说得，好像是由于tomcat和eclipse的文件部署不太一样，eclipse下创建文件会立刻在tomcat那边也生成，而反之不会，这只要配置一下tomcat的server.xml文件即可：
 
-在host标签内加入
+在host标签内加入(privilege属性好像是核心？)
 
 `<Context path="eclipse项目下的路径（例如/SSH_text/images）" docBase="相对于磁盘中的绝对路径" debug="0" reloadable="false" privilege="true"/>`
 
@@ -63,3 +63,5 @@
 **⑥**我发现好像将utils类放到service层比较好，配置得简便点，调用service层就可以操作读写了，不过都已经配置到action层了就。。。
 
 **⑦**交互的东西越想越多细节...要死
+
+**⑧**突然发现记住bootstrap的样式名就不用敲CSS敲个半死。。特别是下拉列表这种要写jq的。。还有struts2的模型驱动等等的数据封装我没有搞。。直接通过json和request取了 好像很不规范 明早 哦不 睡醒就改回去吧。。

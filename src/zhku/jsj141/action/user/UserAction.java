@@ -45,7 +45,7 @@ import com.opensymphony.xwork2.ActionSupport;
  * 
  * @Action(value="register") })
  */
-public class UserAction extends ActionSupport {
+public class UserAction extends ActionSupport{
 	private UserService userService;
 	private BookService bookService;
 	private userUtils userUtils;

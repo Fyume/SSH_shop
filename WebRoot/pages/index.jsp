@@ -95,7 +95,7 @@
 		<div class="sec_logo"></div>
 		<div class="sec_font">在线阅读网站</div>
 		<div class="sec_video">
-			<video width="100%" height="100%" loop="loop" autoplay="autoplay" poster="xx.png" style="object-fit:fill;">
+			<video width="100%" height="100%" loop="loop" autoplay="autoplay" style="object-fit:fill;">
 				<source src="${pageContext.request.contextPath}/images/video/sec(2).mp4"  type="video/mp4">
 			</video>
 		</div>
@@ -163,7 +163,7 @@
 			<c:choose>
 				<c:when test="${sessionScope.classfy=='用户作品'}">
 					<c:forEach items="${sessionScope.worklist }" var="work">
-					
+						
 						<!-- 还没加上去 -->
 						
 					</c:forEach>

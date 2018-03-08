@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 body{
-	background-color: rgba(204,232,207,0.95);
+	background-color: rgba(204,232,207,0.95);/*查了下好像这个背景色比较不伤眼 我也觉得还不错？*/
 }
 h4{
 	text-align:left;
@@ -42,7 +42,7 @@ a:HOVER{
 	position:absolute;
 	left:60%;
 	top:0;
-	width:150px;
+	width:220px;
 	height:30px;
 	font-size:15px;
 	color:red;
@@ -112,6 +112,18 @@ a:HOVER{
 	border:1px #c0c0c0 solid;
 	cursor:pointer;
 	background-color:rgba(128,255,255,0。2);
+}
+.page_div2{
+	margin:1px;
+	margin-left:2px;
+	width:20.5px;
+	height:20px;
+	font-size:10px;
+	color:#0080c0;
+	border-radius:5px;
+	border:1px #c0c0c0 solid;
+	cursor:pointer;
+	background-color:#00ff40;
 }
 .page_div:HOVER{
 	margin:1px;

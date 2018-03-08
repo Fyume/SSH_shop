@@ -23,6 +23,9 @@ a,a:hover{
 	border-bottom:1px #c0c0c0 solid;
 	background-color:rgba(128,255,255,0.2);
 }
+.header input,.header select{
+	border-radius:5px;
+}
 .header_index,.header_classify,.header_random,.header_work{
 	padding-top:3px;
 	text-align:center;
@@ -32,7 +35,7 @@ a,a:hover{
 	cursor:pointer;
 }
 .header_index{
-	background-color:#ee3d28;
+	background-color:rgba(238,61,40,0.95);
 }
 .header_work:hover{
 	background-color:#ff8040;

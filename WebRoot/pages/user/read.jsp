@@ -36,7 +36,7 @@
 	href="${pageContext.request.contextPath}/css/user/read.css">
 </head>
 
-<body onload="page2(${sessionScope.doc_count})">
+<body>
 	<div id="content_div" class="content_div">
 		<c:choose>
 			<c:when test="${empty param.page }">
@@ -69,7 +69,7 @@
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
-		<div class="cont_tips">鼠标双击进入下一页</div>
+		<div class="cont_tips">鼠标双击进入下一页 右键返回</div>
 		<div class="hide_page">
 			<c:choose>
 			<c:when test="${empty sessionScope.page }">
@@ -90,19 +90,18 @@
 	</div>
 	<c:choose>
 		<c:when test="${empty sessionScope.work }">
-			<div id="cont_showMenu" class="cont_showMenu" onclick="showMenu('${empty sessionScope.user }','wid;${sessionScope.work.wid }',${sessionScope.doc_count})">
+			<div id="cont_showMenu" class="cont_showMenu" onclick="showMenu('${empty sessionScope.user }','bid;${sessionScope.book.bid }','${sessionScope.doc_count}',${param.page })">
 				<input id="Menu_page" type="text" value="1" style="display:none;">
 				<span id="show_Flag" class="glyphicon glyphicon-chevron-left"></span>
 			</div>
 		</c:when>
 		<c:otherwise>
-			<div id="cont_showMenu" class="cont_showMenu" onclick="showMenu('${empty sessionScope.user }','bid;${sessionScope.book.bid }',${sessionScope.doc_count})">
+			<div id="cont_showMenu" class="cont_showMenu" onclick="showMenu('${empty sessionScope.user }',,'wid;${sessionScope.work.wid }','${sessionScope.doc_count}',${param.page })">
 				<input id="Menu_page" type="text" value="1" style="display:none;">
 				<span id="show_Flag" class="glyphicon glyphicon-chevron-left"></span>
 			</div>
 		</c:otherwise>
 	</c:choose>
-	
 	<div id="cont_menu" class="cont_menu">
 		<div class="menu_top">
 			<div class="function_div">

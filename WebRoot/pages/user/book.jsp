@@ -19,6 +19,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/user/book.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 <!-- 用下载下来的bootstrap.min.css没有图标 不知道为什么 可能是需要其他的文件支持 -->
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -92,8 +94,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<div class="sec_logo"></div>
 		<div class="sec_font">在线阅读网站</div>
 		<div class="sec_video">
-			<video width="100%" height="100%" loop="loop" autoplay="autoplay"
-				poster="xx.png" style="object-fit:fill;"> <source
+			<video width="100%" height="100%" loop="loop" autoplay="autoplay" style="object-fit:fill;"> <source
 				src="${pageContext.request.contextPath}/images/video/sec(2).mp4"
 				type="video/mp4"></video>
 		</div>
@@ -158,9 +159,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	</div>
 	<div class="b_bottom">
 		<div class="book_total">
-			<div class="tt_top">
-				<img alt="" src="${pageContext.request.contextPath }/images/background/00569b7deaaa792.jpg">
-			</div>
 			<br>
 			<div class="tt_img">
 				<img width=100% height=100% title="${sessionScope.book.bname }" alt="${sessionScope.book.bname }" src="${pageContext.request.contextPath}/images/bookImg${sessionScope.book.image }">
