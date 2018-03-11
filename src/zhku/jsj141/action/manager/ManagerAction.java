@@ -108,10 +108,10 @@ public class ManagerAction extends ActionSupport {
 		System.out.println(json);
 		JSONObject jsonobj = JSONObject.parseObject(json);
 		System.out.println(jsonobj.get("uid"));
-		/*String username = (String)request.getParameter("username");
+		String username = (String)jsonobj.get("username");
 		System.out.println(username);
-		String u_permission = (String)request.getParameter("u_permission");
-		System.out.println(u_permission);
+		String u_permission = (String)jsonobj.get("u_permission");
+		/*System.out.println(u_permission);
 		int u_per = Integer.parseInt(u_permission);
 		user.setUid(uid);
 		user = userService.find(user, "uid");

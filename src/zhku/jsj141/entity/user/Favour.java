@@ -5,7 +5,7 @@ public class Favour {
 	private String uid;
 	private int bid;
 	private int wid;
-	private long time;
+	private long time;//收藏时间
 	
 	private User user;
 	private Work work;

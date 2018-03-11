@@ -1,9 +1,6 @@
 package zhku.jsj141.service.Impl;
 
-import java.io.Serializable;
 import java.util.List;
-
-import org.springframework.dao.DataAccessException;
 
 import zhku.jsj141.dao.UserDao;
 import zhku.jsj141.entity.user.Book;
@@ -69,13 +66,36 @@ public class UserServiceImpl implements UserService{
 	}
 	@Override
 	public boolean delete(User user){
-		userDao.delete(user);
-		return false;
+		boolean rs = userDao.delete(user);
+		return rs;
+	}
+	//添加收藏
+	@Override
+	public boolean addF(Favour favour){
+		boolean rs = userDao.addF(favour);
+		return rs;
+	}
+	//取消收藏
+	@Override
+	public boolean delF(Favour favour){
+		boolean rs = userDao.delF(favour);
+		return rs;
+	}
+	//查找收藏记录
+	@Override
+	public List<Favour> findF(User user){
+		List<Favour> list = userDao.findF(user);
+		return list;
 	}
 	@Override
-	public boolean addF(Favour favour){//添加收藏
-		userDao.addF(favour);
-		return false;
+	public List<Favour> findF(User user,Book book){
+		List<Favour> list = userDao.findF(user,book);
+		return list;
+	}
+	@Override
+	public List<Favour> findF(User user,Work work){//增
+		List<Favour> list = userDao.findF(user,work);
+		return list;
 	}
 	@Override
 	public List<User> finds(User user,int status,int permission){//不定项条件查询

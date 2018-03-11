@@ -1,5 +1,8 @@
 $(document).ready(function(){//展示分页菜单
 	$("#cont_showMenu").click();
+	if($("#content").val()=="true"){
+		window.location.href="/SSH_test/pages/user/book.jsp";
+	}
 });
 $(function(){//阅读操作 双击下一页以及禁用左右键默认功能
 	$("#content_div").bind({
@@ -10,9 +13,15 @@ $(function(){//阅读操作 双击下一页以及禁用左右键默认功能
 		}}
 	);
 	$("#content_div").dblclick(function(){
-		var page = parseInt($("#page").val());
+		var page = parseInt($("#page").val());//书本的第几页
+		var M_page = window.M_page_r;//当前菜单页面是第几页
 		if(window.page_r!=null&&window.page_r>page){
-			window.location.href='/SSH_test/pages/user/read.jsp?page='+(page+1);
+			if(page==(M_page*48)){
+				addpage();
+				$("#"+(page+1)).click();
+			}else{
+				$("#"+(page+1)).click();
+			}
 		}else{
 			alert("没有下一页啦！");
 		}
@@ -20,8 +29,14 @@ $(function(){//阅读操作 双击下一页以及禁用左右键默认功能
 	$("#content_div").mousedown(function(e){
 		if(3 == e.which){//1是左键 2是中键 3是右键
 			var page = parseInt($("#page").val());
+			var M_page = window.M_page_r;//当前菜单页面是第几页
 			if(page>1){
-				window.location.href='/SSH_test/pages/user/read.jsp?page='+(page-1);
+				if(page==((M_page-1)*48+1)){
+					decpage();
+					$("#"+(page-1)).click();
+				}else{
+					$("#"+(page-1)).click();
+				}
 			}else{
 				alert("到顶啦！");
 			}
@@ -80,7 +95,7 @@ function createPageNum(){
 				if(user=="false"){
 					var n = msg.indexOf(";");
 					var font = msg.substring(0, n);
-					var id = msg.substr(n+1, msg.length);
+					var id = parseInt(msg.substr(n+1, msg.length));
 					var json = {
 							font : font,
 							id : id,
@@ -120,7 +135,7 @@ function createPageNum(){
 				if(user=="false"){
 					var n = msg.indexOf(";");
 					var font = msg.substring(0, n);
-					var id = msg.substr(n+1, msg.length);
+					var id = parseInt(msg.substr(n+1, msg.length));
 					var json = {
 							font : font,
 							id : id,
@@ -186,4 +201,74 @@ function addpage(){
 function decpage(){
 	window.M_page_r = window.M_page_r-1;//菜单当前页数    默认为1
 	createPageNum();
+}
+//添加收藏 仅适用于read.jsp 由于用的是全局变量
+function addFavour(){
+	var user = window.user_r;
+	var msg = window.msg_r;
+	var count = window.count_r;
+	var num = parseInt(event.data.i);
+	if(user=="false"){
+		var n = msg.indexOf(";");
+		var font = msg.substring(0, n);
+		var id = parseInt(msg.substr(n+1, msg.length));
+		var json = {
+				font : font,
+				id : id,
+				where : "read"
+		}
+		$.ajax({
+			url : '/SSH_test/userAction_addF',
+			type : "POST",
+			dataType : 'json',
+			data : {
+				json : JSON.stringify(json)
+			},
+			async : false,
+			cache : false,
+			success : function(){
+				$("#font_favour").html("取消收藏");
+				$("#font_favour").attr("class","glyphicon glyphicon-star");
+			},
+		});
+	}else{//虽然有c:choose控制 万一session过期
+		if(confirm("还没登录呢 要前往登录吗？")){
+			window.location.href='/SSH_test/pages/user/login.jsp';
+		}
+	}
+}
+//取消收藏
+function cancFavour(){
+	var user = window.user_r;
+	var msg = window.msg_r;
+	var count = window.count_r;
+	var num = parseInt(event.data.i);
+	if(user=="false"){
+		var n = msg.indexOf(";");
+		var font = msg.substring(0, n);
+		var id = parseInt(msg.substr(n+1, msg.length));
+		var json = {
+				font : font,
+				id : id,
+				where : "read"
+		}
+		$.ajax({
+			url : '/SSH_test/userAction_delF',
+			type : "POST",
+			dataType : 'json',
+			data : {
+				json : JSON.stringify(json)
+			},
+			async : false,
+			cache : false,
+			success : function(){
+				$("#font_favour").html("添加收藏");
+				$("#font_favour").attr("class","glyphicon glyphicon-star-empty");
+			},
+		});
+	}else{//虽然有c:choose控制 万一session过期
+		if(confirm("还没登录呢 要前往登录吗？")){
+			window.location.href='/SSH_test/pages/user/login.jsp';
+		}
+	}
 }

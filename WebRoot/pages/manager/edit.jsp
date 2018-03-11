@@ -100,7 +100,7 @@
 						<img src="${pageContext.request.contextPath}/images/flag/arrow.png" width=100% height=100%>
 					</div>
 				</div>
-				<div class="not_div" style="margin-left:0px;">
+				<div class="not_div" style="margin-left:1px;">
 					<div class="not_div_font">
 						<a href="${pageContext.request.contextPath}/managerAction_getBook">管理书本</a>
 					</div>
@@ -457,18 +457,16 @@
 			</c:if>
 		</div>
 		<div id="B-I" class="Bimg" style="display:none;">
-			<img id="B-img"
-				src="${ pageContext.request.contextPath}/images/bookImg/5031868592.jpg"
-				alt="书本封面大图"
+			<img id="B-img" src="" alt="书本封面大图"
 				onclick="disapper('${ pageContext.request.contextPath}')">
-			<span style="width:10%;height:10%;margin-top:-45%;color:white;font-size:15px;font-weight:700;">点击图片回到回到原来页面</span>
-			<div style="position:absolute;width:200px;height:30px;left:43%;top:0;">
+			<span class="Img_tips">点击图片回到回到原来页面</span>
+			<div class="ImgForm_div">
 				<form id="ImageForm" style="display:none;">
 					<input id="image" name="image" type="file" accept="image/*" onchange="alt_btn()">
 				</form>
-				<input type="button" style="width:48%;height:100%;" value="修改封面"
+				<input type="button" value="修改封面"
 					onclick="checkForm()">
-				<input id="alt_btn" type="button" style="width:48%;height:100%;display:none" value="确认修改"
+				<input id="alt_btn" type="button" style="display:none" value="确认修改"
 					onclick="update_Img()">
 			</div>
 		</div>

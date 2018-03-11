@@ -343,58 +343,158 @@ public class UserAction extends ActionSupport{
 	}
 	public String addF() throws Exception{//添加收藏
 		HttpServletRequest request = ServletActionContext.getRequest();
-		int bid = Integer.parseInt(request.getParameter("bid"));
-		int wid = Integer.parseInt(request.getParameter("wid"));
-		String page = (String)request.getParameter("page");
+		HttpServletResponse response = ServletActionContext.getResponse();
 		User user = (User) request.getSession().getAttribute("user");
-		Favour favour = new Favour();
-		if(page!=null){
-			favour.setBid(bid);
-			favour.setUid(user.getUid());
-			long time = System.currentTimeMillis();
-			favour.setTime(time);
-			userService.addF(favour);
-			request.getSession().setAttribute("page", page);
+		String json = (String)request.getParameter("json");
+		JSONObject jsonObj = JSONObject.parseObject(json);
+		PrintWriter out = response.getWriter();//好像不返回数据ajax会没反应..
+		if(user!=null){
+			String font = (String)jsonObj.get("font");
+			int id = (int) jsonObj.get("id");
+			Favour favour = new Favour();
+			List<Favour> list = null;
+			if(font.equals("bid")){
+				Book book = new Book();
+				book.setBid(id);
+				favour.setBook(book);
+				favour.setUser(user);
+				long time = System.currentTimeMillis();
+				favour.setTime(time);
+				list = userService.findF(user,book);
+				if(list.isEmpty()){
+					userService.addF(favour);
+				}
+			}else if(font.equals("wid")){
+				Work work = new Work();
+				work.setWid(id);
+				favour.setWork(work);
+				favour.setUser(user);
+				long time = System.currentTimeMillis();
+				favour.setTime(time);
+				list = userService.findF(user,work);
+				if(list.isEmpty()){
+					userService.addF(favour);
+				}
+			}
 		}
-		return "goto_read";
+		String where = (String) jsonObj.get("where");
+		out.print("1");
+		out.flush();
+		out.close();
+		return "goto_"+where;
 	}
-	/**************************未完成**************************/
-	public String history() throws Exception{//记录浏览历史
+	public String delF() throws Exception{//取消收藏
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		User user = (User) request.getSession().getAttribute("user");
+		String json = (String)request.getParameter("json");
+		JSONObject jsonObj = JSONObject.parseObject(json);
+		PrintWriter out = response.getWriter();//好像不返回数据ajax会没反应..
+		if(user!=null){
+			String font = (String)jsonObj.get("font");
+			int id = (int) jsonObj.get("id");
+			Favour favour = new Favour();
+			List<Favour> list = null;
+			if(font.equals("bid")){
+				Book book = new Book();
+				book.setBid(id);
+				favour.setBook(book);
+				favour.setUser(user);
+				long time = System.currentTimeMillis();
+				favour.setTime(time);
+				list = userService.findF(user,book);
+				if(!list.isEmpty()){
+					favour = list.get(0);
+					userService.delF(favour);
+				}
+			}else if(font.equals("wid")){
+				Work work = new Work();
+				work.setWid(id);
+				favour.setWork(work);
+				favour.setUser(user);
+				long time = System.currentTimeMillis();
+				favour.setTime(time);
+				list = userService.findF(user,work);
+				if(!list.isEmpty()){
+					favour = list.get(0);
+					userService.delF(favour);
+				}
+			}
+		}
+		String where = (String) jsonObj.get("where");
+		out.print("1");
+		out.flush();
+		out.close();
+		return "goto_"+where;
+	}
+	public String getHistory() throws Exception{//获取书本的浏览记录
+		HttpServletRequest request = ServletActionContext.getRequest();
+		HttpServletResponse response = ServletActionContext.getResponse();
+		User user = (User) request.getSession().getAttribute("user");
+		String json = (String)request.getParameter("json");
+		JSONObject jsonObj = JSONObject.parseObject(json);
+		PrintWriter out = response.getWriter();//好像不返回数据ajax会没反应..
+		if(user!=null){//不为空则查找历史记录
+			String font = (String)jsonObj.get("font");
+			int id = (int) jsonObj.get("id");
+			List<History> list_h = null;
+			if(font.equals("bid")){
+				Book book = new Book();
+				book.setBid(id);
+				list_h = userService.findH(user, book);
+			}else if(font.equals("wid")){
+				Work work = new Work();
+				work.setWid(id);
+				list_h = userService.findH(user, work);
+			}
+			if(list_h.size()!=0){//有 则将浏览历史加入
+				History b_History = list_h.get(0);
+				request.getSession().setAttribute("b_History", b_History);
+				out.print(b_History.getPageNum());
+			}else{
+				out.print(0);
+				request.getSession().setAttribute("b_History", null);
+			}
+		}
+		out.flush();
+		out.close();
+		return "goto_book";
+	}
+	public String history() throws Exception{//记录浏览历史 有 则更新
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpServletResponse response = ServletActionContext.getResponse();
 		User user = (User) request.getSession().getAttribute("user");
 		if(user!=null){
-			String uid = user.getUid();
 			String json = (String)request.getParameter("json");
 			JSONObject jsonObj = JSONObject.parseObject(json);
-			System.out.println("font:"+jsonObj.get("font"));
+			/*System.out.println("font:"+jsonObj.get("font"));
 			System.out.println("id:"+jsonObj.get("id"));
-			System.out.println("page:"+jsonObj.get("page"));
+			System.out.println("page:"+jsonObj.get("page"));*/
 			String font = (String)jsonObj.get("font");
 			int id = (int) jsonObj.get("id");
 			int page = (int) jsonObj.get("page");
 			request.getSession().setAttribute("page", page);
 			History history = new History();
 			List<History> list = null;
-			history.setUid(uid);
-			if(font=="bid"){
+			history.setUser(user);
+			if(font.equals("bid")){
 				Book book = new Book();
 				book.setBid(id);
-				history.setBid(id);
+				history.setBook(book);
 				list = userService.findH(user,book);
-				if(list!=null){//假如数据库有过记录则沿用原来的记录，更新一下就好
+				if(list.size()!=0){//假如数据库有过记录则沿用原来的记录，更新一下就好
 					history = list.get(0);
 				}
 				history.setPageNum(page);
 				long time = System.currentTimeMillis()/(1000*60);//只保留到分
 				history.setTime(time);
 				userService.addHistory(history);
-			}else if(font=="wid"){
+			}else if(font.equals("wid")){
 				Work work = new Work();
 				work.setWid(id);
-				history.setWid(id);
+				history.setWork(work);
 				list = userService.findH(user,work);
-				if(list!=null){//假如数据库有过记录则沿用原来的记录，更新一下就好
+				if(list.size()!=0){//假如数据库有过记录则沿用原来的记录，更新一下就好
 					history = list.get(0);
 				}
 				history.setPageNum(page);
@@ -403,7 +503,7 @@ public class UserAction extends ActionSupport{
 				userService.addHistory(history);
 			}
 		}
-		PrintWriter out = response.getWriter();//好像不返回数据ajax会没反应..
+		PrintWriter out = response.getWriter();//好像不返回数据ajax会没反应(好像和ajax设置的数据格式有关？)..
 		out.print("1");
 		out.flush();
 		out.close();

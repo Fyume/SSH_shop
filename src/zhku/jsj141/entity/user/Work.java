@@ -13,6 +13,7 @@ public class Work {
 	private String image;// 书本封面路径
 	
 	private Set<Favour> favour = new HashSet<Favour>();
+	private Set<History> history = new HashSet<History>();
 	private User user;
 	public User getUser() {
 		return user;
@@ -25,6 +26,12 @@ public class Work {
 	}
 	public void setFavour(Set<Favour> favour) {
 		this.favour = favour;
+	}
+	public Set<History> getHistory() {
+		return history;
+	}
+	public void setHistory(Set<History> history) {
+		this.history = history;
 	}
 	
 	

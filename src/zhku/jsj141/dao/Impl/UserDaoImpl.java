@@ -62,6 +62,16 @@ public class UserDaoImpl implements UserDao{
 		return true;
 	}
 	@Override
+	public boolean delF(Favour favour){
+		try{
+			hibernateTemplate.delete(favour);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	@Override
 	@SuppressWarnings("unchecked")
 	public List<User> select(User user, String name) {
 		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
@@ -102,13 +112,36 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean addHistory(History history) {
 		try{
-			hibernateTemplate.saveOrUpdate(history);;
+			hibernateTemplate.saveOrUpdate(history);
 		}catch(DataAccessException e){
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
+	//收藏相关
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Favour> findF(User user) {
+		List<Favour> list = null;
+		list = (List<Favour>) hibernateTemplate.find("from Favour where uid = ?",user.getUid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Favour> findF(User user,Book book) {
+		List<Favour> list = null;
+		list = (List<Favour>) hibernateTemplate.find("from Favour where uid = ? and bid = ?",user.getUid(),book.getBid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Favour> findF(User user,Work work) {
+		List<Favour> list = null;
+		list = (List<Favour>) hibernateTemplate.find("from Favour where uid = ? and wid = ?",user.getUid(),work.getWid());
+		return list;
+	}
+	//浏览历史相关
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<History> findH(User user) {

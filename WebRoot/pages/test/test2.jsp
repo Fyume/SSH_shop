@@ -23,12 +23,11 @@
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
 <script type="text/javascript">
-	window.ppp = 1;
-	alert("test1:"+window.ppp);
+	alert("test2:"+window.ppp);
 </script>
 </head>
 
 <body>
-	<a href="${pageContext.request.contextPath }/pages/test/test2.jsp">test2</a>
+	<a href="${pageContext.request.contextPath }/pages/test/test.jsp">test</a>
 </body>
 </html>

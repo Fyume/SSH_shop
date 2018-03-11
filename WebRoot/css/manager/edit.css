@@ -15,11 +15,17 @@ table{
 	background-color:#ffffff;
 	margin-top:50px;
 }
+input,select{
+	border-radius:5px;
+}
 input[type="text"]{
 	width:90px;
 }
 input[type="button"]{
 	width:50px;
+}
+input[type="button"]:HOVER{
+	color: #ff0080;
 }
 th,td{
 	text-align:center;
@@ -34,61 +40,62 @@ a,a:hover{
 	color:black;
 }
 .header{
-	width:1350px;
-	height:50px;
-	border-bottom:1px #c0c0c0 solid;
+	width:100%;
+	height:51px;
+	border-radius:5px;
+	border-bottom:2px #0000ff solid;
 }
 .header_logo{
-	width:50px;
-	height:50px;
+	width:49px;
+	height:49px;
 	border:1px green solid;
+	border-radius:5px;
 	background-image:url("../../images/flag/logo.png");
-	background-size:50px 50px;
+	background-size:49px 49px;
 }
 .header_index,.h_user,.h_book{
 	padding-top:10px;
 	text-align:center;
 	width:100px;
-	height:50px;
+	height:49px;
 	border:1px #c0c0c0 solid;
+	border-radius:2px;
+	margin-left:1px;
 	cursor:pointer;
 }
 .header_index:hover,.h_user:hover,.h_book:hover{
 	background-image:url("../../images/flag/header_min.png");
 }
 .header_user{
-	margin-top:5px;
-	width:317px;
-	height:44px;
+	width:170px;
+	height:49px;
 	float:right;
-	border-right:1px #c0c0c0 solid;
 }
 .user_img{
 	padding-top:10px;
 	text-align:center;
-	width:60px;
-	height:44px;
-	border-left:1px #c0c0c0 solid;
-	border-right:1px #c0c0c0 solid;
+	width:68px;
+	height:100%;
+	border:1px #c0c0c0 solid;
+	border-radius:2px;
 	cursor:pointer;
 }
-.user_message{
-	padding-top:10px;
-	text-align:center;
-	width:56px;
-	height:44px;
-	border-left:1px #c0c0c0 solid;
-	border-right:1px #c0c0c0 solid;
-	cursor:pointer;
-}
-.user_favorite,.user_upload{
+.user_upload{
 	padding-top:10px;
 	text-align:center;
 	width:100px;
-	height:44px;
+	height:100%;
+	font-size:18px;
+	font-weight:800;
 	border-left:1px #c0c0c0 solid;
 	border-right:1px #c0c0c0 solid;
+	border-radius:4px;
+	box-shadow:2px 2px 2px #000000;
 	cursor:pointer;
+	background-color: #04bae8;
+}
+.user_upload:HOVER{
+	box-shadow:0px 0px 0px;
 }
 .classify_st{
 	position:absolute;
@@ -144,7 +151,7 @@ a,a:hover{
 .user_info{
 	position:absolute;
 	top:50px;  
-    right:200px; 
+    right:53px; 
 	display:none;
 	border-left:1px #0080ff solid;
 	border-right:1px #0080ff solid;
@@ -196,14 +203,14 @@ a,a:hover{
 	height:120px;
 }
 .not_div_font{
-	float:left;
-	width:100px;
-	height:50px;
-	background-color:white;
-	opacity:1;
 	padding-top:10px;
 	text-align:center;
+	width:100px;
+	height:49px;
 	border:1px #c0c0c0 solid;
+	border-radius:2px;
+	margin-left:1px;
+	background-color:white;
 	cursor:pointer;
 }
 @keyframes arrowMove{
@@ -232,6 +239,9 @@ a,a:hover{
 	height:550px;
 	background-color:#c0c0c0;
 	text-align:center;
+}
+.manager_content a:hover{
+	color:#ff0080;
 }
 .userTable{
 	margin-left:13%;
@@ -341,13 +351,6 @@ a,a:hover{
 	background-color: #8080ff;
 }
 .f2s_button:ACTIVE{
-	width:140px;
-	height:27px;
-	border:1px white solid;
-	border-radius:16px;
-	margin-left:265px;
-	margin-top:8px;
-	cursor: pointer;
 	background-color: #0080c0;
 }
 .f2f_font{
@@ -430,6 +433,25 @@ a,a:hover{
 	background-size: cover;
 	-moz-background-size: cover;
 	cursor:pointer;
+}
+.imgForm_div{
+	position:absolute;
+	width:200px;
+	height:30px;
+	left:43%;
+	top:0;
+}
+.imgForm_div input[type='button']{
+	width:48%;
+	height:100%;
+}
+.Img_tips{
+	width:10%;
+	height:10%;
+	margin-top:-45%;
+	color:white;
+	font-size:15px;
+	font-weight:700;
 }
 .Bimg{
 	display:none;

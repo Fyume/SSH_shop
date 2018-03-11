@@ -17,13 +17,19 @@ public class Book {
 	private String type_flag;//书本类型（建立在大分类下的）,用“;”分开
 	
 	private Set<Favour> favour = new HashSet<Favour>();
+	private Set<History> history = new HashSet<History>();
 	public Set<Favour> getFavour() {
 		return favour;
 	}
 	public void setFavour(Set<Favour> favour) {
 		this.favour = favour;
 	}
-	
+	public Set<History> getHistory() {
+		return history;
+	}
+	public void setHistory(Set<History> history) {
+		this.history = history;
+	}
 	
 	public int getBid() {
 		return bid;

@@ -16,9 +16,13 @@
  		<property name="path"></property>
  		<property name="image"></property>
  		<property name="type_flag"></property>
- 		<set name="favour">
+ 		<set name="favour" inverse="true">
  			<key column="bid"></key>
  			<one-to-many class="zhku.jsj141.entity.user.Favour"/>
+ 		</set>
+ 		<set name="history" inverse="true">
+ 			<key column="bid"></key>
+ 			<one-to-many class="zhku.jsj141.entity.user.History"/>
  		</set>
  	</class>
  </hibernate-mapping>

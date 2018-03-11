@@ -12,7 +12,6 @@ import org.apache.struts2.ServletActionContext;
 
 import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
-import zhku.jsj141.entity.user.History;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.UserService;
@@ -30,16 +29,7 @@ public class BookAction extends ActionSupport {
 	private String imageFileName;
 	private String imageContentType;
 	private bookUtils bookUtils;
-/*	private String bid;
 	
-	public String getBid() {
-		return bid;
-	}
-
-	public void setBid(String bid) {
-		this.bid = bid;
-	}
-*/
 	public bookUtils getBookUtils() {
 		return bookUtils;
 	}
@@ -188,18 +178,10 @@ public class BookAction extends ActionSupport {
 		User user = (User) request.getSession().getAttribute("user");
 		Book book = new Book();
 		book.setBid(bid);
-		if(user!=null){//不为空则查找历史记录
-			List<History> list_h = userService.findH(user, book);
-			if(list_h!=null){
-				History b_History = list_h.get(0);
-				request.getSession().setAttribute("b_History", b_History);
-			}else{
-				request.getSession().setAttribute("b_History", null);
-			}
-		}
+		System.out.println(bid);
 		List<Book> list = bookService.find(book, "bid");
-		book = list.get(0);
-		if(book.getBname()!=null&&!book.getBname().isEmpty()){
+		if(list.size()!=0){
+			book = list.get(0);
 			List<String> str = bookUtils.readbook(book.getType(), book.getPath());
 			request.getSession().setAttribute("content", str);//书本内容
 			request.getSession().setAttribute("doc_count", str.size());//读取到的行数

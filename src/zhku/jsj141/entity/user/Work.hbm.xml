@@ -16,9 +16,13 @@
  		<!-- 外键配置 -->
  		<many-to-one name="user" class="zhku.jsj141.entity.user.User" column="author">
  		</many-to-one>
- 		<set name="favour">
+ 		<set name="favour" inverse="true">
  			<key column="bid"></key>
  			<one-to-many class="zhku.jsj141.entity.user.Favour"/>
+ 		</set>
+ 		<set name="history" inverse="true">
+ 			<key column="wid"></key>
+ 			<one-to-many class="zhku.jsj141.entity.user.History"/>
  		</set>
  	</class>
  </hibernate-mapping>

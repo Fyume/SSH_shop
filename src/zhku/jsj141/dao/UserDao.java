@@ -43,4 +43,12 @@ public interface UserDao {
 	
 	public List<History> findH(User user, Work work);
 
+	public List<Favour> findF(User user);
+
+	public List<Favour> findF(User user, Book book);
+	
+	public List<Favour> findF(User user, Work work);
+
+	public boolean delF(Favour favour);
+
 }

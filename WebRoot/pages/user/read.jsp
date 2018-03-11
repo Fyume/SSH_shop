@@ -25,19 +25,20 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<link rel="stylesheet"
-	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/user/read.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<link rel="stylesheet"
+	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/read.css">
 </head>
 
 <body>
 	<div id="content_div" class="content_div">
+		<input id="content" type="text" value="${empty sessionScope.content }" style="display:none;">
 		<c:choose>
 			<c:when test="${empty param.page }">
 				<div class="cont_top">
@@ -69,7 +70,7 @@
 				</c:forEach>
 			</c:otherwise>
 		</c:choose>
-		<div class="cont_tips">鼠标双击进入下一页 右键返回</div>
+		<div class="cont_tips">鼠标双击页面进入下一页 右键返回</div>
 		<div class="hide_page">
 			<c:choose>
 			<c:when test="${empty sessionScope.page }">
@@ -107,17 +108,17 @@
 			<div class="function_div">
 				<c:choose>
 					<c:when test="${empty sessionScope.user }">
-						<a href="${pageContext.request.contextPath}/pages/user/login.jsp">添加收藏</a>
+						<a href="${pageContext.request.contextPath}/pages/user/login.jsp">
+							<span id="font_favour" class="glyphicon glyphicon-star-empty">添加收藏</span>
+						</a>
 					</c:when>
 					<c:otherwise>
 						<c:choose>
-						<c:when test="${empty sessionScope.work }">
-						<a
-							href="${pageContext.request.contextPath}/uesrAction_addF?bid=${sessionScope.book.bid }&page=${num.count }">添加收藏</a>
+						<c:when test="${empty sessionScope.r_favour }">
+							<span id="font_favour" onclick="addFavour()" class="glyphicon glyphicon-star-empty">添加收藏</span>
 						</c:when>
 						<c:otherwise>
-						<a
-							href="${pageContext.request.contextPath}/uesrAction_addF?wid=${sessionScope.work.wid }&page=${num.count }">添加收藏</a>
+							<span id="font_favour" onclick="cancFavour()" class="glyphicon glyphicon-star">取消收藏</span>
 						</c:otherwise>
 					</c:choose>
 					</c:otherwise>

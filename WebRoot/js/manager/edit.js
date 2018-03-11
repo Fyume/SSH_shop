@@ -78,10 +78,10 @@ function page(DBRs) {
 		alert("删除成功");
 	}
 	var page = $("#page").val();
-	$("#a_" + page).css("color", "red");
-	for (var int = 0; int < array.length; int++) {
-		if (int != page) {
-			$("#a_" + int).css("color", "black");
+	for (var int = 1; int < 100; int++) {
+		if (int == page) {
+			$("#a_" + page).css("color", "red");
+			break;
 		}
 	}
 }

@@ -11,7 +11,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <base href="<%=basePath%>">
 
-<title>${sessionScope.book.bname }</title>
+<title>《${sessionScope.book.bname }》信息页面</title>
 
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -22,9 +22,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 <!-- 用下载下来的bootstrap.min.css没有图标 不知道为什么 可能是需要其他的文件支持 -->
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/index.css">
 <link rel="stylesheet" type="text/css"
@@ -158,6 +158,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</c:forEach>
 	</div>
 	<div class="b_bottom">
+		<input id="book" type="text" value="${empty sessionScope.book }" style="display:none;">
 		<div class="book_total">
 			<br>
 			<div class="tt_img">
@@ -178,8 +179,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<span class="r_font">上传人员：</span>
 				<span class="r_value">未完成</span>
 				<br><br>
-				<!-- 后期加上表和判断是否阅读过 -->
-				<input type="button" value="进入阅读">
+				<c:choose>
+					<c:when test="${empty sessionScope.b_History}">
+						<input id="read_btn" type="button" value="进入阅读" onclick="read(1)">
+					</c:when>
+					<c:otherwise>
+						<input id="read_btn" type="button" class="book_btn2" value="继续阅读" onclick="read(${sessionScope.b_History.pageNum})">
+					</c:otherwise>
+				</c:choose>
 				<input type="button" value="加入收藏">
 			</div>
 			<div class="tt_bottom">
@@ -191,15 +198,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="bt_part">
 					<c:choose>
 						<c:when test="${empty sessionScope.book}">
+							<input id="btn_getHistory" type="button" onclick="getHistory('${empty sessionScope.user }','wid;${sessionScope.work.wid }',)" style="display:none;">
 							<c:forEach items="${sessionScope.content }" var="line" begin="0" end="${sessionScope.doc_count/100}" varStatus="num">
-								<div class="part_div" onclick="history('${empty sessionScope.user }','wid;${sessionScope.work.wid }',${num.count})">
+								<div id="page${num.count }" class="part_div" onclick="history('${empty sessionScope.user }','wid;${sessionScope.work.wid }',${num.count})">
 									${num.count }
 								</div>
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
+							<input id="btn_getHistory" type="button" onclick="getHistory('${empty sessionScope.user }','bid;${sessionScope.book.bid }')" style="display:none;">
 							<c:forEach items="${sessionScope.content }" var="line" begin="0" end="${sessionScope.doc_count/100}" varStatus="num">
-								<div class="part_div" onclick="history('${empty sessionScope.user }','bid;${sessionScope.book.bid }',${num.count})">
+								<div id="page${num.count }" class="part_div" onclick="history('${empty sessionScope.user }','bid;${sessionScope.book.bid }',${num.count})">
 									${num.count }
 								</div>
 							</c:forEach>
