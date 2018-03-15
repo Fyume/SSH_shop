@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -41,30 +42,37 @@
 		</c:when>
 		<c:otherwise>
 			<div class="header">
-				<div class="header_logo"></div>
-				<div class="header_index">
-					<a target="_top"
-						href="${pageContext.request.contextPath}/pages/index.jsp">首页</a>
-				</div>
-				<div class="header_classify" onmouseover="classifyon()"
-					onmouseout="classifyoff()">分类</div>
-				<div class="header_work">
-					<a href="${pageContext.request.contextPath}/workAction_getData">
+				<a href="${pageContext.request.contextPath}/pages/index.jsp">
+					<div class="header_index">
+						首页
+					</div>
+				</a>
+				<a href="${pageContext.request.contextPath}/pages/index.jsp">
+					<div class="header_classify" onmouseover="classifyon()"
+						onmouseout="classifyoff()">
+							全部分类
+					</div>
+				</a>
+				<a href="${pageContext.request.contextPath}/workAction_getData">
+					<div class="header_work">
 						用户作品
-					</a>
-				</div>
+					</div>
+				</a>
+					
 				<!-- <div class="header_random">随机</div> -->
 				
 				<c:if test="${sessionScope.user.u_permission }">
-					<div class="managerPage">
-						<a
-							href="${pageContext.request.contextPath}/pages/manager/edit.jsp">前往管理员界面</a>
-					</div>
+					<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">
+						<div class="managerPage">
+							前往管理员界面
+						</div>
+					</a>
 				</c:if>
+				<!-- 未实现 -->
 				<div class="header_select">
 					<div class="select_text">
-						<input id="select_message" type="text" name="select_message"
-							placeholder="输入作品名/书名(1-20个字符、数字)" onblur="check_selecttext()">
+						<input id="select_message" type="text" name="select_message" placeholder="输入作品名/书名(1-20个字符、数字)"
+							onblur="check_selecttext()">
 					</div>
 					<div class="select_select">
 						<select id="select_select">
@@ -80,23 +88,21 @@
 				</div>
 				<div class="header_user">
 					<div class="user_img" onmouseover="infoon()" onmouseout="infooff()" onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
-					<span class="glyphicon glyphicon-user"></span> <span
-						style="color:red;font-weight:400">${sessionScope.user.username }</span>
+						<span class="glyphicon glyphicon-user"></span> <span
+							style="color:red;font-weight:400">${sessionScope.user.username }</span>
 					</div>
 					<c:if test="${!empty sessionScope.user }">
 						<div class="user_message">消息</div>
-						<div class="user_favorite">收藏夹</div>
-						<div class="user_upload">
-							<a
-								href="${pageContext.request.contextPath}/pages/user/upload.jsp">
-								<span class="glyphicon glyphicon-arrow-up">上传</span>
-							</a>
-						</div>
+						<div class="user_favour">收藏夹</div>
+						<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
+							<div class="user_upload">
+								<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
+							</div>
+						</a>
 					</c:if>
 				</div>
 			</div>
-			<div id="user_info" class="user_info" onmouseover="infoon()"
-				onmouseout="infooff()">
+			<div id="user_info" class="user_info" onmouseover="infoon()" onmouseout="infooff()">
 				<c:choose>
 					<c:when test="${empty sessionScope.user }">
 						<div class="list_login">
@@ -104,18 +110,25 @@
 						</div>
 					</c:when>
 					<c:otherwise>
-						<div class="list_all">ID：${sessionScope.user.uid }</div>
-						<div class="list_all">用户名:${sessionScope.user.username }</div>
-						<div class="list_all">
-							<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">个人中心</a>
-						</div>
+						<div class="list_top"><img alt="头像" src="${pageContext.request.contextPath }/images/flag/user_img(default).png"> </div>
+						<div class="list_all">ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span></div>
+						<div class="list_all">用户名:<span style="color:red;">${sessionScope.user.username }</span></div>
+						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
+							<div class="list_all">
+								<span style="font-weight:550;font-size:15px;">个人中心</span>
+							</div>
+						</a>
 						<!-- 未实现暂时用User.jsp过渡 -->
-						<div class="list_half">
-							<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">设置</a>
-						</div>
-						<div class="list_half">
-							<a href="${pageContext.request.contextPath}/userAction_logOut">退出</a>
-						</div>
+						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
+							<div class="list_half">
+								设置
+							</div>
+						</a>
+						<a href="${pageContext.request.contextPath}/userAction_logOut">
+							<div class="list_half">
+								退出
+							</div>
+						</a>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -157,62 +170,64 @@
 					<a href="${pageContext.request.contextPath}/workAction_getData">用户作品</a>
 				</div>
 			</div>
-			<input id="uploadResult" type="text"
-				value="${requestScope.uploadResult}" style="display:none">
-			<div class="upload_form">
-				<form
-					action="${pageContext.request.contextPath }/workAction_upload_U"
-					method="post" enctype="multipart/form-data"
-					onsubmit="return check()">
-					<div class="upload_title">
-						<div class="title_font">标题/作品名 ：</div>
-						<div class="title_input">
-							<input id="upload_title" name="upload_title" type="text"
-								maxlength="15" placeholder="输入标题/作品名(1-20个字符、数字)"
-								onblur="checktitle()">
+			<div class="upload_bottom" style="margin-top:30px;">
+				<input id="uploadResult" type="text"
+					value="${requestScope.uploadResult}" style="display:none">
+				<div class="upload_form">
+					<form
+						action="${pageContext.request.contextPath }/workAction_upload"
+						method="post" enctype="multipart/form-data"
+						onsubmit="return check()">
+						<div class="upload_title">
+							<div class="title_font">标题/作品名 ：</div>
+							<div class="title_input">
+								<input id="upload_title" name="work.wname" type="text"
+									maxlength="15" placeholder="输入标题/作品名(1-20个字符、数字)"
+									onblur="checktitle()">
+							</div>
+							<div id="title_F" class="upload_flag_default"></div>
+							<div id="title_warning" class="title_warning"></div>
 						</div>
-						<div id="title_F" class="upload_flag_default"></div>
-						<div id="title_warning" class="title_warning"></div>
-					</div>
-					<img id="upload_img" alt="预览图"
-						src="${pageContext.request.contextPath }/images/background/bookimg-default.jpg">
-					<div class="img_button">
-						<input type="button" value="上传封面" onclick="uploadi()"> <br>
-						<div style="font-size:12px;color:red;">(仅限jpg,jpeg)</div>
-					</div>
-					<input type="file" id="image" name="image" accept="image/*"
-						style="display:none;">
-					<div class="file_button">
-						<input type="button" value="上传作品"
-							style="width:200px;height:30px;cursor: pointer;"
-							onclick="uploadf()"> <br>
+						<img id="upload_img" alt="预览图"
+							src="${pageContext.request.contextPath }/images/background/bookimg-default.jpg">
+						<div class="img_button">
+							<input type="button" value="上传封面" onclick="uploadi()"> <br>
+							<div style="font-size:12px;color:red;">(仅限jpg,jpeg)</div>
+						</div>
+						<input type="file" id="image" name="image" accept="image/*"
+							style="display:none;">
+						<div class="file_button">
+							<input type="button" value="上传作品"
+								style="width:200px;height:30px;cursor: pointer;"
+								onclick="uploadf()"> <br>
+							<div
+								style="font-size:12px;color:red;margin-left:30px;cursor: default;">(仅限doc,docx,txt)</div>
+							<div id="file_F"
+								style="margin-top:-40px;margin-left:203px;cursor: default;"
+								class="upload_flag_default"></div>
+						</div>
+						<input type="file"
+							accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain"
+							id="upload" name="upload" style="display:none;"
+							onchange="checkF()"> <br>
+						<div class="upload_desc">
+							<div class="desc_font">书本概述:</div>
+							<div style="margin-top:5px;">
+								<textarea name="work.description" class="desc_content"
+									placeholder="输入概述"></textarea>
+							</div>
+						</div>
+						<div class="upload_button">
+							<input type="submit" value="提交">
+						</div>
 						<div
-							style="font-size:12px;color:red;margin-left:30px;cursor: default;">(仅限doc,docx,txt)</div>
-						<div id="file_F"
-							style="margin-top:-40px;margin-left:203px;cursor: default;"
-							class="upload_flag_default"></div>
-					</div>
-					<input type="file"
-						accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain"
-						id="upload" name="upload" style="display:none;"
-						onchange="checkF()"> <br>
-					<div class="upload_desc">
-						<div class="desc_font">书本概述:</div>
-						<div style="margin-top:5px;">
-							<textarea name="description" class="desc_content"
-								placeholder="输入概述"></textarea>
+							style="width:120px;height:30px;margin-left:-100px;margin-top:230px;">
+							<a
+								href="${pageContext.request.contextPath }/pages/user/editWork.jsp"
+								style="color:blue;">修改上传作品信息</a>
 						</div>
-					</div>
-					<div class="upload_button">
-						<input type="submit" value="提交">
-					</div>
-					<div
-						style="width:120px;height:30px;margin-left:-100px;margin-top:230px;">
-						<a
-							href="${pageContext.request.contextPath }/pages/user/editWork.jsp"
-							style="color:blue;">修改上传作品信息</a>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
 		</c:otherwise>
 	</c:choose>

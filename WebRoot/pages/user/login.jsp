@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -36,7 +37,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<label class="table_label">
 					<div class="table_label_font">用户ID:</div>
 					<div class="table_label_input">
-						<input id="uid" type="text" name="用户ID" maxlength="8" placeholder="输入用户ID">
+						<input id="uid" type="text" name="user.uid" maxlength="8" placeholder="输入用户ID">
 						<a href="${pageContext.request.contextPath }/pages/user/register.jsp">注册用户</a>
 					</div>
 					<div id="u_warn" class="warning">${requestScope.uidpass_flag }</div>
@@ -44,7 +45,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<label class="table_label">
 					<div class="table_label_font">密 码 :</div>
 					<div class="table_label_input">
-						<input id="password" type="password" name="密码" maxlength="16">
+						<input id="password" type="password" name="user.password" maxlength="16">
 						<a href="${pageContext.request.contextPath }/pages/user/forget.jsp">忘记密码</a>
 					</div>
 				</label> 

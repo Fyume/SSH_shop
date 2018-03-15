@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -26,7 +27,6 @@
 </head>
 
 <body>
-<input id="contextPath" type="hidden" value="${pageContext.request.contextPath}">
 	<div class="register_body">
 		<div class="register_title">用户注册</div>
 		<div class="register_main">
@@ -48,28 +48,28 @@
 						</div>
 						<div class="register_table_center">
 							<ul class="u_center">
-								<li><input type="text" id="uid" name="用户ID" maxlength="8" placeholder="只能由字母数字字符下划线组成，最长8位"onchange="checkuid()">
+								<li><input type="text" id="uid" name="user.uid" maxlength="8" placeholder="只能由字母数字字符下划线组成，最长8位"onchange="checkuid()">
 								<div class="div_flag" id="uidwarnning">*</div>
 								</li>
-								<li><input type="text" id="username" name="用户名">
+								<li><input type="text" id="username" name="user.username">
 								<div class="div_flag">*</div>
 								</li>
-								<li><input type="text" id="name" name="姓名">
+								<li><input type="text" id="name" name="user.name">
 								<div class="div_flag">*</div>
 								</li>
-								<li><input type="password" id="password" name="密码" maxlength="16" placeholder="最长16位">
+								<li><input type="password" id="password" name="user.password" maxlength="16" placeholder="最长16位">
 								<div class="div_flag">*</div>
 								</li>
 								<li><input type="password" id="r_password" maxlength="16" placeholder="再次输入密码"
 									name="二次密码" onchange="return checkpw()">
 								<div class="div_flag">*</div>
 								</li>
-								<li><input type="text" id="address" name="地址"></li>
-								<li><input type="text" id="IDCN" name="身份证号码">
+								<li><input type="text" id="user.address" name="地址"></li>
+								<li><input type="text" id="user.IDCN" name="身份证号码">
 								<div class="div_flag">*</div>
 								</li>
-								<li><input type="text" id="telnum" name="电话" onchange="checktelnum()"></li>
-								<li><input type="text" id="email" name="邮箱">
+								<li><input type="text" id="user.telnum" name="电话" onchange="checktelnum()"></li>
+								<li><input type="text" id="user.email" name="邮箱">
 								<div class="div_flag">*</div>
 								</li>
 							</ul>

@@ -3,6 +3,8 @@ package zhku.jsj141.entity.user;
 import java.util.HashSet;
 import java.util.Set;
 
+import zhku.jsj141.entity.manager.Operate_m;
+
 
 public class User {
 	private String uid;//用户ID
@@ -17,12 +19,19 @@ public class User {
 	private String code;//激活用激活码
 	private long activateTime;//第一次激活的时间
 	private boolean u_permission = false;//用户权限(默认为普通用户，只有修改为true的时候才是管理员)
-	private int ps_false;//密码错误次数
-	private long ps_time;//最近一次输错密码的时间戳
+	private int ps_false=0;//密码错误次数
+	private long ps_time=0;//最近一次输错密码的时间戳
 	
 	private Set<Work> work = new HashSet<Work>();
 	private Set<Favour> favour = new HashSet<Favour>();
 	private Set<History> history = new HashSet<History>();
+	private Set<Operate_m> operate_m = new HashSet<Operate_m>();
+	public Set<Operate_m> getOperate_m() {
+		return operate_m;
+	}
+	public void setOperate_m(Set<Operate_m> operate_m) {
+		this.operate_m = operate_m;
+	}
 	public Set<History> getHistory() {
 		return history;
 	}

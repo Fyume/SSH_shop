@@ -31,5 +31,9 @@
  			<key column="uid"></key>
  			<one-to-many class="zhku.jsj141.entity.user.History"/>
  		</set>
+ 		<set name="operate_m" inverse="true">
+ 			<key column="managerID"></key>
+ 			<one-to-many class="zhku.jsj141.entity.manager.Operate_m"/>
+ 		</set>
  	</class>
  </hibernate-mapping>

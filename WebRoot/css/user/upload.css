@@ -30,6 +30,7 @@ div{
 	width:500px;
 	height:450px;
 	border:1px #000000 solid;
+	border-radius:5px;
 	box-shadow:2px 2px 2px #c0c0c0;
 	margin-top:80px;
 	margin-left:400px;
@@ -112,10 +113,21 @@ div{
 }
 
 /********/
+.upload_bottom{
+	width:100%;
+	height:100%;
+	background-image: url("../../images/background/935677fc3f0bb9e.jpg");
+	background-size:100% 100%;
+}
+.upload_bottom input[type='button']{
+	border-radius:3px;
+	background-image:url("../../images/button/1 (50).gif");
+	background-size:100% 100%;
+}
 .upload_form2{
 	width:500px;
 	height:500px;
-	border:1px #000000 solid;
+	border:1px #c0c0c0solid;
 	box-shadow:2px 2px 2px #c0c0c0;
 	margin-top:60px;
 	margin-left:400px;
@@ -131,14 +143,18 @@ div{
 	width:85px;
 	height:25px;
 }
-.upload_button2{
+.upload_button2 input{
 	margin-top:70px;
 	margin-left:5px;
 	width:100px;
 	height:40px; 
 }
-.upload_button2 input{
-	margin-left:5px;
-	width:100px;
-	height:40px;
+.upload_bottom input[type='submit']{
+	color:white;
+	border-radius:3px;
+	background-image:url("../../images/button/1 (53).gif");
+	background-size:100% 100%;
+}
+.upload_bottom input[type='submit']:hover{
+	color:#ffff00;
 }

@@ -154,7 +154,9 @@ public class workUtils {
 	public boolean removeWork(String uid){
 		String totalpath = DiskPath + userPath + uid;
 		try{
-			FileUtils.forceDelete(new File(totalpath));
+			if(new File(totalpath).exists()){//假如存在用户作品文件夹
+				FileUtils.forceDelete(new File(totalpath));
+			}
 			return true;
 		}catch(IOException e){
 			e.printStackTrace();

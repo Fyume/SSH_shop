@@ -13,20 +13,20 @@ import zhku.jsj141.entity.user.Work;
 public interface UserService {
 
 	public boolean add(User user);
-
-	public String checkuid(User user);
-
-	public String checkE(User user);
-
-	public User find(User user, String name);
-
+	
 	public boolean update(User user);
 
 	public boolean delete(User user);
 
-	public boolean addF(Favour favour);
+	public String checkuid(User user);
 
+	public String checkE(User user);
+	
 	public List<User> finds(User user, int status, int permission);
+	
+	public List<User> finds(User user, String name);
+
+	public boolean addF(Favour favour);
 
 	public boolean addHistory(History history);
 	

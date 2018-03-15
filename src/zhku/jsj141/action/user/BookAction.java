@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 
+import zhku.jsj141.action.BaseAction;
 import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
@@ -19,7 +20,7 @@ import zhku.jsj141.utils.user.bookUtils;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-public class BookAction extends ActionSupport {
+public class BookAction extends BaseAction {
 	private BookService bookService;
 	private UserService userService;
 	private File upload;
@@ -29,6 +30,24 @@ public class BookAction extends ActionSupport {
 	private String imageFileName;
 	private String imageContentType;
 	private bookUtils bookUtils;
+	
+	List<Type> typelist = null;
+	List<Book> booklist = null;
+	
+	User user = new User();
+	Book book = new Book();
+	public Book getBook() {
+		return book;
+	}
+	public void setBook(Book book) {
+		this.book = book;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	
 	public bookUtils getBookUtils() {
 		return bookUtils;
@@ -103,9 +122,6 @@ public class BookAction extends ActionSupport {
 	}
 	//页面初始数据获取
 	public String getData() throws Exception {
-		HttpServletRequest request = ServletActionContext.getRequest();
-		List<Type> typelist = null;
-		List<Book> booklist = null;
 		typelist = bookService.findT();
 		booklist = bookService.findAll();
 		request.getSession().setAttribute("typelist", typelist);
@@ -115,35 +131,23 @@ public class BookAction extends ActionSupport {
 	}
 
 	// 上传书本
-	public String upload_U() throws Exception {
+	public String upload() throws Exception {
 		System.out.println("uploadFileName:" + uploadFileName);
 		System.out.println("uploadContentType:" + uploadContentType);
 		System.out.println("imageFileName:" + imageFileName);
 		System.out.println("imageContentType:" + imageContentType);
-		HttpServletRequest request = ServletActionContext.getRequest();
-		String title = (String) request.getParameter("upload_title");
-		String ISBN = (String) request.getParameter("ISBN");
-		String type = (String) request.getParameter("type");
-		String type_flag = (String) request.getParameter("type_flag");
+		/*String type_flag = (String) request.getParameter("type_flag");*/
 		int year = Integer.parseInt(request.getParameter("year"));
 		int month = Integer.parseInt(request.getParameter("month"));
 		int day = Integer.parseInt(request.getParameter("day"));
 		long publish = new Date(year, month, day).getTime()/(1000*60*60);// 转换成时间戳(只需要年月日,为了不丢失精度，保留时)
-		String description = (String) request.getParameter("description");
-		String author = (String) request.getParameter("author");
-		Book book = new Book();
-		book.setAuthor(author);
-		book.setDescription(description);
-		book.setBname(title);
-		book.setISBN(ISBN);
 		book.setPublish(publish);
-		User user = (User) request.getSession().getAttribute("user");
+		user = (User) request.getSession().getAttribute("user");
 		if (user != null) {
-			String result = bookUtils.uploadbook(upload, type,
-					uploadContentType, title);
+			String result = bookUtils.uploadbook(upload, book.getType(),
+					uploadContentType, book.getBname());
 
 			if (result != "") {
-				book.setType(type);
 				if (result.equals("typefalse")) {
 					request.setAttribute("uploadResult",
 							"作品文件有误,请上传doc,docx,txt类型的文件");
@@ -173,15 +177,13 @@ public class BookAction extends ActionSupport {
 	}
 	//获取书本内容
 	public String readBook() throws Exception{
-		HttpServletRequest request = ServletActionContext.getRequest();
 		int bid = Integer.parseInt(request.getParameter("bid"));
-		User user = (User) request.getSession().getAttribute("user");
-		Book book = new Book();
+		user = (User) request.getSession().getAttribute("user");
 		book.setBid(bid);
 		System.out.println(bid);
-		List<Book> list = bookService.find(book, "bid");
-		if(list.size()!=0){
-			book = list.get(0);
+		booklist = bookService.find(book, "bid");
+		if(booklist.size()!=0){
+			book = booklist.get(0);
 			List<String> str = bookUtils.readbook(book.getType(), book.getPath());
 			request.getSession().setAttribute("content", str);//书本内容
 			request.getSession().setAttribute("doc_count", str.size());//读取到的行数
@@ -194,13 +196,11 @@ public class BookAction extends ActionSupport {
 	}
 	//查询书本
 	public String selectB() throws Exception{
-		HttpServletRequest request = ServletActionContext.getRequest();
 		String message = request.getParameter("message");//具体参数
 		message = new String(message.getBytes("ISO-8859-1"),"utf-8"); //URL传参好像是默认ISO-8859-1？反正试了发现这个可以
 		String flag = request.getParameter("flag");//book的某个属性
 		System.out.println("message:"+message);
 		System.out.println("flag:"+flag);
-		Book book = new Book();
 		if(message!=null&&flag!=null){
 			/*String Flag = flag.substring(0, 1).toUpperCase()+flag.substring(1,flag.length());
 			book.getClass().getMethod("set" + Flag).invoke(book,message);
@@ -215,36 +215,29 @@ public class BookAction extends ActionSupport {
 			}else if(flag.equals("author")){
 				book.setAuthor(message);
 			}
-			List<Book> list = bookService.find_indistinct(book, flag);
-			for (Book book2 : list) {
+			booklist = bookService.find_indistinct(book, flag);
+			for (Book book2 : booklist) {
 				System.out.println(book2.toString());
 			}
-			request.getSession().setAttribute("booklist", list);
+			request.getSession().setAttribute("booklist", booklist);
 		}
 		return "goto_index";
 	}
 	//修改书本封面
 	public String updateI() throws Exception{
-		HttpServletRequest request = ServletActionContext.getRequest();
-		HttpServletResponse response = ServletActionContext.getResponse();
 		System.out.println(image+";"+imageFileName+";"+imageContentType);
 		int bid = Integer.parseInt(request.getParameter("bid"));
-		Book book = new Book();
 		book.setBid(bid);
-		List<Book> list = bookService.find(book, "bid");
-		book = list.get(0);
-		/*System.out.println("bid:"+bid);
-		System.out.println("image: "+image+"\nimageFN: "+imageFileName+"\nimageCT:"+imageContentType);*/
-		if(book.getBname()!=null){
+		booklist = bookService.find(book, "bid");
+		if(booklist!=null){
+			book = booklist.get(0);
+			/*System.out.println("bid:"+bid);
+			System.out.println("image: "+image+"\nimageFN: "+imageFileName+"\nimageCT:"+imageContentType);*/
 			String path = bookUtils.uploadbookI(image, book.getType(), imageContentType);
 			if(path!=""){//把原来的图片删除掉,数据库的路径也改了
 				bookUtils.removeBookI(book.getImage());
 				book.setImage(path);
 				bookService.update(book);
-				PrintWriter out = response.getWriter();
-				/*out.print("");
-				out.flush();
-				out.close();*/
 			}
 		}
 		return "goto_edit";

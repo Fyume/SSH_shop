@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -86,7 +87,7 @@
 					<label class="form_label" id="form_label1">
 						<div class="form_label_font">用户ID:</div>
 						<div class="form_label_input">
-							<input id="uid2" name="uid2" type="text">
+							<input id="uid2" name="user.uid" type="text">
 						</div>
 						<div>
 							<input type="button" value="下一步" class="button"
@@ -99,7 +100,7 @@
 					</label> <label class="form_label" id="form_label2">
 						<div class="form_label_font">新邮箱:</div>
 						<div class="form_label_input">
-							<input id="email" name="email" type="text" onchange="AjaxE()">
+							<input id="email" name="user.email" type="text" onchange="AjaxE()">
 						</div>
 						<div>
 							<input type="button" value="发送激活邮件" class="button"
@@ -121,7 +122,5 @@
 		<a href="${pageContext.request.contextPath }/pages/user/login.jsp">
 			前往登录</a>
 	</div>
-	<input id="contextPath" type="hidden"
-		value="${pageContext.request.contextPath}">
 </body>
 </html>

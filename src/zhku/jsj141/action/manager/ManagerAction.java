@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.ServletActionContext;
 
+import zhku.jsj141.action.BaseAction;
 import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
@@ -23,7 +24,7 @@ import zhku.jsj141.utils.user.workUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.opensymphony.xwork2.ActionSupport;
 
-public class ManagerAction extends ActionSupport {
+public class ManagerAction extends BaseAction {
 	private ManagerService managerService;
 	private UserService userService;
 	private BookService bookService;
@@ -31,6 +32,27 @@ public class ManagerAction extends ActionSupport {
 	private bookUtils bookUtils;
 	private workUtils workUtils;
 	
+	List<User> userlist = null;
+	
+	List<Book> booklist = null;
+	List<Work> worklist = null;
+	List<Type> typelist = null;
+	User user = new User();
+	Book book = new Book();
+	Work work = new Work();
+	public Work getWork() {
+		return work;
+	}
+	public void setWork(Work work) {
+		this.work = work;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public void setBook(Book book) {
+		this.book = book;
+	}
+
 	public ManagerService getManagerService() {
 		return managerService;
 	}
@@ -81,7 +103,6 @@ public class ManagerAction extends ActionSupport {
 
 	//获取用户信息
 	public String getUser() throws Exception {
-		HttpServletRequest request = ServletActionContext.getRequest();
 		List<User> list = managerService.selectAllU();
 		request.getSession().setAttribute("userlist", list);
 		request.getSession().setAttribute("managerType", "user");
@@ -90,8 +111,6 @@ public class ManagerAction extends ActionSupport {
 	}
 	//获取书本信息
 	public String getBook() throws Exception{
-		HttpServletRequest request = ServletActionContext.getRequest();
-		List<Type> typelist = null;
 		List<Book> list = managerService.selectAllB();
 		typelist = bookService.findT();
 		request.getSession().setAttribute("typelist", typelist);
@@ -102,44 +121,43 @@ public class ManagerAction extends ActionSupport {
 	}
 	//未完成
 	public String alter_U() throws Exception{
-		HttpServletRequest request = ServletActionContext.getRequest();
-		User user = new User();
-		String json = (String)request.getParameter("json");
-		System.out.println(json);
-		JSONObject jsonobj = JSONObject.parseObject(json);
-		System.out.println(jsonobj.get("uid"));
-		String username = (String)jsonobj.get("username");
-		System.out.println(username);
-		String u_permission = (String)jsonobj.get("u_permission");
-		/*System.out.println(u_permission);
-		int u_per = Integer.parseInt(u_permission);
-		user.setUid(uid);
-		user = userService.find(user, "uid");
+		user = (User) request.getSession().getAttribute("user");
 		if(user!=null){
-			if(u_per==1){
-				user.setU_permission(true);
-			}else{
-				user.setU_permission(false);
+			String json = (String)request.getParameter("json");
+			System.out.println(json);
+			JSONObject jsonobj = JSONObject.parseObject(json);
+			String uid = (String)jsonobj.get("uid");
+			System.out.println(jsonobj.get("uid"));
+			String username = (String)jsonobj.get("username");
+			System.out.println(username);
+			int u_permission = (int)jsonobj.get("u_permission");
+			System.out.println(u_permission);
+			user.setUid(uid);
+			userlist = userService.finds(user, "uid");
+			if(userlist.size()!=0){
+				user = userlist.get(0);
+				user.setUsername(username);
+				if(u_permission==1){
+					user.setU_permission(true);
+				}else{
+					user.setU_permission(false);
+				}
+				userService.update(user);
 			}
-			user.setUsername(username);
-			userService.update(user);
-		}*/
+		}
 		return "goto_edit";
 	}
 	public String alter_B() throws Exception{//修改书本信息
-		HttpServletRequest request = ServletActionContext.getRequest();
-		User user = new User();
 		String json = (String)request.getParameter("json");
 		/*System.out.println(json);*/
 		JSONObject jsonobj = JSONObject.parseObject(json);
 		/*System.out.println(jsonobj.get("bid"));*/
 		int bid = (int) jsonobj.get("bid");
-		Book book = new Book();
-		List<Book> list = null;
+		
 		book.setBid(bid);
-		list = bookService.find(book, "bid");
-		book = list.get(0);
-		if(book!=null){
+		booklist = bookService.find(book, "bid");
+		if(booklist.size()!=0){
+			book = booklist.get(0);
 			book.setBname((String) jsonobj.get("bname"));
 			book.setISBN((String) jsonobj.get("ISBN"));
 			long publish = new Date((int)jsonobj.get("year"), (int)jsonobj.get("month"), (int)jsonobj.get("date")).getTime()/(1000*60*60);// 转换成时间戳(只需要年月日,为了不丢失精度，保留时)
@@ -151,59 +169,52 @@ public class ManagerAction extends ActionSupport {
 				if(rs){
 					book.setType((String)jsonobj.get("type"));
 				}
-				bookService.update(book);
 			}
+			bookService.update(book);
 		}
 		return "goto_edit";
 	}
 	public String delete_U() throws Exception{//删除用户信息
-		HttpServletRequest request = ServletActionContext.getRequest();
-		User user = new User();
 		String uid = (String)request.getParameter("uid");
 		if(uid!=""){
 			user.setUid(uid);
-			Work work = new Work();
 			work.setAuthor(uid);
-			List<Work> list = workService.find(work, "author");
-			if(list!=null){//如果有作品，把作品信息也删了
-				workUtils.removeWork(uid);//磁盘
-				for (Work work2 : list) {//数据库
-					boolean rs = workService.delete(work2);
-					/*if(!rs){
-						request.setAttribute("w_deleteRs", "删除作品期间出错了");
-					}*/
+			worklist = workService.find(work, "author");
+			if(worklist!=null){//如果有作品，把作品信息也删了
+				boolean rs = workUtils.removeWork(uid);//磁盘
+				if(rs){
+					for (Work work2 : worklist) {//数据库
+						boolean rs2 = workService.delete(work2);
+						/*if(!rs){
+							request.setAttribute("w_deleteRs", "删除作品期间出错了");
+						}*/
+					}
 				}
 			}
 			userService.delete(user);
 		}
-		return "goto_edit";
+		return getUser();
 	}
 	public String delete_B() throws Exception{
-		HttpServletRequest request = ServletActionContext.getRequest();
-		User user = new User();
 		/*String uid = (String)request.getParameter("uid");*/
 		int bid = Integer.parseInt(request.getParameter("bid"));
 		if(bid>0){
-			Book book = new Book();
-			List<Book> list = null;
 			book.setBid(bid);
-			list = bookService.find(book, "bid");
-			book = list.get(0);
-			if(book!=null&&book.getBname()!=null){
+			booklist = bookService.find(book, "bid");
+			if(booklist!=null){
+				book = booklist.get(0);
 				if(bookUtils.removeBook(book.getPath(), book.getType())){//先删除磁盘文件
 					if(bookService.delete(book)){//再删除数据库的信息
 						request.setAttribute("DBRs", "true");
+						return "goto_edit";
 					}
 				}
-			}else{
-				request.setAttribute("DBRs", "false");
 			}
 		}
-		return "goto_edit";
+		request.setAttribute("DBRs", "false");
+		return getBook();
 	}
 	public String select_U() throws Exception{//筛选用户信息
-		HttpServletRequest request = ServletActionContext.getRequest();
-		HttpServletResponse response = ServletActionContext.getResponse();
 		String json = (String)request.getParameter("json");
 		JSONObject jsonobj = JSONObject.parseObject(json);
 		String uid = (String) jsonobj.get("uid");
@@ -219,28 +230,24 @@ public class ManagerAction extends ActionSupport {
 			u_permission=true;
 		}
 		System.out.println(uid+";"+username+";"+u_status+";"+u_permission);
-		User user = new User();
 		user.setUid(uid);
 		user.setUsername(username);
 		user.setU_status(u_status);
 		user.setU_permission(u_permission);
 		System.out.println(user.toString());
-		List<User> list = userService.finds(user,status,permission);
+		userlist = userService.finds(user,status,permission);
 		/*for (User user2 : list) {
 			System.out.println(user2.toString());
 		}*/
-		request.getSession().setAttribute("userlist", list);
+		request.getSession().setAttribute("userlist", userlist);
 		JSONObject jobj = new JSONObject();
 		jobj.put("select_U", true);
 		PrintWriter out = response.getWriter();
 		out.print(jobj.toString());
-		out.flush();
-		out.close();
+		close(out);
 		return "goto_edit";
 	}
 	public String select_B() throws Exception{//筛选书本信息
-		HttpServletRequest request = ServletActionContext.getRequest();
-		HttpServletResponse response = ServletActionContext.getResponse();
 		String json = (String)request.getParameter("json");
 		JSONObject jsonobj = JSONObject.parseObject(json);
 		int bid = (int) jsonobj.get("bid");
@@ -262,24 +269,22 @@ public class ManagerAction extends ActionSupport {
 		}
 		String author = (String) jsonobj.get("author");
 		String type = (String) jsonobj.get("type");
-		Book book1 = new Book();
 		Book book2 = new Book();
-		book1.setBid(bid);
-		book1.setBname(bname);
-		book1.setISBN(ISBN);
-		book1.setPublish(time1);//小
+		book.setBid(bid);
+		book.setBname(bname);
+		book.setISBN(ISBN);
+		book.setPublish(time1);//小
 		book2.setPublish(time2);//大
-		book1.setAuthor(author);
-		book1.setType(type);
-		System.out.println("book1: "+book1.toString()+"\nbook2: "+book2.toString());
-		List<Book> list = bookService.finds(book1,book2);
-		request.getSession().setAttribute("booklist", list);
+		book.setAuthor(author);
+		book.setType(type);
+		System.out.println("book: "+book.toString()+"\nbook2: "+book2.toString());
+		booklist = bookService.finds(book,book2);
+		request.getSession().setAttribute("booklist", booklist);
 		JSONObject jobj = new JSONObject();
 		jobj.put("select_B", true);
 		PrintWriter out = response.getWriter();
 		out.print(jobj.toString());
-		out.flush();
-		out.close();
+		close(out);
 		return "goto_edit";
 	}
 }

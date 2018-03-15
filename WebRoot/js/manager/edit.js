@@ -14,6 +14,18 @@ function infoon() {
 function infooff() {
 	$("#user_info").css("display", "none");
 }
+function del_U(uid){
+	if (confirm("确定删除用户ID为 " + uid + " 的信息吗？")) {
+		return true;
+	}
+	return false;
+}
+function del_B(bid){
+	if (confirm("确定删除书本ID为 " + bid + " 的信息吗？")) {
+		return true;
+	}
+	return false;
+}
 function alter_U(num, uid) {
 	if (confirm("确定修改用户ID为 " + uid + " 的信息吗？")) {
 		$.ajax({
@@ -56,7 +68,7 @@ function getJsonData1(num) {
 	var json = {
 		uid : $("#uid" + num).val(),
 		username : $("#username" + num).val(),
-		u_permission : $("#u_permission" + num).val()
+		u_permission : parseInt($("#u_permission" + num).val())
 	}
 	return json;
 }

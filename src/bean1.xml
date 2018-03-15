@@ -19,39 +19,63 @@
  <!-- hibernate配置 -->
  <bean id="sessionFactory"
 		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"></property>
-		<!-- 指定hibernate核心配置文件的位置 <property name="configLocations" value="classpath:hibernate.cfg.xml"></property> -->
-		<property name="hibernateProperties">
-			<props>
-				<prop key="hibernate.hbm2ddl.auto">update</prop>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
-				<prop key="hibernate.connection.autocommit">true</prop> 
-			</props>
-		</property>
-		<property name="mappingResources">
-			<list>
-				<value>zhku/jsj141/entity/user/User.hbm.xml</value>
-				<value>zhku/jsj141/entity/user/Book.hbm.xml</value>
-				<value>zhku/jsj141/entity/user/Work.hbm.xml</value>
-				<value>zhku/jsj141/entity/user/Favour.hbm.xml</value>
-				<value>zhku/jsj141/entity/user/History.hbm.xml</value>
-				<value>zhku/jsj141/entity/Type.hbm.xml</value>
-			</list>
-		</property>
+	<property name="dataSource" ref="dataSource"></property>
+	<!-- 指定hibernate核心配置文件的位置 <property name="configLocations" value="classpath:hibernate.cfg.xml"></property> -->
+	<property name="hibernateProperties">
+		<props>
+			<prop key="hibernate.hbm2ddl.auto">update</prop>
+			<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+			<!-- 事务自动提交 -->
+			<prop key="hibernate.connection.autocommit">true</prop>
+			<!-- 数据库自动重连 
+				   还有个方法是在jdbc的url中添加autoReconnect=true这个参数
+			-->
+			<prop key="hibernate.autoReconnect">true</prop>   
+		</props>
+	</property>
+	<property name="mappingResources">
+		<list>
+			<value>zhku/jsj141/entity/user/User.hbm.xml</value>
+			<value>zhku/jsj141/entity/user/Book.hbm.xml</value>
+			<value>zhku/jsj141/entity/user/Work.hbm.xml</value>
+			<value>zhku/jsj141/entity/user/Favour.hbm.xml</value>
+			<value>zhku/jsj141/entity/user/History.hbm.xml</value>
+			<value>zhku/jsj141/entity/Type.hbm.xml</value>
+			<value>zhku/jsj141/entity/manager/Operate_m.hbm.xml</value>
+		</list>
+	</property>
 </bean>
  <!-- 配置事务 -->
  <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
  	<property name="sessionFactory" ref="sessionFactory"></property>
  </bean>
+ <!-- 增强 用于记录管理员的增删改操作-->
+ <bean id="record" class="zhku.jsj141.service.aspect.Record">
+ 	<property name="managerDao" ref="managerDao"></property>
+ 	<property name="userDao" ref="userDao"></property>
+ 	<property name="bookDao" ref="bookDao"></property>
+ 	<property name="workDao" ref="workDao"></property>
+ </bean>
  <aop:config>
- 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.*(..))" id="userPointcut"/>
+ 	<aop:aspect id="recordAspect" ref="record">
+ 		<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.add*(..))" id="addPointcut"/>
+	 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.del*(..))" id="delPointcut"/>
+	 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.update*(..))" id="updatePointcut"/>
+	 	<aop:after method="record" pointcut-ref="addPointcut"/>
+	 	<aop:after method="record" pointcut-ref="delPointcut"/>
+	 	<aop:after method="record" pointcut-ref="updatePointcut"/>
+ 	</aop:aspect>
+ </aop:config>
+ <aop:config>
+ 	<!-- 后面加的增强也需要写入数据库 所以这里直接配成service包下吧。。 -->
+ 	<aop:pointcut expression="execution(* zhku.jsj141.dao.Impl.*.*(..))" id="userPointcut"/>
  	<aop:advisor advice-ref="userAdvice" pointcut-ref="userPointcut"/>
  </aop:config>
  <tx:advice id="userAdvice" transaction-manager="transactionManager">
  	<tx:attributes>
  		<tx:method name="add*" read-only="false" propagation="REQUIRED"/>
  		<tx:method name="update*" read-only="false" propagation="REQUIRED"/>
- 		<tx:method name="delete*" read-only="false" propagation="REQUIRED"/>
+ 		<tx:method name="del*" read-only="false" propagation="REQUIRED"/>
  		<tx:method name="select*" propagation="REQUIRED"/>
  		<tx:method name="find*" propagation="REQUIRED"/>
  	</tx:attributes>

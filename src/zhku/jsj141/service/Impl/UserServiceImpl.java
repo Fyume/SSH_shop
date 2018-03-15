@@ -49,15 +49,9 @@ public class UserServiceImpl implements UserService{
 		return null;
 	}
 	@Override
-	public User find(User user,String name){
+	public List<User> finds(User user,String name){//返回一个list
 		List<User> list = userDao.select(user,name);
-		User u = new User(); 
-		if(!list.isEmpty()){
-			for (User user2 : list) {
-				u = user2;
-			}
-		}
-		return u;
+		return list;
 	}
 	@Override
 	public boolean update(User user){

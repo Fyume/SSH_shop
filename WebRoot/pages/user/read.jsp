@@ -114,7 +114,7 @@
 					</c:when>
 					<c:otherwise>
 						<c:choose>
-						<c:when test="${empty sessionScope.r_favour }">
+						<c:when test="${empty sessionScope.favour }">
 							<span id="font_favour" onclick="addFavour()" class="glyphicon glyphicon-star-empty">添加收藏</span>
 						</c:when>
 						<c:otherwise>
@@ -123,10 +123,10 @@
 					</c:choose>
 					</c:otherwise>
 				</c:choose>
-				</div>
-				<div class="function_div">
-					<a href="${pageContext.request.contextPath}/pages/user/book.jsp">返回章节选择</a>
-				</div>
+			</div>
+			<div class="function_div">
+				<a href="${pageContext.request.contextPath}/pages/user/book.jsp">返回章节选择</a>
+			</div>
 		</div>
 		<div class="menu_center">
 			<span>页数选择：</span>

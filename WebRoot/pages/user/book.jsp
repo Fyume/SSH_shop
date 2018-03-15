@@ -33,33 +33,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <body>
 	<div class="header">
-		<div class="header_index">
-			<a target="_top"
-				href="${pageContext.request.contextPath}/pages/index.jsp">首页</a>
-		</div>
-		<div class="header_classify" onmouseover="classifyon()"
-			onmouseout="classifyoff()">
-			<a target="_top"
-				href="${pageContext.request.contextPath}/pages/index.jsp"> 全部分类
-			</a>
-		</div>
-		<div class="header_work">
-			<a href="${pageContext.request.contextPath}/workAction_getData">
-				用户作品 </a>
-		</div>
-
-		<!-- <div class="header_random">随机</div> -->
-
-		<c:if test="${sessionScope.user.u_permission }">
-			<div class="managerPage">
-				<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">前往管理员界面</a>
+		<a href="${pageContext.request.contextPath}/pages/index.jsp">
+			<div class="header_index">
+				首页
 			</div>
+		</a>
+		<a href="${pageContext.request.contextPath}/pages/index.jsp">
+			<div class="header_classify" onmouseover="classifyon()"
+				onmouseout="classifyoff()">
+					全部分类
+			</div>
+		</a>
+		<a href="${pageContext.request.contextPath}/workAction_getData">
+			<div class="header_work">
+				用户作品
+			</div>
+		</a>
+			
+		<!-- <div class="header_random">随机</div> -->
+		
+		<c:if test="${sessionScope.user.u_permission }">
+			<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">
+				<div class="managerPage">
+					前往管理员界面
+				</div>
+			</a>
 		</c:if>
 		<!-- 未实现 -->
 		<div class="header_select">
 			<div class="select_text">
-				<input id="select_message" type="text" name="select_message"
-					placeholder="输入作品名/书名(1-20个字符、数字)" onblur="check_selecttext()">
+				<input id="select_message" type="text" name="select_message" placeholder="输入作品名/书名(1-20个字符、数字)"
+					onblur="check_selecttext()">
 			</div>
 			<div class="select_select">
 				<select id="select_select">
@@ -74,19 +78,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</div>
 		<div class="header_user">
-			<div class="user_img" onmouseover="infoon()" onmouseout="infooff()"
-				onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
+			<div class="user_img" onmouseover="infoon()" onmouseout="infooff()" onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
 				<span class="glyphicon glyphicon-user"></span> <span
 					style="color:red;font-weight:400">${sessionScope.user.username }</span>
 			</div>
 			<c:if test="${!empty sessionScope.user }">
 				<div class="user_message">消息</div>
 				<div class="user_favour">收藏夹</div>
-				<div class="user_upload">
-					<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
-						<span class="glyphicon glyphicon-arrow-up">上传</span>
-					</a>
-				</div>
+				<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
+					<div class="user_upload">
+						<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
+					</div>
+				</a>
 			</c:if>
 		</div>
 	</div>
@@ -99,8 +102,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				type="video/mp4"></video>
 		</div>
 	</div>
-	<div id="user_info" class="user_info" onmouseover="infoon()"
-		onmouseout="infooff()">
+	<div id="user_info" class="user_info" onmouseover="infoon()" onmouseout="infooff()">
 		<c:choose>
 			<c:when test="${empty sessionScope.user }">
 				<div class="list_login">
@@ -108,18 +110,25 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</c:when>
 			<c:otherwise>
-				<div class="list_all">ID：${sessionScope.user.uid }</div>
-				<div class="list_all">用户名:${sessionScope.user.username }</div>
-				<div class="list_all">
-					<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">个人中心</a>
-				</div>
+				<div class="info_img"><img alt="头像" style="border-radius:100%;width:100%;height:100%;" src="${pageContext.request.contextPath }/images/flag/user_img(default).png"> </div>
+				<div class="list_half">ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span></div>
+				<div class="list_half">用户名:<span style="color:red;">${sessionScope.user.username }</span></div>
+				<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
+					<div class="list_all">
+						<span style="font-weight:550;font-size:15px;">个人中心</span>
+					</div>
+				</a>
 				<!-- 未实现暂时用User.jsp过渡 -->
-				<div class="list_half">
-					<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">设置</a>
-				</div>
-				<div class="list_half">
-					<a href="${pageContext.request.contextPath}/userAction_logOut">退出</a>
-				</div>
+				<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
+					<div class="list_btn">
+						设置
+					</div>
+				</a>
+				<a href="${pageContext.request.contextPath}/userAction_logOut">
+					<div class="list_btn">
+						退出
+					</div>
+				</a>
 			</c:otherwise>
 		</c:choose>
 	</div>
@@ -140,7 +149,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<div id="class_ul${num.count}" class="class_ul${num.count}"
 				onmouseover="classUlon(${num.count})"
 				onmouseout="classUloff(${num.count})">
-				<!-- 数据库里面用";"分开 -->
+		<!-- 数据库里面用";"分开 -->
 				<c:set value="${fn:split(type.type_flag,';') }" var="type_flag"></c:set>
 				<c:forEach items="${type_flag }" var="flag" begin="0" end="5">
 					<ul>
@@ -174,7 +183,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<span class="r_value">${sessionScope.book.author }</span>
 				<br><br>
 				<span class="r_font">更新日期：</span>
-				<span class="r_value">2018-03-06 未完成</span>
+				<input id="publish_t" type="text" value="${sessionScope.book.publish }">
+				<span id="publish" class="r_value"></span>
 				<br><br>
 				<span class="r_font">上传人员：</span>
 				<span class="r_value">未完成</span>
@@ -184,10 +194,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<input id="read_btn" type="button" value="进入阅读" onclick="read(1)">
 					</c:when>
 					<c:otherwise>
-						<input id="read_btn" type="button" class="book_btn2" value="继续阅读" onclick="read(${sessionScope.b_History.pageNum})">
+						<input id="read_btn" type="button" class="book_btn2" value="继续阅读" onclick="read(${sessionScope.history.pageNum})">
 					</c:otherwise>
 				</c:choose>
-				<input type="button" value="加入收藏">
+				<c:choose>
+					<c:when test="${empty sessionScope.user }">
+						<a href="${pageContext.request.contextPath}/pages/user/login.jsp">
+							<button>
+								<span id="font_favour" class="glyphicon glyphicon-star-empty" style="color:#ecec00;">添加收藏</span>
+							</button>
+						</a>
+					</c:when>
+					<c:otherwise>
+						<c:choose>
+						<c:when test="${empty sessionScope.favour }">
+							<button id="fav_btn" onclick="addFavour()">
+								<span id="font_favour" class="glyphicon glyphicon-star-empty" style="color:#ecec00;">添加收藏</span>
+							</button>
+						</c:when>
+						<c:otherwise>
+							<button id="fav_btn" onclick="cancFavour()">
+								<span id="font_favour" class="glyphicon glyphicon-star" style="color:#ecec00;">取消收藏</span>
+							</button>
+						</c:otherwise>
+					</c:choose>
+					</c:otherwise>
+				</c:choose>
 			</div>
 			<div class="tt_bottom">
 				<div class="bt_title">
@@ -198,7 +230,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<div class="bt_part">
 					<c:choose>
 						<c:when test="${empty sessionScope.book}">
-							<input id="btn_getHistory" type="button" onclick="getHistory('${empty sessionScope.user }','wid;${sessionScope.work.wid }',)" style="display:none;">
+							<input id="btn_getHistAndFav" type="button" onclick="getHistAndFav('${empty sessionScope.user }','wid;${sessionScope.work.wid }',)" style="display:none;">
 							<c:forEach items="${sessionScope.content }" var="line" begin="0" end="${sessionScope.doc_count/100}" varStatus="num">
 								<div id="page${num.count }" class="part_div" onclick="history('${empty sessionScope.user }','wid;${sessionScope.work.wid }',${num.count})">
 									${num.count }
@@ -206,7 +238,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</c:forEach>
 						</c:when>
 						<c:otherwise>
-							<input id="btn_getHistory" type="button" onclick="getHistory('${empty sessionScope.user }','bid;${sessionScope.book.bid }')" style="display:none;">
+							<input id="btn_getHistAndFav" type="button" onclick="getHistAndFav('${empty sessionScope.user }','bid;${sessionScope.book.bid }')" style="display:none;">
 							<c:forEach items="${sessionScope.content }" var="line" begin="0" end="${sessionScope.doc_count/100}" varStatus="num">
 								<div id="page${num.count }" class="part_div" onclick="history('${empty sessionScope.user }','bid;${sessionScope.book.bid }',${num.count})">
 									${num.count }

@@ -1,30 +1,4 @@
-/*function checkuid() {
-	var uid = document.getElementById("uid").value;
-	var cpath = document.getElementById("contextPath").value;
-	if (uid != null && uid != "") {
-		var xmlhttp;
-		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera,
-			// Safari
-			xmlhttp = new XMLHttpRequest();
-		} else {// code for IE6, IE5
-			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-		}
-		xmlhttp.onreadystatechange = function() {
-
-			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-				var message = xmlhttp.responseText;
-				if(message!=" "){
-					alert(message);
-				}
-			}
-
-		}
-		xmlhttp.open("POST", cpath + "/userAction_checkuid?uid=" + uid, true);
-		xmlhttp.send();
-		 xmlhttp.send({"uid":uid}); 
-	}
-}
- */function checkform() {// 检查表单必填数据
+function checkform() {// 检查表单必填数据
 	var flag = true;
 	$("#form input[type='text'],input[type='password']").each(function() {
 		if (this.name != "地址" && this.name != "电话") {
@@ -52,9 +26,8 @@
 
 function checkuid() {
 	if ($("#uid").val().match(/[a-zA-Z0-9_]{1,16}/) != null) {// 限制输入的用户ID只能有数字英文字符下划线组成的1到16位
-		var path = $("#contextPath").val();
 		$.ajax({
-			url : path + '/userAction_checkuid',
+			url : '/SSH_test/userAction_checkuid',
 			type : "POST",
 			data : {
 				uid : $("#uid").val()

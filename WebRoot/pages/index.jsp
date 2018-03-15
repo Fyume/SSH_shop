@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/struts-tags" prefix="s"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -25,37 +26,40 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 <!-- 用下载下来的bootstrap.min.css没有图标 不知道为什么 可能是需要其他的文件支持 -->
-<link rel="stylesheet"
-	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/index.css">
-
+<link rel="stylesheet"
+	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body onload="start(${empty sessionScope.typelist })">
 	<div class="header">
-		<div class="header_index">
-			<a target="_top"
-				href="${pageContext.request.contextPath}/pages/index.jsp">首页</a>
-		</div>
-		<div class="header_classify" onmouseover="classifyon()"
-			onmouseout="classifyoff()">
-			<a target="_top" href="${pageContext.request.contextPath}/pages/index.jsp">
-				全部分类
-			</a>
-		</div>
-		<div class="header_work">
-			<a href="${pageContext.request.contextPath}/workAction_getData">
+		<a href="${pageContext.request.contextPath}/pages/index.jsp">
+			<div class="header_index">
+				首页
+			</div>
+		</a>
+		<a href="${pageContext.request.contextPath}/pages/index.jsp">
+			<div class="header_classify" onmouseover="classifyon()"
+				onmouseout="classifyoff()">
+					全部分类
+			</div>
+		</a>
+		<a href="${pageContext.request.contextPath}/workAction_getData">
+			<div class="header_work">
 				用户作品
-			</a>
-		</div>
+			</div>
+		</a>
 			
 		<!-- <div class="header_random">随机</div> -->
 		
 		<c:if test="${sessionScope.user.u_permission }">
-			<div class="managerPage">
-				<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">前往管理员界面</a>
-			</div>
+			<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">
+				<div class="managerPage">
+					前往管理员界面
+				</div>
+			</a>
 		</c:if>
 		<!-- 未实现 -->
 		<div class="header_select">
@@ -83,14 +87,15 @@
 			<c:if test="${!empty sessionScope.user }">
 				<div class="user_message">消息</div>
 				<div class="user_favour">收藏夹</div>
-				<div class="user_upload">
-					<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
-						<span class="glyphicon glyphicon-arrow-up">上传</span>
-					</a>
-				</div>
+				<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
+					<div class="user_upload">
+						<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
+					</div>
+				</a>
 			</c:if>
 		</div>
 	</div>
+	<!-- 不放到这个位置好像会影响div的onmouserover事件 应该是video标签的问题？ 还是加载顺序的问题？不是很清楚 -->
 	<div class="second">
 		<div class="sec_logo"></div>
 		<div class="sec_font">在线阅读网站</div>
@@ -108,19 +113,25 @@
 				</div>
 			</c:when>
 			<c:otherwise>
-				<div class="list_all">ID：${sessionScope.user.uid }</div>
-				<div class="list_all">用户名:${sessionScope.user.username }</div>
-				<div class="list_all">
-					<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">个人中心</a>
-				</div>
+				<div class="info_img"><img alt="头像" style="border-radius:100%;width:100%;height:100%;" src="${pageContext.request.contextPath }/images/flag/user_img(default).png"> </div>
+				<div class="list_half">ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span></div>
+				<div class="list_half">用户名:<span style="color:red;">${sessionScope.user.username }</span></div>
+				<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
+					<div class="list_all">
+						<span style="font-weight:550;font-size:15px;">个人中心</span>
+					</div>
+				</a>
 				<!-- 未实现暂时用User.jsp过渡 -->
-				<div class="list_half">
-					<a
-						href="${ pageContext.request.contextPath}/pages/user/User.jsp">设置</a>
-				</div>
-				<div class="list_half">
-					<a href="${pageContext.request.contextPath}/userAction_logOut">退出</a>
-				</div>
+				<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
+					<div class="list_btn">
+						设置
+					</div>
+				</a>
+				<a href="${pageContext.request.contextPath}/userAction_logOut">
+					<div class="list_btn">
+						退出
+					</div>
+				</a>
 			</c:otherwise>
 		</c:choose>
 	</div>
@@ -196,10 +207,13 @@
 							</div>
 						</div>
 					</c:forEach>
+					
 					<!-- 准备搞个分页 -->
 					<div style="width:"></div>
 					<c:if test="${fn:length(sessionScope.booklist)>20}">
 					</c:if>
+					
+					
 				</c:otherwise>
 			</c:choose>
 		</div>

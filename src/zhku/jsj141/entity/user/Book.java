@@ -133,5 +133,4 @@ public class Book {
 				+ ", author=" + author + ", type=" + type + ", path=" + path
 				+ ", image=" + image + ", type_flag=" + type_flag + "]";
 	}
-	
 }

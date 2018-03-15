@@ -67,7 +67,7 @@ function AjaxE() {
 	var path = $("#contextPath").val();
 	if(checkE("email")){
 	$.ajax({
-		url : path + '/userAction_checkE',
+		url : '/SSH_test/userAction_checkE',
 		type : "POST",
 		async:false,//取消异步请求
 		data : {

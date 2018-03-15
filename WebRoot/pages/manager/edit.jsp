@@ -40,30 +40,32 @@
 	<c:if test="${sessionScope.user.u_permission }">
 		<div class="header">
 			<div class="header_logo"></div>
-			<div class="header_index">
-				<a target="_top"
-					href="${pageContext.request.contextPath}/pages/index.jsp">首页</a>
-			</div>
-			<div class="h_user">
-				<a href="${pageContext.request.contextPath}/managerAction_getUser">管理用户</a>
-			</div>
-			<div class="h_book">
-				<a href="${pageContext.request.contextPath}/managerAction_getBook">管理书本</a>
-			</div>
+			<a href="${pageContext.request.contextPath}/pages/index.jsp">
+				<div class="header_index">
+					首页
+				</div>
+			</a>
+			<a href="${pageContext.request.contextPath}/managerAction_getUser">
+				<div class="h_user">
+					管理用户
+				</div>
+			</a>
+			<a href="${pageContext.request.contextPath}/managerAction_getBook">
+				<div class="h_book">
+					管理书本
+				</div>
+			</a>
 			<div class="header_user">
 				<div class="user_img" onmouseover="infoon()" onmouseout="infooff()"
 					onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
 					<span class="glyphicon glyphicon-user"></span> <span
 						style="color:red;font-weight:400">${sessionScope.user.username }</span>
 				</div>
-				<c:if test="${!empty sessionScope.user }">
+				<a href="${pageContext.request.contextPath}/pages/manager/upload.jsp">
 					<div class="user_upload">
-						<a
-							href="${pageContext.request.contextPath}/pages/manager/upload.jsp">
-							<span class="glyphicon glyphicon-arrow-up">上传</span>
-						</a>
+						<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
 					</div>
-				</c:if>
+				</a>
 			</div>
 		</div>
 		<div id="user_info" class="user_info" onmouseover="infoon()"
@@ -77,16 +79,22 @@
 				<c:otherwise>
 					<div class="list_all">ID：${sessionScope.user.uid }</div>
 					<div class="list_all">用户名:${sessionScope.user.username }</div>
-					<div class="list_all">
-						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">个人中心</a>
-					</div>
+					<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
+						<div class="list_all">
+							个人中心
+						</div>
+					</a>
 					<!-- 未实现暂时用User.jsp过渡 -->
-					<div class="list_half">
-						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">设置</a>
-					</div>
-					<div class="list_half">
-						<a href="${pageContext.request.contextPath}/userAction_logOut">退出</a>
-					</div>
+					<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
+						<div class="list_half">
+							设置
+						</div>
+					</a>
+					<a href="${pageContext.request.contextPath}/userAction_logOut">
+						<div class="list_half">
+							退出
+						</div>
+					</a>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -121,8 +129,8 @@
 						</div>
 						<div class="font2-font">用户ID</div>
 						<div id="u_select" class="font2_select1">
-							<input id="slt_id" type="text" placeholder="筛选条件" onchange="return checkUid()">
-							<input id="slt_name" type="text" placeholder="筛选条件" onchange="return checkUname()">
+							<input id="slt_id" type="text" placeholder="用户ID" onchange="return checkUid()">
+							<input id="slt_name" type="text" placeholder="用户名" onchange="return checkUname()">
 							<select id="slt_status" >
 								<option value="0">未激活</option>
 								<option value="1">已激活</option>
@@ -195,7 +203,7 @@
 										</div>
 										<div class="cont2-cont2">
 											<a
-												href="${ pageContext.request.contextPath}/managerAction_delete?uid=${user.uid}">删除</a>
+												href="${ pageContext.request.contextPath}/managerAction_delete_U?uid=${user.uid}" onclick="return del_U(${user.uid})">删除</a>
 										</div>
 									</div>
 								</c:forEach>
@@ -247,7 +255,7 @@
 										</div>
 										<div class="cont2-cont2">
 											<a
-												href="${ pageContext.request.contextPath}/managerAction_delete?uid=${user.uid}">删除</a>
+												href="${pageContext.request.contextPath}/managerAction_delete_U?uid=${user.uid}" onclick="return del_U(${user.uid})">删除</a>
 										</div>
 									</div>
 								</c:forEach>
@@ -373,7 +381,7 @@
 										</div>
 										<div class="cont-cont">
 											<a
-												href="${ pageContext.request.contextPath}/managerAction_delete_B?uid=${book.bid}">删除</a>
+												href="${ pageContext.request.contextPath}/managerAction_delete_B?bid=${book.bid}" onclick="return del_B(${book.bid})">删除</a>
 										</div>
 									</div>
 								</c:forEach>
@@ -435,7 +443,7 @@
 										</div>
 										<div class="cont-cont">
 											<a
-												href="${ pageContext.request.contextPath}/managerAction_delete_B?uid=${book.bid}">删除</a>
+												href="${ pageContext.request.contextPath}/managerAction_delete_B?bid=${book.bid}" onclick="return del_B(${book.bid})">删除</a>
 										</div>
 									</div>
 								</c:forEach>
