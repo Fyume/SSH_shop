@@ -4,13 +4,9 @@ import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts2.ServletActionContext;
-
 import zhku.jsj141.action.BaseAction;
 import zhku.jsj141.entity.Type;
+import zhku.jsj141.entity.manager.Operate_m;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.entity.user.Work;
@@ -22,15 +18,19 @@ import zhku.jsj141.utils.user.bookUtils;
 import zhku.jsj141.utils.user.workUtils;
 
 import com.alibaba.fastjson.JSONObject;
-import com.opensymphony.xwork2.ActionSupport;
 
 public class ManagerAction extends BaseAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ManagerService managerService;
 	private UserService userService;
 	private BookService bookService;
 	private WorkService workService;
 	private bookUtils bookUtils;
 	private workUtils workUtils;
+	
 	
 	List<User> userlist = null;
 	
@@ -119,6 +119,18 @@ public class ManagerAction extends BaseAction {
 		request.getSession().setAttribute("count", list.size());
 		return "goto_edit";
 	}
+	//获取操作记录
+	public String getRecord() throws Exception{
+		List<Operate_m> list = managerService.findRecord();
+		for (Operate_m operate_m : list) {
+			System.out.println(operate_m.toString());
+			System.out.println(operate_m.getUser().getUid());
+		}
+		request.getSession().setAttribute("record", list);
+		request.getSession().setAttribute("managerType", "record");
+		request.getSession().setAttribute("count", list.size());
+		return "goto_edit";
+	}
 	//未完成
 	public String alter_U() throws Exception{
 		user = (User) request.getSession().getAttribute("user");
@@ -185,7 +197,7 @@ public class ManagerAction extends BaseAction {
 				if(rs){
 					for (Work work2 : worklist) {//数据库
 						boolean rs2 = workService.delete(work2);
-						/*if(!rs){
+						/*if(!rs2){
 							request.setAttribute("w_deleteRs", "删除作品期间出错了");
 						}*/
 					}

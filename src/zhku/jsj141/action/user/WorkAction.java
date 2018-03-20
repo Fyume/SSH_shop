@@ -17,6 +17,10 @@ import zhku.jsj141.utils.user.workUtils;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class WorkAction extends BaseAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private WorkService workService;
 	private File upload;
 	private String uploadFileName;
@@ -113,12 +117,11 @@ public class WorkAction extends BaseAction {
 		System.out.println("uploadContentType:" + uploadContentType);
 		System.out.println("imageFileName:" + imageFileName);
 		System.out.println("imageContentType:" + imageContentType);
-		String description = (String) request.getParameter("description");
 		if (user != null) {
 			long publish = System.currentTimeMillis()/((1000*60)*(1000*60));
 			String result = workUtils.uploadbook_U(upload, user.getUid(),
 					uploadContentType, work.getWname());
-			work.setAuthor(user.getUid());
+			work.setUser(user);
 			work.setUploadtime(publish);
 			if (result != "") {
 				if (result.equals("typefalse")) {
@@ -127,7 +130,7 @@ public class WorkAction extends BaseAction {
 					request.setAttribute("uploadResult", "该作品已存在");
 				} else {
 					work.setPath(result);
-					String result2 = workUtils.uploadbookI_U(image, "uid",
+					String result2 = workUtils.uploadbookI_U(image, user.getUid(),
 							imageContentType);
 					if (result2 != "") {
 						if (result2.equals("typefalse")) {

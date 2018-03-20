@@ -11,7 +11,7 @@
  		<property name="value_before"></property>
  		<property name="value_after"></property>
  		<property name="type_flag"></property>
- 		<property name="uploadTime"></property>
+ 		<property name="time"></property>
  		<many-to-one name="user" class="zhku.jsj141.entity.user.User" column="managerID"></many-to-one>
  	</class>
  </hibernate-mapping>

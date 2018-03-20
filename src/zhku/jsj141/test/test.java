@@ -105,7 +105,10 @@ public class test {
 		System.out.println(tramp);
 		System.out.println(tramp2);*/
 		Date time = new Date(System.currentTimeMillis()/(1000*60)*(1000*60));
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH点");
+		String str = format.format(time);
 		System.out.println((time.getYear()+1900)+"年"+(time.getMonth()+1)+"月"+time.getDate()+"日"+time.getHours()+"时"+time.getMinutes()+"分"+time.getSeconds()+"秒");
+		System.out.println(str);
 		/*String str = "";
 		str = iii();
 		System.out.println(str==null);*/

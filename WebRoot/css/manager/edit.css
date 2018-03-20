@@ -63,6 +63,16 @@ a,a:hover{
 	margin-left:1px;
 	cursor:pointer;
 }
+.h_record{
+	padding-top:10px;
+	text-align:center;
+	width:150px;
+	height:49px;
+	border:1px #c0c0c0 solid;
+	border-radius:2px;
+	margin-left:1px;
+	cursor:pointer;
+}
 .header_index:hover,.h_user:hover,.h_book:hover{
 	background-image:url("../../images/flag/header_min.png");
 }
@@ -255,6 +265,14 @@ a,a:hover{
 	margin-left:8%;
 	margin-top:2%;
 	width:83%;
+	height:92%;
+	background-color:white;
+	border:1px black solid;
+}
+.recordTable{
+	margin-left:13%;
+	margin-top:2%;
+	width:70%;
 	height:92%;
 	background-color:white;
 	border:1px black solid;

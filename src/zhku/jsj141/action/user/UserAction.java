@@ -28,6 +28,7 @@ import zhku.jsj141.entity.user.User;
 import zhku.jsj141.entity.user.Work;
 import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.UserService;
+import zhku.jsj141.service.WorkService;
 import zhku.jsj141.utils.user.userUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -54,6 +55,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	private static final long serialVersionUID = 1L;
 	private UserService userService;
 	private BookService bookService;
+	private WorkService workService;
 	private userUtils userUtils;
 	
 	List<User> userlist = null;
@@ -61,6 +63,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	List<History> histlist = null;
 	List<Type> typelist = null;
 	List<Book> booklist = null;
+	List<Work> worklist = null;
 	
 	User user = new User();//属性驱动
 	Book book = new Book();
@@ -98,26 +101,28 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	public void setHistory(History history) {
 		this.history = history;
 	}
+	
+	public WorkService getWorkService() {
+		return workService;
+	}
+	public void setWorkService(WorkService workService) {
+		this.workService = workService;
+	}
 	public BookService getBookService() {
 		return bookService;
 	}
-
 	public void setBookService(BookService bookService) {
 		this.bookService = bookService;
 	}
-
 	public void setUserService(UserService userService) {
 		this.userService = userService;
 	}
-
 	public UserService getUserService() {
 		return userService;
 	}
-
 	public userUtils getUserUtils() {
 		return userUtils;
 	}
-
 	public void setUserUtils(userUtils userUtils) {
 		this.userUtils = userUtils;
 	}
@@ -299,7 +304,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 				 */
 				String password = user.getPassword();
 				userlist = userService.finds(user, "uid");
-				System.out.println(user.toString());
 				if (userlist.size()!=0) {
 					user = userlist.get(0);
 					if (user.isU_status()) {// 已激活
@@ -366,25 +370,32 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		if(user!=null){
 			String font = (String)jsonObj.get("font");
 			int id = (int) jsonObj.get("id");
+			favour.setUser(user);
 			if(font.equals("bid")){
 				book.setBid(id);
-				favour.setBook(book);
-				favour.setUser(user);
-				long time = System.currentTimeMillis();
-				favour.setTime(time);
-				favlist = userService.findF(user,book);
-				if(favlist.isEmpty()){//为空则添加
-					userService.addF(favour);
+				booklist = bookService.find(book, "bid");
+				if(booklist.size()!=0){
+					book = booklist.get(0);
+					favour.setBook(book);//外键 存实体
+					long time = System.currentTimeMillis();
+					favour.setTime(time);
+					favlist = userService.findF(user,book);
+					if(favlist.isEmpty()){//为空则添加
+						userService.addF(favour);
+					}
 				}
 			}else if(font.equals("wid")){
 				work.setWid(id);
-				favour.setWork(work);
-				favour.setUser(user);
-				long time = System.currentTimeMillis();
-				favour.setTime(time);
-				favlist = userService.findF(user,work);
-				if(favlist.isEmpty()){//为空则添加
-					userService.addF(favour);
+				worklist = workService.find(work, "wid");
+				if(worklist.size()!=0){
+					work = worklist.get(0);
+					favour.setWork(work);//外键 存实体
+					long time = System.currentTimeMillis();
+					favour.setTime(time);
+					favlist = userService.findF(user,work);
+					if(favlist.isEmpty()){//为空则添加
+						userService.addF(favour);
+					}
 				}
 			}
 		}
@@ -402,27 +413,34 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		if(user!=null){
 			String font = (String)jsonObj.get("font");
 			int id = (int) jsonObj.get("id");
+			favour.setUser(user);
 			if(font.equals("bid")){
 				book.setBid(id);
-				favour.setBook(book);
-				favour.setUser(user);
-				long time = System.currentTimeMillis();
-				favour.setTime(time);
-				favlist = userService.findF(user,book);
-				if(!favlist.isEmpty()){
-					favour = favlist.get(0);
-					userService.delF(favour);
+				booklist = bookService.find(book, "bid");
+				if(booklist.size()!=0){
+					book = booklist.get(0);
+					favour.setBook(book);//外键 存实体
+					long time = System.currentTimeMillis();
+					favour.setTime(time);
+					favlist = userService.findF(user,book);
+					if(!favlist.isEmpty()){
+						favour = favlist.get(0);
+						userService.delF(favour);
+					}
 				}
 			}else if(font.equals("wid")){
 				work.setWid(id);
-				favour.setWork(work);
-				favour.setUser(user);
-				long time = System.currentTimeMillis();
-				favour.setTime(time);
-				favlist = userService.findF(user,work);
-				if(!favlist.isEmpty()){
-					favour = favlist.get(0);
-					userService.delF(favour);
+				worklist = workService.find(work, "wid");
+				if(worklist.size()!=0){
+					work = worklist.get(0);
+					favour.setWork(work);//外键 存实体
+					long time = System.currentTimeMillis();
+					favour.setTime(time);
+					favlist = userService.findF(user,work);
+					if(!favlist.isEmpty()){
+						favour = favlist.get(0);
+						userService.delF(favour);
+					}
 				}
 			}
 		}
@@ -486,26 +504,34 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 			history.setUser(user);
 			if(font.equals("bid")){
 				book.setBid(id);
-				history.setBook(book);
-				histlist = userService.findH(user,book);
-				if(histlist.size()!=0){//假如数据库有过记录则沿用原来的记录，更新一下就好
-					history = histlist.get(0);
+				booklist = bookService.find(book, "bid");
+				if(booklist.size()!=0){
+					book = booklist.get(0);
+					history.setBook(book);
+					histlist = userService.findH(user,book);
+					if(histlist.size()!=0){//假如数据库有过记录则沿用原来的记录，更新一下就好
+						history = histlist.get(0);
+					}
+					history.setPageNum(page);
+					long time = System.currentTimeMillis()/(1000*60);//只保留到分
+					history.setTime(time);
+					userService.addHistory(history);
 				}
-				history.setPageNum(page);
-				long time = System.currentTimeMillis()/(1000*60);//只保留到分
-				history.setTime(time);
-				userService.addHistory(history);
 			}else if(font.equals("wid")){
 				work.setWid(id);
-				history.setWork(work);
-				histlist = userService.findH(user,work);
-				if(histlist.size()!=0){//假如数据库有过记录则沿用原来的记录，更新一下就好
-					history = histlist.get(0);
+				worklist = workService.find(work, "wid");
+				if(worklist.size()!=0){
+					work = worklist.get(0);
+					history.setWork(work);
+					histlist = userService.findH(user,work);
+					if(histlist.size()!=0){//假如数据库有过记录则沿用原来的记录，更新一下就好
+						history = histlist.get(0);
+					}
+					history.setPageNum(page);
+					long time = System.currentTimeMillis()/(1000*60);//只保留到分
+					history.setTime(time);
+					userService.addHistory(history);
 				}
-				history.setPageNum(page);
-				long time = System.currentTimeMillis()/(1000*60);//只保留到分
-				history.setTime(time);
-				userService.addHistory(history);
 			}
 		}
 		PrintWriter out = response.getWriter();//好像不返回数据ajax会没反应(好像和ajax设置的数据格式有关？)..

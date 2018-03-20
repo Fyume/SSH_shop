@@ -1,14 +1,8 @@
 package zhku.jsj141.action.user;
 
 import java.io.File;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.struts2.ServletActionContext;
 
 import zhku.jsj141.action.BaseAction;
 import zhku.jsj141.entity.Type;
@@ -18,9 +12,12 @@ import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.UserService;
 import zhku.jsj141.utils.user.bookUtils;
 
-import com.opensymphony.xwork2.ActionSupport;
 
 public class BookAction extends BaseAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private BookService bookService;
 	private UserService userService;
 	private File upload;
@@ -146,7 +143,6 @@ public class BookAction extends BaseAction {
 		if (user != null) {
 			String result = bookUtils.uploadbook(upload, book.getType(),
 					uploadContentType, book.getBname());
-
 			if (result != "") {
 				if (result.equals("typefalse")) {
 					request.setAttribute("uploadResult",
@@ -180,7 +176,6 @@ public class BookAction extends BaseAction {
 		int bid = Integer.parseInt(request.getParameter("bid"));
 		user = (User) request.getSession().getAttribute("user");
 		book.setBid(bid);
-		System.out.println(bid);
 		booklist = bookService.find(book, "bid");
 		if(booklist.size()!=0){
 			book = booklist.get(0);

@@ -8,6 +8,7 @@ import org.springframework.orm.hibernate5.HibernateTemplate;
 import zhku.jsj141.dao.ManagerDao;
 import zhku.jsj141.entity.manager.Operate_m;
 import zhku.jsj141.entity.user.Book;
+import zhku.jsj141.entity.user.History;
 import zhku.jsj141.entity.user.User;
 public class ManagerDaoImpl implements ManagerDao{
 	private HibernateTemplate hibernateTemplate;

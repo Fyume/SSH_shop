@@ -1,6 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%><!-- 本来打算用来转时间的 谁知道只有String转Date -->
+<%@ taglib uri="/mytags" prefix="data" %><!-- 根据网上的 建了自定义jstl标签 好强啊 -->
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -53,6 +55,11 @@
 			<a href="${pageContext.request.contextPath}/managerAction_getBook">
 				<div class="h_book">
 					管理书本
+				</div>
+			</a>
+			<a href="${pageContext.request.contextPath}/managerAction_getRecord">
+				<div class="h_record">
+					所有管理员的操作历史
 				</div>
 			</a>
 			<div class="header_user">
@@ -463,11 +470,72 @@
 					</div>
 				</div>
 			</c:if>
+			
+			<!-- 历史记录 -->
+			<c:if test="${sessionScope.managerType=='record' }">
+				<div id="recordTable" class="recordTable">
+					<div id="T-header" class="T-header">总操作记录</div>
+					<div class="T-font">
+						<!-- <div class="select_div" onclick="u_select()">
+							筛选<span id="slt_flag" class="glyphicon glyphicon-chevron-down" style="margin-left:2px;"></span>
+						</div> -->
+						
+					</div>
+					<div class="T-center">
+						<c:choose>
+							<c:when test="${!empty param.page }">
+								<input id="page" type="text" value="${param.page }"
+									style="display:none">
+								<c:forEach items="${sessionScope.record }" var="operate"
+									begin="${(param.page-1)*10 }" end="${param.page*10-1 }"
+									varStatus="num">
+									<div id="T-content3${num.count }" class="T-content3" style="width:100%;height:10%;border:1px red solid;">
+										<span id="oid${num.count }">${operate.oid }</span> | 
+										<data:date value="${operate.time*1000*60 }"></data:date>
+										用户<span id="managerID${num.count }">${operate.user.uid }</span>
+										对<span id="entity${num.count }">${operate.entity }</span>
+										<!-- 对type_flag进行处理 -->
+										实体进行了<span id="operate${num.count }">${operate.type_flag }</span>
+										操作<span id="value_after${num.count }">${operate.value_after }</span>
+									</div>
+								</c:forEach>
+							</c:when>
+							<c:otherwise>
+								<input id="page" type="text" value="1" style="display:none">
+								<c:forEach items="${sessionScope.record }" var="operate"
+									begin="0" end="9" varStatus="num">
+									<div id="T-content3${num.count }" class="T-content3">
+										<span id="oid${num.count }">${operate.oid }</span> | 
+										<span id="time${num.count }"></span>
+										<data:date value="${operate.time*1000*60 }"></data:date>
+										用户<span id="managerID${num.count }">${operate.user.uid }</span>
+										对<span id="entity${num.count }">${operate.entity }</span>
+										<!-- 对type_flag进行处理 -->
+										实体进行了<span id="operate${num.count }">${operate.type_flag }</span>
+										操作<span id="value_after${num.count }">${operate.value_after }</span>
+									</div>
+								</c:forEach>
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<div class="pageNum"
+						style="width:100%;height:8%;border:1px red solid;padding-top:5px;">
+						<span
+							style="font-size:15px;font-weight: 700;float:left;margin-left:5px;">页码</span>
+						<c:forEach items="${sessionScope.userlist }" var="user"
+							varStatus="num" begin="0" end="${(sessionScope.count-1)/10 }">
+							<a id="a_${num.count }"
+								href="${ pageContext.request.contextPath}/pages/manager/edit.jsp?page=${num.count}"
+								style="margin-left:10px;"> ${num.count } </a>
+						</c:forEach>
+					</div>
+				</div>
+			</c:if>
 		</div>
 		<div id="B-I" class="Bimg" style="display:none;">
 			<img id="B-img" src="" alt="书本封面大图"
 				onclick="disapper('${ pageContext.request.contextPath}')">
-			<span class="Img_tips">点击图片回到回到原来页面</span>
+			<span class="Img_tips">点击图片关闭大图</span>
 			<div class="ImgForm_div">
 				<form id="ImageForm" style="display:none;">
 					<input id="image" name="image" type="file" accept="image/*" onchange="alt_btn()">

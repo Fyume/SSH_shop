@@ -441,3 +441,9 @@ function checkDate(num) {
 	}
 	return true;
 }
+/*************记录模块*************/
+function timeStamp(num,timestamp){
+	var time = new Date(timestamp * 1000 * 60);
+	var str = (time.getYear()+1900)+"-"+(time.getMonth()+1)+"-"+time.getDate()+" "+time.getHours()+"点";
+	$("#time" + num).html(str);
+}

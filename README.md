@@ -56,13 +56,53 @@
 
 `<Context path="eclipse项目下的路径（例如/SSH_text/images）" docBase="相对于磁盘中的绝对路径" debug="0" reloadable="false" privilege="true"/>`
 
-**④**hibernate配置文件多对一的时候通常在**一**的一方"**<set>**"标签里面配置**inverse="true"**，即控制反转，让“多”的一方来进行维护，并且 最重要的是，假如外键是**uid** 那么设置的时候**不是setUid()而是setUser()**。这样就能避免了修改不了外键的问题
+**④**hibernate配置文件多对一的时候通常在**一**的一方"**<set>**"标签里面配置**inverse="true"**，即控制反转，让“多”的一方来进行维护，并且 最重要的是，假如外键是**uid** 那么设置的时候**不是setUid()而是setUser()（User带uid）**。**以及通过实体类数据的时候是先getUser()再getUid()**。哇后面做操作记录的时候才发现 好坑啊这个hibernate.配置又麻烦，用也麻烦，还不如我直接敲sql语句呢啧啧啧。就一个事务省事之外还真的噗哧。
 
 **⑤**用ajax传json数据的时候不返回json数据  ajax的success函数不会执行
 
 **⑥**ajax传数据并不会封装到struts2的属性里面
 
 **⑦**增强里面转json字符串的tojson（Object object）方法要求实体类的属性中，将int,long,String,boolean类型的属性值放到最前面，因为只转这几类而且一旦判断不是就结束了，用于跳过hibernate配置的实体类类型的属性
+
+**⑧**自定义标签
+
+**工具类：**
+
+*1.新建工具类（timeTag）继承TagSupport*
+
+*2.设置参数value并生成set方法*
+
+*3.实现doStartTag()方法，其中，最种结果通过pageContext.getOut().write()方法显示到页面上 （最后return super.doStartTag()）*
+
+配置文件（tld文件和web.xml）：
+
+**tld文件（datetag.tld）：**
+
+`<taglib>`
+	 <tlib-version>1.0</tlib-version>
+	 <jsp-version>1.2</jsp-version>
+	 <short-name>date</short-name>
+	<tag>
+	     <name>date</name>
+	     <tag-class>zhku.jsj141.utils.user.timeTag</tag-class>
+	     <body-content>JSP</body-content>
+	     <attribute>
+	         <name>value</name>
+	         <required>true</required>
+	         <rtexprvalue>true</rtexprvalue>
+	     </attribute>
+	</tag>
+`</taglib>`
+
+**web.xml:**
+
+	<jsp-config>
+	<taglib>
+			<taglib-uri>/mytags</taglib-uri>
+			<taglib-location>/WEB-INF/tld/datetag.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
 
 --------------------------------------------------------------------------------------------------------------
 
@@ -83,4 +123,6 @@
 **⑦**打算用spring的aop来做操作记录
 
 **⑧**简直有毒。。。打算随随便便做个操作记录的增强就算了的，又想做得不那么机械。。然后就遇到了一堆问题。除了spring注入的配置，事务的配置之外，最恶心的还是fastjson将实体类转jsonString的时候会把所有属性都转，没错，我是用hibernate的，也就是说连配置表和表之间关系而插入的实体类对象都转了，这就出问题了。。。我写的反射机制获取参数值就不能通用了，然后我就根据设计的实体类自己写了个绕过实体类对象属性生成json字符串的方法。是的，又被坑了时间。
+
+**⑨**才发现原来jstl有标签可以将String类型的时间戳转成Date类型的字符串形式展示，不过long类型的还是无可奈何。于是根据网上的例子，自己也写了个自定义标签，实现了long类型转时间字符串的问题，解决了**①**的问题！！！！
 

@@ -64,5 +64,11 @@
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class> 
 	</listener>
-	
+	<!-- 自定义jstl标签 -->
+	<jsp-config>
+		<taglib>
+			<taglib-uri>/mytags</taglib-uri>
+			<taglib-location>/WEB-INF/tld/datetag.tld</taglib-location>
+		</taglib>
+	</jsp-config>
 </web-app>
