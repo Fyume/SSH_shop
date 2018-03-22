@@ -3,6 +3,7 @@ package zhku.jsj141.entity.user;
 import java.util.HashSet;
 import java.util.Set;
 
+import zhku.jsj141.entity.Upload;
 import zhku.jsj141.entity.manager.Operate_m;
 
 
@@ -15,6 +16,7 @@ public class User {
 	private String IDCN;//身份证号
 	private String telnum;//电话号码
 	private String email;//邮箱
+	private String image;//头像部分路径
 	private boolean u_status=false;//激活状态,默认未激活
 	private String code;//激活用激活码
 	private long activateTime;//第一次激活的时间
@@ -26,6 +28,13 @@ public class User {
 	private Set<Favour> favour = new HashSet<Favour>();
 	private Set<History> history = new HashSet<History>();
 	private Set<Operate_m> operate_m = new HashSet<Operate_m>();
+	private Set<Upload> upload = new HashSet<Upload>();
+	public Set<Upload> getUpload() {
+		return upload;
+	}
+	public void setUpload(Set<Upload> upload) {
+		this.upload = upload;
+	}
 	public Set<Operate_m> getOperate_m() {
 		return operate_m;
 	}
@@ -100,6 +109,12 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	public String getImage() {
+		return image;
+	}
+	public void setImage(String image) {
+		this.image = image;
+	}
 	
 	public boolean isU_status() {
 		return u_status;
@@ -140,31 +155,13 @@ public class User {
 	public void setPs_time(long ps_time) {
 		this.ps_time = ps_time;
 	}
-	public User(String uid, String username, String name, String password,
-			String address, String iDCN, String telnum, String email, String code, int ps_false, long ps_time) {
-		super();
-		this.uid = uid;
-		this.username = username;
-		this.name = name;
-		this.password = password;
-		this.address = address;
-		IDCN = iDCN;
-		this.telnum = telnum;
-		this.email = email;
-		this.code = code;
-		this.ps_false = ps_false;
-		this.ps_time = ps_time;
-	}
-	public User(){
-		
-	}
 	@Override
 	public String toString() {
 		return "User [uid=" + uid + ", username=" + username + ", name=" + name
 				+ ", password=" + password + ", address=" + address + ", IDCN="
 				+ IDCN + ", telnum=" + telnum + ", email=" + email
-				+ ", u_status=" + u_status + ", code=" + code
-				+ ", activateTime=" + activateTime + ", u_permission="
+				+ ", image=" + image+", u_status=" + u_status + ", code=" 
+				+ code + ", activateTime=" + activateTime + ", u_permission="
 				+ u_permission+ ", ps_false=" + ps_false+ ", ps_time="
 				+ ps_time + "]";
 	}

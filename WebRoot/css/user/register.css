@@ -9,6 +9,11 @@
 }
 body{
 	background-image: url("../../images/background/4057a355fa8ffab.jpg");
+	backgroudn-size:100% 100%;
+}
+.register_body{
+	width:100%;
+	height:100%;
 }
 .register_title{
  	text-align:center;

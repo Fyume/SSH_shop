@@ -3,6 +3,8 @@ package zhku.jsj141.entity.user;
 import java.util.HashSet;
 import java.util.Set;
 
+import zhku.jsj141.entity.Upload;
+
 public class Work {
 	private int wid;// 作品ID           自增
 	private String wname;// 作品名（标题）
@@ -12,9 +14,16 @@ public class Work {
 	private String path;// 磁盘路径
 	private String image;// 书本封面路径
 	
+	private User user;
 	private Set<Favour> favour = new HashSet<Favour>();
 	private Set<History> history = new HashSet<History>();
-	private User user;
+	private Set<Upload> upload = new HashSet<Upload>();
+	public Set<Upload> getUpload() {
+		return upload;
+	}
+	public void setUpload(Set<Upload> upload) {
+		this.upload = upload;
+	}
 	public User getUser() {
 		return user;
 	}

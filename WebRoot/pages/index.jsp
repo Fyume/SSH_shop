@@ -113,7 +113,16 @@
 				</div>
 			</c:when>
 			<c:otherwise>
-				<div class="info_img"><img alt="头像" style="border-radius:100%;width:100%;height:100%;" src="${pageContext.request.contextPath }/images/flag/user_img(default).png"> </div>
+				<div class="info_img">
+					<c:choose>
+						<c:when test="${empty sessionScope.user.image }">
+							<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/flag/user_img(default).png">
+						</c:when>
+						<c:otherwise>
+							<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/user/userImg/${sessionScope.user.image }">
+						</c:otherwise>
+					</c:choose>
+				</div>
 				<div class="list_half">ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span></div>
 				<div class="list_half">用户名:<span style="color:red;">${sessionScope.user.username }</span></div>
 				<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">

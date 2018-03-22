@@ -110,9 +110,18 @@
 						</div>
 					</c:when>
 					<c:otherwise>
-						<div class="list_top"><img alt="头像" src="${pageContext.request.contextPath }/images/flag/user_img(default).png"> </div>
-						<div class="list_all">ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span></div>
-						<div class="list_all">用户名:<span style="color:red;">${sessionScope.user.username }</span></div>
+						<div class="info_img">
+							<c:choose>
+								<c:when test="${empty sessionScope.user.image }">
+									<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/flag/user_img(default).png">
+								</c:when>
+								<c:otherwise>
+									<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/user/userImg/${sessionScope.user.image }">
+								</c:otherwise>
+							</c:choose>
+						</div>
+						<div class="list_half">ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span></div>
+						<div class="list_half">用户名:<span style="color:red;">${sessionScope.user.username }</span></div>
 						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
 							<div class="list_all">
 								<span style="font-weight:550;font-size:15px;">个人中心</span>
@@ -120,12 +129,12 @@
 						</a>
 						<!-- 未实现暂时用User.jsp过渡 -->
 						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
-							<div class="list_half">
+							<div class="list_btn">
 								设置
 							</div>
 						</a>
 						<a href="${pageContext.request.contextPath}/userAction_logOut">
-							<div class="list_half">
+							<div class="list_btn">
 								退出
 							</div>
 						</a>

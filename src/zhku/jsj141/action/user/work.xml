@@ -11,6 +11,7 @@
         ">
 <bean id="workAction" class="zhku.jsj141.action.user.WorkAction" scope="prototype">
 	<property name="workService" ref="workService"></property>
+	<property name="managerService" ref="managerService"></property>
 	<property name="workUtils" ref="wutils"></property>
 </bean>
 <bean id="workService" class="zhku.jsj141.service.Impl.WorkServiceImpl">

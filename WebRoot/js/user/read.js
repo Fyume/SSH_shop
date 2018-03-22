@@ -84,7 +84,6 @@ function createPageNum(){
 		for(var i = ((M_page-1)*48+1);i<=Math.round(count/100);i++){
 			/*var page = "<div class='page_div' onclick='history("+user+","+sg+","+(i*M_page)+")'></div>";*/
 			var page = $('<div>'+i+'</div>');
-			page.innerHTML=i;
 			page.attr('id',i);
 			page.attr("class","page_div");
 			page.bind("click",{i:i},function(event){
@@ -124,7 +123,6 @@ function createPageNum(){
 		for(var i =((M_page-1)*48+1);i<=(M_page*48);i++){
 			/*var page = "<div class='page_div' onclick='history("+user+","+sg+","+(i*M_page)+")'></div>";*/
 			var page = $('<div>'+i+'</div>');
-			page.innerHTML=i;
 			page.attr('id',i);
 			page.attr("class","page_div");
 			page.bind("click",{i:i},function(event){
@@ -207,7 +205,6 @@ function addFavour(){
 	var user = window.user_r;
 	var msg = window.msg_r;
 	var count = window.count_r;
-	var num = parseInt(event.data.i);
 	if(user=="false"){
 		var n = msg.indexOf(";");
 		var font = msg.substring(0, n);
@@ -229,6 +226,7 @@ function addFavour(){
 			success : function(){
 				$("#font_favour").html("取消收藏");
 				$("#font_favour").attr("class","glyphicon glyphicon-star");
+				$("#font_favour").attr('onclick','cancFavour()');
 			},
 		});
 	}else{//虽然有c:choose控制 万一session过期
@@ -242,7 +240,6 @@ function cancFavour(){
 	var user = window.user_r;
 	var msg = window.msg_r;
 	var count = window.count_r;
-	var num = parseInt(event.data.i);
 	if(user=="false"){
 		var n = msg.indexOf(";");
 		var font = msg.substring(0, n);
@@ -264,6 +261,7 @@ function cancFavour(){
 			success : function(){
 				$("#font_favour").html("添加收藏");
 				$("#font_favour").attr("class","glyphicon glyphicon-star-empty");
+				$("#font_favour").attr('onclick','addFavour()');
 			},
 		});
 	}else{//虽然有c:choose控制 万一session过期

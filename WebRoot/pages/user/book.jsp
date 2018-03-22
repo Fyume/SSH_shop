@@ -110,7 +110,16 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 			</c:when>
 			<c:otherwise>
-				<div class="info_img"><img alt="头像" style="border-radius:100%;width:100%;height:100%;" src="${pageContext.request.contextPath }/images/flag/user_img(default).png"> </div>
+				<div class="info_img">
+					<c:choose>
+						<c:when test="${empty sessionScope.user.image }">
+							<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/flag/user_img(default).png">
+						</c:when>
+						<c:otherwise>
+							<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/user/userImg/${sessionScope.user.image }">
+						</c:otherwise>
+					</c:choose>
+				</div>
 				<div class="list_half">ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span></div>
 				<div class="list_half">用户名:<span style="color:red;">${sessionScope.user.username }</span></div>
 				<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
@@ -183,11 +192,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<span class="r_value">${sessionScope.book.author }</span>
 				<br><br>
 				<span class="r_font">更新日期：</span>
-				<input id="publish_t" type="text" value="${sessionScope.book.publish }">
+				<input id="publish_t" type="text" value="${sessionScope.uploadRecord.time}">
 				<span id="publish" class="r_value"></span>
 				<br><br>
 				<span class="r_font">上传人员：</span>
-				<span class="r_value">未完成</span>
+				<span class="r_value" id="managerID">${sessionScope.uploadRecord.user.uid }</span>
 				<br><br>
 				<c:choose>
 					<c:when test="${empty sessionScope.b_History}">

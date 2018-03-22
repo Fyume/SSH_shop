@@ -24,5 +24,9 @@
  			<key column="wid"></key>
  			<one-to-many class="zhku.jsj141.entity.user.History"/>
  		</set>
+ 		<set name="upload" inverse="true">
+ 			<key column="wid"></key>
+ 			<one-to-many class="zhku.jsj141.entity.Upload"/>
+ 		</set>
  	</class>
  </hibernate-mapping>

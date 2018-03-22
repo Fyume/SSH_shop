@@ -51,6 +51,7 @@
 			<value>zhku/jsj141/entity/user/Favour.hbm.xml</value>
 			<value>zhku/jsj141/entity/user/History.hbm.xml</value>
 			<value>zhku/jsj141/entity/Type.hbm.xml</value>
+			<value>zhku/jsj141/entity/Upload.hbm.xml</value>
 			<value>zhku/jsj141/entity/manager/Operate_m.hbm.xml</value>
 		</list>
 	</property>
@@ -68,16 +69,16 @@
  </bean>
  <aop:config>
  	<aop:aspect id="recordAspect" ref="record">
- 		<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.add*(..))" id="addPointcut"/>
-	 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.del*(..))" id="delPointcut"/>
-	 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.update*(..))" id="updatePointcut"/>
-	 	<aop:after method="record" pointcut-ref="addPointcut"/>
-	 	<aop:after method="record" pointcut-ref="delPointcut"/>
-	 	<aop:after method="record" pointcut-ref="updatePointcut"/>
+ 		<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.add(..))" id="addPointcut"/>
+	 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.delete(..))" id="delPointcut"/>
+	 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.update(..))" id="updatePointcut"/>
+	 	<aop:before method="record" pointcut-ref="addPointcut"/>
+	 	<aop:before method="record" pointcut-ref="delPointcut"/>
+	 	<aop:before method="record" pointcut-ref="updatePointcut"/>
  	</aop:aspect>
  </aop:config>
  <aop:config>
- 	<!-- 后面加的增强也需要写入数据库 所以这里直接配成service包下吧。。 -->
+ 	<!-- 后面加的增强也需要写入数据库 所以这里直接配成dao包下吧。。 -->
  	<aop:pointcut expression="execution(* zhku.jsj141.dao.Impl.*.*(..))" id="userPointcut"/>
  	<aop:advisor advice-ref="userAdvice" pointcut-ref="userPointcut"/>
  </aop:config>

@@ -6,9 +6,11 @@ import java.util.List;
 
 import zhku.jsj141.action.BaseAction;
 import zhku.jsj141.entity.Type;
+import zhku.jsj141.entity.Upload;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.service.BookService;
+import zhku.jsj141.service.ManagerService;
 import zhku.jsj141.service.UserService;
 import zhku.jsj141.utils.user.bookUtils;
 
@@ -20,6 +22,8 @@ public class BookAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	private BookService bookService;
 	private UserService userService;
+	private ManagerService managerService;
+	
 	private File upload;
 	private String uploadFileName;
 	private String uploadContentType;
@@ -28,6 +32,7 @@ public class BookAction extends BaseAction {
 	private String imageContentType;
 	private bookUtils bookUtils;
 	
+	Upload t_upload = new Upload();
 	List<Type> typelist = null;
 	List<Book> booklist = null;
 	
@@ -69,7 +74,12 @@ public class BookAction extends BaseAction {
 	public void setBookService(BookService bookService) {
 		this.bookService = bookService;
 	}
-
+	public ManagerService getManagerService() {
+		return managerService;
+	}
+	public void setManagerService(ManagerService managerService) {
+		this.managerService = managerService;
+	}
 	public File getUpload() {
 		return upload;
 	}
@@ -141,17 +151,18 @@ public class BookAction extends BaseAction {
 		book.setPublish(publish);
 		user = (User) request.getSession().getAttribute("user");
 		if (user != null) {
+			t_upload.setUser(user);
 			String result = bookUtils.uploadbook(upload, book.getType(),
 					uploadContentType, book.getBname());
 			if (result != "") {
 				if (result.equals("typefalse")) {
 					request.setAttribute("uploadResult",
-							"作品文件有误,请上传doc,docx,txt类型的文件");
+							"文件有误,请上传doc,docx,txt类型的文件");
 				} else if (result.equals("dirfalse")) {
-					request.setAttribute("uploadResult", "该作品已存在");
+					request.setAttribute("uploadResult", "该书本已存在");
 				} else {
 					book.setPath(result);
-					String result2 = bookUtils.uploadbookI(image, "uid",
+					String result2 = bookUtils.uploadbookI(image,
 							imageContentType);
 					if (result2 != "") {
 						if (result2.equals("typefalse")) {
@@ -159,8 +170,14 @@ public class BookAction extends BaseAction {
 									"图片文件有误,请上传jpg类型的文件");
 						} else {
 							book.setImage(result2);
-							bookService.add(book);
-							request.setAttribute("uploadResult", "success");
+							boolean rs = bookService.add(book);
+							if(rs){
+								t_upload.setBook(book);
+								long time = System.currentTimeMillis()/1000;
+								t_upload.setTime(time);
+								managerService.addUpload(t_upload);
+								request.setAttribute("uploadResult", "success");
+							}
 						}
 					}
 				}
@@ -218,6 +235,48 @@ public class BookAction extends BaseAction {
 		}
 		return "goto_index";
 	}
+	//更新书本内容
+	public String update() throws Exception{
+		System.out.println("uploadFileName:" + uploadFileName);
+		System.out.println("uploadContentType:" + uploadContentType);
+		/*String type_flag = (String) request.getParameter("type_flag");*/
+		System.out.println(book.toString());
+		user = (User) request.getSession().getAttribute("user");
+		if (user == null) {
+			return "goto_login";
+		}
+		t_upload.setUser(user);
+		if(book!=null&&upload!=null){
+			booklist = bookService.find(book, "bid");
+			if(booklist.size()!=0){
+				book = booklist.get(0);
+				boolean rs = bookUtils.removeBook(book.getPath(), book.getType());//先删除磁盘的旧内容
+				if(rs){
+					String result = bookUtils.uploadbook(upload, book.getType(),
+							uploadContentType, book.getBname());
+					if (result != "") {
+						if (result.equals("typefalse")) {
+							request.setAttribute("uploadResult",
+									"文件有误,请上传doc,docx,txt类型的文件");
+						} else if (result.equals("dirfalse")) {
+							request.setAttribute("uploadResult", "该书本已存在");
+						} else {
+							book.setPath(result);
+							boolean rs2 = bookService.update(book);
+							if(rs2){
+								t_upload.setBook(book);
+								long time = System.currentTimeMillis()/1000;
+								t_upload.setTime(time);
+								managerService.updateUpload(t_upload);
+								request.setAttribute("uploadResult", "success");
+							}
+						}
+					}
+				}
+			}
+		}
+		return "goto_edit";
+	}
 	//修改书本封面
 	public String updateI() throws Exception{
 		System.out.println(image+";"+imageFileName+";"+imageContentType);
@@ -228,7 +287,7 @@ public class BookAction extends BaseAction {
 			book = booklist.get(0);
 			/*System.out.println("bid:"+bid);
 			System.out.println("image: "+image+"\nimageFN: "+imageFileName+"\nimageCT:"+imageContentType);*/
-			String path = bookUtils.uploadbookI(image, book.getType(), imageContentType);
+			String path = bookUtils.uploadbookI(image, imageContentType);
 			if(path!=""){//把原来的图片删除掉,数据库的路径也改了
 				bookUtils.removeBookI(book.getImage());
 				book.setImage(path);

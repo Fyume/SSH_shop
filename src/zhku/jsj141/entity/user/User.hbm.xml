@@ -13,6 +13,7 @@
  		<property name="IDCN"></property>
  		<property name="telnum"></property>
  		<property name="email"></property>
+ 		<property name="image"></property>
  		<property name="u_status"></property>
  		<property name="code"></property>
  		<property name="activateTime"></property>
@@ -34,6 +35,10 @@
  		<set name="operate_m" inverse="true">
  			<key column="managerID"></key>
  			<one-to-many class="zhku.jsj141.entity.manager.Operate_m"/>
+ 		</set>
+ 		<set name="upload" inverse="true">
+ 			<key column="uid"></key>
+ 			<one-to-many class="zhku.jsj141.entity.Upload"/>
  		</set>
  	</class>
  </hibernate-mapping>

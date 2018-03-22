@@ -15,6 +15,7 @@ import zhku.jsj141.dao.BookDao;
 import zhku.jsj141.dao.ManagerDao;
 import zhku.jsj141.dao.UserDao;
 import zhku.jsj141.dao.WorkDao;
+import zhku.jsj141.entity.Upload;
 import zhku.jsj141.entity.manager.Operate_m;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
@@ -67,14 +68,17 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 		this.workDao = workDao;
 	}
 	public void record(JoinPoint jp){
+		System.out.println("--------------Record-------------");
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 		user = (User) request.getSession().getAttribute("user");
 		if(user!=null){
-			if(user.isU_permission()){//仅针对管理员
+			System.out.println(user.toString());
+			if(user.isU_permission()){//仅针对管理员对书本和用户的增删改  以及   用户对用户作品的增删改
 				operate_m.setUser(user);
+				System.out.println("u_per:"+operate_m.getUser().isU_permission());
 				SimpleName = jp.getSignature().getDeclaringType().getSimpleName();
 				Method = jp.getSignature().getName();
-				long time = System.currentTimeMillis()/(1000*60);
+				long time = System.currentTimeMillis()/(1000);
 				operate_m.setTime(time);
 				/*System.out.println(jp.getSignature());
 				System.out.println(jp.getSignature().getDeclaringType());
@@ -89,13 +93,13 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 					operate_m.setType_flag(3);
 				}
 				int type_flag = operate_m.getType_flag();
-				if(SimpleName.equals("UserService")){//由于只给了管理用户和书本的接口 就不记录关于收藏表 历史表的操作了
+				if(SimpleName.equals("UserService")&&user.isU_permission()){//由于只给了管理用户和书本的接口 就不记录关于收藏表 历史表的操作了
 					operate_m.setEntity("user");
-					user = (User) jp.getArgs()[0];//增删改的方法就只有1个参数。。就是需要增删改的实体类
-					value2 = tojson(user);
+					User user2 = (User) jp.getArgs()[0];//增删改的方法就只有1个参数。。就是需要增删改的实体类
+					value2 = tojson(user2);
 					operate_m.setValue_after(value2);
-					if(type_flag==3){//更新操作的话
-						userlist = userDao.select(user, "uid");
+					if(type_flag==3||type_flag==2){//更新或者删除操作的话
+						userlist = userDao.select(user2, "uid");
 						if(!userlist.isEmpty()){
 							value1 = tojson(userlist.get(0));
 							operate_m.setValue_before(value1);
@@ -107,7 +111,7 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 					book = (Book) jp.getArgs()[0];
 					value2 = tojson(book);
 					operate_m.setValue_after(value2);
-					if(type_flag==3){//更新操作的话
+					if(type_flag==3||type_flag==2){//更新或者删除操作的话
 						booklist = bookDao.select(book, "bid");
 						if(!booklist.isEmpty()){
 							value1 = tojson(booklist.get(0));
@@ -120,7 +124,7 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 					work = (Work) jp.getArgs()[0];
 					value2 = tojson(work);
 					operate_m.setValue_after(value2);
-					if(type_flag==3){//更新操作的话
+					if(type_flag==3||type_flag==2){//更新或者删除操作的话
 						worklist = workDao.select(work, "wid");
 						if(!worklist.isEmpty()){
 							value1 = tojson(worklist.get(0));
@@ -128,8 +132,8 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 						}
 					}
 				}
-				boolean rs = managerDao.addRecord(operate_m);
 				System.out.println(" Record ||"+operate_m.toString());
+				/*boolean rs = */managerDao.addRecord(operate_m);
 				/*List<Operate_m> list = managerDao.findRecord();
 				for (Operate_m operate_m : list) {
 					System.out.println(operate_m.toString());
@@ -161,7 +165,7 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 			if(num!=-1){//被String类型坑了一把
 				type = type.substring(num+1, type.length());
 			}
-			System.out.println("name:"+name+" ; type:"+type);
+			/*System.out.println("name:"+name+" ; type:"+type);*/
 			name = name.substring(0, 1).toUpperCase()+name.substring(1, name.length());//用于反射机制获取值
 			if(type.equals("boolean")){
 				boolean bl = false;

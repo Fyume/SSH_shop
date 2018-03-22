@@ -5,6 +5,8 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Properties;
 import java.util.Random;
 
@@ -23,11 +25,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
 import com.opensymphony.xwork2.ActionSupport;
 
 public class userUtils extends ActionSupport {
+	private static String FimagePath = "F:\\java\\SSH_test\\WebRoot\\images\\user\\userImg";// 头像最终存放路径
 	//验证码长宽
 	private int width = 100;
 	private int height = 30;
@@ -197,5 +201,53 @@ public class userUtils extends ActionSupport {
 		g.drawRect(1, 1, width - 2, height - 2);
 
 	}
-
+	//上传头像
+	public String uploadI(File image,String uid, String imageContentType) {
+		if (image != null) {
+			String filename = uid;// 文件名
+			File dir = new File(FimagePath);
+			String ctype = null;// 文件后缀
+			if (imageContentType.equals("image/jpeg")) {
+				ctype = ".jpg";
+			}
+			if (ctype != null) {
+				try {
+					FileUtils.moveFile(image, new File(dir, filename + ctype));// 存放到磁盘的时候重新命名，以免重复
+					return "\\" + filename + ctype;// 返回部分路径
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return "";
+	}
+	//更改头像
+	public String changeI(File image, String uid, String path, String imageContentType) {
+		if (image != null) {
+			try {
+				FileUtils.forceDelete(new File(FimagePath+"\\"+path));//先删除磁盘中的头像图片
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			String filename = uid;// 文件名
+			File dir = new File(FimagePath);
+			String ctype = null;// 文件后缀
+			if (imageContentType.equals("image/jpeg")) {
+				ctype = ".jpg";
+			}
+			if (ctype != null) {
+				try {
+					FileUtils.moveFile(image, new File(dir, filename + ctype));// 存放到磁盘的时候重新命名，以免重复
+					return "\\" + filename + ctype;// 返回部分路径
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return "";
+	}
+	
 }

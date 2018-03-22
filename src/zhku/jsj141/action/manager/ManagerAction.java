@@ -121,11 +121,7 @@ public class ManagerAction extends BaseAction {
 	}
 	//获取操作记录
 	public String getRecord() throws Exception{
-		List<Operate_m> list = managerService.findRecord();
-		for (Operate_m operate_m : list) {
-			System.out.println(operate_m.toString());
-			System.out.println(operate_m.getUser().getUid());
-		}
+		List<Operate_m> list = managerService.findAllRecord();
 		request.getSession().setAttribute("record", list);
 		request.getSession().setAttribute("managerType", "record");
 		request.getSession().setAttribute("count", list.size());
@@ -144,17 +140,18 @@ public class ManagerAction extends BaseAction {
 			System.out.println(username);
 			int u_permission = (int)jsonobj.get("u_permission");
 			System.out.println(u_permission);
-			user.setUid(uid);
-			userlist = userService.finds(user, "uid");
+			User user2 = new User();
+			user2.setUid(uid);
+			userlist = userService.finds(user2, "uid");
 			if(userlist.size()!=0){
-				user = userlist.get(0);
-				user.setUsername(username);
+				user2 = userlist.get(0);
+				user2.setUsername(username);
 				if(u_permission==1){
-					user.setU_permission(true);
+					user2.setU_permission(true);
 				}else{
-					user.setU_permission(false);
+					user2.setU_permission(false);
 				}
-				userService.update(user);
+				userService.update(user2);
 			}
 		}
 		return "goto_edit";

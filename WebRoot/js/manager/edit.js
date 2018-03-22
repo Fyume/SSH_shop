@@ -441,9 +441,90 @@ function checkDate(num) {
 	}
 	return true;
 }
-/*************记录模块*************/
-function timeStamp(num,timestamp){
-	var time = new Date(timestamp * 1000 * 60);
-	var str = (time.getYear()+1900)+"-"+(time.getMonth()+1)+"-"+time.getDate()+" "+time.getHours()+"点";
-	$("#time" + num).html(str);
+/*******上传更新内容部分***********/
+function uploadDiv(num){
+	$("#book_update_div").css("display","block");
+	$("#update_div").remove();
+	var div = $('<div></div>');
+	div.attr("class","upload_arrow");
+	div.attr("id","update_div");
+	div.css("top",(108+80*num)+"px");
+	div.appendTo('body');
+	$("#upload").val("");
+	$("#bookName").html($("#bname"+num).val());
+	$("#b_u_bid").val($("#bid"+num).val());
 }
+function uploadFile(){
+	$("#upload").click();
+}
+function checkfile(){
+	var str = $("#upload")[0].value;
+	if (str != "") {
+		$("#b_u_sub").css("opacity","1");
+		$("#b_u_sub").removeAttr("disabled");
+	}else{
+		$("#b_u_sub").css("opacity","0.5");
+		$("#b_u_sub").attr("disabled","disabled");
+	}
+}
+/*************记录模块*************/
+function entity(n,num){
+	if($("#"+n+num).css("display")=="block"){
+		$("#chevron"+n+num).attr("class","glyphicon glyphicon-chevron-down");
+		$("div").remove("#"+n+num);
+	}else{
+		$("#chevron"+n+num).attr("class","glyphicon glyphicon-chevron-up");
+		var str = "";
+		if(n==1){
+			str = $("#value_after"+num).text().replace(/\\/g, "/");//不转义被坑惨
+		}else if(n==2){
+			str = $("#value_before"+num).text().replace(/\\/g, "/");//不转义被坑惨
+		}
+		var m = createDiv(n,num,str);
+		$("#"+n+num).css("height",(22*m)+"px");
+	}
+}
+function createDiv(n,num,str){
+	var div = $('<div></div>');
+	div.attr("id",""+n+num);
+	div.attr("class","entity");
+	if(n==1){
+		div.css("left","26%");
+	}else if(n==2){
+		div.css("left","50%");
+	}
+	div.css("top",(28+((num-1)*6.4))+"%");
+	div.appendTo('body');
+	var json = JSON.parse(str);
+	var m = 0;
+	for (var key in json) {
+		m++;
+	    var key = key;     //获取key值
+	    var value = json[key]; //获取对应的value值
+	    var span1 = $('<span></span>');
+	    span1.html(key+":");
+	    span1.attr("class","entity_font");
+	    span1.appendTo($("#"+n+num));
+	    var span2 = $('<span></span>');
+	    span2.html(""+value);
+	    span2.attr("class","entity_value");
+	    span2.appendTo($("#"+n+num));
+	    var br = $('<br>');
+	    br.appendTo($("#"+n+num));
+	}
+	return m;
+}
+/*function test(){
+	var str = $("#value_after"+1).html();
+	str = str.replace('\\','/');
+	alert(str);
+	var str2 = '{"111":"\\asdfsaf.fee","image":"\\1459892366.jpg","type_flag":"null"}';
+	str2 = str2.replace(/\\/g, "/");
+	alert(str2);
+	alert(str==str2);
+	var json = JSON.parse(str);
+	for (var key in json) {
+		alert(key);     //获取key值
+	    alert(json[key]); //获取对应的value值
+	}
+}*/

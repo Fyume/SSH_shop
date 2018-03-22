@@ -3,6 +3,8 @@ package zhku.jsj141.entity.user;
 import java.util.HashSet;
 import java.util.Set;
 
+import zhku.jsj141.entity.Upload;
+
 
 public class Book {
 	private int bid;// 书ID
@@ -18,6 +20,13 @@ public class Book {
 	
 	private Set<Favour> favour = new HashSet<Favour>();
 	private Set<History> history = new HashSet<History>();
+	private Set<Upload> upload = new HashSet<Upload>();
+	public Set<Upload> getUpload() {
+		return upload;
+	}
+	public void setUpload(Set<Upload> upload) {
+		this.upload = upload;
+	}
 	public Set<Favour> getFavour() {
 		return favour;
 	}

@@ -15,7 +15,6 @@ import org.apache.commons.io.FileUtils;
 public class bookUtils {
 	private static String DiskPath = "D:\\SSH_test\\main\\";// 默认存取路径
 	private static String FimagePath = "F:\\java\\SSH_test\\WebRoot\\images\\bookImg";// 图片最终存放路径
-	private static String imagePath = "F:\\java\\SSH_test\\WebRoot\\WEB-INF\\bimg";// 默认图片暂存位置
 	private static String managerPath = "manager\\";
 
 	// 读取管理员上传的文件
@@ -104,7 +103,6 @@ public class bookUtils {
 		}
 		return "";
 	}
-
 	/*
 	 * // 上传书本的封面（由于是先上传书本，所以直接用上传作品之后返回的路径） public String uploadbookI(File
 	 * image, String type, String uploadContentType, String path) { if (image !=
@@ -119,7 +117,7 @@ public class bookUtils {
 	 * TODO Auto-generated catch block e.printStackTrace(); } } } } return ""; }
 	 */
 	// 上传书本的封面
-	public String uploadbookI(File image, String type, String imageContentType) {
+	public String uploadbookI(File image, String imageContentType) {
 		if (image != null) {
 			String time = String.valueOf(System.currentTimeMillis());
 			String filename = time.substring(time.length() - 10, time.length());// 文件名

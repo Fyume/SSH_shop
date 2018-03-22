@@ -8,9 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.ServletActionContext;
 
 import zhku.jsj141.action.BaseAction;
+import zhku.jsj141.entity.Upload;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.entity.user.Work;
+import zhku.jsj141.service.ManagerService;
 import zhku.jsj141.service.WorkService;
 import zhku.jsj141.utils.user.workUtils;
 
@@ -22,6 +24,7 @@ public class WorkAction extends BaseAction {
 	 */
 	private static final long serialVersionUID = 1L;
 	private WorkService workService;
+	private ManagerService managerService;
 	private File upload;
 	private String uploadFileName;
 	private String uploadContentType;
@@ -30,6 +33,7 @@ public class WorkAction extends BaseAction {
 	private String imageContentType;
 	private workUtils workUtils;
 	
+	Upload t_upload = new Upload();
 	List<Work> worklist = null;
 	
 	User user = new User();
@@ -54,7 +58,12 @@ public class WorkAction extends BaseAction {
 	public void setWorkService(WorkService workService) {
 		this.workService = workService;
 	}
-
+	public ManagerService getManagerService() {
+		return managerService;
+	}
+	public void setManagerService(ManagerService managerService) {
+		this.managerService = managerService;
+	}
 	public File getUpload() {
 		return upload;
 	}
@@ -112,7 +121,7 @@ public class WorkAction extends BaseAction {
 	}
 
 	// 上传用户作品（不允许重名）
-	public String upload_U() throws Exception {
+	public String upload() throws Exception {
 		System.out.println("uploadFileName:" + uploadFileName);
 		System.out.println("uploadContentType:" + uploadContentType);
 		System.out.println("imageFileName:" + imageFileName);
@@ -140,7 +149,14 @@ public class WorkAction extends BaseAction {
 							request.setAttribute("uploadResult", "success");
 						}
 					}
-					workService.add(work);//不管封面是否上传成功都保存上传文件的信息到数据库
+					boolean rs = workService.add(work);//不管封面是否上传成功都保存上传文件的信息到数据库
+					if(rs){//上传记录保存
+						t_upload.setWork(work);
+						long time = System.currentTimeMillis()/1000;
+						t_upload.setTime(time);
+						managerService.addUpload(t_upload);
+						request.setAttribute("uploadResult", "success");
+					}
 				}
 			}
 		}else{

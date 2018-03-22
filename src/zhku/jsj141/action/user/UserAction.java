@@ -1,5 +1,6 @@
 package zhku.jsj141.action.user;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -21,12 +22,14 @@ import org.springframework.stereotype.Controller;
 
 import zhku.jsj141.action.BaseAction;
 import zhku.jsj141.entity.Type;
+import zhku.jsj141.entity.Upload;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.Favour;
 import zhku.jsj141.entity.user.History;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.entity.user.Work;
 import zhku.jsj141.service.BookService;
+import zhku.jsj141.service.ManagerService;
 import zhku.jsj141.service.UserService;
 import zhku.jsj141.service.WorkService;
 import zhku.jsj141.utils.user.userUtils;
@@ -56,7 +59,12 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	private UserService userService;
 	private BookService bookService;
 	private WorkService workService;
+	private ManagerService managerService;
 	private userUtils userUtils;
+	
+	private File image;
+	private String imageFileName;
+	private String imageContentType;
 	
 	List<User> userlist = null;
 	List<Favour> favlist = null;
@@ -64,12 +72,13 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	List<Type> typelist = null;
 	List<Book> booklist = null;
 	List<Work> worklist = null;
-	
+	List<Upload> uploadlist = null;
+	Favour favour = new Favour();
+	History history = new History();
+	Upload upload = new Upload();
 	User user = new User();//属性驱动
 	Book book = new Book();
 	Work work = new Work();
-	Favour favour = new Favour();
-	History history = new History();
 	public User getUser() {
 		return user;
 	}
@@ -87,19 +96,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	}
 	public void setWork(Work work) {
 		this.work = work;
-	}
-	public Favour getFavour() {
-		return favour;
-	}
-	public void setFavour(Favour favour) {
-		this.favour = favour;
-	}
-	
-	public History getHistory() {
-		return history;
-	}
-	public void setHistory(History history) {
-		this.history = history;
 	}
 	
 	public WorkService getWorkService() {
@@ -120,13 +116,36 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	public UserService getUserService() {
 		return userService;
 	}
+	public ManagerService getManagerService() {
+		return managerService;
+	}
+	public void setManagerService(ManagerService managerService) {
+		this.managerService = managerService;
+	}
 	public userUtils getUserUtils() {
 		return userUtils;
 	}
 	public void setUserUtils(userUtils userUtils) {
 		this.userUtils = userUtils;
 	}
-
+	public File getImage() {
+		return image;
+	}
+	public void setImage(File image) {
+		this.image = image;
+	}
+	public String getImageFileName() {
+		return imageFileName;
+	}
+	public void setImageFileName(String imageFileName) {
+		this.imageFileName = imageFileName;
+	}
+	public String getImageContentType() {
+		return imageContentType;
+	}
+	public void setImageContentType(String imageContentType) {
+		this.imageContentType = imageContentType;
+	}
 	public String register() throws Exception {// 注册 
 		System.out.println("--register--");
 		String code = String.valueOf(System.currentTimeMillis());
@@ -203,11 +222,37 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		}
 		return NONE;
 	}
-	/****************************未实现**************************/
-	public String updateall() throws Exception {// 修改个人信息
-
-		request.getParameter("");
-		return NONE;
+	public String update() throws Exception {// 修改个人信息
+		System.out.println("-------update---------");
+		User user2 = (User) request.getSession().getAttribute("user");
+		if(user2!=null){
+			userlist = userService.finds(user2, "uid");
+			if(userlist.size()!=0){
+				user2 = userlist.get(0);
+			}
+			String rs = "";
+			if(image!=null){
+				if(user2.getImage()==null){
+					rs = userUtils.uploadI(image, user2.getUid(), imageContentType);
+				}else{
+					rs = userUtils.changeI(image, user2.getUid(), user2.getImage(), imageContentType);
+				}
+				System.out.println("rs:"+rs);
+				if(!rs.equals("")){
+					//修改数据库表 头像信息
+					user2.setImage(rs);
+				}
+			}
+			//直接更新user好像会覆盖。。。这就很尴尬
+			user2.setUsername(user.getUsername());
+			user2.setName(user.getName());
+			user2.setAddress(user.getAddress());
+			user2.setIDCN(user.getIDCN());
+			user2.setTelnum(user.getTelnum());
+			userService.update(user2);
+			request.getSession().setAttribute("user", user2);
+		}
+		return "goto_user";
 
 	}
 	/********************************************************/
@@ -449,16 +494,17 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		close(out);
 		return "goto_"+where;
 	}
-	public String getHistAndFav() throws Exception{//获取用户相关的书本浏览记录和收藏记录
+	public String getHistAndFav() throws Exception{//获取用户相关的书本浏览记录和收藏记录（后来加上的 查询有关上传该书本的信息）
+		System.out.println("--------getHistAndFav------------");
 		user = (User) request.getSession().getAttribute("user");
 		String json = (String)request.getParameter("json");
 		JSONObject jsonObj = JSONObject.parseObject(json);
 		PrintWriter out = response.getWriter();//好像不返回数据ajax会没反应..
 		System.out.println(json);
+		String font = (String)jsonObj.get("font");
+		int id = (int) jsonObj.get("id");
+		Map<String, Object> map = new HashMap<String, Object>();
 		if(user!=null){//不为空则查找历史记录
-			String font = (String)jsonObj.get("font");
-			int id = (int) jsonObj.get("id");
-			Map<String, Integer> map = new HashMap<String, Integer>();
 			if(font.equals("bid")){
 				book.setBid(id);
 				favlist = userService.findF(user, book);
@@ -476,7 +522,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 				map.put("h_page", 0);//无
 				request.getSession().setAttribute("history", null);
 			}
-			if(favlist.size()!=0){//有 则将浏览历史加入
+			if(favlist.size()!=0){//有 则提示已收藏
 				favour = favlist.get(0);
 				request.getSession().setAttribute("favour", favour);
 				map.put("f_flag", 1);//有
@@ -484,8 +530,22 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 				map.put("f_flag", 0);//无
 				request.getSession().setAttribute("favour", null);
 			}
-			out.print(JSONObject.toJSONString(map));
 		}
+		if(font.equals("bid")){
+			book.setBid(id);
+			uploadlist = managerService.findUpload(book);
+		}else if(font.equals("wid")){
+			work.setWid(id);
+			uploadlist = managerService.findUpload(work);
+		}
+		if(uploadlist.size()!=0){
+			upload = uploadlist.get(0);
+			request.getSession().setAttribute("uploadRecord", upload);//上传记录
+			map.put("time", upload.getTime());
+			map.put("managerID", upload.getUser().getUid());
+		}
+		System.out.println("Map:"+map);
+		out.print(JSONObject.toJSONString(map));
 		close(out);
 		return "goto_book";
 	}

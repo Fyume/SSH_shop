@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%><!-- 本来打算用来转时间的 谁知道只有String转Date -->
-<%@ taglib uri="/mytags" prefix="data" %><!-- 根据网上的 建了自定义jstl标签 好强啊 -->
+<%@ taglib uri="/mytags" prefix="data" %><!-- 根据网上的 建了自定义标签处理long类型的时间戳 好强啊 -->
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -59,7 +59,7 @@
 			</a>
 			<a href="${pageContext.request.contextPath}/managerAction_getRecord">
 				<div class="h_record">
-					所有管理员的操作历史
+					操作历史
 				</div>
 			</a>
 			<div class="header_user">
@@ -84,21 +84,31 @@
 					</div>
 				</c:when>
 				<c:otherwise>
-					<div class="list_all">ID：${sessionScope.user.uid }</div>
-					<div class="list_all">用户名:${sessionScope.user.username }</div>
+					<div class="info_img">
+						<c:choose>
+							<c:when test="${empty sessionScope.user.image }">
+								<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/flag/user_img(default).png">
+							</c:when>
+							<c:otherwise>
+								<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/user/userImg/${sessionScope.user.image }">
+							</c:otherwise>
+						</c:choose>
+					</div>
+					<div class="list_half">ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span></div>
+					<div class="list_half">用户名:<span style="color:red;">${sessionScope.user.username }</span></div>
 					<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
 						<div class="list_all">
-							个人中心
+							<span style="font-weight:550;font-size:15px;">个人中心</span>
 						</div>
 					</a>
 					<!-- 未实现暂时用User.jsp过渡 -->
 					<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
-						<div class="list_half">
+						<div class="list_btn">
 							设置
 						</div>
 					</a>
 					<a href="${pageContext.request.contextPath}/userAction_logOut">
-						<div class="list_half">
+						<div class="list_btn">
 							退出
 						</div>
 					</a>
@@ -382,13 +392,17 @@
 												src="${ pageContext.request.contextPath}/images/bookImg${book.image }"
 												onclick="alter_Img('image${num.count }','${book.bid }')">
 										</div>
-										<div class="cont-cont">
+										<div class="cont2-button">
 											<input type="button" value="修改"
 												onclick="alter_B('${num.count }','${book.bid }')">
 										</div>
-										<div class="cont-cont">
+										<div class="cont2-button">
 											<a
 												href="${ pageContext.request.contextPath}/managerAction_delete_B?bid=${book.bid}" onclick="return del_B(${book.bid})">删除</a>
+										</div>
+										<div class="cont2-button">
+											<input type="button" style="width:78px;" value="更 新"
+												onclick="uploadDiv(${num.count })">
 										</div>
 									</div>
 								</c:forEach>
@@ -444,13 +458,17 @@
 												src="${ pageContext.request.contextPath}/images/bookImg${book.image }"
 												onclick="alter_Img('image${num.count }','${book.bid }')">
 										</div>
-										<div class="cont-cont">
+										<div class="cont2-button">
 											<input type="button" value="修改"
 												onclick="alter_B('${num.count }','${book.bid }')">
 										</div>
-										<div class="cont-cont">
+										<div class="cont2-button">
 											<a
 												href="${ pageContext.request.contextPath}/managerAction_delete_B?bid=${book.bid}" onclick="return del_B(${book.bid})">删除</a>
+										</div>
+										<div class="cont2-button">
+											<input type="button" style="width:78px;" value="更 新"
+												onclick="uploadDiv(${num.count })">
 										</div>
 									</div>
 								</c:forEach>
@@ -489,14 +507,29 @@
 								<c:forEach items="${sessionScope.record }" var="operate"
 									begin="${(param.page-1)*10 }" end="${param.page*10-1 }"
 									varStatus="num">
-									<div id="T-content3${num.count }" class="T-content3" style="width:100%;height:10%;border:1px red solid;">
-										<span id="oid${num.count }">${operate.oid }</span> | 
-										<data:date value="${operate.time*1000*60 }"></data:date>
-										用户<span id="managerID${num.count }">${operate.user.uid }</span>
-										对<span id="entity${num.count }">${operate.entity }</span>
-										<!-- 对type_flag进行处理 -->
-										实体进行了<span id="operate${num.count }">${operate.type_flag }</span>
-										操作<span id="value_after${num.count }">${operate.value_after }</span>
+									<div id="T-content3${num.count }" class="T-content3">
+										<span id="oid${num.count }" style="font-weight:700;">${operate.oid }</span> | 
+										<span id="time${num.count }" style="color:red;"><data:date value="${operate.time*1000 }"></data:date></span>
+										用户<span id="managerID${num.count }" class="record_id">${operate.user.uid }</span>
+										对
+										<span id="entity1${num.count }" class="record_entity">${operate.entity }</span><span id="chevron1${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(1,${num.count})"></span>
+										<span id="value_after${num.count }" style="display:none;">${operate.value_after}</span>
+										实体进行了
+										<c:if test="${operate.type_flag eq 1}">
+											<span id="operate${num.count }">插入操作</span>
+										</c:if>
+										<c:if test="${operate.type_flag eq 2}">
+											<span id="operate${num.count }">删除操作</span>
+											删除前-->
+											<span id="entity2${num.count }" class="record_entity">${operate.entity }</span><span id="chevron2${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(2,${num.count})"></span>
+											<span id="value_before${num.count }" style="display:none;">${operate.value_before}</span>
+										</c:if>
+										<c:if test="${operate.type_flag eq 3}">
+											<span id="operate${num.count }">修改操作 </span>
+											修改前-->
+											<span id="entity2${num.count }" class="record_entity">${operate.entity }</span><span id="chevron2${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(2,${num.count})"></span>
+											<span id="value_before${num.count }" style="display:none;">${operate.value_before}</span>
+										</c:if>
 									</div>
 								</c:forEach>
 							</c:when>
@@ -505,14 +538,28 @@
 								<c:forEach items="${sessionScope.record }" var="operate"
 									begin="0" end="9" varStatus="num">
 									<div id="T-content3${num.count }" class="T-content3">
-										<span id="oid${num.count }">${operate.oid }</span> | 
-										<span id="time${num.count }"></span>
-										<data:date value="${operate.time*1000*60 }"></data:date>
-										用户<span id="managerID${num.count }">${operate.user.uid }</span>
-										对<span id="entity${num.count }">${operate.entity }</span>
-										<!-- 对type_flag进行处理 -->
-										实体进行了<span id="operate${num.count }">${operate.type_flag }</span>
-										操作<span id="value_after${num.count }">${operate.value_after }</span>
+										<span id="oid${num.count }" style="font-weight:700;">${operate.oid }</span> | 
+										<span id="time${num.count }" style="color:red;"><data:date value="${operate.time*1000 }"></data:date></span>
+										用户<span id="managerID${num.count }" class="record_id">${operate.user.uid }</span>
+										对
+										<span id="entity1${num.count }" class="record_entity">${operate.entity }</span><span id="chevron1${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(1,${num.count})"></span>
+										<span id="value_after${num.count }" style="display:none;">${operate.value_after}</span>
+										实体进行了
+										<c:if test="${operate.type_flag eq 1}">
+											<span id="operate${num.count }">插入操作</span>
+										</c:if>
+										<c:if test="${operate.type_flag eq 2}">
+											<span id="operate${num.count }">删除操作</span>
+											删除前-->
+											<span id="entity2${num.count }" class="record_entity">${operate.entity }</span><span id="chevron2${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(2,${num.count})"></span>
+											<span id="value_before${num.count }" style="display:none;">${operate.value_before}</span>
+										</c:if>
+										<c:if test="${operate.type_flag eq 3}">
+											<span id="operate${num.count }">修改操作 </span>
+											修改前-->
+											<span id="entity2${num.count }" class="record_entity">${operate.entity }</span><span id="chevron2${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(2,${num.count})"></span>
+											<span id="value_before${num.count }" style="display:none;">${operate.value_before}</span>
+										</c:if>
 									</div>
 								</c:forEach>
 							</c:otherwise>
@@ -545,6 +592,20 @@
 				<input id="alt_btn" type="button" style="display:none" value="确认修改"
 					onclick="update_Img()">
 			</div>
+		</div>
+		<!-- Δ=80px -->
+		<div id="book_update_div" class="book_update_div">
+			<form action="${ pageContext.request.contextPath}/bookAction_update">
+				书本名字:
+				<br>
+				《<span id="bookName" style="color:red"></span>》
+				<input type="text" id="b_u_bid" name="book.bid" style="display:none;">
+				<input type="button" style="width:85px;font-size:12px;" value="上传更新内容" onclick="uploadFile()">
+				<input type="file" id="upload" name="upload" style="display:none;" accept="text/plain,application/msword" onchange="checkfile()">
+				<input id="b_u_sub" type="submit" value="确认上传" disabled="disabled" style="opacity:0.5;">
+				<br>
+				${requestScope.uploadResult }
+			</form>
 		</div>
 	</c:if>
 </body>

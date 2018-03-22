@@ -6,52 +6,53 @@ $(document).ready(function(){
 	$("#btn_getHistAndFav").click();
 });
 function DateFormat() {
-	var time = new Date($("#publish_t").val() * 1000 * 60 * 60);
-	$("#publish").html(time.getYear()+"-"+time.getMonth()+"-"+time.getDate());
+	var time = new Date($("#publish_t").val() * 1000);
+	$("#publish").html((time.getYear()+1900)+"-"+(time.getMonth()+1)+"-"+time.getDate());
 	/*alert(time.getYear()+"年"+time.getMonth()+"月"+time.getDate()+"日"+time.getHours()+"时"+time.getMinutes()+"分");*/
 }
 function getHistAndFav(user,msg){
 	window.user_r = user;//方便收藏等功能的后续操作
 	window.msg_r = msg;
-	if(user=="false"){
-		var n = msg.indexOf(";");
-		var font = msg.substring(0, n);
-		var id = parseInt(msg.substr(n+1, msg.length));
-		var json = {
-				font : font,
-				id : id,
-		}
-		$.ajax({
-			url : '/SSH_test/userAction_getHistAndFav',
-			type : "POST",
-			dataType : 'json',
-			data : {
-				json : JSON.stringify(json)
-			},
-			async : false,
-			cache : false,
-			success : function(data){
-				if(data.h_page!=0){
-					$("#read_btn").val("继续阅读");
-					$("#read_btn").attr("class","book_btn2");
-					$("#read_btn").attr('onclick','read('+data.h_page+')');
-				}else{
-					$("#read_btn").val("进入阅读");
-					$("#read_btn").removeAttr("class");
-					$("#read_btn").attr('onclick','read(1)');
-				}
-				if(data.f_flag!=0){
-					$("#font_favour").html("取消收藏");
-					$("#font_favour").attr("class","glyphicon glyphicon-star");
-					$("#fav_btn").attr('onclick','cancFavour()');
-				}else{
-					$("#font_favour").html("添加收藏");
-					$("#font_favour").attr("class","glyphicon glyphicon-star-empty");
-					$("#fav_btn").attr('onclick','addFavour()');
-				}
-			},
-		});
+	var n = msg.indexOf(";");
+	var font = msg.substring(0, n);
+	var id = parseInt(msg.substr(n+1, msg.length));
+	var json = {
+			font : font,
+			id : id,
 	}
+	$.ajax({
+		url : '/SSH_test/userAction_getHistAndFav',
+		type : "POST",
+		dataType : 'json',
+		data : {
+			json : JSON.stringify(json)
+		},
+		async : false,
+		cache : false,
+		success : function(data){
+			if(data.h_page==0||data.h_page==null){
+				$("#read_btn").val("进入阅读");
+				$("#read_btn").removeAttr("class");
+				$("#read_btn").attr('onclick','read(1)');
+			}else{
+				$("#read_btn").val("继续阅读");
+				$("#read_btn").attr("class","book_btn2");
+				$("#read_btn").attr('onclick','read('+data.h_page+')');
+			}
+			if(data.f_flag==0||data.f_flag==null){
+				$("#font_favour").html("添加收藏");
+				$("#font_favour").attr("class","glyphicon glyphicon-star-empty");
+				$("#fav_btn").attr('onclick','addFavour()');
+			}else{
+				$("#font_favour").html("取消收藏");
+				$("#font_favour").attr("class","glyphicon glyphicon-star");
+				$("#fav_btn").attr('onclick','cancFavour()');
+			}
+			$("#managerID").html(data.managerID);
+			$("#publish_t").val(data.time);
+			DateFormat();
+		},
+	});
 }
 function history(user,msg,num){
 	if(user=="false"){

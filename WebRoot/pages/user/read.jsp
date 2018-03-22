@@ -109,16 +109,16 @@
 				<c:choose>
 					<c:when test="${empty sessionScope.user }">
 						<a href="${pageContext.request.contextPath}/pages/user/login.jsp">
-							<span id="font_favour" class="glyphicon glyphicon-star-empty">添加收藏</span>
+							<span id="font_favour" class="glyphicon glyphicon-star-empty" style="cursor:pointer;color:#ff962d;">添加收藏</span>
 						</a>
 					</c:when>
 					<c:otherwise>
 						<c:choose>
 						<c:when test="${empty sessionScope.favour }">
-							<span id="font_favour" onclick="addFavour()" class="glyphicon glyphicon-star-empty">添加收藏</span>
+							<span id="font_favour" onclick="addFavour()" class="glyphicon glyphicon-star-empty" style="cursor:pointer;color:#ff962d;">添加收藏</span>
 						</c:when>
 						<c:otherwise>
-							<span id="font_favour" onclick="cancFavour()" class="glyphicon glyphicon-star">取消收藏</span>
+							<span id="font_favour" onclick="cancFavour()" class="glyphicon glyphicon-star" style="cursor:pointer;color:#ff962d;">取消收藏</span>
 						</c:otherwise>
 					</c:choose>
 					</c:otherwise>

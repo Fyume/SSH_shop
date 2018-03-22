@@ -69,7 +69,7 @@
 								<div class="div_flag">*</div>
 								</li>
 								<li><input type="text" id="user.telnum" name="电话" onchange="checktelnum()"></li>
-								<li><input type="text" id="user.email" name="邮箱">
+								<li><input type="text" id="user.email" name="邮箱" placeholder="激活用,必填">
 								<div class="div_flag">*</div>
 								</li>
 							</ul>

@@ -5,11 +5,7 @@ import java.text.SimpleDateFormat;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
-public class timeTag extends TagSupport{
-
-	/**
-	 * 
-	 */
+public class hideTag extends TagSupport{
 	private static final long serialVersionUID = 1L;
 	private String value;
 	public String getValue() {
@@ -20,13 +16,13 @@ public class timeTag extends TagSupport{
 	}
 	@Override
 	public int doStartTag() throws JspException{
-		try{
-			long time = Long.valueOf(value.trim());
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			String str = format.format(time);
-			pageContext.getOut().write(str);
-		}catch(Exception e){
-			e.printStackTrace();
+		if(!value.isEmpty()){
+			try{
+				value = value.substring(0,3)+"********"+value.substring(value.length()-6,value.length());
+				pageContext.getOut().write(value);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
 		}
 		return super.doStartTag();
 	}
