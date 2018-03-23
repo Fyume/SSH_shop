@@ -22,13 +22,13 @@
 
 制作**评论区**
 
-**管理界面**的美化
-
 **随机**读一本书的功能
 
-**用户信息界面**
+~~**管理界面**的美化~~
 
-管理员**操作记录**
+~~**用户信息界面**~~
+
+~~管理员**操作记录**~~
 
 ---------------------------------------------------------------------------------------------------------
 
@@ -62,50 +62,53 @@
 
 **⑥**ajax传数据并不会封装到struts2的属性里面
 
-**⑦**增强里面转json字符串的tojson（Object object）方法要求实体类的属性中，将int,long,String,boolean类型的属性值放到最前面，因为只转这几类而且一旦判断不是就结束了，用于跳过hibernate配置的实体类类型的属性
+**⑦**aop增强里面转json字符串的tojson（Object object）方法要求实体类的属性中，将int,long,String,boolean类型的属性值放到最前面，因为只转这几类而且一旦判断不是就结束了，用于跳过hibernate配置的实体类类型的属性
 
 **⑧**自定义标签（真强大 不过可惜现在趋向前后端分离了）
 
-**工具类：**
+> **工具类：**
+>
+> *1.新建工具类（timeTag）继承TagSupport*
+>
+> *2.设置参数value并生成set方法*
+>
+> *3.实现doStartTag()方法，其中，最种结果通过pageContext.getOut().write()方法显示到页面上 （最后return super.doStartTag()）*
+>
+> 配置文件（tld文件和web.xml）：
+>
+> **tld文件（datetag.tld）：**
+>
+> `<taglib>`
+> 	 <tlib-version>1.0</tlib-version>
+> 	 <jsp-version>1.2</jsp-version>
+> 	 <short-name>date</short-name>
+> 	<tag>
+> 	     <name>date</name>
+> 	     <tag-class>zhku.jsj141.utils.user.timeTag</tag-class>
+> 	     <body-content>JSP</body-content>
+> 	     <attribute>
+> 	         <name>value</name>
+> 	         <required>true</required>
+> 	         <rtexprvalue>true</rtexprvalue>
+> 	     </attribute>
+> 	</tag>
+> `</taglib>`
+>
+> **web.xml:**
+>
+> 	<jsp-config>
+> 		<taglib>
+> 			<taglib-uri>/mytags</taglib-uri>
+> 			<taglib-location>/WEB-INF/tld/datetag.tld</taglib-location>
+> 		</taglib>
+> 	</jsp-config>
+>
 
-*1.新建工具类（timeTag）继承TagSupport*
 
-*2.设置参数value并生成set方法*
 
-*3.实现doStartTag()方法，其中，最种结果通过pageContext.getOut().write()方法显示到页面上 （最后return super.doStartTag()）*
+-------------------
 
-配置文件（tld文件和web.xml）：
-
-**tld文件（datetag.tld）：**
-
-`<taglib>`
-	 <tlib-version>1.0</tlib-version>
-	 <jsp-version>1.2</jsp-version>
-	 <short-name>date</short-name>
-	<tag>
-	     <name>date</name>
-	     <tag-class>zhku.jsj141.utils.user.timeTag</tag-class>
-	     <body-content>JSP</body-content>
-	     <attribute>
-	         <name>value</name>
-	         <required>true</required>
-	         <rtexprvalue>true</rtexprvalue>
-	     </attribute>
-	</tag>
-`</taglib>`
-
-**web.xml:**
-
-	<jsp-config>
-	<taglib>
-			<taglib-uri>/mytags</taglib-uri>
-			<taglib-location>/WEB-INF/tld/datetag.tld</taglib-location>
-		</taglib>
-	</jsp-config>
-
---------------------------------------------------------------------------------------------------------------
-
-##### 随录
+**随录**
 
 **①**想不到时间戳的问题搞了我这么久，最终决定，书本的时间戳只存年月日以及时（以免丢失精度）部分。前后端的时间戳转换简直有毒，特别是前端怎么在c:foreach标签里处理后台传来的时间戳，一开始还打算交给后台处理，但是如果要改bean，那数据库的表岂不是也要多出来年月日？浪费资源，假如是action处理，那岂不是要遍历list？而且怎么修改时间戳？多了几个字段？还是再存到map里面，想想都浪费时间。所以还是交给前端搞好了。然后发现jsp是服务器这边的，js脚本的调用是客户端的，怎么在c:foreach标签里面处理时间戳？woc瞬间懵了。onload是不可能的了，就只能将就着用onmouseover了，然后根据几个参数遍历显示出来的书本的时间戳，然后js转化并显示在前端的input框。折中的办法...暂时找不到更好的。
 
@@ -127,3 +130,14 @@
 
 **⑩**早知道套模版。。前端耗了好长时间。不过也好，知道和熟悉了很多的css和jquery实现功能的写法。加了个redis进来（jedis操作）打算弄个在线判断相关的功能（展示？）嘛 又是一个坑就是了。
 
+**⑪**判断在线很难搞啊 监听器中session的attributeReplaced方法又不提供替换前的object只能暂定：
+
+> 1.session创建时，(执行批处理文件+配置jedis)连接redis
+>
+> 2.session添加Attribute的时候如果是user，则添加“uid-登录时间“这样的键-值对进入redis的Login-time的hashMap集合
+>
+> 3.session替换Attribute的时候，假如是user，那么若Login_time表中有uid一样的则更新，无则添加
+>
+> 4.**当session创建、销毁、sessionAttribute取出、更新、添加的时候**更新redis的Login_time表，删除超过30分钟的键值对。（无奈之举）
+
+所以在线判定会不准确，毕竟假如是替换用户的话，原先的用户又没有超过30分钟，那么也还是存留在redis中。。。诶 发现好像不用 只要登录的时候先将session中的user清空，再存，不就执行了delete和add了？关replace什么事 美滋滋(可行！！)

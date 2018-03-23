@@ -11,10 +11,10 @@ $(document).ready(function() {
 			$("#User_img").attr("src", path);//浏览器缓存是最骚的 暂时不理
 		}
 	});
-	if (list == 2) {
-		arrowDiv(2);
-	} else {
+	if (list == ''||list==1) {
 		arrowDiv(1);
+	} else {
+		arrowDiv(list);
 	}
 });
 function getObjectURL(file) {

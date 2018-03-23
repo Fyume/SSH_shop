@@ -2,8 +2,13 @@ package zhku.jsj141.action.manager;
 
 import java.io.PrintWriter;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
+import redis.clients.jedis.Jedis;
 import zhku.jsj141.action.BaseAction;
 import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.manager.Operate_m;
@@ -31,9 +36,9 @@ public class ManagerAction extends BaseAction {
 	private bookUtils bookUtils;
 	private workUtils workUtils;
 	
-	
+	Jedis jedis = null;
+	Map<String, String> map = new HashMap<String, String>();
 	List<User> userlist = null;
-	
 	List<Book> booklist = null;
 	List<Work> worklist = null;
 	List<Type> typelist = null;
@@ -127,7 +132,7 @@ public class ManagerAction extends BaseAction {
 		request.getSession().setAttribute("count", list.size());
 		return "goto_edit";
 	}
-	//未完成
+	//修改用户信息
 	public String alter_U() throws Exception{
 		user = (User) request.getSession().getAttribute("user");
 		if(user!=null){
@@ -162,7 +167,6 @@ public class ManagerAction extends BaseAction {
 		JSONObject jsonobj = JSONObject.parseObject(json);
 		/*System.out.println(jsonobj.get("bid"));*/
 		int bid = (int) jsonobj.get("bid");
-		
 		book.setBid(bid);
 		booklist = bookService.find(book, "bid");
 		if(booklist.size()!=0){
@@ -185,22 +189,40 @@ public class ManagerAction extends BaseAction {
 	}
 	public String delete_U() throws Exception{//删除用户信息
 		String uid = (String)request.getParameter("uid");
+		user = (User) request.getSession().getAttribute("user");
+		if(user==null){
+			return "goto_edit";
+		}
 		if(uid!=""){
-			user.setUid(uid);
-			work.setAuthor(uid);
-			worklist = workService.find(work, "author");
-			if(worklist!=null){//如果有作品，把作品信息也删了
-				boolean rs = workUtils.removeWork(uid);//磁盘
-				if(rs){
-					for (Work work2 : worklist) {//数据库
-						boolean rs2 = workService.delete(work2);
-						/*if(!rs2){
-							request.setAttribute("w_deleteRs", "删除作品期间出错了");
-						}*/
-					}
+			boolean rs = true;
+			map = jedis.hgetAll("Login_time");
+			Iterator<Entry<String, String>> iterator = map.entrySet().iterator();
+			while(iterator.hasNext()){//遍历map
+				Entry<String, String> entry = iterator.next();
+				System.out.print("uid:"+entry.getKey());
+				if(entry.getKey().equals(uid)){
+					rs = false;
 				}
 			}
-			userService.delete(user);
+			if(rs){//没在登录表上 也就是说不在线
+				user.setUid(uid);
+				work.setAuthor(uid);
+				worklist = workService.find(work, "author");
+				if(worklist!=null){//如果有作品，把作品信息也删了
+					rs = workUtils.removeWork(uid);//磁盘
+					if(rs){
+						for (Work work2 : worklist) {//数据库
+							boolean rs2 = workService.delete(work2);
+							/*if(!rs2){
+								request.setAttribute("w_deleteRs", "删除作品期间出错了");
+							}*/
+						}
+					}
+				}
+				userService.delete(user);
+			}else{
+				request.setAttribute("delete_U", "用户正在使用");
+			}
 		}
 		return getUser();
 	}

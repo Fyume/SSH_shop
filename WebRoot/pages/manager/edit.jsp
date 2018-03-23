@@ -170,6 +170,7 @@
 						<div class="font2-font2">操作</div>
 					</div>
 					<div class="T-center">
+						<span id="delete_U" style="display:none;">${requestScope.delete_U }</span>
 						<c:choose>
 							<c:when test="${!empty param.page }">
 								<input id="page" type="text" value="${param.page }"

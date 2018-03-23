@@ -7,6 +7,9 @@
 	<welcome-file-list>
 		<welcome-file>pages/index.jsp</welcome-file>
 	</welcome-file-list>
+	<session-config> 
+		<session-timeout>30</session-timeout> 
+	</session-config> 
 	<context-param>
 		<param-name>log4jConfigLocation</param-name>
 		<param-value>/WEB-INF/classes/log4j2.properties</param-value>
@@ -63,6 +66,10 @@
 	</listener>
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class> 
+	</listener>
+	<!-- 自定义监听器 实现在线用户判断功能 -->
+	<listener>
+		<listener-class>zhku.jsj141.utils.user.listener.SessionListener</listener-class> 
 	</listener>
 	<!-- 自定义标签 -->
 	<jsp-config>

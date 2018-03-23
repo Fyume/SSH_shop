@@ -1,6 +1,12 @@
 /**
  * 
  */
+$(document).ready(function(){
+	if($("#delete_U").html()==null||$("#delete_U").html()==''){
+	}else{
+		alert($("#delete_U").html());
+	}
+});
 function login(user, path) {
 	if (user == "true") {// 没登陆
 		window.location.href = path + "/pages/user/login.jsp";

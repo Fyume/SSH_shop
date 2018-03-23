@@ -143,8 +143,21 @@
 				<span id="listNum" title="${param.list }"></span>
 				<div class="bottom_list">
 					<ul class="nav nav-tabs-stacked">
-						<li class="active"><a href="${pageContext.request.contextPath}/pages/user/User.jsp?list=1">基本资料</a></li>
-						<li><a href="${pageContext.request.contextPath}/pages/user/User.jsp?list=2">作品</a></li>
+						<li class="active">
+							<a href="${pageContext.request.contextPath}/pages/user/User.jsp?list=1">
+								基本资料
+							</a>
+						</li>
+						<li>
+							<a href="${pageContext.request.contextPath}/pages/user/User.jsp?list=2">
+								作品
+							</a>
+						</li>
+						<li>
+							<a href="${pageContext.request.contextPath}/pages/user/User.jsp?list=3">
+								收藏夹
+							</a>
+						</li>
 						<!-- <li class="dropdown"><a class="" data-toggle="dropdown"
 							href="#"> Java <span class="caret"></span>
 						</a>
@@ -217,6 +230,24 @@
 							<input class="User_btn" id="submit_btn" type="submit" value="提交" disabled="disabled" style="opacity:0.5;">
 						</form>
 					</c:if>
+					<!-- 作品 -->
+					<c:if test="${param.list==2 }">
+					
+					</c:if>
+					<!-- 收藏夹 -->
+					<c:if test="${param.list==3 }">
+					
+					</c:if>
+					<div style="float:left;width:130px;height:190px;border-right:2px green solid;">
+						<div style="float:left;width:90%;height:75%;border:1px red solid;">
+							<img alt="wid" src="${pageContext.request.contextPath }/images/background/bookimg-default.jpg">
+						</div>
+						<div style="margin-top:-150px;margin-left:80%;width:20px;height:20px;border:1px black solid;border-radius:20px;text-align:center;cursor:pointer;">
+							<span class="glyphicon glyphicon-remove"></span>
+						</div>
+						<div style="float:left;width:90%;height:13%;text-align:center;">title</div>
+						<div style="float:left;width:90%;height:13%;text-align:center;font-size:12px;color:#c0c0c0;">2018-03-23 21:24:00</div>
+					</div>
 				</div>
 			</div>
 		</c:when>
@@ -224,7 +255,6 @@
 			<a href="${pageContext.request.contextPath}/pages/user/login.jsp"
 				style="margin-left:500px;">前往登录</a>
 		</c:otherwise>
-		
 	</c:choose>
 </body>
 </html>

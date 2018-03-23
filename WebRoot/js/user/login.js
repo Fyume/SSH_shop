@@ -5,7 +5,7 @@ function changeimg(){
 /*	alert($("#vCode")[0].src);
  * 
 */	var imgpath = $("#vCode")[0].src;
-	$("#vCode").attr('src',imgpath + "?" + new Date().getTime());
+	$("#vCode").attr('src',imgpath + "?" + (new Date().getTime()/1000));
 }
 function checkform(){
 	var flag=true;

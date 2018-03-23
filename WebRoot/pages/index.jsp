@@ -28,10 +28,10 @@
 <!-- 用下载下来的bootstrap.min.css没有图标 不知道为什么 可能是需要其他的文件支持 -->
 
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/user/index.css">
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/user/index.css">
 </head>
 <body onload="start(${empty sessionScope.typelist })">
 	<div class="header">
@@ -182,41 +182,172 @@
 		<div class="totalBook">
 			<c:choose>
 				<c:when test="${sessionScope.classfy=='用户作品'}">
-					<c:forEach items="${sessionScope.worklist }" var="work">
-						
-						<!-- 还没加上去 -->
-						
-					</c:forEach>
-				</c:when>
-				<c:otherwise>
-					<c:forEach items="${sessionScope.booklist }" var="book" begin="0" end="19">
+					<c:forEach items="${sessionScope.worklist }" var="work" begin="0" end="19">
 						<div class="book_border">
 							<div class="book_title">
 								<a
-									href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+									href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
 									${book.bname } </a>
 							</div>
 							<div class="book_img">
-								<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-									<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+								<a href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
+									<img width=100% height=100% src="${pageContext.request.contextPath}/images/user/wookImg/${work.image }" alt="${work.wname }">
 								</a>
 							</div>
 							<div class="book_description">
 								<span class="desc_font">作者</span>
 								<br>
-								<span class="desc_value">${book.author }</span>
+								<span class="desc_value">${work.author }</span>
 								<br>
 								<span class="desc_font">概述</span>
 								<br>
-								<div class="desc_value">${book.description }</div>
+								<div class="desc_value">${work.description }</div>
 								<br>
 								<span class="desc_font">分类</span>
 								<br>
-								<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
+								<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">用户作品</span>
 							</div>
 						</div>
 					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<c:if test="${sessionScope.classfy=='全部分类'|| sessionScope.classfy=='网络小说'}">
+						<div class="kindOfBook">
+							<div class="book_top_type">
+								<div style="width:100px;height:100%;border:1px red solid;">网络小说</div>
+								<div style="width:65px;height:100%;float:right;padding-top:5px;font-size:18px;">更多>></div>
+							</div>
+							<c:set var="type1" value="0"></c:set>
+							<c:set var="end" value="19"></c:set>
+							<c:forEach items="${sessionScope.booklist }" var="book" begin="0" end="${end }">
+								<c:if test="${book.type eq '网络小说' }">
+									<c:set var="type1" value="${type1+1}"></c:set>
+									<div class="book_border">
+										<div class="book_title">
+											<a
+												href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+												${book.bname } </a>
+										</div>
+										<div class="book_img">
+											<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+												<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+											</a>
+										</div>
+										<div class="book_description">
+											<span class="desc_font">作者</span>
+											<br>
+											<span class="desc_value">${book.author }</span>
+											<br>
+											<span class="desc_font">概述</span>
+											<br>
+											<div class="desc_value">${book.description }</div>
+											<br>
+											<span class="desc_font">分类</span>
+											<br>
+											<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
+										</div>
+									</div>
+									<c:if test="${sessionScope.classfy=='全部分类' }">
+										<c:if test="${type1 eq 12 }">
+											<!-- 跳出循环 -->
+											<c:set var="end" value="0"></c:set>
+										</c:if>
+									</c:if>
+									<c:if test="${sessionScope.classfy=='网络小说' }">
+										<c:if test="${type1 eq 8 }">
+											<!-- 跳出循环 -->
+											<c:set var="end" value="0"></c:set>
+										</c:if>
+									</c:if>
+								</c:if>
+							</c:forEach>
+						</div>
+					</c:if>
 					
+					
+					<div class="kindOfBook">
+						<div class="book_top_type">
+							文学作品
+						</div>
+						<c:set var="type2" value="0"></c:set>
+						<c:set var="end" value="19"></c:set>
+						<c:forEach items="${sessionScope.booklist }" var="book" begin="0" end="${end }">
+							<c:if test="${book.type eq '文学作品' }">
+								<c:set var="type2" value="${type2+1}"></c:set>
+								<div class="book_border">
+									<div class="book_title">
+										<a
+											href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+											${book.bname } </a>
+									</div>
+									<div class="book_img">
+										<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+											<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+										</a>
+									</div>
+									<div class="book_description">
+										<span class="desc_font">作者</span>
+										<br>
+										<span class="desc_value">${book.author }</span>
+										<br>
+										<span class="desc_font">概述</span>
+										<br>
+										<div class="desc_value">${book.description }</div>
+										<br>
+										<span class="desc_font">分类</span>
+										<br>
+										<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
+									</div>
+								</div>
+								<c:if test="${type2 eq 8 }">
+									<!-- 跳出循环 -->
+									<c:set var="end" value="0"></c:set>
+								</c:if>
+							</c:if>
+						</c:forEach>
+					</div>
+					<div class="kindOfBook">
+						<div class="book_top_type">
+							社会科学
+						</div>
+						<c:set var="type3" value="0"></c:set>
+						<c:set var="end" value="19"></c:set>
+						<c:forEach items="${sessionScope.booklist }" var="book" begin="0" end="${end }">
+							<c:if test="${book.type eq '社会科学' }">
+								<c:set var="type3" value="${type3+1}"></c:set>
+								<div class="book_border">
+									<div class="book_title">
+										<a
+											href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+											${book.bname } </a>
+									</div>
+									<div class="book_img">
+										<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+											<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+										</a>
+									</div>
+									<div class="book_description">
+										<span class="desc_font">作者</span>
+										<br>
+										<span class="desc_value">${book.author }</span>
+										<br>
+										<span class="desc_font">概述</span>
+										<br>
+										<div class="desc_value">${book.description }</div>
+										<br>
+										<span class="desc_font">分类</span>
+										<br>
+										<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
+									</div>
+								</div>
+								<c:if test="${type3 eq 8 }">
+									<!-- 跳出循环 -->
+									<c:set var="end" value="0"></c:set>
+								</c:if>
+							</c:if>
+						</c:forEach>
+					</div>
+					<%-- ${type1 }--${type2 }--${type3 } --%>
 					<!-- 准备搞个分页 -->
 					<div style="width:"></div>
 					<c:if test="${fn:length(sessionScope.booklist)>20}">

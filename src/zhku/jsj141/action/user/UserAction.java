@@ -358,6 +358,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 						if(time2>=180000||user.getPs_time()==0){
 							String rpassword = user.getPassword();
 							if (rpassword.equals(password)) {
+								request.getSession().setAttribute("user", null);//为了redis中的登陆表
 								request.getSession().setAttribute("user", user);
 								System.out.println("login_ok");
 								typelist = bookService.findT();

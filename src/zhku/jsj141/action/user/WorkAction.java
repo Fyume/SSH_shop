@@ -126,8 +126,9 @@ public class WorkAction extends BaseAction {
 		System.out.println("uploadContentType:" + uploadContentType);
 		System.out.println("imageFileName:" + imageFileName);
 		System.out.println("imageContentType:" + imageContentType);
+		user = (User) request.getSession().getAttribute("user");
 		if (user != null) {
-			long publish = System.currentTimeMillis()/((1000*60)*(1000*60));
+			long publish = System.currentTimeMillis()/1000;
 			String result = workUtils.uploadbook_U(upload, user.getUid(),
 					uploadContentType, work.getWname());
 			work.setUser(user);
@@ -150,6 +151,7 @@ public class WorkAction extends BaseAction {
 						}
 					}
 					boolean rs = workService.add(work);//不管封面是否上传成功都保存上传文件的信息到数据库
+					getData();
 					if(rs){//上传记录保存
 						t_upload.setWork(work);
 						long time = System.currentTimeMillis()/1000;
@@ -169,8 +171,13 @@ public class WorkAction extends BaseAction {
 		worklist = workService.findAll();
 		request.getSession().setAttribute("classfy", "用户作品");
 		request.getSession().setAttribute("worklist", worklist);
+		/*test();*/
 		return "goto_index";
 	}
+	/*public String test() throws Exception{
+		System.out.println("---test----");
+		return "goto_upload";
+	}*/
 	public String readWork() throws Exception{
 		int wid = Integer.parseInt(request.getParameter("wid"));
 		work.setWid(wid);
