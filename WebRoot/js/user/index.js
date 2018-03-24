@@ -2,18 +2,18 @@
  * 
  */
 function start(msg) {
-	$.ajax({
-		url : 'http://localhost:8080/SSH_test/bookAction_getData',
-		type : "POST",
-		timeout : 1000,
-		cache : false,
-		async : false,// 取消异步请求
-		success : function() {
-			if (msg == true) {
-				window.location.reload(true);
-			}
-		},
-	});
+	if (msg == true) {
+		$.ajax({
+			url : 'http://localhost:8080/SSH_test/bookAction_getData',
+			type : "POST",
+			timeout : 1000,
+			cache : false,
+			async : false,// 取消异步请求
+			success : function() {
+					window.location.reload();
+			},
+		});
+	}
 }
 function login(user, path) {
 	if (user == "true") {// 没登陆

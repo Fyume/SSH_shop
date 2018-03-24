@@ -61,7 +61,10 @@
 			
 			<result name="goto_upload">/pages/user/upload.jsp</result>
 			<result name="goto_index">/pages/index.jsp</result>
+			<result name="goto_login">/pages/user/login.jsp</result>
+			<result name="goto_book">/pages/user/book.jsp</result>
 			<result name="goto_read">/pages/user/read.jsp</result>
+			<result name="goto_user">/pages/user/User.jsp</result>
 		</action>
 		<!-- 管理员模块 -->
 		<action name="managerAction_*" class="managerAction" method="{1}">

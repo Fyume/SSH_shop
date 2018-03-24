@@ -18,17 +18,22 @@
 
 #### 备忘：(未实现)
 
-数据库的**触发器**（删除长时间未激活帐号）
-
 制作**评论区**
 
-**随机**读一本书的功能
+#### **待定：**
 
-~~**管理界面**的美化~~
-
-~~**用户信息界面**~~
-
-~~管理员**操作记录**~~
+> 数据库的**触发器**（删除长时间未激活帐号）
+>
+> **随机**读一本书的功能
+>
+> 删减不必要代码（如hibernate持久态的数据不必要再进行save操作）
+>
+> ~~**管理界面**的美化~~
+>
+> ~~**用户信息界面**~~
+>
+> ~~管理员**操作记录**~~
+>
 
 ---------------------------------------------------------------------------------------------------------
 
@@ -104,13 +109,42 @@
 > 	</jsp-config>
 >
 
+**⑨**在子div加上 onclick="event.cancelBubble = true"不触发父div的onclick
+
+**⑩**web.xml配置spring自带过滤器解决hibernate延迟加载出现的访问外键所在实体其他属性时报错的问题。。
+
+**web.xml**:
+
+> 	<filter>
+> 		<filter-name>OpenSessionInViewFilter</filter-name>
+> 		<filter-class>org.springframework.orm.hibernate5.support.OpenSessionInViewFilter</filter-class>
+> 		<init-param>
+> 			<param-name>sessionFactoryBeanName</param-name>
+> 			<param-value>sessionFactory</param-value>
+> 		</init-param>
+> 		<init-param>
+> 			<param-name>singleSession</param-name>
+> 			<param-value>true</param-value>
+> 		</init-param>
+> 		<init-param>
+> 			<param-name>flushMode</param-name>
+> 			<param-value>AUTO</param-value>
+> 		</init-param>
+> 	</filter> 
+> 	<filter-mapping>  
+> 		<filter-name>OpenSessionInViewFilter</filter-name>  
+> 		<url-pattern>/*</url-pattern>  
+> 	</filter-mapping>
+
+
+
 
 
 -------------------
 
 **随录**
 
-**①**想不到时间戳的问题搞了我这么久，最终决定，书本的时间戳只存年月日以及时（以免丢失精度）部分。前后端的时间戳转换简直有毒，特别是前端怎么在c:foreach标签里处理后台传来的时间戳，一开始还打算交给后台处理，但是如果要改bean，那数据库的表岂不是也要多出来年月日？浪费资源，假如是action处理，那岂不是要遍历list？而且怎么修改时间戳？多了几个字段？还是再存到map里面，想想都浪费时间。所以还是交给前端搞好了。然后发现jsp是服务器这边的，js脚本的调用是客户端的，怎么在c:foreach标签里面处理时间戳？woc瞬间懵了。onload是不可能的了，就只能将就着用onmouseover了，然后根据几个参数遍历显示出来的书本的时间戳，然后js转化并显示在前端的input框。折中的办法...暂时找不到更好的。
+~~**①**想不到时间戳的问题搞了我这么久，最终决定，书本的时间戳只存年月日以及时（以免丢失精度）部分。前后端的时间戳转换简直有毒，特别是前端怎么在c:foreach标签里处理后台传来的时间戳，一开始还打算交给后台处理，但是如果要改bean，那数据库的表岂不是也要多出来年月日？浪费资源，假如是action处理，那岂不是要遍历list？而且怎么修改时间戳？多了几个字段？还是再存到map里面，想想都浪费时间。所以还是交给前端搞好了。然后发现jsp是服务器这边的，js脚本的调用是客户端的，怎么在c:foreach标签里面处理时间戳？woc瞬间懵了。onload是不可能的了，就只能将就着用onmouseover了，然后根据几个参数遍历显示出来的书本的时间戳，然后js转化并显示在前端的input框。折中的办法...暂时找不到更好的。~~
 
 **②**我....突然间myeclipse的git插件跪了？报cannot open git-upload-pack按照网上说得搞了还是不行，最终还是用一早下载的git插件push成功了，什么鬼。
 
@@ -128,9 +162,9 @@
 
 **⑨**才发现原来jstl有标签可以将String类型的时间戳转成Date类型的字符串形式展示，不过long类型的还是无可奈何。于是根据网上的例子，自己也写了个自定义标签，实现了long类型转时间字符串的问题，解决了**①**的问题！！！！
 
-**⑩**早知道套模版。。前端耗了好长时间。不过也好，知道和熟悉了很多的css和jquery实现功能的写法。加了个redis进来（jedis操作）打算弄个在线判断相关的功能（展示？）嘛 又是一个坑就是了。
+**⑩**早知道套模版。。前端耗了好长时间，傻傻地敲样式。不过也好，知道和熟悉了很多的css和jquery实现功能的写法。加了个redis进来（jedis操作）打算弄个在线判断相关的功能（防止一个帐号多次登录以及删除用户时用于判定）嘛 又是一个坑就是了。
 
-**⑪**判断在线很难搞啊 监听器中session的attributeReplaced方法又不提供替换前的object只能暂定：
+**⑪**~~判断在线很难搞啊~~ 监听器中session的attributeReplaced方法又不提供替换前的object只能暂定：
 
 > 1.session创建时，(执行批处理文件+配置jedis)连接redis
 >
@@ -141,3 +175,5 @@
 > 4.**当session创建、销毁、sessionAttribute取出、更新、添加的时候**更新redis的Login_time表，删除超过30分钟的键值对。（无奈之举）
 
 所以在线判定会不准确，毕竟假如是替换用户的话，原先的用户又没有超过30分钟，那么也还是存留在redis中。。。诶 发现好像不用 只要登录的时候先将session中的user清空，再存，不就执行了delete和add了？关replace什么事 美滋滋(可行！！)
+
+**⑫**呸 应该早点配置hibernate的session过滤器的（一早好像配过，配错了还是顺序问题。。），延迟加载的问题一开始就坑了我，还害我写多了多余的代码，现在加上去了可以直接访问外键所在实体的其他属性了、。。。（不想再改啊 知道就算了 下次先配好）

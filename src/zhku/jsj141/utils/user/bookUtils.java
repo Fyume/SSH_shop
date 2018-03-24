@@ -161,10 +161,11 @@ public class bookUtils {
 	}
 
 	public boolean moveBook(String path,String type,String newType){//移动磁盘中存放的书本
+		String folder = path.substring(0, path.indexOf("\\"));
 		String totalpath = DiskPath + managerPath + type + "\\";
 		String totalpath2 = DiskPath + managerPath + newType + "\\";
 		try{
-			FileUtils.moveDirectoryToDirectory(new File(totalpath+path), new File(totalpath2), true);//测试一下
+			FileUtils.moveDirectoryToDirectory(new File(totalpath+folder), new File(totalpath2), true);//测试一下
 			return true;
 		}catch(IOException e){
 			e.printStackTrace();

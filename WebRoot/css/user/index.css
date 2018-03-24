@@ -198,8 +198,8 @@ img{
 	animation-fill-mode: forwards;
 }
 @keyframes showclassul{
-	0%{background:#e3dfe2;height:0px;opacity:0.0;}
-	100%{background:#e3dfe2;height:260px;}
+	0%{background-color:rgba(128,128,255,0.5);height:0px;opacity:0.0;}
+	100%{background-color:rgba(128,128,255,0.5);height:260px;}
 }
 .user_info{
 	position:fixed;
@@ -242,9 +242,6 @@ img{
 	height:22px;
 	cursor:pointer;
 	border-radius:5px;
-}
-.list_btn:hover{
-	background-color:#00ffff;
 }
 .list_login{
 	padding-top:40px;
@@ -320,6 +317,20 @@ img{
 	padding-left:2px;
 	box-shadow:0 1px 0 #c0c0c0;
 }
+.book_top_left{
+	width:100px;
+	height:100%;
+}
+.book_top_right{
+	width:65px;
+	height:100%;
+	float:right;
+	padding-top:5px;
+	font-size:18px;
+}
+.book_top_right a{
+	color:#0000ff;
+}
 .book_title{
 	font-weight:600;
 	text-align:left;
@@ -352,4 +363,19 @@ img{
 	font-weight:500;
 	padding-left:3px;
 	padding-right:1px;
+}
+.index_page_div{
+	position:absolute;
+	top:91%;
+	width:79.8%;
+	height:6%;
+	padding-top:0.6%;
+	background-color:white;
+	border:1px #c0c0c0 solid;
+	border-radius:2px;
+	text-align:center;
+}
+.index_page_div a{
+	display:inline;
+	margin-left:3px;
 }

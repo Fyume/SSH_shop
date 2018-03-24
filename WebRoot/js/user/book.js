@@ -1,5 +1,5 @@
 $(document).ready(function(){
-	if($("#book").val()=="true"){
+	if($("#empty_book").val()=="true"&&$("#empty_work").val()=="true"){
 		window.location.href="/SSH_test/pages/index.jsp";
 	}
 	DateFormat();

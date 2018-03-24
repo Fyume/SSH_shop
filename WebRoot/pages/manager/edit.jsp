@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%><!-- 本来打算用来转时间的 谁知道只有String转Date -->
-<%@ taglib uri="/mytags" prefix="data" %><!-- 根据网上的 建了自定义标签处理long类型的时间戳 好强啊 -->
+<%@ taglib uri="/mytags" prefix="data" %><!-- 根据网上的 建了自定义标签处理long类型的时间戳 好强啊 --><!-- 越写越多方法 -->
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -118,17 +118,21 @@
 		<c:if test="${empty sessionScope.managerType }">
 			<div class="notice">
 				<div class="not_div">
-					<div class="not_div_font">
-						<a href="${pageContext.request.contextPath}/managerAction_getUser">管理用户</a>
-					</div>
+					<a href="${pageContext.request.contextPath}/managerAction_getUser">
+						<div class="not_div_font">
+							管理用户
+						</div>
+					</a>
 					<div id="arrow">
 						<img src="${pageContext.request.contextPath}/images/flag/arrow.png" width=100% height=100%>
 					</div>
 				</div>
 				<div class="not_div" style="margin-left:1px;">
-					<div class="not_div_font">
-						<a href="${pageContext.request.contextPath}/managerAction_getBook">管理书本</a>
-					</div>
+					<a href="${pageContext.request.contextPath}/managerAction_getBook">
+						<div class="not_div_font">
+							管理书本
+						</div>
+					</a>
 					<div id="arrow">
 						<img src="${pageContext.request.contextPath}/images/flag/arrow.png" width=100% height=100%>
 					</div>
@@ -360,14 +364,7 @@
 												value="${book.ISBN }">
 										</div>
 										<div class="cont-cont3">
-											<input id="publish${num.count }" type="text"
-												value="${book.publish }" style="display:none;"> <input
-												id="year${num.count }" type="text"
-												onchange="return checkPublish('${num.count }');">年 <input
-												id="month${num.count }" type="text"
-												onchange="return checkPublish('${num.count }');">月 <input
-												id="date${num.count }" type="text"
-												onchange="return checkPublish('${num.count }');">日
+											<data:date2 num="${num.count }" value="${book.publish*1000*60*60}"></data:date2>
 										</div>
 										<div class="cont-cont" style="padding-top:0px;">
 											<textarea
@@ -395,7 +392,7 @@
 										</div>
 										<div class="cont2-button">
 											<input type="button" value="修改"
-												onclick="alter_B('${num.count }','${book.bid }')">
+												onclick="alter_B('${num.count }',${book.bid })">
 										</div>
 										<div class="cont2-button">
 											<a
@@ -426,14 +423,7 @@
 												value="${book.ISBN }">
 										</div>
 										<div class="cont-cont3">
-											<input id="publish${num.count }" type="text"
-												value="${book.publish }" style="display:none;"> <input
-												id="year${num.count }" type="text"
-												onchange="return checkPublish('${num.count }');">年 <input
-												id="month${num.count }" type="text"
-												onchange="return checkPublish('${num.count }');">月 <input
-												id="date${num.count }" type="text"
-												onchange="return checkPublish('${num.count }');">日
+											<data:date2 num="${num.count }" value="${book.publish*1000*60*60}"></data:date2>
 										</div>
 										<div class="cont-cont" style="padding-top:0px;">
 											<textarea
@@ -461,7 +451,7 @@
 										</div>
 										<div class="cont2-button">
 											<input type="button" value="修改"
-												onclick="alter_B('${num.count }','${book.bid }')">
+												onclick="alter_B('${num.count }',${book.bid })">
 										</div>
 										<div class="cont2-button">
 											<a

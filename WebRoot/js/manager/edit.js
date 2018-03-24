@@ -80,12 +80,12 @@ function getJsonData1(num) {
 }
 function getJsonData2(num) {
 	var json = {
-		bid : $("#bid" + num).val(),
+		bid : parseInt($("#bid" + num).val()),
 		bname : $("#bname" + num).val(),
 		ISBN : $("#ISBN" + num).val(),
-		year : $("#year" + num).val(),
-		month : $("#month" + num).val(),
-		date : $("#date" + num).val(),
+		year :  parseInt($("#year" + num).val()),
+		month :  parseInt($("#month" + num).val()),
+		date :  parseInt($("#date" + num).val()),
 		description : $("#description" + num).val(),
 		type : $("#type" + num).val()
 	}
@@ -199,25 +199,6 @@ function update_Img(){
 	}
 }
 
-function showPublish(page) {
-	if (page == "" || page == null) {
-		var num = 1;
-	} else {
-		var num = (page - 1) * 5 + 1;// 该页初始的num
-	}
-	if (($("#year" + num).val() == "") && ($("#month" + num).val() == "")
-			&& ($("#date" + num).val() == "")) {
-		for (var i = num; i < (num + 5); i++) {
-			DateFormat($("#publish" + i).val(), i);
-		}
-	}
-}
-function DateFormat(timeStamp, num) {
-	var time = new Date(timeStamp * 1000 * 60 * 60);
-	$("#year" + num).val(time.getYear());
-	$("#month" + num).val(time.getMonth());
-	$("#date" + num).val(time.getDate());
-}
 function checkPublish(num) {
 	var year = /^\d{4}$/;
 	var month = /^\d{1,2}$/;

@@ -601,10 +601,16 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		return "goto_book";
 	}
 	
-	public String getData() throws Exception{
+	public String getMyFavour() throws Exception{
 		user = (User) request.getSession().getAttribute("user");
-		
-		return "goto_User";
+		if(user==null){
+			return "goto_login";
+		}
+		favlist = userService.findF(user);
+		request.getSession().setAttribute("myFav", favlist);
+		request.setAttribute("list", 3);
+		request.getSession().setAttribute("myFav_flag", favlist.size());
+		return "goto_user";
 	}
 	/********************************************************/
 	/*public String test() throws Exception{//测试属性驱动

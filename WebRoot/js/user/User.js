@@ -4,18 +4,21 @@
 $(document).ready(function() {
 	var list = $("#listNum").attr('title');
 	$("#image").change(function() {
-		if (!checkimg()) {
+		if (!checkimg($("#image").val())) {
 			alert("图片格式不对啊！");
 		} else {
 			var path = getObjectURL(this.files[0]);
 			$("#User_img").attr("src", path);//浏览器缓存是最骚的 暂时不理
 		}
 	});
-	if (list == ''||list==1) {
-		arrowDiv(1);
-	} else {
-		arrowDiv(list);
-	}
+	$("#workimage").change(function() {
+		if (!checkimg($("#workimage").val())) {
+			alert("图片格式不对啊！");
+		} else {
+			var path = getObjectURL(this.files[0]);
+			$("#Work_img").attr("src", path);//浏览器缓存是最骚的 暂时不理
+		}
+	});
 });
 function getObjectURL(file) {
 	var url = null;
@@ -32,21 +35,10 @@ function uploadi() {
 	$("#image").click();
 }
 // 检查上传图片的格式
-function checkimg() {
-	var path = $("#image").val();
+function checkimg(path) {
 	var str = /[.](jpg|jpeg)$/;
 	var res = str.test(path);
 	return res;
-}
-function arrowDiv(num) {
-	var div = $("<div></div>");
-	div.attr("id", "arrow" + num);
-	div.attr("class", "arrow_div");
-	div.css("top", (18.5 + (num - 1) * 7) + "%");
-	if (num > 1) {
-		div.css("border-top-left-radius", '0');
-	}
-	div.appendTo('body');
 }
 /*
  * function getData(user){ var row = $("#row").val(); if(!user){
@@ -68,6 +60,8 @@ function edit() {
 	$("#edit_btn").attr("onclick", "closeEdit()");
 	$("#submit_btn").css("opacity", "1");
 	$("#submit_btn").removeAttr("disabled");
+	$("#image_btn").css("opacity", "1");
+	$("#image_btn").removeAttr("disabled");
 }
 function closeEdit() {
 	$.each($("#User_AllInfo input[type='text']"), function() {
@@ -84,6 +78,8 @@ function closeEdit() {
 	$("#edit_btn").attr("onclick", "edit()");
 	$("#submit_btn").css("opacity", "0.5");
 	$("#submit_btn").attr("disabled", "disabled");
+	$("#image_btn").css("opacity", "0.5");
+	$("#image_btn").attr("disabled", "disabled");
 }
 
 function checkform() {// 检查表单必填数据
@@ -140,4 +136,31 @@ function checktelnum() {
 		}
 	}
 	return true;
+}
+/**********作品部分*************/
+function coveron(num){
+	$("#img_cover"+num).css("display","block");
+}
+function coveroff(num){
+	$("#img_cover"+num).css("display","none");
+}
+function edit_divOn(num){
+	$("#work_edit_div").css("display","block");
+	var wid = $("#work_img"+num).attr("alt");
+	var src = $("#work_img"+num).attr("src");
+	var wname = $("#work_wname"+num).html();
+	var description = $("#work_img"+num).attr("title");
+	$("#Work_wid").val(wid);
+	$("#Work_img").attr("src",src);
+	$("#Work_wname").val(wname);
+	$("#Work_description").val(description);
+}
+function edit_divOff(){
+	$("#work_edit_div").css("display","none");
+}
+function workImg(){
+	$("#workimage").click();
+}
+function checkForm2(){
+	
 }

@@ -139,7 +139,7 @@ public class workUtils {
 		}
 		return false;
 	}
-	//删除磁盘中的某个用户作品
+	//删除磁盘中的用户某个作品
 	public boolean removeWork(String uid,String wname){
 		String totalpath = DiskPath + userPath + uid;
 		try{
@@ -150,7 +150,7 @@ public class workUtils {
 		}
 		return false;
 	}
-	//删除磁盘中的所有用户作品
+	//删除磁盘中的用户所有作品
 	public boolean removeWork(String uid){
 		String totalpath = DiskPath + userPath + uid;
 		try{

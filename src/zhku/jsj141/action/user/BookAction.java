@@ -134,9 +134,10 @@ public class BookAction extends BaseAction {
 		request.getSession().setAttribute("typelist", typelist);
 		request.getSession().setAttribute("classfy", "全部分类");
 		request.getSession().setAttribute("booklist", booklist);
+		request.getSession().setAttribute("worklist", null);
+		request.getSession().setAttribute("listSize", booklist.size());
 		return "goto_index";
 	}
-
 	// 上传书本
 	public String upload() throws Exception {
 		System.out.println("uploadFileName:" + uploadFileName);
@@ -191,7 +192,6 @@ public class BookAction extends BaseAction {
 	//获取书本内容
 	public String readBook() throws Exception{
 		int bid = Integer.parseInt(request.getParameter("bid"));
-		user = (User) request.getSession().getAttribute("user");
 		book.setBid(bid);
 		booklist = bookService.find(book, "bid");
 		if(booklist.size()!=0){
@@ -208,9 +208,9 @@ public class BookAction extends BaseAction {
 	}
 	//查询书本
 	public String selectB() throws Exception{
+		String flag = request.getParameter("flag");//book的某个属性
 		String message = request.getParameter("message");//具体参数
 		message = new String(message.getBytes("ISO-8859-1"),"utf-8"); //URL传参好像是默认ISO-8859-1？反正试了发现这个可以
-		String flag = request.getParameter("flag");//book的某个属性
 		System.out.println("message:"+message);
 		System.out.println("flag:"+flag);
 		if(message!=null&&flag!=null){
@@ -220,6 +220,7 @@ public class BookAction extends BaseAction {
 							.invoke(book));*/
 			if(flag.equals("type")){
 				book.setType(message);
+				request.getSession().setAttribute("classfy", message);
 			}else if(flag.equals("type_flag")){
 				book.setType_flag(message);
 			}else if(flag.equals("bname")){
@@ -232,10 +233,11 @@ public class BookAction extends BaseAction {
 				System.out.println(book2.toString());
 			}
 			request.getSession().setAttribute("booklist", booklist);
+			request.getSession().setAttribute("listSize", booklist.size());//用于分页
 		}
 		return "goto_index";
 	}
-	//更新书本内容
+	//更新书本内容(仅更新文档,数据库表的其他属性不更新,和前端有关)
 	public String update() throws Exception{
 		System.out.println("uploadFileName:" + uploadFileName);
 		System.out.println("uploadContentType:" + uploadContentType);

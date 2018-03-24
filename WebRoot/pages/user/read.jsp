@@ -90,14 +90,14 @@
 		</div>
 	</div>
 	<c:choose>
-		<c:when test="${empty sessionScope.work }">
+		<c:when test="${!empty sessionScope.book }">
 			<div id="cont_showMenu" class="cont_showMenu" onclick="showMenu('${empty sessionScope.user }','bid;${sessionScope.book.bid }','${sessionScope.doc_count}',${param.page })">
 				<input id="Menu_page" type="text" value="1" style="display:none;">
 				<span id="show_Flag" class="glyphicon glyphicon-chevron-left"></span>
 			</div>
 		</c:when>
 		<c:otherwise>
-			<div id="cont_showMenu" class="cont_showMenu" onclick="showMenu('${empty sessionScope.user }',,'wid;${sessionScope.work.wid }','${sessionScope.doc_count}',${param.page })">
+			<div id="cont_showMenu" class="cont_showMenu" onclick="showMenu('${empty sessionScope.user }','wid;${sessionScope.work.wid }','${sessionScope.doc_count}',${param.page })">
 				<input id="Menu_page" type="text" value="1" style="display:none;">
 				<span id="show_Flag" class="glyphicon glyphicon-chevron-left"></span>
 			</div>

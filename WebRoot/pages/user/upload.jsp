@@ -19,20 +19,20 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet"
-	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 <script
 	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/user/upload.js"></script>
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/user/upload.css">
-<script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/user/index.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/upload.js"></script>
+<link rel="stylesheet"
+	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/index.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/user/upload.css">
 </head>
 <body onload="start(${empty sessionScope.typelist })">
 	<c:choose>
@@ -42,12 +42,12 @@
 		</c:when>
 		<c:otherwise>
 			<div class="header">
-				<a href="${pageContext.request.contextPath}/pages/index.jsp">
+				<a href="${pageContext.request.contextPath}/bookAction_getData">
 					<div class="header_index">
 						首页
 					</div>
 				</a>
-				<a href="${pageContext.request.contextPath}/pages/index.jsp">
+				<a href="${pageContext.request.contextPath}/bookAction_getData">
 					<div class="header_classify" onmouseover="classifyon()"
 						onmouseout="classifyoff()">
 							全部分类
@@ -93,13 +93,25 @@
 					</div>
 					<c:if test="${!empty sessionScope.user }">
 						<div class="user_message">消息</div>
-						<div class="user_favour">收藏夹</div>
+						<a href="${pageContext.request.contextPath}/userAction_getMyFavour">
+							<div class="user_favour">收藏夹</div>
+						</a>
 						<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
 							<div class="user_upload">
 								<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
 							</div>
 						</a>
 					</c:if>
+				</div>
+			</div>
+			<!-- 不放到这个位置好像会影响div的onmouserover事件 应该是video标签的问题？ 还是加载顺序的问题？不是很清楚 -->
+			<div class="second">
+				<div class="sec_logo"></div>
+				<div class="sec_font">在线阅读网站</div>
+				<div class="sec_video">
+					<video width="100%" height="100%" loop="loop" autoplay="autoplay" style="object-fit:fill;">
+						<source src="${pageContext.request.contextPath}/images/video/sec(2).mp4"  type="video/mp4">
+					</video>
 				</div>
 			</div>
 			<div id="user_info" class="user_info" onmouseover="infoon()" onmouseout="infooff()">
@@ -146,19 +158,19 @@
 				<c:forEach items="${sessionScope.typelist }" var="type"
 					varStatus="num">
 					<div>
-
+		
 						<div class="class_title" style="border-right:1px #c0c0c0 solid"
-							onmouseover="classUl${num.count}on()"
-							onmouseout="classUl${num.count}off()">
+							onmouseover="classUlon(${num.count})"
+							onmouseout="classUloff(${num.count})">
 							<a
 								href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=${type.type}">${type.type }</a>
 						</div>
-
+		
 					</div>
 					<div id="class_ul${num.count}" class="class_ul${num.count}"
-						onmouseover="classUl${num.count}on()"
-						onmouseout="classUl${num.count}off()">
-						<!-- 数据库里面用";"分开 -->
+						onmouseover="classUlon(${num.count})"
+						onmouseout="classUloff(${num.count})">
+				<!-- 数据库里面用";"分开 -->
 						<c:set value="${fn:split(type.type_flag,';') }" var="type_flag"></c:set>
 						<c:forEach items="${type_flag }" var="flag" begin="0" end="5">
 							<ul>
@@ -174,12 +186,8 @@
 						</c:forEach>
 					</div>
 				</c:forEach>
-				<div class="class_title"
-					style="background-color:red;border-right:1px #c0c0c0 solid">
-					<a href="${pageContext.request.contextPath}/workAction_getData">用户作品</a>
-				</div>
 			</div>
-			<div class="upload_bottom" style="margin-top:30px;">
+			<div class="upload_bottom">
 				<input id="uploadResult" type="text"
 					value="${requestScope.uploadResult}" style="display:none">
 				<div class="upload_form">

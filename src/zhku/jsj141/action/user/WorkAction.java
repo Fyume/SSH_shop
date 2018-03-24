@@ -133,6 +133,7 @@ public class WorkAction extends BaseAction {
 					uploadContentType, work.getWname());
 			work.setUser(user);
 			work.setUploadtime(publish);
+			t_upload.setUser(user);
 			if (result != "") {
 				if (result.equals("typefalse")) {
 					request.setAttribute("uploadResult", "作品文件有误,请上传doc,docx,txt类型的文件");
@@ -151,7 +152,7 @@ public class WorkAction extends BaseAction {
 						}
 					}
 					boolean rs = workService.add(work);//不管封面是否上传成功都保存上传文件的信息到数据库
-					getData();
+					getData();//刷新session（其实好像没必要）
 					if(rs){//上传记录保存
 						t_upload.setWork(work);
 						long time = System.currentTimeMillis()/1000;
@@ -171,8 +172,22 @@ public class WorkAction extends BaseAction {
 		worklist = workService.findAll();
 		request.getSession().setAttribute("classfy", "用户作品");
 		request.getSession().setAttribute("worklist", worklist);
+		request.getSession().setAttribute("booklist", null);
+		request.getSession().setAttribute("listSize", worklist.size());
 		/*test();*/
 		return "goto_index";
+	}
+	public String getMyWork() throws Exception {
+		user = (User) request.getSession().getAttribute("user");
+		if(user==null){
+			return "goto_login";
+		}
+		work.setAuthor(user.getUid());
+		worklist = workService.find(work, "author");
+		request.getSession().setAttribute("myWork", worklist);
+		request.setAttribute("list", 2);
+		request.getSession().setAttribute("myWork_flag", worklist.size());
+		return "goto_user";
 	}
 	/*public String test() throws Exception{
 		System.out.println("---test----");
@@ -182,15 +197,15 @@ public class WorkAction extends BaseAction {
 		int wid = Integer.parseInt(request.getParameter("wid"));
 		work.setWid(wid);
 		worklist = workService.find(work, "wid");
-		if(worklist!=null){
+		if(worklist.size()!=0){
 			work = worklist.get(0);
-			List<String> str = workUtils.readbook_U(work.getAuthor(), work.getPath());
+			List<String> str = workUtils.readbook_U(work.getUser().getUid(), work.getPath());
 			request.getSession().setAttribute("content", str);
 			request.getSession().setAttribute("doc_count", str.size());
 			request.getSession().setAttribute("page", 1);
 			request.getSession().setAttribute("work", work);
 			request.getSession().setAttribute("book", null);//清空（暂时保留这个，1.减少存储的大小2.方便前端判断）
-			return "goto_read";
+			return "goto_book";
 		}
 		return "goto_index";
 	}
@@ -209,5 +224,75 @@ public class WorkAction extends BaseAction {
 			request.getSession().setAttribute("classfy", "用户作品");
 		}
 		return "goto_index";
+	}
+	//更新用户作品内容(包括所有属性)
+	public String update() throws Exception{
+		System.out.println("uploadFileName:" + uploadFileName);
+		System.out.println("uploadContentType:" + uploadContentType);
+		/*String type_flag = (String) request.getParameter("type_flag");*/
+		System.out.println(work.toString());
+		user = (User) request.getSession().getAttribute("user");
+		if (user == null) {
+			return "goto_login";
+		}
+		t_upload.setUser(user);
+		if(work!=null){
+			worklist = workService.find(work, "wid");
+			if(worklist.size()!=0){
+				Work work2 = worklist.get(0);//持久态
+				/*图片的*/
+				if(image!=null){
+					String path = workUtils.uploadbookI_U(image, work2.getUser().getUid(), uploadContentType);
+					if(path!=""){//把原来的图片删除掉,数据库的路径也改了
+						workUtils.removeWorkI(work2.getImage());
+						work2.setImage(path);
+					}
+				}
+				if(upload!=null){
+					boolean rs = workUtils.removeWork(work2.getUser().getUid(), work2.getWname());//先删除磁盘的旧内容
+					if(rs){
+						String result = workUtils.uploadbook_U(upload, work2.getUser().getUid(),
+								uploadContentType, work.getWname());//新的名字
+						if (result != "") {
+							if (result.equals("typefalse")) {
+								request.setAttribute("uploadResult",
+										"文件有误,请上传doc,docx,txt类型的文件");
+							} else if (result.equals("dirfalse")) {
+								request.setAttribute("uploadResult", "该书本已存在");
+							} else {
+								work2.setPath(result);
+								t_upload.setWork(work2);
+								long time = System.currentTimeMillis()/1000;
+								t_upload.setTime(time);
+								managerService.updateUpload(t_upload);
+								request.setAttribute("upload", "success");
+							}
+						}
+					}
+				}
+				work2.setWname(work.getWname());
+				work2.setDescription(work.getDescription());
+			}
+		}
+		return "goto_edit";
+	}
+	//修改作品封面
+	public String updateI() throws Exception{
+		System.out.println(image+";"+imageFileName+";"+imageContentType);
+		int wid = Integer.parseInt(request.getParameter("wid"));
+		work.setWid(wid);
+		worklist = workService.find(work, "wid");
+		if(worklist!=null){
+			work = worklist.get(0);
+			/*System.out.println("bid:"+bid);
+			System.out.println("image: "+image+"\nimageFN: "+imageFileName+"\nimageCT:"+imageContentType);*/
+			String path = workUtils.uploadbookI_U(image, work.getUser().getUid(), imageContentType);
+			if(path!=""){//把原来的图片删除掉,数据库的路径也改了
+				workUtils.removeWorkI(work.getImage());
+				work.setImage(path);
+				workService.update(work);
+			}
+		}
+		return "goto_edit";
 	}
 }

@@ -35,12 +35,12 @@
 </head>
 <body onload="start(${empty sessionScope.typelist })">
 	<div class="header">
-		<a href="${pageContext.request.contextPath}/pages/index.jsp">
+		<a href="${pageContext.request.contextPath}/bookAction_getData">
 			<div class="header_index">
 				首页
 			</div>
 		</a>
-		<a href="${pageContext.request.contextPath}/pages/index.jsp">
+		<a href="${pageContext.request.contextPath}/bookAction_getData">
 			<div class="header_classify" onmouseover="classifyon()"
 				onmouseout="classifyoff()">
 					全部分类
@@ -86,7 +86,9 @@
 			</div>
 			<c:if test="${!empty sessionScope.user }">
 				<div class="user_message">消息</div>
-				<div class="user_favour">收藏夹</div>
+				<a href="${pageContext.request.contextPath}/userAction_getMyFavour">
+					<div class="user_favour">收藏夹</div>
+				</a>
 				<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
 					<div class="user_upload">
 						<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
@@ -182,44 +184,76 @@
 		<div class="totalBook">
 			<c:choose>
 				<c:when test="${sessionScope.classfy=='用户作品'}">
-					<c:forEach items="${sessionScope.worklist }" var="work" begin="0" end="19">
-						<div class="book_border">
-							<div class="book_title">
-								<a
-									href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
-									${book.bname } </a>
-							</div>
-							<div class="book_img">
-								<a href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
-									<img width=100% height=100% src="${pageContext.request.contextPath}/images/user/wookImg/${work.image }" alt="${work.wname }">
-								</a>
-							</div>
-							<div class="book_description">
-								<span class="desc_font">作者</span>
-								<br>
-								<span class="desc_value">${work.author }</span>
-								<br>
-								<span class="desc_font">概述</span>
-								<br>
-								<div class="desc_value">${work.description }</div>
-								<br>
-								<span class="desc_font">分类</span>
-								<br>
-								<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">用户作品</span>
-							</div>
+					<div class="kindOfBook">
+						<div class="book_top_type">
+							<div class="book_top_left">用户作品</div>
 						</div>
-					</c:forEach>
+						<c:if test="${empty param.page }">
+								<c:set var="begin" value="0"></c:set>
+								<c:set var="end" value="7"></c:set>
+						</c:if>
+						<c:if test="${!empty param.page }">
+								<c:set var="begin" value="${(param.page-1)*8 }"></c:set>
+								<c:set var="end" value="${param.page*8-1 }"></c:set>
+						</c:if>
+						<c:forEach items="${sessionScope.worklist }" var="work" begin="${begin }" end="${end }">
+							<div class="book_border">
+								<div class="book_title">
+									<a
+										href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
+										${work.wname } </a>
+								</div>
+								<div class="book_img">
+									<a href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
+										<img width=100% height=100% src="${pageContext.request.contextPath}/images/user/workImg/${work.image }" alt="${work.wname }">
+									</a>
+								</div>
+								<div class="book_description">
+									<span class="desc_font">作者</span>
+									<br>
+									<span class="desc_value">${work.user.uid }</span>
+									<br>
+									<span class="desc_font">概述</span>
+									<br>
+									<div class="desc_value">${work.description }</div>
+									<br>
+									<span class="desc_font">分类</span>
+									<br>
+									<span class="desc_value" style="font-size:13px;font-weight: 600;color:#ff8000;">用户作品</span>
+								</div>
+							</div>
+						</c:forEach>
+					</div>
 				</c:when>
 				<c:otherwise>
 					<c:if test="${sessionScope.classfy=='全部分类'|| sessionScope.classfy=='网络小说'}">
 						<div class="kindOfBook">
 							<div class="book_top_type">
-								<div style="width:100px;height:100%;border:1px red solid;">网络小说</div>
-								<div style="width:65px;height:100%;float:right;padding-top:5px;font-size:18px;">更多>></div>
+								<div class="book_top_left">网络小说</div>
+								<c:set var="type1" value="0"></c:set>
+								<c:choose>
+									<c:when test="${sessionScope.classfy=='全部分类'}">
+										<div class="book_top_right">
+											<a href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=网络小说">
+												更多>>
+											</a>
+										</div>
+										<c:set var="begin" value="0"></c:set>
+										<c:set var="end" value="${sessionScope.listSize }"></c:set>
+									</c:when>
+									<c:otherwise>
+										<c:if test="${empty param.page }">
+												<c:set var="begin" value="0"></c:set>
+												<c:set var="end" value="7"></c:set>
+										</c:if>
+										<c:if test="${!empty param.page }">
+												<c:set var="begin" value="${(param.page-1)*8 }"></c:set>
+												<c:set var="end" value="${param.page*8-1 }"></c:set>
+										</c:if>
+									</c:otherwise>
+								</c:choose>
 							</div>
-							<c:set var="type1" value="0"></c:set>
-							<c:set var="end" value="19"></c:set>
-							<c:forEach items="${sessionScope.booklist }" var="book" begin="0" end="${end }">
+							<c:forEach items="${sessionScope.booklist }" var="book" begin="${begin }" end="${end }">
 								<c:if test="${book.type eq '网络小说' }">
 									<c:set var="type1" value="${type1+1}"></c:set>
 									<div class="book_border">
@@ -248,12 +282,6 @@
 										</div>
 									</div>
 									<c:if test="${sessionScope.classfy=='全部分类' }">
-										<c:if test="${type1 eq 12 }">
-											<!-- 跳出循环 -->
-											<c:set var="end" value="0"></c:set>
-										</c:if>
-									</c:if>
-									<c:if test="${sessionScope.classfy=='网络小说' }">
 										<c:if test="${type1 eq 8 }">
 											<!-- 跳出循环 -->
 											<c:set var="end" value="0"></c:set>
@@ -264,98 +292,153 @@
 						</div>
 					</c:if>
 					
-					
-					<div class="kindOfBook">
-						<div class="book_top_type">
-							文学作品
-						</div>
-						<c:set var="type2" value="0"></c:set>
-						<c:set var="end" value="19"></c:set>
-						<c:forEach items="${sessionScope.booklist }" var="book" begin="0" end="${end }">
-							<c:if test="${book.type eq '文学作品' }">
-								<c:set var="type2" value="${type2+1}"></c:set>
-								<div class="book_border">
-									<div class="book_title">
-										<a
-											href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-											${book.bname } </a>
+					<c:if test="${sessionScope.classfy=='全部分类'|| sessionScope.classfy=='文学作品'}">
+						<div class="kindOfBook">
+							<div class="book_top_type">
+								<div class="book_top_left">文学作品</div>
+								<c:set var="type2" value="0"></c:set>
+								<c:choose>
+									<c:when test="${sessionScope.classfy=='全部分类'}">
+										<div class="book_top_right">
+											<a href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=文学作品">
+												更多>>
+											</a>
+										</div>
+										<c:set var="begin" value="0"></c:set>
+										<c:set var="end" value="${sessionScope.listSize }"></c:set>
+									</c:when>
+									<c:otherwise>
+										<c:if test="${empty param.page }">
+												<c:set var="begin" value="0"></c:set>
+												<c:set var="end" value="7"></c:set>
+										</c:if>
+										<c:if test="${!empty param.page }">
+												<c:set var="begin" value="${(param.page-1)*8 }"></c:set>
+												<c:set var="end" value="${param.page*8-1 }"></c:set>
+										</c:if>
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<c:forEach items="${sessionScope.booklist }" var="book" begin="${begin }" end="${end }">
+								<c:if test="${book.type eq '文学作品' }">
+									<c:set var="type2" value="${type2+1}"></c:set>
+									<div class="book_border">
+										<div class="book_title">
+											<a
+												href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+												${book.bname } </a>
+										</div>
+										<div class="book_img">
+											<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+												<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+											</a>
+										</div>
+										<div class="book_description">
+											<span class="desc_font">作者</span>
+											<br>
+											<span class="desc_value">${book.author }</span>
+											<br>
+											<span class="desc_font">概述</span>
+											<br>
+											<div class="desc_value">${book.description }</div>
+											<br>
+											<span class="desc_font">分类</span>
+											<br>
+											<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
+										</div>
 									</div>
-									<div class="book_img">
-										<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-											<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
-										</a>
-									</div>
-									<div class="book_description">
-										<span class="desc_font">作者</span>
-										<br>
-										<span class="desc_value">${book.author }</span>
-										<br>
-										<span class="desc_font">概述</span>
-										<br>
-										<div class="desc_value">${book.description }</div>
-										<br>
-										<span class="desc_font">分类</span>
-										<br>
-										<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
-									</div>
-								</div>
-								<c:if test="${type2 eq 8 }">
-									<!-- 跳出循环 -->
-									<c:set var="end" value="0"></c:set>
+									<c:if test="${sessionScope.classfy=='全部分类' }">
+										<c:if test="${type2 eq 8 }">
+											<!-- 跳出循环 -->
+											<c:set var="end" value="0"></c:set>
+										</c:if>
+									</c:if>
 								</c:if>
-							</c:if>
-						</c:forEach>
-					</div>
-					<div class="kindOfBook">
-						<div class="book_top_type">
-							社会科学
+							</c:forEach>
 						</div>
-						<c:set var="type3" value="0"></c:set>
-						<c:set var="end" value="19"></c:set>
-						<c:forEach items="${sessionScope.booklist }" var="book" begin="0" end="${end }">
-							<c:if test="${book.type eq '社会科学' }">
-								<c:set var="type3" value="${type3+1}"></c:set>
-								<div class="book_border">
-									<div class="book_title">
-										<a
-											href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-											${book.bname } </a>
-									</div>
-									<div class="book_img">
-										<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-											<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
-										</a>
-									</div>
-									<div class="book_description">
-										<span class="desc_font">作者</span>
-										<br>
-										<span class="desc_value">${book.author }</span>
-										<br>
-										<span class="desc_font">概述</span>
-										<br>
-										<div class="desc_value">${book.description }</div>
-										<br>
-										<span class="desc_font">分类</span>
-										<br>
-										<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
-									</div>
-								</div>
-								<c:if test="${type3 eq 8 }">
-									<!-- 跳出循环 -->
-									<c:set var="end" value="0"></c:set>
-								</c:if>
-							</c:if>
-						</c:forEach>
-					</div>
-					<%-- ${type1 }--${type2 }--${type3 } --%>
-					<!-- 准备搞个分页 -->
-					<div style="width:"></div>
-					<c:if test="${fn:length(sessionScope.booklist)>20}">
 					</c:if>
 					
-					
+					<c:if test="${sessionScope.classfy=='全部分类'|| sessionScope.classfy=='社会科学'}">
+						<div class="kindOfBook">
+							<div class="book_top_type">
+								<div class="book_top_left">社会科学</div>
+								<c:set var="type3" value="0"></c:set>
+								<c:choose>
+									<c:when test="${sessionScope.classfy=='全部分类'}">
+										<div class="book_top_right">
+											<a href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=社会科学">
+												更多>>
+											</a>
+										</div>
+										<c:set var="begin" value="0"></c:set>
+										<c:set var="end" value="${sessionScope.listSize }"></c:set>
+									</c:when>
+									<c:otherwise>
+										<c:if test="${empty param.page }">
+												<c:set var="begin" value="0"></c:set>
+												<c:set var="end" value="7"></c:set>
+										</c:if>
+										<c:if test="${!empty param.page }">
+												<c:set var="begin" value="${(param.page-1)*8 }"></c:set>
+												<c:set var="end" value="${param.page*8-1 }"></c:set>
+										</c:if>
+									</c:otherwise>
+								</c:choose>
+							</div>
+							<c:forEach items="${sessionScope.booklist }" var="book" begin="${begin }" end="${end }">
+								<c:if test="${book.type eq '社会科学' }">
+									<c:set var="type3" value="${type3+1}"></c:set>
+									<div class="book_border">
+										<div class="book_title">
+											<a
+												href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+												${book.bname } </a>
+										</div>
+										<div class="book_img">
+											<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+												<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+											</a>
+										</div>
+										<div class="book_description">
+											<span class="desc_font">作者</span>
+											<br>
+											<span class="desc_value">${book.author }</span>
+											<br>
+											<span class="desc_font">概述</span>
+											<br>
+											<div class="desc_value">${book.description }</div>
+											<br>
+											<span class="desc_font">分类</span>
+											<br>
+											<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
+										</div>
+									</div>
+									<c:if test="${sessionScope.classfy=='全部分类' }">
+										<c:if test="${type3 eq 8 }">
+											<!-- 跳出循环 -->
+											<c:set var="end" value="0"></c:set>
+										</c:if>
+									</c:if>
+								</c:if>
+							</c:forEach>
+						</div>
+					</c:if>
 				</c:otherwise>
 			</c:choose>
+			<c:if test="${sessionScope.classfy!='全部分类' }">
+				<div class="index_page_div">
+					<c:if test="${!empty sessionScope.worklist }">
+						<c:forEach items="${sessionScope.worklist }" begin="0" end="${sessionScope.listSize/8 }" varStatus="num">
+							<a href="${pageContext.request.contextPath}/pages/index.jsp?page=${num.count}">${num.count }</a>
+						</c:forEach>
+					</c:if>
+					<c:if test="${!empty sessionScope.booklist }">
+						<c:forEach items="${sessionScope.booklist }" begin="0" end="${sessionScope.listSize/8 }" varStatus="num">
+							<a href="${pageContext.request.contextPath}/pages/index.jsp?page=${num.count}">${num.count }</a>
+						</c:forEach>
+					</c:if>
+				</div>
+			</c:if>
 		</div>
 	</div>
 </body>
