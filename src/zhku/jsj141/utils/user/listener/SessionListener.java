@@ -87,7 +87,8 @@ public class SessionListener implements HttpSessionListener,HttpSessionAttribute
 			System.out.println(" ; time:"+time);
 			long delta_time = now-Integer.parseInt(time);
 			if(delta_time>=1800){
-				iterator.remove();
+				iterator.remove();//有没有必要？
+				jedis.hdel("Login_time", entry.getKey());//删除过期用户记录
 			}
 		}
 	}

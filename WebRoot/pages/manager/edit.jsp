@@ -22,14 +22,10 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/manager/edit.js"></script>
 <!-- 用下载下来的bootstrap.min.css没有图标 不知道为什么 可能是需要其他的文件支持 -->
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/manager/edit.css">
 </head>
@@ -599,5 +595,10 @@
 			</form>
 		</div>
 	</c:if>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/manager/edit.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 </body>
 </html>

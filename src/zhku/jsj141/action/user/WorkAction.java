@@ -177,7 +177,7 @@ public class WorkAction extends BaseAction {
 		/*test();*/
 		return "goto_index";
 	}
-	public String getMyWork() throws Exception {
+	public String getMyWork() throws Exception {//有必要吗？感觉直接前端el点出来就好了。。。
 		user = (User) request.getSession().getAttribute("user");
 		if(user==null){
 			return "goto_login";
@@ -240,6 +240,10 @@ public class WorkAction extends BaseAction {
 			worklist = workService.find(work, "wid");
 			if(worklist.size()!=0){
 				Work work2 = worklist.get(0);//持久态
+				if(!work2.getAuthor().equals(user.getUid())){//有人通过非法手段修改别人的作品信息
+					request.getSession().setAttribute("user",null);
+					return "goto_login";
+				}
 				/*图片的*/
 				if(image!=null){
 					String path = workUtils.uploadbookI_U(image, work2.getUser().getUid(), uploadContentType);

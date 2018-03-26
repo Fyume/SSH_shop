@@ -20,12 +20,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/css/user/login.css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/user/login.js"></script>
-</head>
-
 <body>
 <div style="float:right;width:50px;height:50px;font-size:15px;font-weight: 900;"><a href="${pageContext.request.contextPath}/pages/index.jsp">前往首页</a></div>
 	<div style="font-family: 华文彩云;font-size:33px;font-weight: 500;margin-left:1020px;margin-top:95px;color:green;padding-bottom:10px;">在 线 阅 读</div>
@@ -67,5 +61,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 		</form>
 	</div>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/login.js"></script>
+</head>
 </body>
 </html>

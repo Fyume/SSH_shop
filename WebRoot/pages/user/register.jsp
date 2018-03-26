@@ -21,9 +21,6 @@
 
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/register.css">
-
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/user/register.js"></script>
 </head>
 
 <body>
@@ -82,6 +79,8 @@
 			</form>
 		</div>
 	</div>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/user/register.js"></script>
 </body>
 </html>
 

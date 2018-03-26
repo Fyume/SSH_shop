@@ -20,25 +20,37 @@
  		<property name="u_permission"></property>
  		<property name="ps_false"></property>
  		<property name="ps_time"></property>
- 		<set name="work" inverse="true">
+ 		<set name="work" cascade="save-update,delete" inverse="true">
  			<key column="author"></key>
  			<one-to-many class="zhku.jsj141.entity.user.Work"/>
  		</set>
- 		<set name="favour" inverse="true">
+ 		<set name="favour" cascade="save-update,delete" inverse="true">
  			<key column="uid"></key>
  			<one-to-many class="zhku.jsj141.entity.user.Favour"/>
  		</set>
- 		<set name="history" inverse="true">
+ 		<set name="history" cascade="save-update,delete" inverse="true">
  			<key column="uid"></key>
  			<one-to-many class="zhku.jsj141.entity.user.History"/>
  		</set>
- 		<set name="operate_m" inverse="true">
+ 		<set name="operate_m" cascade="save-update,delete" inverse="true">
  			<key column="managerID"></key>
  			<one-to-many class="zhku.jsj141.entity.manager.Operate_m"/>
  		</set>
- 		<set name="upload" inverse="true">
+ 		<set name="upload" cascade="save-update,delete" inverse="true">
  			<key column="uid"></key>
  			<one-to-many class="zhku.jsj141.entity.Upload"/>
+ 		</set>
+ 		<set name="rfr1" cascade="save-update,delete" inverse="true">
+ 			<key column="uid1"></key>
+ 			<one-to-many class="zhku.jsj141.entity.user.ReviewsForReviews"/>
+ 		</set>
+ 		<set name="rfr2" cascade="save-update,delete" inverse="true">
+ 			<key column="uid2"></key>
+ 			<one-to-many class="zhku.jsj141.entity.user.ReviewsForReviews"/>
+ 		</set>
+ 		<set name="rfb" cascade="save-update,delete" inverse="true">
+ 			<key column="uid"></key>
+ 			<one-to-many class="zhku.jsj141.entity.user.ReviewsForBook"/>
  		</set>
  	</class>
  </hibernate-mapping>

@@ -19,14 +19,6 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<script
-	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/user/index.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/user/upload.js"></script>
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
@@ -93,7 +85,7 @@
 					</div>
 					<c:if test="${!empty sessionScope.user }">
 						<div class="user_message">消息</div>
-						<a href="${pageContext.request.contextPath}/userAction_getMyFavour">
+						<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
 							<div class="user_favour">收藏夹</div>
 						</a>
 						<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
@@ -248,5 +240,13 @@
 			</div>
 		</c:otherwise>
 	</c:choose>
+<script
+	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/index.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/upload.js"></script>
 </body>
 </html>

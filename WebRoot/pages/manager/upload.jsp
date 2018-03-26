@@ -20,18 +20,8 @@
 <meta http-equiv="expires" content="0">
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-<script
-	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/manager/edit.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/user/upload.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/upload.css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/manager/edit.css">
 </head>
@@ -171,5 +161,15 @@
 				style="margin-left:600px;">前往登录</a>
 		</c:otherwise>
 	</c:choose>
+<script
+	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/manager/edit.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/upload.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 </body>
 </html>

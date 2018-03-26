@@ -16,17 +16,25 @@
  		<property name="path"></property>
  		<property name="image"></property>
  		<property name="type_flag"></property>
- 		<set name="favour" inverse="true">
+ 		<set name="favour" cascade="save-update,delete" inverse="true">
  			<key column="bid"></key>
  			<one-to-many class="zhku.jsj141.entity.user.Favour"/>
  		</set>
- 		<set name="history" inverse="true">
+ 		<set name="history" cascade="save-update,delete" inverse="true">
  			<key column="bid"></key>
  			<one-to-many class="zhku.jsj141.entity.user.History"/>
  		</set>
- 		<set name="upload" inverse="true">
+ 		<set name="upload" cascade="save-update,delete" inverse="true">
  			<key column="bid"></key>
  			<one-to-many class="zhku.jsj141.entity.Upload"/>
+ 		</set>
+ 		<set name="rfr" cascade="save-update,delete" inverse="true">
+ 			<key column="bid"></key>
+ 			<one-to-many class="zhku.jsj141.entity.user.ReviewsForReviews"/>
+ 		</set>
+ 		<set name="rfb" cascade="save-update,delete" inverse="true">
+ 			<key column="bid"></key>
+ 			<one-to-many class="zhku.jsj141.entity.user.ReviewsForBook"/>
  		</set>
  	</class>
  </hibernate-mapping>

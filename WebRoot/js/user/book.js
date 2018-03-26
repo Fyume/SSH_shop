@@ -152,3 +152,66 @@ function cancFavour(){
 		}
 	}
 }
+/***********评论区**********/
+//是不是做复杂了。。。
+function openReviews($this,id){//打开回复入口
+	var n = id.lastIndexOf("t");
+	var str_a = id.substr(0, n+1);
+	var str_b = id.substr(n+1,id.length);
+	if(str_a=='reviews_content'){//若是外围点击
+		$(".content_bottom2").each(function(){//则关闭内部回复
+			var id = $(this).attr("id");
+			var n = id.lastIndexOf("r");
+			var str_a = id.substr(0, n+1);
+			var str_b = id.substr(n+1,id.length);
+			closeReviews(this,"rfr_div"+str_b);
+		});
+		$("#con_bottom_reviews1").css("display","block");
+		$("#con_bottom_reviews1").appendTo($("#"+id));
+	}else{
+		$(".content_bottom").each(function(){//否则关闭外部回复
+			var id = $(this).attr("id");
+			var n = id.lastIndexOf("r");
+			var str_a = id.substr(0, n+1);
+			var str_b = id.substr(n+1,id.length);
+			closeReviews(this,"reviews_content"+str_b);
+		});
+		$("#con_bottom_reviews2").css("display","block");
+		$("#con_bottom_reviews2").appendTo($("#"+id));
+	}
+	$($this).html("收起");
+	$($this).attr("onclick","closeReviews(this,'"+id+"')");
+}
+function closeReviews($this,id){//关闭回复入口
+	$($this).attr("onclick","openReviews(this,'"+id+"')");
+	$($this).html("回复");
+	var n = id.lastIndexOf("t");
+	var str_a = id.substr(0, n+1);
+	var str_b = id.substr(n+1,id.length);
+	if(str_a=='reviews_content'){//若是外围点击
+		$("#con_bottom_reviews1").css("display","none");
+	}else{
+		$("#con_bottom_reviews2").css("display","none");
+	}
+	
+}
+function getReviews($this){
+	var message = $("#book_img").attr("title");
+	$($this).html("loading.....");
+	/*$.ajax({
+		url : '/SSH_test/userAction_getReviews',
+		type : "POST",
+		data : {
+			mess : message
+		},
+		async : false,
+		cache : false,
+		success : function(){
+			$($this).css("display","none");
+			$("#font_favour").html("添加收藏");
+			$("#font_favour").attr("class","glyphicon glyphicon-star-empty");
+			$("#fav_btn").attr('onclick','addFavour()');
+		},
+	});*/
+	$($this).css("display","none");
+}

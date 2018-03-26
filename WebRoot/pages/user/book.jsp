@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="/struts-tags" prefix="s" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -31,7 +32,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/book.css">
 </head>
-
 <body>
 	<div class="header">
 		<a href="${pageContext.request.contextPath}/bookAction_getData">
@@ -76,7 +76,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</div>
 			<c:if test="${!empty sessionScope.user }">
 				<div class="user_message">消息</div>
-				<a href="${pageContext.request.contextPath}/userAction_getMyFavour">
+				<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
 					<div class="user_favour">收藏夹</div>
 				</a>
 				<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
@@ -178,15 +178,13 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input id="empty_book" type="text" value="${empty sessionScope.book }"
 			style="display:none;"> <input id="empty_work" type="text"
 			value="${empty sessionScope.work }" style="display:none;">
-
-
 		<div class="book_total">
 			<br>
 			<c:if test="${!empty sessionScope.work }">
 				<!-- 展示work -->
 				<div class="tt_img">
-					<img width=100% height=100% title="${sessionScope.work.wname }"
-						alt="${sessionScope.work.wname }"
+					<img id="book_img" width=100% height=100% title="${sessionScope.work.wname }"
+						alt="work:${sessionScope.work.wid }"
 						src="${pageContext.request.contextPath}/images/user/workImg${sessionScope.work.image }">
 				</div>
 				<div class="tt_right">
@@ -240,8 +238,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<c:if test="${!empty sessionScope.book }">
 				<!-- 展示book -->
 				<div class="tt_img">
-					<img width=100% height=100% title="${sessionScope.book.bname }"
-						alt="${sessionScope.book.bname }"
+					<img id="book_img" width=100% height=100% title="${sessionScope.book.bname }"
+						alt="book:${sessionScope.book.bid }"
 						src="${pageContext.request.contextPath}/images/bookImg${sessionScope.book.image }">
 				</div>
 				<div class="tt_right">
@@ -293,7 +291,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</c:choose>
 				</div>
 			</c:if>
-			<div class="tt_bottom">
+			<div class="tt_chapter">
 				<div class="bt_title">
 					<div class="bt_t_font">
 						章节选择
@@ -320,7 +318,102 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</c:choose>
 				</div>
 			</div>
+			<div class="tt_comment">
+				<div class="bt_title">
+					<div class="bt_t_font">
+						评论区
+					</div>
+				</div>
+				
+				<!-- 我的评论 -->
+				<form action="${pageContext.request.contextPath}/userAction_Review">
+					<div class="comment_text">
+						<div class="text_mycomment">
+							<textarea name="" cols="20" rows="3" placeholder="来说几句吧。。。。"></textarea>
+							<input type="submit" class="btn btn-info pull-right" value="提交">
+						</div>
+					</div>
+				</form>
+				
+				<!-- 显示评论 -->
+				<div class="reviews">
+					<div class="reviews_title">相关评论</div>
+					${rfb_set }
+					<c:forEach items="${rfb_set }" var="rfb" begin="0" end="7">
+						
+					</c:forEach>
+					<div class="line_btn" onclick="getReviews(this)">点击展开评论</div>
+					<div id="reviews_content1" class="reviews_content">
+						<div class="content_top">
+							<div class="con_top_img">
+								<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg ">
+							</div>
+							<div class="con_top_font">用户名</div>
+							<div class="con_top_font2">的评论</div>
+							<div class="con_top_font" style="float:right;">2018-3-26 15:25:00</div>
+						</div>
+						<div class="content_center">
+							花Q!!!
+						</div>
+						<div id="rfr_div1" class="rfr_div">
+							<div class="content_top">
+								<div class="con_top_img">
+									<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg ">
+								</div>
+								<div class="con_top_font">用户名</div>
+								<div class="con_top_font2">回复</div>
+								<div class="con_top_img">
+									<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg ">
+								</div>
+								<div class="con_top_font">用户名</div>
+								<div class="con_top_font" style="float:right;">2018-3-26 15:25:00</div>
+							</div>
+							<div class="content_center">
+								花Q!!!
+							</div>
+							<div class="content_bottom2" id="inner1" onclick="openReviews(this,'rfr_div1')">回复</div>
+						</div>
+						<div id="rfr_div2" class="rfr_div">
+							<div class="content_top">
+								<div class="con_top_img">
+									<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg ">
+								</div>
+								<div class="con_top_font">用户名</div>
+								<div class="con_top_font2">回复</div>
+								<div class="con_top_img">
+									<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg ">
+								</div>
+								<div class="con_top_font">用户名</div>
+								<div class="con_top_font" style="float:right;">2018-3-26 15:25:00</div>
+							</div>
+							<div class="content_center">
+								花Q!!!
+							</div>
+							<div class="content_bottom2" id="inner2" onclick="openReviews(this,'rfr_div2')">回复</div>
+						</div>
+						<div class="content_bottom" id="outer1" onclick="openReviews(this,'reviews_content1')">回复</div>
+					</div>
+				</div>
+			</div>
+			<div style="width:100%;height:100px;"></div>
 		</div>
+	</div>
+	<!-- 其实不用分开两个div也行 js顺便改form的action就行了 -->
+	<div id="con_bottom_reviews1" class="con_bottom_reviews">
+		<form action="${pageContext.request.contextPath}/userAction_Review">
+			<div class="text_mycomment">
+				<input type="submit" class="btn btn-info btn-sm pull-right" value="提交">
+				<textarea name="rfb.content" cols="20" rows="3" placeholder="来说几句吧。。。。"></textarea>
+			</div>
+		</form>
+	</div>
+	<div id="con_bottom_reviews2" class="con_bottom_reviews">
+		<form action="${pageContext.request.contextPath}/userAction_ReviewForR">
+			<div class="text_mycomment">
+				<input type="submit" class="btn btn-info btn-sm pull-right" value="提交">
+				<textarea name="rfr.content" cols="20" rows="3" placeholder="来说几句吧。。。。"></textarea>
+			</div>
+		</form>
 	</div>
 </body>
 </html>

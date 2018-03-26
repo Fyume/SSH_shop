@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+ <hibernate-mapping>
+  	<class name="zhku.jsj141.entity.user.ReviewsForBook" table="t_Rfb"> 
+ 		<id name="rbid">
+ 			<generator class="native"></generator>
+ 		</id>
+ 		<property name="content"></property>
+ 		<property name="time"></property>
+ 		<set name="rfr" cascade="save-update,delete" inverse="true">
+ 			<key column="rbid"></key>
+ 			<one-to-many class="zhku.jsj141.entity.user.ReviewsForReviews"/>
+ 		</set>
+ 		<many-to-one name="user" class="zhku.jsj141.entity.user.User" column="uid"></many-to-one>
+ 		<many-to-one name="work" class="zhku.jsj141.entity.user.Work" column="wid"></many-to-one>
+ 		<many-to-one name="book" class="zhku.jsj141.entity.user.Book" column="bid"></many-to-one>
+ 	</class>
+ </hibernate-mapping>

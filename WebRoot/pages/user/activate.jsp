@@ -22,12 +22,6 @@
 <meta http-equiv="description" content="This is my page">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/css/user/activate.css">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath }/js/user/activate.js"></script>
-</head>
-
 <body onload="change()">
 	<div class="act_form">
 		<div class="act_step">
@@ -122,5 +116,10 @@
 		<a href="${pageContext.request.contextPath }/pages/user/login.jsp">
 			前往登录</a>
 	</div>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath }/js/user/activate.js"></script>
+</head>
 </body>
 </html>

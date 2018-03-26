@@ -18,6 +18,20 @@ public class Work {
 	private Set<Favour> favour = new HashSet<Favour>();
 	private Set<History> history = new HashSet<History>();
 	private Set<Upload> upload = new HashSet<Upload>();
+	private Set<ReviewsForReviews> rfr = new HashSet<ReviewsForReviews>();
+	private Set<ReviewsForBook> rfb = new HashSet<ReviewsForBook>();
+	public Set<ReviewsForBook> getRfb() {
+		return rfb;
+	}
+	public void setRfb(Set<ReviewsForBook> rfb) {
+		this.rfb = rfb;
+	}
+	public Set<ReviewsForReviews> getRfr() {
+		return rfr;
+	}
+	public void setRfr(Set<ReviewsForReviews> rfr) {
+		this.rfr = rfr;
+	}
 	public Set<Upload> getUpload() {
 		return upload;
 	}
@@ -98,5 +112,10 @@ public class Work {
 	}
 	public Work() {
 	}
-	
+	@Override
+	public String toString() {
+		return "Work [wid=" + wid + ", wname=" + wname + ", uploadtime="
+				+ uploadtime + ", description=" + description + ", author="
+				+ author + ", path=" + path + ", image=" + image + "]";
+	}
 }

@@ -3,10 +3,12 @@ package zhku.jsj141.action.user;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +28,8 @@ import zhku.jsj141.entity.Upload;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.Favour;
 import zhku.jsj141.entity.user.History;
+import zhku.jsj141.entity.user.ReviewsForBook;
+import zhku.jsj141.entity.user.ReviewsForReviews;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.entity.user.Work;
 import zhku.jsj141.service.BookService;
@@ -76,9 +80,24 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	Favour favour = new Favour();
 	History history = new History();
 	Upload upload = new Upload();
+	
 	User user = new User();//属性驱动
 	Book book = new Book();
 	Work work = new Work();
+	ReviewsForBook rfb = new ReviewsForBook();
+	ReviewsForReviews rfr = new ReviewsForReviews();
+	public ReviewsForReviews getRfr() {
+		return rfr;
+	}
+	public void setRfr(ReviewsForReviews rfr) {
+		this.rfr = rfr;
+	}
+	public ReviewsForBook getRfb() {
+		return rfb;
+	}
+	public void setRfb(ReviewsForBook rfb) {
+		this.rfb = rfb;
+	}
 	public User getUser() {
 		return user;
 	}
@@ -249,7 +268,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 			user2.setAddress(user.getAddress());
 			user2.setIDCN(user.getIDCN());
 			user2.setTelnum(user.getTelnum());
-			userService.update(user2);
 			request.getSession().setAttribute("user", user2);
 		}
 		return "goto_user";
@@ -273,7 +291,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 				code = code.substring(code.length() - 10, code.length());
 				user.setCode(code);// 更新时间戳
 				user.setU_status(false);
-				userService.update(user);
 				// 发送激活邮件
 				userUtils.sendmail(email, user.getCode());
 				request.setAttribute("functionname", "邮箱修改成功,激活邮件已发到邮箱,");// loading页面需要显示
@@ -318,7 +335,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 				String code = String.valueOf(System.currentTimeMillis());
 				code = code.substring(code.length() - 8, code.length());
 				user.setCode(code);// 更新时间戳
-				userService.update(user);
 				userUtils.sendmail(user.getEmail(), user.getCode());// 重新发送邮件
 				request.setAttribute("functionname", "激活邮件已发重新送到您的邮箱上,");// loading页面需要显示
 				request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
@@ -382,7 +398,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 								String ps_time = String.valueOf(System.currentTimeMillis());
 								ps_time = ps_time.substring(ps_time.length() - 8, ps_time.length());
 								user.setPs_time(Integer.valueOf(ps_time));
-								userService.update(user);
 								request.setAttribute("uidpass_flag", "用户或者密码错误");
 							}
 						}else{
@@ -600,22 +615,134 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		close(out);
 		return "goto_book";
 	}
-	
-	public String getMyFavour() throws Exception{
+	public String getMyFavBy() throws Exception{
 		user = (User) request.getSession().getAttribute("user");
 		if(user==null){
 			return "goto_login";
 		}
-		favlist = userService.findF(user);
-		request.getSession().setAttribute("myFav", favlist);
 		request.setAttribute("list", 3);
-		request.getSession().setAttribute("myFav_flag", favlist.size());
+		int type = Integer.valueOf(request.getParameter("type"));
+		switch (type) {
+			case 0:
+				favlist = userService.findF_Book(user);break;
+			case 1:
+				book.setType("网络小说");
+				favlist = userService.findF(user, book, "type");break;
+			case 2:
+				book.setType("文学作品");
+				favlist = userService.findF(user, book, "type");break;
+			case 3:
+				book.setType("社会科学");
+				favlist = userService.findF(user, book, "type");break;
+			default:
+				break;
+		}
+		if(type==4){
+			favlist = userService.findF_Work(user);
+			request.getSession().setAttribute("myFav_Work", favlist);
+			request.getSession().setAttribute("myFav_Book", null);
+		}else{
+			request.getSession().setAttribute("myFav_Book", favlist);
+			request.getSession().setAttribute("myFav_Work", null);
+		}
+		request.getSession().setAttribute("myFav_size", favlist.size());
+		//是不是应该规范点用pageBean以及每个访问都是访问服务器而不是将一堆数据存到session来确保数据的实时性？
 		return "goto_user";
 	}
+	/******************评论模块*****************/
+	public String getReviews() throws Exception{
+		String mess = (String) request.getSession().getAttribute("mess");
+		int n = mess.indexOf(":");
+		String type = mess.substring(0,n);
+		int id = Integer.valueOf(mess.substring(n+1, mess.length()));
+		if(type.equals("book")){
+			book.setBid(id);
+			booklist = bookService.find(book, "bid");
+			if(booklist.size()!=0){
+				book = booklist.get(0);
+				Set<ReviewsForBook> rfb_set = book.getRfb();
+				request.getSession().setAttribute("rfb_set", rfb_set);
+			}
+		}else if(type.equals("work")){
+			work.setWid(id);
+			worklist = workService.find(work, "wid");
+			if(worklist.size()!=0){
+				work = worklist.get(0);
+				Set<ReviewsForBook> rfb_set = work.getRfb();
+				request.getSession().setAttribute("rfb_set", rfb_set);
+			}
+		}
+		return "goto_book";
+	}
+	public String Review() throws Exception{//对书本评论
+		user = (User) request.getSession().getAttribute("user");
+		if(user==null){
+			return "goto_login";
+		}
+		rfb.setUser(user);
+		book = (Book) request.getSession().getAttribute("book");
+		if(book!=null){
+			rfb.setBook(book);
+		}else{
+			work = (Work) request.getSession().getAttribute("work");
+			if(work!=null){
+				rfb.setWork(work);
+			}else{
+				return "goto_book";
+			}
+		}
+		rfb.setTime(System.currentTimeMillis()/1000);
+		userService.addRfb(rfb);
+		//记得在bookaction和workaction中添加加载评论记录的功能 至于是什么时候加载这些细节后面再说了
+		return "goto_book";
+	}
+	public String ReviewForR() throws Exception{//对用户回复
+		user = (User) request.getSession().getAttribute("user");
+		if(user==null){
+			return "goto_login";
+		}
+		rfr.setRfb(rfb);
+		rfr.setUser1(user);
+		rfr.setUser2(rfb.getUser());
+		book = (Book) request.getSession().getAttribute("book");
+		if(book!=null){
+			rfr.setBook(book);
+		}else{
+			work = (Work) request.getSession().getAttribute("work");
+			if(work!=null){
+				rfr.setWork(work);
+			}else{
+				return "goto_book";
+			}
+		}
+		rfr.setTime(System.currentTimeMillis()/1000);
+		userService.addRfr(rfr);
+		return "goto_book";
+	}
 	/********************************************************/
-	/*public String test() throws Exception{//测试属性驱动
+	/*public String test() throws Exception{//测试一方的外键实体是否直接能拿到数据
+		user.setUid("aaa");
+		userlist = userService.finds(user, "uid");
+		user = userlist.get(0);
+		book.setBid(1);
+		book = bookService.find(book, "bid").get(0);
+		favour.setUser(user);
+		favour.setBook(book);
+		favour.setTime(111111111);
+		userService.addF(favour);
+		Set<Favour> set_favour = user.getFavour();
+		for (Favour favour : set_favour) {
+			System.out.println(favour.getUser().toString());
+			if(favour.getBook()!=null){
+				System.out.println(favour.getBook().toString());
+			}
+			if(favour.getWork()!=null){
+				System.out.println(favour.getWork().toString());
+			}
+		
+		}
+		request.getSession().setAttribute("test", user);
 		System.out.println(user.toString());
-		System.out.println(book.toString());
 		return NONE;
 	}*/
 }

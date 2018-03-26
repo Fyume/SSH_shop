@@ -50,6 +50,8 @@
 			<value>zhku/jsj141/entity/user/Work.hbm.xml</value>
 			<value>zhku/jsj141/entity/user/Favour.hbm.xml</value>
 			<value>zhku/jsj141/entity/user/History.hbm.xml</value>
+			<value>zhku/jsj141/entity/user/ReviewsForBook.hbm.xml</value>
+			<value>zhku/jsj141/entity/user/ReviewsForReviews.hbm.xml</value>
 			<value>zhku/jsj141/entity/Type.hbm.xml</value>
 			<value>zhku/jsj141/entity/Upload.hbm.xml</value>
 			<value>zhku/jsj141/entity/manager/Operate_m.hbm.xml</value>

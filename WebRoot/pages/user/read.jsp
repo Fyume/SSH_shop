@@ -25,17 +25,11 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/user/read.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/read.css">
 </head>
-
 <body>
 	<div id="content_div" class="content_div">
 		<input id="content" type="text" value="${empty sessionScope.content }" style="display:none;">
@@ -140,5 +134,10 @@
 			<input id="menu_add" class="menu_bottom_btn1" type="button" value="下一页" onclick="addpage()">
 		</div>
 	</div>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/read.js"></script>
 </body>
 </html>

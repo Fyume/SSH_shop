@@ -1,6 +1,5 @@
 package zhku.jsj141.dao.Impl;
 
-import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -11,16 +10,16 @@ import zhku.jsj141.dao.UserDao;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.Favour;
 import zhku.jsj141.entity.user.History;
+import zhku.jsj141.entity.user.ReviewsForBook;
+import zhku.jsj141.entity.user.ReviewsForReviews;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.entity.user.Work;
 
 public class UserDaoImpl implements UserDao{
 	private HibernateTemplate hibernateTemplate;
-	@Override
 	public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
 		this.hibernateTemplate = hibernateTemplate;
 	}
-
 	@Override
 	public boolean add(User user) {
 		try{
@@ -119,12 +118,25 @@ public class UserDaoImpl implements UserDao{
 		}
 		return true;
 	}
-	//收藏相关
+	////////////收藏相关///////////
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Favour> findF(User user) {
 		List<Favour> list = null;
 		list = (List<Favour>) hibernateTemplate.find("from Favour where uid = ?",user.getUid());
+		return list;
+	}
+	@Override
+	public List<Favour> findF_Book(User user) {
+		List<Favour> list = null;
+		list = (List<Favour>) hibernateTemplate.find("from Favour f where f.user.uid = ? and f.book.bid is not null",user.getUid());
+		System.out.println(list.size());
+		return list;
+	}
+	@Override
+	public List<Favour> findF_Work(User user) {
+		List<Favour> list = null;
+		list = (List<Favour>) hibernateTemplate.find("from Favour f where f.user.uid = ? and f.work.wid is not null",user.getUid());
 		return list;
 	}
 	@SuppressWarnings("unchecked")
@@ -136,12 +148,28 @@ public class UserDaoImpl implements UserDao{
 	}
 	@SuppressWarnings("unchecked")
 	@Override
+	public List findF(User user,Book book,String fieldName) {//或许可以做成公共类 根据book的属性筛选favour
+		String f_fieldName = fieldName.substring(0,1).toUpperCase()+fieldName.substring(1,fieldName.length());//首字母大写
+		List<Favour> list = null;
+		try {
+			list = (List<Favour>) hibernateTemplate.find("from Favour f where uid = ? and f.book."+fieldName+" = ?",user.getUid(),book.getClass().getMethod("get" + f_fieldName)
+					.invoke(book));//反射机制调用方法
+		} catch (DataAccessException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<Favour> findF(User user,Work work) {
 		List<Favour> list = null;
 		list = (List<Favour>) hibernateTemplate.find("from Favour where uid = ? and wid = ?",user.getUid(),work.getWid());
 		return list;
 	}
-	//浏览历史相关
+	///////////////浏览历史相关//////////////
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<History> findH(User user) {
@@ -187,5 +215,25 @@ public class UserDaoImpl implements UserDao{
 		@SuppressWarnings("unchecked")
 		List<User> list = (List<User>) hibernateTemplate.find("from User where uid like ? and username like ? and u_permission = ?", "%"+user.getUid()+"%","%"+user.getUsername()+"%",user.isU_permission());
 		return list;
+	}
+	@Override
+	public boolean addRfb(ReviewsForBook rfb) {
+		try{
+			hibernateTemplate.save(rfb);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public boolean addRfr(ReviewsForReviews rfr) {
+		try{
+			hibernateTemplate.save(rfr);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 }

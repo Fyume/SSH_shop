@@ -29,6 +29,27 @@ public class User {
 	private Set<History> history = new HashSet<History>();
 	private Set<Operate_m> operate_m = new HashSet<Operate_m>();
 	private Set<Upload> upload = new HashSet<Upload>();
+	private Set<ReviewsForReviews> rfr1 = new HashSet<ReviewsForReviews>();
+	private Set<ReviewsForReviews> rfr2 = new HashSet<ReviewsForReviews>();
+	private Set<ReviewsForBook> rfb = new HashSet<ReviewsForBook>();
+	public Set<ReviewsForBook> getRfb() {
+		return rfb;
+	}
+	public void setRfb(Set<ReviewsForBook> rfb) {
+		this.rfb = rfb;
+	}
+	public Set<ReviewsForReviews> getRfr1() {
+		return rfr1;
+	}
+	public void setRfr1(Set<ReviewsForReviews> rfr1) {
+		this.rfr1 = rfr1;
+	}
+	public Set<ReviewsForReviews> getRfr2() {
+		return rfr2;
+	}
+	public void setRfr2(Set<ReviewsForReviews> rfr2) {
+		this.rfr2 = rfr2;
+	}
 	public Set<Upload> getUpload() {
 		return upload;
 	}

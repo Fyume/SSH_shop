@@ -22,13 +22,17 @@
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	window.ppp = 1;
 	alert("test1:"+window.ppp);
-</script>
+</script> -->
 </head>
 
 <body>
 	<a href="${pageContext.request.contextPath }/pages/test/test2.jsp">test2</a>
+	<a href="${pageContext.request.contextPath }/userAction_test">测试一对多中一中配的外键集合实体</a>
+	<c:forEach items="${sessionScope.test.work }" var="work" >
+		${work.wid }<br>${work.wname }<br>${work.uploadtime }
+	</c:forEach> 
 </body>
 </html>

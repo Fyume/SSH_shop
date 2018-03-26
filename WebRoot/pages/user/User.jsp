@@ -22,15 +22,6 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-<script
-	src="${pageContext.request.contextPath}/js/bootstrap-dropdown.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/user/User.js"></script>
-	<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
@@ -82,7 +73,7 @@
 					</div>
 					<c:if test="${!empty sessionScope.user }">
 						<div class="user_message">消息</div>
-						<a href="${pageContext.request.contextPath}/userAction_getMyFavour">
+						<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
 							<div class="user_favour">收藏夹</div>
 						</a>
 						<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
@@ -156,7 +147,7 @@
 							</a>
 						</li>
 						<li>
-							<a href="${pageContext.request.contextPath}/userAction_getMyFavour">
+							<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
 								收藏夹
 							</a>
 						</li>
@@ -164,7 +155,7 @@
 				</div>
 				<div class="User_table">
 					<c:choose>
-						<c:when test="${empty requestScope.list}">
+						<c:when test="${(requestScope.list==1&&empty param.list)||(empty param.list&&empty requestScope.list)}">
 							<div class="User_title">基本信息</div>
 							<div class="arrow_div" style="border-top-left-radius:25px;"></div>
 							<form action="${pageContext.request.contextPath }/userAction_update" method="post" enctype="multipart/form-data"
@@ -224,61 +215,109 @@
 							</form>
 						</c:when>
 						<c:otherwise>
+							<c:choose>
+								<c:when test="${!empty param.page }">
+									<c:set var="begin" value="${(param.page-1)*8}"></c:set>
+									<c:set var="end" value="${(param.page*8)-1}"></c:set>	
+								</c:when>
+								<c:otherwise>
+									<c:set var="begin" value="0"></c:set>
+									<c:set var="end" value="7"></c:set>	
+								</c:otherwise>
+							</c:choose>
+							<c:set var="AllNum" value="0"></c:set>
 							<!-- 作品 -->
-							<c:if test="${requestScope.list==2 }">
-								<div class="User_title">作品区</div><br>
-								<div class="arrow_div" style="top:25.5%;"></div>
-								<c:if test="${empty sessionScope.myWork }">
-									<span style="color:#c0c0c0;">您还没有上传过作品呢。点击右上角上传按钮即刻上传吧~</span>
-								</c:if>
-								<c:forEach items="${sessionScope.myWork }" var="work" begin="0" end="7" varStatus="num">
-									<div class="work_border">
-										<div class="work_img" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
-											<img id="work_img${num.count }" alt="${work.wid }" title="${work.description }" src="${pageContext.request.contextPath }/images/user/workImg${work.image}">
+							<c:if test="${(requestScope.list==2&&empty param.list)||param.list==2}">
+								<div class="MyFav" style="height:85%;">
+									<!-- 分页用 -->
+									<c:set var="Alllist" value="${sessionScope.myWork }"></c:set>
+									<c:set var="AllNum" value="${sessionScope.myWork_flag }"></c:set>
+									<div class="User_title">作品区</div><br>
+									<div class="arrow_div" style="top:25.5%;"></div>
+									<c:if test="${empty sessionScope.myWork }">
+										<span style="color:#c0c0c0;">您还没有上传过作品呢。点击右上角上传按钮即刻上传吧~</span>
+									</c:if>
+									<c:forEach items="${sessionScope.myWork }" var="work" begin="${begin }" end="${end }" varStatus="num">
+										<div class="work_border">
+											<div class="work_img" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
+												<img id="work_img${num.count }" alt="${work.wid }" title="${work.description }" src="${pageContext.request.contextPath }/images/user/workImg${work.image}">
+											</div>
+											<div id="img_cover${num.count }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
+												<div class="cover_btn"><a href="${pageContext.request.contextPath }/workAction_readWork?wid=${work.wid}">进入阅读</a></div>
+												<div class="cover_btn" onclick="edit_divOn(${num.count})">编辑</div>
+											</div>
+											<div id="work_wname${num.count }" class="work_title">${work.wname }</div>
+											<div class="work_time"><mytags:date value="${work.uploadtime*1000 }"></mytags:date></div>
 										</div>
-										<div id="img_cover${num.count }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
-											<div class="cover_btn"><a href="${pageContext.request.contextPath }/workAction_readWork?wid=${work.wid}">进入阅读</a></div>
-											<div class="cover_btn" onclick="edit_divOn(${num.count})">编辑</div>
-										</div>
-										<div id="work_wname${num.count }" class="work_title">${work.wname }</div>
-										<div class="work_time"><mytags:date value="${work.uploadtime*1000 }"></mytags:date></div>
-									</div>
-								</c:forEach>
+									</c:forEach>
+								</div>
 							</c:if>
 							<!-- 收藏夹 -->
-							<c:if test="${requestScope.list==3 }">
-								<div class="User_title">收藏夹</div>
-								<div class="arrow_div" style="top:32.5%;"></div>
-								<c:if test="${empty sessionScope.myFav }">
-									<span style="color:#c0c0c0;">空空如也~~</span>
-								</c:if>
-								<div class="dropdown">
-									<ul class="nav nav-tabs">
-										<li class="active dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1"><a>书本</a>
+							<c:if test="${(requestScope.list==3&&empty param.list)||param.list==3}">
+								<div class="MyFav">
+									<!-- 分页用 -->
+									<c:set var="AllNum" value="${sessionScope.myFav_size }"></c:set>
+									<div class="User_title">收藏夹</div><br>
+									<div class="arrow_div" style="top:32.5%;"></div>
+									<div class="dropdown">
+										<ul class="nav nav-tabs">
+											<li class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1">
+												<a href="${pageContext.request.contextPath }/userAction_getMyFavBy?type=0">书本</a>
+											</li>
 											<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 												<li class="dropdown-header">分类</li>
-												<li><a>网络小说</a></li>
-												<li><a>文学作品</a></li>
-												<li><a>社会科学</a></li>
+												<li><a href="${pageContext.request.contextPath }/userAction_getMyFavBy?type=1">网络小说</a></li>
+												<li><a href="${pageContext.request.contextPath }/userAction_getMyFavBy?type=2">文学作品</a></li>
+												<li><a href="${pageContext.request.contextPath }/userAction_getMyFavBy?type=3">社会科学</a></li>
 											</ul>
-										</li>
-										<li><a>用户作品</a></li>
-									</ul>
-								</div>
-								<%-- <c:forEach items="${sessionScope.myFav }" var="fav" begin="0" end="7" varStatus="num">
-									<div class="work_border">
-										<div class="work_img" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
-											<img id="work_img${num.count }" alt="${work.wid }" title="${work.description }" src="${pageContext.request.contextPath }/images/user/workImg${work.image}">
-										</div>
-										<div id="img_cover${num.count }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
-											<div class="cover_btn"><a href="${pageContext.request.contextPath }/workAction_readWork?wid=${work.wid}">进入阅读</a></div>
-											<div class="cover_btn" onclick="edit_divOn(${num.count})">编辑</div>
-										</div>
-										<div id="work_wname${num.count }" class="work_title">${work.wname }</div>
-										<div class="work_time"><mytags:date value="${work.uploadtime*1000 }"></mytags:date></div>
+											<li><a href="${pageContext.request.contextPath }/userAction_getMyFavBy?type=4">用户作品</a></li>
+										</ul>
 									</div>
-								</c:forEach> --%>
+									<div class="MyFav_list">
+										<c:if test="${empty sessionScope.myFav_Work &&empty sessionScope.myFav_Book}">
+												空空如也~~
+										</c:if>
+										<c:if test="${!empty sessionScope.myFav_Work }">
+											<c:set var="Alllist" value="${sessionScope.myFav_Work }"></c:set>
+											<c:forEach items="${sessionScope.myFav_Work }" var="fav" begin="${begin }" end="${end }" varStatus="num">
+												<div class="work_border">
+													<div class="work_img" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
+														<img id="work_img${num.count }" alt="${fav.work.wid }" title="${fav.work.description }" src="${pageContext.request.contextPath }/images/user/workImg${fav.work.image}">
+													</div>
+													<div id="img_cover${num.count }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
+														<div class="cover_btn"><a href="${pageContext.request.contextPath }/workAction_readWork?wid=${fav.work.wid}">进入阅读</a></div>
+													</div>
+													<div id="work_wname${num.count }" class="work_title">${fav.work.wname }</div>
+													<div class="work_time"><mytags:date value="${fav.work.uploadtime*1000 }"></mytags:date></div>
+												</div>
+											</c:forEach>
+										</c:if>
+										<c:if test="${!empty sessionScope.myFav_Book }">
+											<!-- 收藏--全部书本 -->
+											<!-- 分页用 -->
+											<c:set var="Alllist" value="${sessionScope.myFav_Book }"></c:set>
+											<c:forEach items="${sessionScope.myFav_Book }" var="fav" begin="${begin }" end="${end }" varStatus="num">
+												<div class="work_border">
+													<div class="work_img" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
+														<img id="work_img${num.count }" alt="${fav.book.bid }" title="${fav.book.description }" src="${pageContext.request.contextPath }/images/bookImg${fav.book.image}">
+													</div>
+													<div id="img_cover${num.count }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
+														<div class="cover_btn"><a href="${pageContext.request.contextPath }/bookAction_readBook?bid=${fav.book.bid}">进入阅读</a></div>
+													</div>
+													<div id="work_wname${num.count }" class="work_title">${fav.book.bname }</div>
+													<div class="work_time">出版日期： <mytags:date type="1" value="${fav.book.publish*1000*60*60 }"></mytags:date></div>
+												</div>
+											</c:forEach>
+										</c:if>
+									</div>
+								</div>
 							</c:if>
+							<div style="width:99%;height:30px;border-top:1px #c0c0c0 solid;text-align:center;">
+								<div>页码:</div>
+								<c:forEach items="${Alllist }" begin="0" end="${AllNum/8 }" varStatus="num">
+									<a href="${pageContext.request.contextPath }/pages/user/User.jsp?list=${requestScope.list}">${num.count }</a>
+								</c:forEach>
+							</div>
 						</c:otherwise>
 					</c:choose>
 				</div>
@@ -318,5 +357,14 @@
 				style="margin-left:500px;">前往登录</a>
 		</c:otherwise>
 	</c:choose>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script
+	src="${pageContext.request.contextPath}/js/bootstrap-dropdown.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/User.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 </body>
 </html>

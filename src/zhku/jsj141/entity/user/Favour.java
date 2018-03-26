@@ -59,5 +59,10 @@ public class Favour {
 	public void setTime(long time) {
 		this.time = time;
 	}
+	@Override
+	public String toString() {
+		return "Favour [fid=" + fid + ", uid=" + uid + ", bid=" + bid
+				+ ", wid=" + wid + ", time=" + time +  "]";
+	}
 	
 }
