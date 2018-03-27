@@ -170,6 +170,10 @@ hibernate相对与mybatis:（对象型数据库和关系型数据库）
 
 6.等等
 
+**⑫**在自定义Struts2拦截器里，获取request：（方法中invocation这个参数已经有提供）
+
+> `HttpServletRequest request = (HttpServletRequest)invocation.getInvocationContext().get(StrutsStatics.HTTP_REQUEST);`
+
 -------------------
 
 **随录**
@@ -211,4 +215,6 @@ hibernate相对与mybatis:（对象型数据库和关系型数据库）
 **⑬**好多不规范啊
 1.注释
 2.分页
-myeclipse原来没有自动在实现方法上添加接口的注释或者反转，那我在接口上写就算了，毕竟调用的时候显示的是接口的。
+myeclipse原来没有自动在实现方法上添加接口的注释或者反转，那我在接口上写就算了，毕竟调用的时候显示的是接口的。ajax传数据的好处不仅前后端分离（访问的时候可以先看到静态数据（html的） 出错也不会显示），还可以像过滤器一样先处理数据再显示到页面。。jsp处理数据很不友好（js客户端访问不到session域（服务器的值）只能用jstl写好在jsp上js来获取，页面就有一些相对来说“多余”的数据，而如果改成后端改变传的数据 耦合高的不行）
+
+**⑭**我傻了 直接用aop环绕增强来做权限管理不就不用写这么多判断session user的代码咯。。。

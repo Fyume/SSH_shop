@@ -200,4 +200,24 @@ public class UserServiceImpl implements UserService{
 		boolean rs= userDao.addRfr(rfr);
 		return rs;
 	}
+	@Override
+	public List<ReviewsForBook> findRfb(ReviewsForBook rfb){
+		List<ReviewsForBook> list = userDao.findRfb(rfb);
+		return list;
+	}
+	@Override
+	public List<ReviewsForReviews> findRfr(ReviewsForReviews rfr){
+		List<ReviewsForReviews> list = userDao.findRfr(rfr);
+		return list;
+	}
+	@Override
+	public List<ReviewsForBook> findRfb_Book(Book book){
+		List<ReviewsForBook> list = userDao.findRfb_book(book);
+		return list;
+	}
+	@Override
+	public List<ReviewsForBook> findRfb_Work(Work work){
+		List<ReviewsForBook> list = userDao.findRfb_work(work);
+		return list;
+	}
 }

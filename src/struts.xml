@@ -11,8 +11,17 @@
 	<constant name="struts.multipart.saveDir" value="/WEB-INF/upload" /> 
 	<!-- 字符编码 -->
 	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<!-- 自定义拦截器 -->
+	<!-- 权限管理 -->
 	<package name="demo1" extends="struts-default,json-default"
 		namespace="/">
+		<interceptors>
+			<interceptor name="roleCtrl" class="zhku.jsj141.Interceptor.roleCtrlInterceptor"></interceptor>
+			<interceptor-stack name="myStack">
+				<interceptor-ref name="roleCtrl"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
 		<!-- 用户模块 -->
 		<action name="userAction_*" class="userAction" method="{1}">
 			<interceptor-ref name="fileUpload">
@@ -68,8 +77,10 @@
 		</action>
 		<!-- 管理员模块 -->
 		<action name="managerAction_*" class="managerAction" method="{1}">
+			<interceptor-ref name="myStack"></interceptor-ref>
 			<result name="goto_upload">/pages/user/upload.jsp</result>
-			<result name="goto_edit">/pages/manager/edit.jsp</result>	
+			<result name="goto_edit">/pages/manager/edit.jsp</result>
+			<result name="goto_login">/pages/user/login.jsp</result>	
 		</action>
 		<!-- 工具模块 -->
 		<action name="uutils_*" class="uutils" method="{1}">

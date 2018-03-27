@@ -104,5 +104,29 @@ public interface UserService {
 	 * @return
 	 */
 	public boolean addRfr(ReviewsForReviews rfr);
+	/**
+	 * 找书评
+	 * @param rfb
+	 * @return
+	 */
+	public List<ReviewsForBook> findRfb(ReviewsForBook rfb);
+	/**
+	 * 找回复评论
+	 * @param rfb
+	 * @return
+	 */
+	public List<ReviewsForReviews> findRfr(ReviewsForReviews rfr);
+	/**
+	 * 找某本书的书评
+	 * @param book
+	 * @return
+	 */
+	public List<ReviewsForBook> findRfb_Book(Book book);
+	/**
+	 * 找某作品的书评
+	 * @param book
+	 * @return
+	 */
+	public List<ReviewsForBook> findRfb_Work(Work work);
 
 }

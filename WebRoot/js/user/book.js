@@ -153,6 +153,18 @@ function cancFavour(){
 	}
 }
 /***********评论区**********/
+function checklogin(str){
+	if(str==true){
+		if(confirm("没登录呢,是否前往登录？")){
+			window.location.href='/SSH_test/pages/user/login.jsp';
+			return false;//有用？
+		}
+		return false;
+	}else{
+		return true;
+	}
+}
+//reviews_content外rfr_div里
 //是不是做复杂了。。。
 function openReviews($this,id){//打开回复入口
 	var n = id.lastIndexOf("t");
@@ -166,8 +178,9 @@ function openReviews($this,id){//打开回复入口
 			var str_b = id.substr(n+1,id.length);
 			closeReviews(this,"rfr_div"+str_b);
 		});
-		$("#con_bottom_reviews1").css("display","block");
-		$("#con_bottom_reviews1").appendTo($("#"+id));
+		$("#font-id").val("rfb:"+str_b);
+		$("#con_bottom_reviews").css("display","block");
+		$("#con_bottom_reviews").appendTo($("#"+id));
 	}else{
 		$(".content_bottom").each(function(){//否则关闭外部回复
 			var id = $(this).attr("id");
@@ -176,8 +189,9 @@ function openReviews($this,id){//打开回复入口
 			var str_b = id.substr(n+1,id.length);
 			closeReviews(this,"reviews_content"+str_b);
 		});
-		$("#con_bottom_reviews2").css("display","block");
-		$("#con_bottom_reviews2").appendTo($("#"+id));
+		$("#font-id").val("rfr:"+str_b);
+		$("#con_bottom_reviews").css("display","block");
+		$("#con_bottom_reviews").appendTo($("#"+id));
 	}
 	$($this).html("收起");
 	$($this).attr("onclick","closeReviews(this,'"+id+"')");
@@ -189,29 +203,22 @@ function closeReviews($this,id){//关闭回复入口
 	var str_a = id.substr(0, n+1);
 	var str_b = id.substr(n+1,id.length);
 	if(str_a=='reviews_content'){//若是外围点击
-		$("#con_bottom_reviews1").css("display","none");
+		$("#con_bottom_reviews").css("display","none");
 	}else{
-		$("#con_bottom_reviews2").css("display","none");
+		$("#con_bottom_reviews").css("display","none");
 	}
 	
 }
 function getReviews($this){
-	var message = $("#book_img").attr("title");
 	$($this).html("loading.....");
-	/*$.ajax({
+	$.ajax({
 		url : '/SSH_test/userAction_getReviews',
 		type : "POST",
-		data : {
-			mess : message
-		},
 		async : false,
 		cache : false,
 		success : function(){
+			$("#Allreviews").css("display","block");
 			$($this).css("display","none");
-			$("#font_favour").html("添加收藏");
-			$("#font_favour").attr("class","glyphicon glyphicon-star-empty");
-			$("#fav_btn").attr('onclick','addFavour()');
 		},
-	});*/
-	$($this).css("display","none");
+	});
 }

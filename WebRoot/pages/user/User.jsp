@@ -143,7 +143,7 @@
 						</li>
 						<li>
 							<a href="${pageContext.request.contextPath}/workAction_getMyWork">
-								作品
+								我的作品
 							</a>
 						</li>
 						<li>
@@ -264,7 +264,7 @@
 											<li class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1">
 												<a href="${pageContext.request.contextPath }/userAction_getMyFavBy?type=0">书本</a>
 											</li>
-											<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+											<ul id="typelist" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
 												<li class="dropdown-header">分类</li>
 												<li><a href="${pageContext.request.contextPath }/userAction_getMyFavBy?type=1">网络小说</a></li>
 												<li><a href="${pageContext.request.contextPath }/userAction_getMyFavBy?type=2">文学作品</a></li>
@@ -315,7 +315,7 @@
 							<div style="width:99%;height:30px;border-top:1px #c0c0c0 solid;text-align:center;">
 								<div>页码:</div>
 								<c:forEach items="${Alllist }" begin="0" end="${AllNum/8 }" varStatus="num">
-									<a href="${pageContext.request.contextPath }/pages/user/User.jsp?list=${requestScope.list}">${num.count }</a>
+									<a href="${pageContext.request.contextPath }/pages/user/User.jsp?list=${requestScope.list}&&page=${num.count}">${num.count }</a>
 								</c:forEach>
 							</div>
 						</c:otherwise>

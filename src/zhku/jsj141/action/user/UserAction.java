@@ -77,6 +77,8 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	List<Book> booklist = null;
 	List<Work> worklist = null;
 	List<Upload> uploadlist = null;
+	List<ReviewsForReviews> rfrlist = null;
+	List<ReviewsForBook> rfblist = null;
 	Favour favour = new Favour();
 	History history = new History();
 	Upload upload = new Upload();
@@ -513,6 +515,9 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	public String getHistAndFav() throws Exception{//获取用户相关的书本浏览记录和收藏记录（后来加上的 查询有关上传该书本的信息）
 		System.out.println("--------getHistAndFav------------");
 		user = (User) request.getSession().getAttribute("user");
+		if(user==null){
+			return "goto_read";
+		}
 		String json = (String)request.getParameter("json");
 		JSONObject jsonObj = JSONObject.parseObject(json);
 		PrintWriter out = response.getWriter();//好像不返回数据ajax会没反应..
@@ -520,32 +525,30 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		String font = (String)jsonObj.get("font");
 		int id = (int) jsonObj.get("id");
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(user!=null){//不为空则查找历史记录
-			if(font.equals("bid")){
-				book.setBid(id);
-				favlist = userService.findF(user, book);
-				histlist = userService.findH(user, book);
-			}else if(font.equals("wid")){
-				work.setWid(id);
-				favlist = userService.findF(user, work);
-				histlist = userService.findH(user, work);
-			}
-			if(histlist.size()!=0){//有 则将浏览历史加入
-				history = histlist.get(0);
-				request.getSession().setAttribute("history", history);
-				map.put("h_page", history.getPageNum());//有  最近浏览的页数
-			}else{
-				map.put("h_page", 0);//无
-				request.getSession().setAttribute("history", null);
-			}
-			if(favlist.size()!=0){//有 则提示已收藏
-				favour = favlist.get(0);
-				request.getSession().setAttribute("favour", favour);
-				map.put("f_flag", 1);//有
-			}else{
-				map.put("f_flag", 0);//无
-				request.getSession().setAttribute("favour", null);
-			}
+		if(font.equals("bid")){
+			book.setBid(id);
+			favlist = userService.findF(user, book);
+			histlist = userService.findH(user, book);
+		}else if(font.equals("wid")){
+			work.setWid(id);
+			favlist = userService.findF(user, work);
+			histlist = userService.findH(user, work);
+		}
+		if(histlist.size()!=0){//有 则将浏览历史加入
+			history = histlist.get(0);
+			request.getSession().setAttribute("history", history);
+			map.put("h_page", history.getPageNum());//有  最近浏览的页数
+		}else{
+			map.put("h_page", 0);//无
+			request.getSession().setAttribute("history", null);
+		}
+		if(favlist.size()!=0){//有 则提示已收藏
+			favour = favlist.get(0);
+			request.getSession().setAttribute("favour", favour);
+			map.put("f_flag", 1);//有
+		}else{
+			map.put("f_flag", 0);//无
+			request.getSession().setAttribute("favour", null);
 		}
 		if(font.equals("bid")){
 			book.setBid(id);
@@ -650,31 +653,29 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		return "goto_user";
 	}
 	/******************评论模块*****************/
+	/*获取当前书本的评论
+	* 忘了查完之后hibernate的session关闭了
+	* 又为了不让页面一下子加载这么多东西，就将获取评论给分开了
+	* action层开session就乱套了
+	* （虽然现在service层也是被我弃置了就是了 好像除了传数据 验证之类的，就没什么实质性的代码了）
+	* 然后，只能进行一次查询
+	*/
 	public String getReviews() throws Exception{
-		String mess = (String) request.getSession().getAttribute("mess");
-		int n = mess.indexOf(":");
-		String type = mess.substring(0,n);
-		int id = Integer.valueOf(mess.substring(n+1, mess.length()));
-		if(type.equals("book")){
-			book.setBid(id);
-			booklist = bookService.find(book, "bid");
-			if(booklist.size()!=0){
-				book = booklist.get(0);
-				Set<ReviewsForBook> rfb_set = book.getRfb();
-				request.getSession().setAttribute("rfb_set", rfb_set);
-			}
-		}else if(type.equals("work")){
-			work.setWid(id);
-			worklist = workService.find(work, "wid");
-			if(worklist.size()!=0){
-				work = worklist.get(0);
-				Set<ReviewsForBook> rfb_set = work.getRfb();
-				request.getSession().setAttribute("rfb_set", rfb_set);
+		System.out.println("---------getReviews---------");
+		book = (Book) request.getSession().getAttribute("book");
+		if(book!=null){
+			rfblist = userService.findRfb_Book(book);
+		}else{
+			work = (Work) request.getSession().getAttribute("work");
+			if(work!=null){
+				rfblist = userService.findRfb_Work(work);
 			}
 		}
+		request.getSession().setAttribute("rfb_set", rfblist);
 		return "goto_book";
 	}
 	public String Review() throws Exception{//对书本评论
+		System.out.println("---------Review---------");
 		user = (User) request.getSession().getAttribute("user");
 		if(user==null){
 			return "goto_login";
@@ -696,14 +697,37 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		//记得在bookaction和workaction中添加加载评论记录的功能 至于是什么时候加载这些细节后面再说了
 		return "goto_book";
 	}
+	
 	public String ReviewForR() throws Exception{//对用户回复
+		System.out.println("---------ReviewForR---------");
 		user = (User) request.getSession().getAttribute("user");
 		if(user==null){
 			return "goto_login";
 		}
-		rfr.setRfb(rfb);
-		rfr.setUser1(user);
-		rfr.setUser2(rfb.getUser());
+		String fontAndId = (String) request.getSession().getAttribute("font-id");
+		int n = fontAndId.indexOf(":");
+		String font = fontAndId.substring(0,n);
+		int id = Integer.valueOf(fontAndId.substring(n+1,fontAndId.length()));
+		if(font.equals("rfb")){
+			rfb.setRbid(id);
+			rfblist = userService.findRfb(rfb);
+			if(rfblist.size()!=0){
+				rfb = rfblist.get(0);
+				rfr.setRfb(rfb);//外键 所在书评
+				rfr.setUser2(rfb.getUser());//回复谁
+			}
+		}else if(font.equals("rfr")){
+			rfr.setRrid(id);
+			rfrlist = userService.findRfr(rfr);
+			if(rfrlist.size()!=0){
+				ReviewsForReviews rfr1 = rfrlist.get(0);
+				rfr.setRfb(rfr1.getRfb());//外键 所在书评
+				rfr.setUser2(rfr1.getUser1());//回复谁
+			}else{
+				return "goto_book";
+			}
+		}
+		rfr.setUser1(user);//评论人
 		book = (Book) request.getSession().getAttribute("book");
 		if(book!=null){
 			rfr.setBook(book);

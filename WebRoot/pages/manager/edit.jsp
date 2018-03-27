@@ -25,7 +25,6 @@
 <!-- 用下载下来的bootstrap.min.css没有图标 不知道为什么 可能是需要其他的文件支持 -->
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/manager/edit.css">
 </head>
@@ -296,8 +295,7 @@
 
 			<!-- 书本 -->
 			<c:if test="${sessionScope.managerType=='book' }">
-				<div id="bookTable" class="bookTable"
-					onmouseover="showPublish('${param.page }')">
+				<div id="bookTable" class="bookTable">
 					<div id="T-header" class="T-header">图 书 管 理</div>
 					<div id="T-font" class="T-font">
 						<div class="select_div" onclick="b_select()">
@@ -556,7 +554,7 @@
 						style="width:100%;height:8%;border:1px red solid;padding-top:5px;">
 						<span
 							style="font-size:15px;font-weight: 700;float:left;margin-left:5px;">页码</span>
-						<c:forEach items="${sessionScope.userlist }" var="user"
+						<c:forEach items="${sessionScope.record }" var="record"
 							varStatus="num" begin="0" end="${(sessionScope.count-1)/10 }">
 							<a id="a_${num.count }"
 								href="${ pageContext.request.contextPath}/pages/manager/edit.jsp?page=${num.count}"
@@ -599,6 +597,6 @@
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/manager/edit.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 </body>
 </html>

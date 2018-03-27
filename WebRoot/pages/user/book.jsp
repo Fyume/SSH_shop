@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/struts-tags" prefix="s" %>
+<%@ taglib uri="/mytags" prefix="myTags"%>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -238,7 +239,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			<c:if test="${!empty sessionScope.book }">
 				<!-- 展示book -->
 				<div class="tt_img">
-					<img id="book_img" width=100% height=100% title="${sessionScope.book.bname }"
+					<img width=100% height=100% title="${sessionScope.book.bname }"
 						alt="book:${sessionScope.book.bid }"
 						src="${pageContext.request.contextPath}/images/bookImg${sessionScope.book.image }">
 				</div>
@@ -326,11 +327,27 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</div>
 				
 				<!-- 我的评论 -->
-				<form action="${pageContext.request.contextPath}/userAction_Review">
+				
+				<form action="${pageContext.request.contextPath}/userAction_Review" onsubmit="return checklogin(${empty sessionScope.user})">
 					<div class="comment_text">
+						<c:choose>
+							<c:when test="${!empty sessionScope.user }">
+								<div class="con_top_img" style="float:left;">
+									<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/${sessionScope.user.image}">
+								</div>
+								<div class="con_top_font" style="float:left;">${sessionScope.user.username } 评论：</div>
+							</c:when>
+							<c:otherwise>
+								<div class="con_top_img" style="float:left;">
+									<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg">
+								</div>
+								<div class="con_top_font" style="float:left;">XXXX 评论：</div>
+							</c:otherwise>
+						</c:choose>
+						
 						<div class="text_mycomment">
-							<textarea name="" cols="20" rows="3" placeholder="来说几句吧。。。。"></textarea>
 							<input type="submit" class="btn btn-info pull-right" value="提交">
+							<textarea name="rfb.content" cols="20" rows="3" placeholder="来说几句吧。。。。"></textarea>
 						</div>
 					</div>
 				</form>
@@ -338,77 +355,65 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- 显示评论 -->
 				<div class="reviews">
 					<div class="reviews_title">相关评论</div>
-					${rfb_set }
-					<c:forEach items="${rfb_set }" var="rfb" begin="0" end="7">
-						
-					</c:forEach>
 					<div class="line_btn" onclick="getReviews(this)">点击展开评论</div>
-					<div id="reviews_content1" class="reviews_content">
-						<div class="content_top">
-							<div class="con_top_img">
-								<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg ">
-							</div>
-							<div class="con_top_font">用户名</div>
-							<div class="con_top_font2">的评论</div>
-							<div class="con_top_font" style="float:right;">2018-3-26 15:25:00</div>
+						<div id="Allreviews" style="display:none;">
+							<c:if test="${empty sessionScope.rfb_set }">
+							<span>还没有评论呢，赶紧发表你的感想吧~~</span>
+							</c:if>
+							<c:if test="${!empty sessionScope.rfb_set }">
+								<c:forEach items="${sessionScope.rfb_set }" var="rfb" begin="0" end="7" varStatus="num">
+									<div id="reviews_content${num.count }" class="reviews_content">
+										<div class="content_top">
+											<div class="con_top_img">
+												<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/${rfb.user.image}">
+											</div>
+											<div class="con_top_font">${rfb.user.username}</div>
+											<div class="con_top_font2">的评论</div>
+											<div class="con_top_font" style="float:right;"><myTags:date value="${rfb.time*1000}"></myTags:date></div>
+										</div>
+										<div class="content_center">
+											${rfb.content }
+										</div>
+											<c:forEach items="${rfb.rfr }" var="rfr" begin="0" end="3" varStatus="nnum">
+												<div id="rfr_div${nnum.count }" class="rfr_div">
+													<div class="content_top">
+														<div class="con_top_img">
+															<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/${rfr.user1.image}">
+														</div>
+														<div class="con_top_font">${rfr.user1.username }</div>
+														<div class="con_top_font2">回复</div>
+														<div class="con_top_img">
+															<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/${rfr.user2.image} ">
+														</div>
+														<div class="con_top_font">${rfr.user2.username }</div>
+														<div class="con_top_font" style="float:right;"><myTags:date value="${rfr.time*1000}"></myTags:date></div>
+													</div>
+													<div class="content_center">
+														${rfr.content }
+													</div>
+													<div class="content_bottom2" id="inner${nnum.count }" onclick="openReviews(this,'rfr_div${nnum.count}')">回复</div>
+												</div>
+											</c:forEach>
+										<div class="content_bottom" id="outer${num.count }" onclick="openReviews(this,'reviews_content${num.count}')">回复</div>
+									</div>
+								</c:forEach>
+							</c:if>
 						</div>
-						<div class="content_center">
-							花Q!!!
-						</div>
-						<div id="rfr_div1" class="rfr_div">
-							<div class="content_top">
-								<div class="con_top_img">
-									<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg ">
-								</div>
-								<div class="con_top_font">用户名</div>
-								<div class="con_top_font2">回复</div>
-								<div class="con_top_img">
-									<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg ">
-								</div>
-								<div class="con_top_font">用户名</div>
-								<div class="con_top_font" style="float:right;">2018-3-26 15:25:00</div>
-							</div>
-							<div class="content_center">
-								花Q!!!
-							</div>
-							<div class="content_bottom2" id="inner1" onclick="openReviews(this,'rfr_div1')">回复</div>
-						</div>
-						<div id="rfr_div2" class="rfr_div">
-							<div class="content_top">
-								<div class="con_top_img">
-									<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg ">
-								</div>
-								<div class="con_top_font">用户名</div>
-								<div class="con_top_font2">回复</div>
-								<div class="con_top_img">
-									<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg ">
-								</div>
-								<div class="con_top_font">用户名</div>
-								<div class="con_top_font" style="float:right;">2018-3-26 15:25:00</div>
-							</div>
-							<div class="content_center">
-								花Q!!!
-							</div>
-							<div class="content_bottom2" id="inner2" onclick="openReviews(this,'rfr_div2')">回复</div>
-						</div>
-						<div class="content_bottom" id="outer1" onclick="openReviews(this,'reviews_content1')">回复</div>
+					<!-- 分页 -->
+					<div>
+					
 					</div>
 				</div>
 			</div>
-			<div style="width:100%;height:100px;"></div>
+			
+			<div style="width:100%;height:100px;">
+				<!-- 留白 -->
+			</div>
 		</div>
 	</div>
-	<!-- 其实不用分开两个div也行 js顺便改form的action就行了 -->
-	<div id="con_bottom_reviews1" class="con_bottom_reviews">
-		<form action="${pageContext.request.contextPath}/userAction_Review">
-			<div class="text_mycomment">
-				<input type="submit" class="btn btn-info btn-sm pull-right" value="提交">
-				<textarea name="rfb.content" cols="20" rows="3" placeholder="来说几句吧。。。。"></textarea>
-			</div>
-		</form>
-	</div>
-	<div id="con_bottom_reviews2" class="con_bottom_reviews">
-		<form action="${pageContext.request.contextPath}/userAction_ReviewForR">
+	<div id="con_bottom_reviews" class="con_bottom_reviews">
+		<form action="${pageContext.request.contextPath}/userAction_ReviewForR" onsubmit="return checklogin(${empty sessionScope.user})">
+			<input id="font-id" name="font-id" type="text">
 			<div class="text_mycomment">
 				<input type="submit" class="btn btn-info btn-sm pull-right" value="提交">
 				<textarea name="rfr.content" cols="20" rows="3" placeholder="来说几句吧。。。。"></textarea>

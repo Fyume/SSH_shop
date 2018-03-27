@@ -115,22 +115,23 @@ div{
 	border-radius:10px;
 }
 .comment_text{
-	width:80%;
-	height:120px;
+	width:92%;
+	margin-left:2%;
+	height:170px;
 	border-radius:5px;
 	text-align:center;
-	margin-left:10%;
 }
 .text_mycomment{
 	margin-top:10px;
 	float:right;
 	width:100%;
 	height:100px;
+	float:right;
 }
 .text_mycomment textarea {
 	text-align:left;
-	float:left;
-	width:100%;
+	float:right;
+	width:80%;
 	height:90%;
 	margin-top:2px;
 	border-radius:5px;

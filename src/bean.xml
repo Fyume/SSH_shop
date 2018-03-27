@@ -69,14 +69,15 @@
  	<property name="bookDao" ref="bookDao"></property>
  	<property name="workDao" ref="workDao"></property>
  </bean>
+ <aop:config proxy-target-class="true"/> 
  <aop:config>
  	<aop:aspect id="recordAspect" ref="record">
  		<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.add(..))" id="addPointcut"/>
 	 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.delete(..))" id="delPointcut"/>
 	 	<aop:pointcut expression="execution(* zhku.jsj141.service.Impl.*.update(..))" id="updatePointcut"/>
-	 	<aop:before method="record" pointcut-ref="addPointcut"/>
-	 	<aop:before method="record" pointcut-ref="delPointcut"/>
-	 	<aop:before method="record" pointcut-ref="updatePointcut"/>
+	 	<aop:around method="record" pointcut-ref="addPointcut"/>
+	 	<aop:around method="record" pointcut-ref="delPointcut"/>
+	 	<aop:around method="record" pointcut-ref="updatePointcut"/>
  	</aop:aspect>
  </aop:config>
  <aop:config>

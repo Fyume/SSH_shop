@@ -236,4 +236,37 @@ public class UserDaoImpl implements UserDao{
 		}
 		return true;
 	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReviewsForBook> findRfb(ReviewsForBook rfb) {
+		List<ReviewsForBook> list = null;
+		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook rfb where rfb.rbid = ?",rfb.getRbid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReviewsForReviews> findRfr(ReviewsForReviews rfr) {
+		List<ReviewsForReviews> list = null;
+		list = (List<ReviewsForReviews>) hibernateTemplate.find("from ReviewsForReviews rfr where rfr.rrid = ?",rfr.getRrid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReviewsForBook> findRfb_book(Book book) {
+		List<ReviewsForBook> list = null;
+		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook where bid = ?",book.getBid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReviewsForBook> findRfb_work(Work work){
+		List<ReviewsForBook> list = null;
+		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook where wid = ?",work.getWid());
+		return list;
+	}
+	/*@SuppressWarnings("unchecked")
+	public void test(){
+		List<ReviewsForBook> list = null;
+		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook");
+	}*/
 }
