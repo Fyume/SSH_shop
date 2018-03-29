@@ -18,7 +18,7 @@ public class workUtils {
 	private static String userPath = "user\\";
 
 	// 读取用户作品
-	public List<String> readbook_U(String uid, String bpath)
+	public static List<String> readbook_U(String uid, String bpath)
 			throws FileNotFoundException, UnsupportedEncodingException {
 		String totalpath = DiskPath + userPath + uid;// 每个用户拥有自己的文件夹存放自己的作品,不进行分类了
 		File dir = new File(totalpath);
@@ -65,7 +65,7 @@ public class workUtils {
 		return str;
 	}
 	// 用户上传作品(标题不允许重复)
-	public String uploadbook_U(File upload, String uid,
+	public static String uploadbook_U(File upload, String uid,
 			String uploadContentType, String wname) {
 		String totalpath = DiskPath + userPath + uid + "\\" + wname;// 每个用户拥有自己的文件夹存放自己的作品,不进行分类了
 		File dir = new File(totalpath);
@@ -105,7 +105,7 @@ public class workUtils {
 	}
 
 	// 用户上传作品的封面
-	public String uploadbookI_U(File image, String uid,
+	public static String uploadbookI_U(File image, String uid,
 			String uploadContentType) {
 		File dir = new File(FimagePath);
 		String ctype = null;// 文件后缀
@@ -130,7 +130,7 @@ public class workUtils {
 		return "";
 	}
 	//删除上传的用户作品封面
-	public boolean removeWorkI(String path){//删除磁盘中存放的封面
+	public static boolean removeWorkI(String path){//删除磁盘中存放的封面
 		try{
 			FileUtils.forceDelete(new File(FimagePath+"\\"+path));
 			return true;
@@ -140,7 +140,7 @@ public class workUtils {
 		return false;
 	}
 	//删除磁盘中的用户某个作品
-	public boolean removeWork(String uid,String wname){
+	public static boolean removeWork(String uid,String wname){
 		String totalpath = DiskPath + userPath + uid;
 		try{
 			FileUtils.forceDelete(new File(totalpath+"\\"+wname));

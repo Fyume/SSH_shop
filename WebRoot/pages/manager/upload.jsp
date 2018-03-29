@@ -1,6 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -27,33 +26,42 @@
 </head>
 <body>
 	<c:choose>
-		<c:when test="${!empty sessionScope.user}">
+		<c:when test="${!empty sessionScope.user.u_permission}">
 			<div class="header">
-					<div class="header_logo"></div>
+				<div class="header_logo"></div>
+				<a href="${pageContext.request.contextPath}/pages/index.jsp">
 					<div class="header_index">
-						<a target="_top"
-							href="${pageContext.request.contextPath}/pages/index.jsp">首页</a>
+						首页
 					</div>
+				</a>
+				<a href="${pageContext.request.contextPath}/managerAction_getUser">
 					<div class="h_user">
-						<a href="${pageContext.request.contextPath}/managerAction_getUser">管理用户</a>
+						管理用户
 					</div>
+				</a>
+				<a href="${pageContext.request.contextPath}/managerAction_getBook">
 					<div class="h_book">
-						<a href="${pageContext.request.contextPath}/managerAction_getBook">管理书本</a>
+						管理书本
 					</div>
-					<div class="header_user">
-						<div class="user_img" onmouseover="infoon()" onmouseout="infooff()" onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
+				</a>
+				<a href="${pageContext.request.contextPath}/managerAction_getRecord">
+					<div class="h_record">
+						操作历史
+					</div>
+				</a>
+				<div class="header_user">
+					<div class="user_img" onmouseover="infoon()" onmouseout="infooff()"
+						onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
 						<span class="glyphicon glyphicon-user"></span> <span
 							style="color:red;font-weight:400">${sessionScope.user.username }</span>
-						</div>
-						<c:if test="${!empty sessionScope.user }">
-							<a href="${pageContext.request.contextPath}/pages/manager/upload.jsp">
-								<div class="user_upload">
-									<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
-								</div>
-							</a>
-						</c:if>
 					</div>
+					<a href="${pageContext.request.contextPath}/pages/manager/upload.jsp">
+						<div class="user_upload">
+							<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
+						</div>
+					</a>
 				</div>
+			</div>
 			<div id="user_info" class="user_info" onmouseover="infoon()"
 				onmouseout="infooff()">
 				<c:choose>
@@ -63,19 +71,34 @@
 						</div>
 					</c:when>
 					<c:otherwise>
-						<div class="list_all">ID：${sessionScope.user.uid }</div>
-						<div class="list_all">用户名:${sessionScope.user.username }</div>
-						<div class="list_all">
-							<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">个人中心</a>
+						<div class="info_img">
+							<c:choose>
+								<c:when test="${empty sessionScope.user.image }">
+									<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/flag/user_img(default).png">
+								</c:when>
+								<c:otherwise>
+									<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/user/userImg/${sessionScope.user.image }">
+								</c:otherwise>
+							</c:choose>
 						</div>
+						<div class="list_half">ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span></div>
+						<div class="list_half">用户名:<span style="color:red;">${sessionScope.user.username }</span></div>
+						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
+							<div class="list_all">
+								<span style="font-weight:550;font-size:15px;">个人中心</span>
+							</div>
+						</a>
 						<!-- 未实现暂时用User.jsp过渡 -->
-						<div class="list_half">
-							<a
-								href="${ pageContext.request.contextPath}/pages/user/User.jsp">设置</a>
-						</div>
-						<div class="list_half">
-							<a href="${pageContext.request.contextPath}/userAction_logOut">退出</a>
-						</div>
+						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
+							<div class="list_btn">
+								设置
+							</div>
+						</a>
+						<a href="${pageContext.request.contextPath}/userAction_logOut">
+							<div class="list_btn">
+								退出
+							</div>
+						</a>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -83,7 +106,7 @@
 				<input id="uploadResult" type="text" value="${requestScope.uploadResult}" style="display:none">
 				<div class="upload_form2">
 					<form action="${pageContext.request.contextPath }/bookAction_upload"
-						method="post" enctype="multipart/form-data" onsubmit="return check()">
+						method="post" enctype="multipart/form-data" onsubmit="return check2()">
 						<div class="upload_title">
 							<div class="title_font">标题/作品名 ：</div>
 							<div class="title_input">
@@ -110,7 +133,7 @@
 						</div>
 						<input type="file"
 							accept="application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, text/plain"
-							id="upload" name="upload" style="display:none;"onchange="checkF()"> 
+							id="upload" name="upload" style="display:none;" onchange="checkF()"> 
 							<br>
 						<div class="upload_desc">
 							<div class="desc_font">书本概述:</div>
@@ -130,7 +153,7 @@
 						<div>
 							<div class="upload_font">ISBN:</div>
 							<div style="width:210px;height:25px;">
-								<input type="text" name="book.ISBN" style="width:60%;">
+								<input id="ISBN" type="text" name="book.ISBN" style="width:60%;">
 							</div>
 						</div>
 						<br>

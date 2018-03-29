@@ -52,43 +52,40 @@ function selectmess() {
 	var flag;
 	var message = $("#select_message").val();
 	if (num == 1) {
-		$
-				.ajax({
-					url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag=bname&message='
-							+ message,
-					type : "POST",
-					async : false,// 取消异步请求
-					timeout : 1000,
-					cache : false,
-					success : function reloadJSP() {
-						window.location.reload();
-					}
-				})
+		$.ajax({
+				url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag=bname&message='
+						+ message,
+				type : "POST",
+				async : false,// 取消异步请求
+				timeout : 1000,
+				cache : false,
+				success : function reloadJSP() {
+					window.location.href="http://localhost:8080/SSH_test";
+				}
+			})
 	} else if (num == 3) {
-		$
-				.ajax({
-					url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag=author&message='
-							+ message,
-					type : "POST",
-					async : false,// 取消异步请求
-					timeout : 1000,
-					cache : false,
-					success : function reloadJSP() {
-						window.location.reload();
-					}
-				})
+		$.ajax({
+				url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag=author&message='
+						+ message,
+				type : "POST",
+				async : false,// 取消异步请求
+				timeout : 1000,
+				cache : false,
+				success : function reloadJSP() {
+					window.location.href="http://localhost:8080/SSH_test";
+				}
+			})
 	} else if (num == 2) {
-		$
-				.ajax({
-					url : 'http://localhost:8080/SSH_test/workAction_selectW?flag=wname&message='
-							+ message,
-					type : "POST",
-					async : false,// 取消异步请求
-					timeout : 1000,
-					cache : false,
-					success : function reloadJSP() {
-						window.location.reload();
-					}
-				})
+		$.ajax({
+				url : 'http://localhost:8080/SSH_test/workAction_selectW?flag=wname&message='
+						+ message,
+				type : "POST",
+				async : false,// 取消异步请求
+				timeout : 1000,
+				cache : false,
+				success : function reloadJSP() {
+					window.location.href="http://localhost:8080/SSH_test";
+				}
+			})
 	}
 }

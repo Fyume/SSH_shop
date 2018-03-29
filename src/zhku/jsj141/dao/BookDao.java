@@ -1,10 +1,6 @@
 package zhku.jsj141.dao;
 
-import java.io.Serializable;
 import java.util.List;
-
-import org.springframework.orm.hibernate5.HibernateTemplate;
-
 import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.user.Book;
 
@@ -25,5 +21,10 @@ public interface BookDao {
 	public boolean delete(Book book);
 
 	public List<Book> findByINIPAT(Book book1, Book book2);
+	/**
+	 * 返回全部bid
+	 * @return
+	 */
+	public List<Integer> selectBid();
 	
 }

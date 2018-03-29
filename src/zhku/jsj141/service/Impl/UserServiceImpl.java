@@ -2,6 +2,7 @@ package zhku.jsj141.service.Impl;
 
 import java.util.List;
 
+import zhku.jsj141.dao.BookDao;
 import zhku.jsj141.dao.UserDao;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.Favour;
@@ -218,6 +219,27 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<ReviewsForBook> findRfb_Work(Work work){
 		List<ReviewsForBook> list = userDao.findRfb_work(work);
+		return list;
+	}
+	
+	@Override
+	public List<Long> findRfb_Book_nearest(Book book,User user){
+		List<Long> list = userDao.findRfb_book_nearest(book, user);
+		return list;
+	}
+	@Override
+	public List<Long> findRfb_Work_nearest(Work work,User user){
+		List<Long> list = userDao.findRfb_work_nearest(work, user);
+		return list;
+	}
+	@Override
+	public List<Long> findRfr_Book_nearest(Book book,User user){
+		List<Long> list = userDao.findRfr_book_nearest(book, user);
+		return list;
+	}
+	@Override
+	public List<Long> findRfr_Work_nearest(Work work,User user){
+		List<Long> list = userDao.findRfr_work_nearest(work, user);
 		return list;
 	}
 }

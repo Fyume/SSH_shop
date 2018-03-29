@@ -22,12 +22,30 @@
 <!--
 	<link rel="stylesheet" type="text/css" href="styles.css">
 	-->
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	alert("test2:"+window.ppp);
+</script>
+ -->
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+		$("#file").on("change",function(){
+			var file = this.files;
+			for(var i=0;i<file.length;i++){
+				alert(file[i].name);
+			}
+		});
+	}
+);
 </script>
 </head>
 
 <body>
-	<a href="${pageContext.request.contextPath }/pages/test/test.jsp">test</a>
+	<%-- <a href="${pageContext.request.contextPath }/pages/test/test.jsp">test</a> --%>
+	<form action="${pageContext.request.contextPath }/bookAction_test" enctype="multipart/form-data" method="post">
+		<input id="file" type="file" name="test" multiple="multiple">
+		<input type="submit" value="111">
+	</form>
 </body>
 </html>

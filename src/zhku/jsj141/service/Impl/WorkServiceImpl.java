@@ -47,4 +47,9 @@ public class WorkServiceImpl implements WorkService {
 		boolean rs = workDao.delete(work);
 		return rs;
 	}
+	@Override
+	public List<Integer> selectWid(){
+		List<Integer> list = workDao.selectWid();
+		return list;
+	}
 }

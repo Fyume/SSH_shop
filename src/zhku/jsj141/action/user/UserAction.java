@@ -36,7 +36,9 @@ import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.ManagerService;
 import zhku.jsj141.service.UserService;
 import zhku.jsj141.service.WorkService;
+import zhku.jsj141.utils.user.bookUtils;
 import zhku.jsj141.utils.user.userUtils;
+import zhku.jsj141.utils.user.workUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -677,23 +679,38 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	public String Review() throws Exception{//对书本评论
 		System.out.println("---------Review---------");
 		user = (User) request.getSession().getAttribute("user");
+		System.out.println(rfb.getContent());
 		if(user==null){
 			return "goto_login";
 		}
 		rfb.setUser(user);
 		book = (Book) request.getSession().getAttribute("book");
+		List<Long> llist = null;
+		long time = -1;
+		long now = System.currentTimeMillis()/1000;
 		if(book!=null){
 			rfb.setBook(book);
+			llist = userService.findRfb_Book_nearest(book, user);//找到用户的回复时间集合
 		}else{
 			work = (Work) request.getSession().getAttribute("work");
 			if(work!=null){
 				rfb.setWork(work);
+				llist = userService.findRfb_Work_nearest(work, user);//找到用户的回复时间集合
 			}else{
 				return "goto_book";
 			}
 		}
-		rfb.setTime(System.currentTimeMillis()/1000);
-		userService.addRfb(rfb);
+		if(llist.size()!=0){
+			time = llist.get(0);
+			if((now - time)>30){//每隔30秒才能回复一次
+				rfb.setTime(now);
+				userService.addRfb(rfb);
+				getReviews();//更新session
+				request.getSession().setAttribute("reviewsRs", "yes");
+			}else{
+				request.getSession().setAttribute("reviewsRs", "no");
+			}
+		}
 		//记得在bookaction和workaction中添加加载评论记录的功能 至于是什么时候加载这些细节后面再说了
 		return "goto_book";
 	}
@@ -704,7 +721,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		if(user==null){
 			return "goto_login";
 		}
-		String fontAndId = (String) request.getSession().getAttribute("font-id");
+		String fontAndId = (String) request.getParameter("font_id");
 		int n = fontAndId.indexOf(":");
 		String font = fontAndId.substring(0,n);
 		int id = Integer.valueOf(fontAndId.substring(n+1,fontAndId.length()));
@@ -729,18 +746,73 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		}
 		rfr.setUser1(user);//评论人
 		book = (Book) request.getSession().getAttribute("book");
+		List<Long> llist = null;
+		long time = -1;
+		long now = System.currentTimeMillis()/1000;
 		if(book!=null){
 			rfr.setBook(book);
+			llist = userService.findRfr_Book_nearest(book, user);
+			
 		}else{
 			work = (Work) request.getSession().getAttribute("work");
 			if(work!=null){
 				rfr.setWork(work);
+				llist = userService.findRfr_Work_nearest(work, user);
 			}else{
 				return "goto_book";
 			}
 		}
-		rfr.setTime(System.currentTimeMillis()/1000);
-		userService.addRfr(rfr);
+		if(llist.size()!=0){
+			time = llist.get(0);
+			if((now - time)>30){//每隔30秒才能回复一次
+				rfr.setTime(now);
+				userService.addRfr(rfr);
+				getReviews();//更新session
+				request.getSession().setAttribute("reviewsRs", "yes");
+			}else{
+				request.getSession().setAttribute("reviewsRs", "no");
+			}
+		}else{
+			rfr.setTime(now);
+			userService.addRfr(rfr);
+			getReviews();//更新session
+			request.getSession().setAttribute("reviewsRs", "yes");
+		}
+		return "goto_book";
+	}
+	//随机读取书本或作品
+	public String random() throws Exception{
+		double n = Math.random();
+		System.out.println(n);
+		List<Integer> list1 = bookService.selectBid();
+		List<Integer> list2 = workService.selectWid();
+		int s1 = list1.size();
+		int s2 = list2.size();
+		if(n<(s1/(double)(s1+s2))){//书本
+			book.setBid(list1.get((int)(Math.random()*s1)));
+			booklist = bookService.find(book, "bid");
+			if(booklist.size()!=0){
+				book = booklist.get(0);
+				List<String> str = bookUtils.readbook(book.getType(), book.getPath());
+				request.getSession().setAttribute("content", str);//书本内容
+				request.getSession().setAttribute("doc_count", str.size());//读取到的行数
+				request.getSession().setAttribute("page", 1);//默认为第1页
+				request.getSession().setAttribute("book", book);
+				request.getSession().setAttribute("work", null);
+			}
+		}else{//作品
+			work.setWid(list2.get((int)(Math.random()*s2)));
+			worklist = workService.find(work, "wid");
+			if(worklist.size()!=0){
+				work = worklist.get(0);
+				List<String> str = workUtils.readbook_U(work.getUser().getUid(), work.getPath());
+				request.getSession().setAttribute("content", str);//书本内容
+				request.getSession().setAttribute("doc_count", str.size());//读取到的行数
+				request.getSession().setAttribute("page", 1);//默认为第1页
+				request.getSession().setAttribute("book", null);
+				request.getSession().setAttribute("work", work);
+			}
+		}
 		return "goto_book";
 	}
 	/********************************************************/

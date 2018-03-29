@@ -44,6 +44,7 @@ img{
 }
 .header_index{
 	background-color:#ff4d4d;
+	color:black;
 }
 .header_index:hover{
 	color:white;

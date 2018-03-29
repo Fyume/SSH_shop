@@ -23,7 +23,7 @@ function getObjectURL(file) {
 	} else if (window.URL != undefined) { // mozilla(firefox)
 		url = window.URL.createObjectURL(file);
 	} else if (window.webkitURL != undefined) { // webkit or chrome
-		url = window.webkitURL.createObjectURL(file);
+		url = window.webkitURL.createObjectURL(file);//blob:
 	}
 	return url;
 }
@@ -34,7 +34,8 @@ function uploadf() {
 function uploadi() {
 	$("#image").click();
 }
-/*************用户上传作品部分****************/
+
+/**********用户部分*********/
 //文件格式检查
 function check() {
 	if (!checktitle()||!checkF()){
@@ -42,15 +43,13 @@ function check() {
 	}else if(!checkdoc()) {
 		alert("文档文件格式有误，请上传txt,doc,docx类型的文件！");
 		return false;
-	} else if (!checkimg()) {
-		alert("图片文件格式有误，请上传jpg,jpeg类型的文件！");
-		return false;
 	} else {
 		alert("loading...");
 		return true;
 	}
 
 }
+/*************用户＆管理员上传作品部分****************/
 // 检查上传文件格式（后缀）
 function checkdoc() {
 	var path = $("#upload").val();
@@ -89,29 +88,24 @@ function checkF(){
 		return true;
 	}
 }
+
+/*************管理员相较用户上传书本多出来(不同)的部分****************/
 function check2() {
-	if (!checktitle()||!checkF()){
+	if (!checktitle()||!checkF()||!checkdate()){
 		return false;
 	}else if(!checkdoc()) {
 		alert("文档文件格式有误，请上传txt,doc,docx类型的文件！");
 		return false;
-	} else if (!checkimg()) {
-		alert("图片文件格式有误，请上传jpg,jpeg类型的文件！");
-		return false;
-	} else if(!checkdate()){
-		return false;
-	}else{
+	} else {
 		alert("loading...");
 		return true;
 	}
-
 }
-/*************管理员相较用户上传书本多出来的部分****************/
 function checkdate(){
 	var year = /^\d{4}$/;
 	var month = /^\d{1,2}$/;
 	var day = /^\d{1,2}$/;
-	var ISBN = /^[0-9]*$/;
+	var ISBN = /^[0-9A-Za-z]*$/;
 	if(year.test($("#year").val())==false||month.test($("#month").val())==false||day.test($("#day").val())==false){
 		alert("日期输入错误");
 		return false;

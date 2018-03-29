@@ -26,4 +26,6 @@ public interface BookService {
 	public boolean delete(Book book);
 
 	public List<Book> finds(Book book1, Book book2);
+
+	public List<Integer> selectBid();
 }

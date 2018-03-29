@@ -214,6 +214,9 @@ div{
 .con_bottom_reviews input[type='submit']{
 	margin-top:-10px;
 }
+.con_bottom_reviews input[type='text']{
+	display:none;
+}
 .rfr_div {
 	margin-top:5px;
 	width: 80%;

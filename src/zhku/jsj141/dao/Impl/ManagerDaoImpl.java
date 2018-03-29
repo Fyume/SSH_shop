@@ -27,6 +27,7 @@ public class ManagerDaoImpl implements ManagerDao{
 	@Override
 	public List<User> selectAllU(){
 		List<User> list = null;
+		hibernateTemplate.getSessionFactory().getCurrentSession().clear();
 		list = (List<User>) hibernateTemplate.find("from User");
 		System.out.println("----ManagerDao----");
 		for (User user : list) {
@@ -38,6 +39,7 @@ public class ManagerDaoImpl implements ManagerDao{
 	@Override
 	public List<Book> selectAllB(){
 		List<Book> list = null;
+		hibernateTemplate.getSessionFactory().getCurrentSession().clear();
 		list = (List<Book>) hibernateTemplate.find("from Book");
 		System.out.println("------ManagerDao");
 		for (Book book : list) {

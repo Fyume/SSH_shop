@@ -13,17 +13,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 <base href="<%=basePath%>">
 
-<title>《${sessionScope.book.bname }》信息页面</title>
-
+<c:if test="${!empty sessionScope.book}">
+	<title>《${sessionScope.book.bname }》信息页面</title>
+</c:if>
+<c:if test="${!empty sessionScope.work}">
+	<title>《${sessionScope.work.wname }》信息页面</title>
+</c:if>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/user/index.js"></script>
-<script src="${pageContext.request.contextPath}/js/user/book.js"></script>
 <!-- 用下载下来的bootstrap.min.css没有图标 不知道为什么 可能是需要其他的文件支持 -->
 
 <link rel="stylesheet"
@@ -43,7 +44,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</a> <a href="${pageContext.request.contextPath}/workAction_getData">
 			<div class="header_work">用户作品</div>
 		</a>
-
+		<a href="${pageContext.request.contextPath}/userAction_random">
+			<div class="header_classify">
+				随便看看
+			</div>
+		</a>
 		<!-- <div class="header_random">随机</div> -->
 
 		<c:if test="${sessionScope.user.u_permission }">
@@ -328,7 +333,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				
 				<!-- 我的评论 -->
 				
-				<form action="${pageContext.request.contextPath}/userAction_Review" onsubmit="return checklogin(${empty sessionScope.user})">
+				<form action="${pageContext.request.contextPath}/userAction_Review" method="post" onsubmit="return checklogin(${empty sessionScope.user})">
 					<div class="comment_text">
 						<c:choose>
 							<c:when test="${!empty sessionScope.user }">
@@ -355,7 +360,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				<!-- 显示评论 -->
 				<div class="reviews">
 					<div class="reviews_title">相关评论</div>
-					<div class="line_btn" onclick="getReviews(this)">点击展开评论</div>
+					<div class="line_btn" id="line_btn" onclick="getReviews()">点击展开评论</div>
 						<div id="Allreviews" style="display:none;">
 							<c:if test="${empty sessionScope.rfb_set }">
 							<span>还没有评论呢，赶紧发表你的感想吧~~</span>
@@ -408,17 +413,22 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			
 			<div style="width:100%;height:100px;">
 				<!-- 留白 -->
+				<span id="r_close" style="display:none;">${param.close }</span>
 			</div>
 		</div>
 	</div>
 	<div id="con_bottom_reviews" class="con_bottom_reviews">
-		<form action="${pageContext.request.contextPath}/userAction_ReviewForR" onsubmit="return checklogin(${empty sessionScope.user})">
-			<input id="font-id" name="font-id" type="text">
+		<form action="${pageContext.request.contextPath}/userAction_ReviewForR" method="post" onsubmit="return checklogin(${empty sessionScope.user})">
+			<input id="font_id" name="font_id" type="text" value="">
 			<div class="text_mycomment">
 				<input type="submit" class="btn btn-info btn-sm pull-right" value="提交">
 				<textarea name="rfr.content" cols="20" rows="3" placeholder="来说几句吧。。。。"></textarea>
 			</div>
 		</form>
+		<input id="reviewsRs" type="text" value="${requestScope.reviewsRs }">
 	</div>
 </body>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/index.js"></script>
+<script src="${pageContext.request.contextPath}/js/user/book.js"></script>
 </html>

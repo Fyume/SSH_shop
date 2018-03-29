@@ -128,5 +128,33 @@ public interface UserService {
 	 * @return
 	 */
 	public List<ReviewsForBook> findRfb_Work(Work work);
+	/**
+	 * 找该用户在该书本的最近回复
+	 * @param book
+	 * @param user
+	 * @return List<Long>
+	 */
+	public List<Long> findRfb_Book_nearest(Book book, User user);
+	/**
+	 * 找该用户在该作品的最近回复
+	 * @param work
+	 * @param user
+	 * @return List<Long>
+	 */
+	public List<Long> findRfb_Work_nearest(Work work, User user);
+	/**
+	 * 找该用户在该书本评论的最近回复
+	 * @param book
+	 * @param user
+	 * @return List<Long>
+	 */
+	public List<Long> findRfr_Book_nearest(Book book, User user);
+	/**
+	 * 找该用户在该作品评论的最近回复
+	 * @param work
+	 * @param user
+	 * @return List<Long>
+	 */
+	public List<Long> findRfr_Work_nearest(Work work, User user);
 
 }

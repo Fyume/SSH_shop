@@ -4,6 +4,8 @@ $(document).ready(function(){
 	}
 	DateFormat();
 	$("#btn_getHistAndFav").click();
+	reviewsRs();
+	openReviewsPlace();
 });
 function DateFormat() {
 	var time = new Date($("#publish_t").val() * 1000);
@@ -178,7 +180,7 @@ function openReviews($this,id){//打开回复入口
 			var str_b = id.substr(n+1,id.length);
 			closeReviews(this,"rfr_div"+str_b);
 		});
-		$("#font-id").val("rfb:"+str_b);
+		$("#font_id").attr("value","rfb:"+str_b);
 		$("#con_bottom_reviews").css("display","block");
 		$("#con_bottom_reviews").appendTo($("#"+id));
 	}else{
@@ -189,7 +191,10 @@ function openReviews($this,id){//打开回复入口
 			var str_b = id.substr(n+1,id.length);
 			closeReviews(this,"reviews_content"+str_b);
 		});
-		$("#font-id").val("rfr:"+str_b);
+		var n = id.lastIndexOf("v");
+		var str_a = id.substr(0, n+1);
+		var str_b = id.substr(n+1,id.length);
+		$("#font_id").attr("value","rfr:"+str_b);
 		$("#con_bottom_reviews").css("display","block");
 		$("#con_bottom_reviews").appendTo($("#"+id));
 	}
@@ -217,8 +222,20 @@ function getReviews($this){
 		async : false,
 		cache : false,
 		success : function(){
-			$("#Allreviews").css("display","block");
-			$($this).css("display","none");
+			window.location.href='/SSH_test/pages/user/book.jsp?close=1';
 		},
 	});
+}
+function openReviewsPlace(){//显示评论区
+	var str = $("#r_close").html();
+	if(str==1){
+		$("#Allreviews").css("display","block");
+		$("#line_btn").css("display","none");
+	}
+}
+function reviewsRs(){
+	var str = $("#reviewsRs").val();
+	if(str!=''){
+		alert("回复太快了，回复间隔30秒哦~");
+	}
 }

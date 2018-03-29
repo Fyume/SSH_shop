@@ -57,6 +57,7 @@
 			<result name="goto_upload">/pages/manager/upload.jsp</result>
 			<result name="goto_book">/pages/user/book.jsp</result>
 			<result name="goto_edit">/pages/manager/edit.jsp</result>
+			<result name="goto_bulkUpload">/pages/manager/bulkUpload.jsp</result>
 		</action>
 		<!--     用户作品         -->
 		<action name="workAction_*" class="workAction" method="{1}">

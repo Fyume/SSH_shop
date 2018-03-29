@@ -27,16 +27,26 @@ public class BookDaoImpl implements BookDao{
 	@Override
 	public boolean update(Book book){
 		try{
-			hibernateTemplate.saveOrUpdate(book);
+			hibernateTemplate.merge(book);
 		}catch(DataAccessException e){
 			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Book> selectAll(){
+		hibernateTemplate.getSessionFactory().getCurrentSession().clear();
 		List<Book> list = (List<Book>) hibernateTemplate.find("from Book");
+		return list;
+	}
+	//用来随机读取的
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Integer> selectBid(){
+		hibernateTemplate.getSessionFactory().getCurrentSession().clear();
+		List<Integer> list = (List<Integer>) hibernateTemplate.find("select bid from Book");
 		return list;
 	}
 	@Override
@@ -45,6 +55,7 @@ public class BookDaoImpl implements BookDao{
 		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
 		List<Book> list = null;
 		try {
+			hibernateTemplate.getSessionFactory().getCurrentSession().clear();
 			list = (List<Book>) hibernateTemplate.find("from Book where "
 					+ name + " like ?","%"+
 					book.getClass().getMethod("get" + name_m)
@@ -75,6 +86,7 @@ public class BookDaoImpl implements BookDao{
 		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
 		List<Book> list = null;
 		try {
+			hibernateTemplate.getSessionFactory().getCurrentSession().clear();
 			list = (List<Book>) hibernateTemplate.find("from Book where "
 					+ name + " =?",
 					book.getClass().getMethod("get" + name_m)
@@ -120,6 +132,7 @@ public class BookDaoImpl implements BookDao{
 	@Override
 	public List<Book> findByINIPAT(Book book1, Book book2){//不定项筛选
 		List<Book> list = null;
+		hibernateTemplate.getSessionFactory().getCurrentSession().clear();
 		if(book1.getBid()==-1){
 			if(book2.getPublish()!=0){
 				list = (List<Book>) hibernateTemplate.find("from Book where bname like ? and ISBN like ? and publish >= ? and publish <= ? and author like ? and type like ?","%"+book1.getBname()+"%","%"+book1.getISBN()+"%",book1.getPublish(),book2.getPublish(),"%"+book1.getAuthor()+"%","%"+book1.getType()+"%");

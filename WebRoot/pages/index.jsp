@@ -21,8 +21,6 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<link rel="stylesheet"
-	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/index.css">
 </head>
@@ -44,7 +42,11 @@
 				用户作品
 			</div>
 		</a>
-			
+		<a href="${pageContext.request.contextPath}/userAction_random">
+			<div class="header_classify">
+				随便看看
+			</div>
+		</a>
 		<!-- <div class="header_random">随机</div> -->
 		
 		<c:if test="${sessionScope.user.u_permission }">
@@ -436,9 +438,11 @@
 	</div>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 <!-- 用下载下来的bootstrap.min.css没有图标 不知道为什么 可能是需要其他的文件支持 -->
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 </body>
+<link rel="stylesheet"
+	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
 </html>

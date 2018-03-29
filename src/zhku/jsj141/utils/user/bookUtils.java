@@ -18,7 +18,7 @@ public class bookUtils {
 	private static String managerPath = "manager\\";
 
 	// 读取管理员上传的文件
-	public List<String> readbook(String type, String bpath)
+	public static List<String> readbook(String type, String bpath)
 			throws FileNotFoundException, UnsupportedEncodingException {
 		String totalpath = DiskPath + managerPath + type;
 		File dir = new File(totalpath);// 文件按分类存放
@@ -63,7 +63,7 @@ public class bookUtils {
 
 	// 管理员功能
 	// 上传书本
-	public String uploadbook(File upload, String type,
+	public static String uploadbook(File upload, String type,
 			String uploadContentType, String bname) {
 		String folder = bname;
 		String totalpath = DiskPath + managerPath + type + "\\";
@@ -117,7 +117,7 @@ public class bookUtils {
 	 * TODO Auto-generated catch block e.printStackTrace(); } } } } return ""; }
 	 */
 	// 上传书本的封面
-	public String uploadbookI(File image, String imageContentType) {
+	public static String uploadbookI(File image, String imageContentType) {
 		if (image != null) {
 			String time = String.valueOf(System.currentTimeMillis());
 			String filename = time.substring(time.length() - 10, time.length());// 文件名
@@ -139,7 +139,7 @@ public class bookUtils {
 		return "";
 
 	}
-	public boolean removeBookI(String path){//删除磁盘中存放的书本封面
+	public static boolean removeBookI(String path){//删除磁盘中存放的书本封面
 		try{
 			FileUtils.forceDelete(new File(FimagePath+"\\"+path));
 			return true;
@@ -148,7 +148,7 @@ public class bookUtils {
 		}
 		return false;
 	}
-	public boolean removeBook(String path,String type){//删除磁盘中存放的书本
+	public static boolean removeBook(String path,String type){//删除磁盘中存放的书本
 		String totalpath = DiskPath + managerPath + type + "\\";
 		String folder = path.substring(0, path.indexOf("\\"));//获取文件夹名（可能有重名）
 		try{

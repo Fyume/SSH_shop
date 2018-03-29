@@ -13,7 +13,6 @@
 	<property name="bookService" ref="bookService"></property>
 	<property name="userService" ref="userService"></property>
 	<property name="managerService" ref="managerService"></property>
-	<property name="bookUtils" ref="butils"></property>
 </bean>
 <bean id="bookService" class="zhku.jsj141.service.Impl.BookServiceImpl">
 	<property name="bookDao" ref="bookDao"></property>

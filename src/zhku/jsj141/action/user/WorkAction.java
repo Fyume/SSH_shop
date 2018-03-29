@@ -3,20 +3,14 @@ package zhku.jsj141.action.user;
 import java.io.File;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.struts2.ServletActionContext;
-
 import zhku.jsj141.action.BaseAction;
 import zhku.jsj141.entity.Upload;
-import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.entity.user.Work;
 import zhku.jsj141.service.ManagerService;
 import zhku.jsj141.service.WorkService;
 import zhku.jsj141.utils.user.workUtils;
 
-import com.opensymphony.xwork2.ActionSupport;
 
 public class WorkAction extends BaseAction {
 	/**
@@ -31,7 +25,6 @@ public class WorkAction extends BaseAction {
 	private File image;
 	private String imageFileName;
 	private String imageContentType;
-	private workUtils workUtils;
 	
 	Upload t_upload = new Upload();
 	List<Work> worklist = null;
@@ -110,14 +103,6 @@ public class WorkAction extends BaseAction {
 
 	public void setImageContentType(String imageContentType) {
 		this.imageContentType = imageContentType;
-	}
-
-	public workUtils getWorkUtils() {
-		return workUtils;
-	}
-
-	public void setWorkUtils(workUtils workUtils) {
-		this.workUtils = workUtils;
 	}
 
 	// 上传用户作品（不允许重名）

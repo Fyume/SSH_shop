@@ -1,6 +1,7 @@
 package zhku.jsj141.action.user;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +31,6 @@ public class BookAction extends BaseAction {
 	private File image;
 	private String imageFileName;
 	private String imageContentType;
-	private bookUtils bookUtils;
 	
 	Upload t_upload = new Upload();
 	List<Type> typelist = null;
@@ -38,6 +38,78 @@ public class BookAction extends BaseAction {
 	
 	User user = new User();
 	Book book = new Book();
+	
+	private List<File> flist = new ArrayList<File>();//书本批量上传用
+	private List<String> flfn = new ArrayList<String>();
+	private List<String> flct = new ArrayList<String>();
+	private List<File> ilist = new ArrayList<File>();//封面批量上传用
+	private List<String> ilfn = new ArrayList<String>();
+	private List<String> ilct = new ArrayList<String>();
+	private List<Book> blist = new ArrayList<Book>();
+	private List<String> ylist = new ArrayList<String>();
+	private List<String> mlist = new ArrayList<String>();
+	private List<String> dlist = new ArrayList<String>();
+	public List<String> getYlist() {
+		return ylist;
+	}
+	public void setYlist(List<String> ylist) {
+		this.ylist = ylist;
+	}
+	public List<String> getMlist() {
+		return mlist;
+	}
+	public void setMlist(List<String> mlist) {
+		this.mlist = mlist;
+	}
+	public List<String> getDlist() {
+		return dlist;
+	}
+	public void setDlist(List<String> dlist) {
+		this.dlist = dlist;
+	}
+	public List<Book> getBlist() {
+		return blist;
+	}
+	public void setBlist(List<Book> blist) {
+		this.blist = blist;
+	}
+	public List<File> getFlist() {
+		return flist;
+	}
+	public void setFlist(List<File> flist) {
+		this.flist = flist;
+	}
+	public List<String> getFlfn() {
+		return flfn;
+	}
+	public void setFlfn(List<String> flfn) {
+		this.flfn = flfn;
+	}
+	public List<String> getFlct() {
+		return flct;
+	}
+	public void setFlct(List<String> flct) {
+		this.flct = flct;
+	}
+	public List<File> getIlist() {
+		return ilist;
+	}
+	public void setIlist(List<File> ilist) {
+		this.ilist = ilist;
+	}
+	public List<String> getIlfn() {
+		return ilfn;
+	}
+	public void setIlfn(List<String> ilfn) {
+		this.ilfn = ilfn;
+	}
+	public List<String> getIlct() {
+		return ilct;
+	}
+	public void setIlct(List<String> ilct) {
+		this.ilct = ilct;
+	}
+	
 	public Book getBook() {
 		return book;
 	}
@@ -49,14 +121,6 @@ public class BookAction extends BaseAction {
 	}
 	public void setUser(User user) {
 		this.user = user;
-	}
-	
-	public bookUtils getBookUtils() {
-		return bookUtils;
-	}
-
-	public void setBookUtils(bookUtils bookUtils) {
-		this.bookUtils = bookUtils;
 	}
 	
 	public UserService getUserService() {
@@ -127,6 +191,7 @@ public class BookAction extends BaseAction {
 	public void setImageContentType(String imageContentType) {
 		this.imageContentType = imageContentType;
 	}
+	
 	//页面初始数据获取
 	public String getData() throws Exception {
 		typelist = bookService.findT();
@@ -298,4 +363,72 @@ public class BookAction extends BaseAction {
 		}
 		return "goto_edit";
 	}
+	public String bulkUpload() throws Exception{
+		user = (User) request.getSession().getAttribute("user");
+		if (user == null) {
+			return "goto_login";
+		}
+		List<String> uploadResult = new ArrayList<String>();
+		for(int i=0;i<flist.size();i++){
+			File file = flist.get(i);
+			String fileName = flfn.get(i);
+			String contType = flct.get(i);
+			System.out.println("file:"+file+";fileName:"+fileName+";contType:"+contType);
+			File image = ilist.get(i);
+			String imageName = ilfn.get(i);
+			String imageType = ilct.get(i);
+			System.out.println("image:"+image+";imageName:"+imageName+";imageType:"+imageType);
+			int year = Integer.valueOf(ylist.get(i));
+			int month = Integer.valueOf(mlist.get(i));
+			int day = Integer.valueOf(dlist.get(i));
+			long publish = new Date(year, month, day).getTime()/(1000*60*60);// 转换成时间戳(只需要年月日,为了不丢失精度，保留时)
+			blist.get(i).setPublish(publish);
+			Upload t_upload = new Upload();//不新建应该会变成持久态？
+			t_upload.setUser(user);
+			String result = bookUtils.uploadbook(file, blist.get(i).getType(),
+					contType, blist.get(i).getBname());
+			if (result != "") {
+				if (result.equals("typefalse")) {
+					uploadResult.add("文件"+i+"有误,请上传doc,docx,txt类型的文件");
+				} else if (result.equals("dirfalse")) {
+					uploadResult.add("第"+i+"本书已存在");
+				} else {
+					blist.get(i).setPath(result);
+					String result2 = bookUtils.uploadbookI(image,
+							imageType);
+					if (result2 != "") {
+						if (result2.equals("typefalse")) {
+							uploadResult.add("图片文件"+i+"有误,请上传jpg类型的文件");
+						} else {
+							blist.get(i).setImage(result2);
+							boolean rs = bookService.add(blist.get(i));
+							if(rs){
+								t_upload.setBook(blist.get(i));
+								long time = System.currentTimeMillis()/1000;
+								t_upload.setTime(time);
+								managerService.addUpload(t_upload);
+								uploadResult.add("第"+i+"本success");
+							}
+						}
+					}
+				}
+			}
+			
+		}
+		request.setAttribute("uploadResultList", uploadResult);
+		return "goto_bulkUpload";
+	}
+	/***************测试****************/
+/*	public String test() throws Exception{
+		for (File tst : test) {
+			System.out.println(tst);
+		}
+		for (String filename : testfn) {
+			System.out.println(filename);
+		}
+		for (String conttype : testct) {
+			System.out.println(conttype);
+		}
+		return NONE;
+	}*/
 }

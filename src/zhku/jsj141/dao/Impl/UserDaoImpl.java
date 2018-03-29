@@ -33,7 +33,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean update(User user){
 		try{
-			hibernateTemplate.saveOrUpdate(user);
+			hibernateTemplate.merge(user);
 		}catch(DataAccessException e){
 			e.printStackTrace();
 			return false;
@@ -126,6 +126,7 @@ public class UserDaoImpl implements UserDao{
 		list = (List<Favour>) hibernateTemplate.find("from Favour where uid = ?",user.getUid());
 		return list;
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Favour> findF_Book(User user) {
 		List<Favour> list = null;
@@ -133,6 +134,7 @@ public class UserDaoImpl implements UserDao{
 		System.out.println(list.size());
 		return list;
 	}
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Favour> findF_Work(User user) {
 		List<Favour> list = null;
@@ -148,7 +150,7 @@ public class UserDaoImpl implements UserDao{
 	}
 	@SuppressWarnings("unchecked")
 	@Override
-	public List findF(User user,Book book,String fieldName) {//或许可以做成公共类 根据book的属性筛选favour
+	public List<Favour> findF(User user,Book book,String fieldName) {//或许可以做成公共类 根据book的属性筛选favour
 		String f_fieldName = fieldName.substring(0,1).toUpperCase()+fieldName.substring(1,fieldName.length());//首字母大写
 		List<Favour> list = null;
 		try {
@@ -254,14 +256,43 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public List<ReviewsForBook> findRfb_book(Book book) {
 		List<ReviewsForBook> list = null;
-		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook where bid = ?",book.getBid());
+		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook where bid = ? order by time desc",book.getBid());
 		return list;
 	}
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReviewsForBook> findRfb_work(Work work){
 		List<ReviewsForBook> list = null;
-		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook where wid = ?",work.getWid());
+		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook where wid = ? order by time desc",work.getWid());
+		return list;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Long> findRfb_book_nearest(Book book,User user) {
+		List<Long> list = null;
+		list = (List<Long>) hibernateTemplate.find("select time from ReviewsForBook where bid = ? and uid = ? order by time desc",book.getBid(),user.getUid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Long> findRfb_work_nearest(Work work,User user) {
+		List<Long> list = null;
+		list = (List<Long>) hibernateTemplate.find("select time from ReviewsForBook where wid = ? and uid = ? order by time desc",work.getWid(),user.getUid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Long> findRfr_book_nearest(Book book,User user) {
+		List<Long> list = null;
+		list = (List<Long>) hibernateTemplate.find("select time from ReviewsForReviews where bid = ? and uid1 = ? order by time desc",book.getBid(),user.getUid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Long> findRfr_work_nearest(Work work,User user) {
+		List<Long> list = null;
+		list = (List<Long>) hibernateTemplate.find("select time from ReviewsForReviews where wid = ? and uid1 = ? order by time desc",work.getWid(),user.getUid());
 		return list;
 	}
 	/*@SuppressWarnings("unchecked")

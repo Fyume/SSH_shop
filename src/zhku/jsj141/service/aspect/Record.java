@@ -100,24 +100,17 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 					value2 = tojson(user2);
 					operate_m.setValue_after(value2);
 					if(type_flag==3||type_flag==2){//更新或者删除操作的话
-						try {
-							userlist = userDao.select(user2, "uid");
-							if(!userlist.isEmpty()){
-								value1 = tojson(userlist.get(0));
-								operate_m.setValue_before(value1);
-							}
-							jp.proceed();//后执行
-						} catch (Throwable e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						userlist = userDao.select(user2, "uid");
+						if(!userlist.isEmpty()){
+							value1 = tojson(userlist.get(0));
+							operate_m.setValue_before(value1);
 						}
-					}else{
-						try {
-							jp.proceed();
-						} catch (Throwable e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+					}
+					try {
+						jp.proceed();
+					} catch (Throwable e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}else if(SimpleName.equals("BookServiceImpl")){//由于只给了管理用户和书本的接口 就不记录关于收藏表 历史表的操作了
 					operate_m.setEntity("book");
@@ -125,24 +118,17 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 					value2 = tojson(book);
 					operate_m.setValue_after(value2);
 					if(type_flag==3||type_flag==2){//更新或者删除操作的话
-						try {
-							booklist = bookDao.select(book, "bid");
-							if(!booklist.isEmpty()){
-								value1 = tojson(booklist.get(0));
-								operate_m.setValue_before(value1);
-							}
-							jp.proceed();//后执行
-						} catch (Throwable e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						booklist = bookDao.select(book, "bid");
+						if(!booklist.isEmpty()){
+							value1 = tojson(booklist.get(0));
+							operate_m.setValue_before(value1);
 						}
-					}else{
-						try {
-							jp.proceed();
-						} catch (Throwable e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+					}
+					try {
+						jp.proceed();
+					} catch (Throwable e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}else if(SimpleName.equals("WorkServiceImpl")){//由于只给了管理用户和书本的接口 就不记录关于收藏表 历史表的操作了
 					operate_m.setEntity("work");
@@ -150,24 +136,17 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 					value2 = tojson(work);
 					operate_m.setValue_after(value2);
 					if(type_flag==3||type_flag==2){//更新或者删除操作的话
-						try {
-							worklist = workDao.select(work, "wid");
-							if(!worklist.isEmpty()){
-								value1 = tojson(worklist.get(0));
-								operate_m.setValue_before(value1);
-							}
-							jp.proceed();//后执行
-						} catch (Throwable e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						worklist = workDao.select(work, "wid");
+						if(!worklist.isEmpty()){
+							value1 = tojson(worklist.get(0));
+						operate_m.setValue_before(value1);
 						}
-					}else{
-						try {
-							jp.proceed();
-						} catch (Throwable e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
+					}
+					try {
+						jp.proceed();
+					} catch (Throwable e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 				}else{
 					try {

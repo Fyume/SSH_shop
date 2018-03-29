@@ -18,4 +18,6 @@ public interface WorkDao {
 
 	public boolean delete(Work work);
 
+	public List<Integer> selectWid();
+
 }

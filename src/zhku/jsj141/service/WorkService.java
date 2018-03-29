@@ -20,4 +20,6 @@ public interface WorkService {
 
 	public boolean delete(Work work);
 
+	public List<Integer> selectWid();
+
 }

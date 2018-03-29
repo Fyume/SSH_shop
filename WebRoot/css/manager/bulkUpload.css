@@ -1,0 +1,52 @@
+@CHARSET "UTF-8";
+form input[type='file']{
+	display:none;
+}
+.bu_bottom {
+	width: 100%;
+	height: 91%;
+	border: 1px red solid;
+	padding-left:5%;
+}
+.book_div {
+	width: 75%;
+	height: 120px;
+	border: 1px green solid;
+}
+.div_font {
+	height: 25%;
+	width: 100%;
+	border: 1px red solid;
+}
+.div_font_1 {
+	width: 11%;
+	height: 100%;
+	border: 1px black solid;
+	text-align: center;
+}
+.div_value {
+	height: 75%;
+	width: 100%;
+	border: 1px red solid;
+}
+.div_value_1 {
+	width: 11%;
+	height: 100%;
+	border: 1px black solid;
+	text-align: center;
+}
+.div_value_1 input[type="text"],.div_value_1 select{
+	margin-top:20px;
+	width:95%;
+}
+.div_value_1 textarea{
+	height:100%;
+	width:100%;
+}
+.div_value_1 img{
+	width:85%;
+	height:100%;
+}
+#publish input[type="text"]{
+	width:25%;
+}
