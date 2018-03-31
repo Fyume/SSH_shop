@@ -12,7 +12,7 @@ li{
 	border-bottom:1px #ffffff solid;
 }
 body{
-	background-color:#ceffa2;
+	background-color:#efefef;
 }
 a,a:hover{
 	display:block;
@@ -23,118 +23,49 @@ img{
 	width:100%;
 	height:100%;
 }
-.header{
+/* .header{
 	position:fixed;
 	top:0;
 	width:100%;
 	height:30px;
 	border-bottom:1px #c0c0c0 solid;
 	background-color:rgba(128,255,255,0.2);
+} */
+.header{
+	width:100%;height:81px;background-color:white;
 }
-.header input,.header select{
-	border-radius:5px;
+.header_logo{
+	width:205px;height:100%;margin-left:10%;margin-top:-1px;
 }
-.header_index,.header_classify,.header_random,.header_work{
-	padding-top:3px;
-	text-align:center;
-	width:100px;
-	height:100%;
-	border:1px #c0c0c0 solid;
-	cursor:pointer;
+.header_center{
+	width:250px;height:40px;margin-top:15px;border:1px #c0c0c0 solid;margin-left:100px;
 }
-.header_index{
-	background-color:#ff4d4d;
-	color:black;
+.header_center select{
+	height:37px;width:50px;border:0;
 }
-.header_index:hover{
-	color:white;
+fieldset{
+	background-color: #5bc0de;
 }
-.header_work:hover{
-	background-color:#ff8040;
+.fs_input1{
+	width:145px;height:37.1px;margin-left:-5px;margin-bottom:1px;
 }
-.header_classify:hover,.header_random:hover,.user_message:hover,.user_favour:hover{
-	background-image:url("../../images/flag/header_min.png");
-	background-size:100% 100%;
+.fs_input2{
+	width:50px;height:39px;border:0;margin-left:-2px;
 }
-.managerPage{
-	border:1px #c0c0c0 solid;
-	width:100px;
-	height:30px;
-	padding-top:5px;
-	background-color:#ff80c0;
-	border-top-right-radius:10px;
-	border-bottom-left-radius:10px;
-	color:#000000;
+.header_right{
+	position:fixed;right:0;top:0;width:325px;height:45px;border:1px #c0c0c0 solid;padding-top:5px;float:right;background-color:rgba(255,255,255,0.7);
 }
-.header_select{
-	width:310px;height:30px;margin-left:100px;
+.h_r_user{
+	width:80px;height:35px;text-align:center;padding-top:5px;border:0;border-right:1px #c0c0c0 dotted;	background-color:rgba(255,255,255,0.7);
 }
-.select_text{
-	padding-top:1px;
-	margin-left:2%;
-	width:55%; 
-	height:95%;
-}
-.select_text input{
-	width:100%;
-	height:100%;
-}
-.select_select{
-	padding-top:1px;
-	width:20%; 
-	height:95%;
-}
-.select_select select{
-	width:100%;
-	height:100%;
-}
-.select_button{
-	padding-top:1px;
-	width:20%; 
-	height:95%;
-}
-.select_button input[type="button"]{
-	width:100%;
-	height:100%;
-}
-.header_user{
-	width:297px;
-	height:100%;
-	float:right;
-	border-right:1px #c0c0c0 solid;
-}
-.user_img{
-	padding-top:5px;
-	text-align:center;
-	width:60px;
-	height:100%;
-	border-left:1px #c0c0c0 solid;
-	border-right:1px #c0c0c0 solid;
-	cursor:pointer;
-}
-.user_message{
-	padding-top:3px;
-	text-align:center;
-	width:56px;
-	height:100%;
-	border-left:1px #c0c0c0 solid;
-	border-right:1px #c0c0c0 solid;
-	cursor:pointer;
-}
-.user_favour{
-	padding-top:3px;
-	text-align:center;
-	width:100px;
-	height:100%;
-	border-left:1px #c0c0c0 solid;
-	border-right:1px #c0c0c0 solid;
-	cursor:pointer;
+#updateFlag{
+	position:absolute;top:5px;right:88px;width:10px;height:10px;color:red;font-size:30px;background-color:red;border-radius:10px;
 }
 .user_upload{
-	padding-top:5px;
+	padding-top:10px;
 	text-align:center;
 	width:80px;
-	height:120%;
+	height:45.59px;
 	border:1px #c0c0c0 solid;
 	border-bottom-left-radius:10px;
 	border-bottom-right-radius:10px;
@@ -148,63 +79,18 @@ img{
 .user_upload:HOVER #upload_flag{
 	color:yellow;
 }
-.classify_st{
-	position:fixed;
-	top:29px;  
-    left:0%; 
-	display:none;
-	width:400px;
-	animation:showclassify 1s;
-	animation-fill-mode: forwards;
-}
-@keyframes showclassify{
-	0%{background:#ffffff;height:0px;opacity:0.0;}
-	100%{background:#ffffff;height:30px;}
-}
-.class_title{
-	padding-top:4px;
+.user_img{
+	padding-top:5px;
 	text-align:center;
-	width:100px;
-	height:30px;
-	border-bottom:1px red solid;
-}
-.class_title:HOVER{
-	background-color:#83bcb5;
-}
-.class_ul1{
-	position:fixed;
-	display:none;
-	top:59px;  
-    left:0%; 
-	width:180px;
-	animation:showclassul 1s;
-	animation-fill-mode: forwards;
-}
-.class_ul2{
-	position:fixed;
-	display:none;
-	top:59px;  
-    left:90px; 
-	width:120px;
-	animation:showclassul 1s;
-	animation-fill-mode: forwards;
-}
-.class_ul3{
-	position:fixed;
-	display:none;
-	top:59px;  
-    left:200px; 
-	width:120px;
-	animation:showclassul 1s;
-	animation-fill-mode: forwards;
-}
-@keyframes showclassul{
-	0%{background-color:rgba(128,128,255,0.5);height:0px;opacity:0.0;}
-	100%{background-color:rgba(128,128,255,0.5);height:260px;}
+	width:60px;
+	height:100%;
+	border-left:1px #c0c0c0 solid;
+	border-right:1px #c0c0c0 solid;
+	cursor:pointer;
 }
 .user_info{
 	position:fixed;
-	top:28px;  
+	top:43px;  
     right:200px; 
 	display:none;
 	border:1px #0080ff solid;
@@ -257,13 +143,42 @@ img{
 	0%{height:0px;opacity:0;}
 	100%{height:108px;}
 }
+.index_center{
+	width:100%;height:50px;
+}
+.index_title{
+	width:82%;height:50px;background-color:#ff9b37;margin-left:9%;border-bottom-right-radius:20px;border-bottom-left-radius:20px;box-shadow:3px 0px 1px #c0c0c0;border-bottom:2px #c0c0c0 solid;padding-left:30px;padding-top:5px;
+}
+.class_title{
+	padding-top:7px;
+	text-align:center;
+	width:100px;
+	height:40px;
+	border-right:2px white dotted;
+}
+.class_title a{
+	color:white;
+}
+.class_title:HOVER a{
+	color:black;
+}
+.managerPage{
+	border:1px #c0c0c0 solid;
+	width:100px;
+	height:30px;
+	padding-top:5px;
+	margin-left:10px;
+	background-color:#ff80c0;
+	border-top-right-radius:10px;
+	border-bottom-left-radius:10px;
+	color:#000000;
+}
 .second{
 	width:100%;
-	height:115px;
+	height:85px;
 	border-bottom:5px #4bd1a6 solid;
 	padding-left:200px;
 	background-color:white;
-	padding-top:30px;
 }
 .sec_logo{
 	width:80px;
@@ -280,9 +195,140 @@ img{
 	font-weight: 700;
 }
 .sec_video{
-	width:66.2%;
+	width:500px;
 	height:80px;
 }
+/***********************/
+/* .header input,.header select{
+	border-radius:5px;
+}
+.header_index,.header_classify,.header_random,.header_work{
+	padding-top:3px;
+	text-align:center;
+	width:100px;
+	height:100%;
+	border:1px #c0c0c0 solid;
+	cursor:pointer;
+}
+.header_index{
+	background-color:#ff4d4d;
+	color:black;
+}
+.header_index:hover{
+	color:white;
+}
+.header_work:hover{
+	background-color:#ff8040;
+}
+.header_classify:hover,.header_random:hover,.user_message:hover,.user_favour:hover{
+	background-image:url("../../images/flag/header_min.png");
+	background-size:100% 100%;
+}
+
+.header_select{
+	width:310px;height:30px;margin-left:100px;
+}
+.select_text{
+	padding-top:1px;
+	margin-left:2%;
+	width:55%; 
+	height:95%;
+}
+.select_text input{
+	width:100%;
+	height:100%;
+}
+.select_select{
+	padding-top:1px;
+	width:20%; 
+	height:95%;
+}
+.select_select select{
+	width:100%;
+	height:100%;
+}
+.select_button{
+	padding-top:1px;
+	width:20%; 
+	height:95%;
+}
+.select_button input[type="button"]{
+	width:100%;
+	height:100%;
+}
+.header_user{
+	width:297px;
+	height:100%;
+	float:right;
+	border-right:1px #c0c0c0 solid;
+}
+
+.user_message{
+	padding-top:3px;
+	text-align:center;
+	width:56px;
+	height:100%;
+	border-left:1px #c0c0c0 solid;
+	border-right:1px #c0c0c0 solid;
+	cursor:pointer;
+}
+.user_favour{
+	padding-top:3px;
+	text-align:center;
+	width:100px;
+	height:100%;
+	border-left:1px #c0c0c0 solid;
+	border-right:1px #c0c0c0 solid;
+	cursor:pointer;
+}
+ 
+.classify_st{
+	position:fixed;
+	top:29px;  
+    left:0%; 
+	display:none;
+	width:400px;
+	animation:showclassify 1s;
+	animation-fill-mode: forwards;
+}
+@keyframes showclassify{
+	0%{background:#ffffff;height:0px;opacity:0.0;}
+	100%{background:#ffffff;height:30px;}
+}
+
+.class_ul1{
+	position:fixed;
+	display:none;
+	top:59px;  
+    left:0%; 
+	width:180px;
+	animation:showclassul 1s;
+	animation-fill-mode: forwards;
+}
+.class_ul2{
+	position:fixed;
+	display:none;
+	top:59px;  
+    left:90px; 
+	width:120px;
+	animation:showclassul 1s;
+	animation-fill-mode: forwards;
+}
+.class_ul3{
+	position:fixed;
+	display:none;
+	top:59px;  
+    left:200px; 
+	width:120px;
+	animation:showclassul 1s;
+	animation-fill-mode: forwards;
+}
+@keyframes showclassul{
+	0%{background-color:rgba(128,128,255,0.5);height:0px;opacity:0.0;}
+	100%{background-color:rgba(128,128,255,0.5);height:260px;}
+}
+*/
+
 .bottom{
 	width:100%;
 }
@@ -353,9 +399,10 @@ img{
 	color:black;
 }
 .desc_font{
-	font-size:12px;
+	font-size:13px;
 	font-weight:550;
 	margin-right:5px;
+	color:#49b6be;
 }
 .desc_value{
 	width:100%;

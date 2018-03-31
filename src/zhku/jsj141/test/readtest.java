@@ -26,9 +26,9 @@ public class readtest {
 			dir.mkdir();
 		}
 		List<String> list = new LinkedList<String>();
-		File text = new File(dir,"东野圭吾 风雪追击.txt");
+		File text = new File(dir,"notice.txt");
 		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader( new FileInputStream(text),"UTF-8"));
+			BufferedReader in = new BufferedReader(new InputStreamReader( new FileInputStream(text),"GBK"));
 			String read =null;
 			while((read=in.readLine())!=null){
 				list.add(String.valueOf(read.length())+":");

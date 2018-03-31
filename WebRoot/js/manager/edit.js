@@ -7,11 +7,45 @@ $(document).ready(function(){
 		alert($("#delete_U").html());
 	}
 });
+function logout(){
+	$.ajax({
+		url : '/SSH_test/userAction_logOut',
+		type : "POST",
+		timeout : 1000,
+		cache : false,
+		async : false,// 取消异步请求
+		success : function(data) {
+			if(data!=""){
+				$.cookie('user',null,{expires: -1,path: '/'});
+				window.location.reload();
+			}
+		},
+	});
+}
 function login(user, path) {
 	if (user == "true") {// 没登陆
 		window.location.href = path + "/pages/user/login.jsp";
 	} else {
 		window.location.href = path + "/pages/user/User.jsp";
+	}
+}
+function checkUser(user) {
+	if(user == true){
+		var page = $("#page_num").html();
+		$("#page_a"+page).css("color","red");
+		$.ajax({
+			url : '/SSH_test/userAction_login',
+			type : "POST",
+			timeout : 1000,
+			cache : false,
+			async : false,// 取消异步请求
+			success : function(data) {
+				if(data=="111"){
+					$.cookie('user',null,{expires: -1,path: '/'});
+					window.location.reload();
+				}
+			},
+		});
 	}
 }
 function infoon() {

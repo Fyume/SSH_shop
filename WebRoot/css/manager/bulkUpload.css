@@ -2,14 +2,36 @@
 form input[type='file']{
 	display:none;
 }
+li{
+	text-align:center;
+	cursor:pointer;
+}
+li:HOVER{
+	color:#ff8000;
+}
+input[type="submit"]{
+	opacity:0.5;
+	cursor:info;
+}
+.dropdown-header{
+	cursor:default;
+}
+.dropdown-header:HOVER{
+	color:#777;
+}
+.btn{
+	margin-top:10px;
+}
+#file_btn{
+	cursor:default;
+	opacity:0.5;
+}
 .bu_bottom {
 	width: 100%;
-	height: 91%;
-	border: 1px red solid;
 	padding-left:5%;
 }
 .book_div {
-	width: 75%;
+	width: 80%;
 	height: 120px;
 	border: 1px green solid;
 }
@@ -19,7 +41,7 @@ form input[type='file']{
 	border: 1px red solid;
 }
 .div_font_1 {
-	width: 11%;
+	width: 10%;
 	height: 100%;
 	border: 1px black solid;
 	text-align: center;
@@ -30,7 +52,7 @@ form input[type='file']{
 	border: 1px red solid;
 }
 .div_value_1 {
-	width: 11%;
+	width: 10%;
 	height: 100%;
 	border: 1px black solid;
 	text-align: center;
@@ -49,4 +71,13 @@ form input[type='file']{
 }
 #publish input[type="text"]{
 	width:25%;
+}
+.tips{
+	width:68px;
+	height:34px;
+    color: #333;
+    background-color: #fff;
+    border-radius:4px;
+    text-align:center;
+    padding-top:15px;
 }

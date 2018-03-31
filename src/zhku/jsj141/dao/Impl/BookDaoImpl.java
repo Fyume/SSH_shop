@@ -55,7 +55,6 @@ public class BookDaoImpl implements BookDao{
 		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
 		List<Book> list = null;
 		try {
-			hibernateTemplate.getSessionFactory().getCurrentSession().clear();
 			list = (List<Book>) hibernateTemplate.find("from Book where "
 					+ name + " like ?","%"+
 					book.getClass().getMethod("get" + name_m)

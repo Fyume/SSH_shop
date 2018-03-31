@@ -4,11 +4,15 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+
+import com.alibaba.fastjson.JSON;
 
 import zhku.jsj141.action.BaseAction;
 import zhku.jsj141.entity.Type;
 import zhku.jsj141.entity.Upload;
 import zhku.jsj141.entity.user.Book;
+import zhku.jsj141.entity.user.Favour;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.ManagerService;
@@ -39,12 +43,12 @@ public class BookAction extends BaseAction {
 	User user = new User();
 	Book book = new Book();
 	
-	private List<File> flist = new ArrayList<File>();//书本批量上传用
-	private List<String> flfn = new ArrayList<String>();
-	private List<String> flct = new ArrayList<String>();
-	private List<File> ilist = new ArrayList<File>();//封面批量上传用
-	private List<String> ilfn = new ArrayList<String>();
-	private List<String> ilct = new ArrayList<String>();
+	private List<File> flist;//书本批量上传用
+	private List<String> flistFileName;
+	private List<String> flistContentType;
+	private List<File> ilist;//封面批量上传用
+	private List<String> ilistFileName;
+	private List<String> ilistContentType;
 	private List<Book> blist = new ArrayList<Book>();
 	private List<String> ylist = new ArrayList<String>();
 	private List<String> mlist = new ArrayList<String>();
@@ -79,35 +83,35 @@ public class BookAction extends BaseAction {
 	public void setFlist(List<File> flist) {
 		this.flist = flist;
 	}
-	public List<String> getFlfn() {
-		return flfn;
-	}
-	public void setFlfn(List<String> flfn) {
-		this.flfn = flfn;
-	}
-	public List<String> getFlct() {
-		return flct;
-	}
-	public void setFlct(List<String> flct) {
-		this.flct = flct;
-	}
 	public List<File> getIlist() {
 		return ilist;
 	}
 	public void setIlist(List<File> ilist) {
 		this.ilist = ilist;
 	}
-	public List<String> getIlfn() {
-		return ilfn;
+	public List<String> getFlistFileName() {
+		return flistFileName;
 	}
-	public void setIlfn(List<String> ilfn) {
-		this.ilfn = ilfn;
+	public void setFlistFileName(List<String> flistFileName) {
+		this.flistFileName = flistFileName;
 	}
-	public List<String> getIlct() {
-		return ilct;
+	public List<String> getFlistContentType() {
+		return flistContentType;
 	}
-	public void setIlct(List<String> ilct) {
-		this.ilct = ilct;
+	public void setFlistContentType(List<String> flistContentType) {
+		this.flistContentType = flistContentType;
+	}
+	public List<String> getIlistFileName() {
+		return ilistFileName;
+	}
+	public void setIlistFileName(List<String> ilistFileName) {
+		this.ilistFileName = ilistFileName;
+	}
+	public List<String> getIlistContentType() {
+		return ilistContentType;
+	}
+	public void setIlistContentType(List<String> ilistContentType) {
+		this.ilistContentType = ilistContentType;
 	}
 	
 	public Book getBook() {
@@ -257,6 +261,7 @@ public class BookAction extends BaseAction {
 	//获取书本内容
 	public String readBook() throws Exception{
 		int bid = Integer.parseInt(request.getParameter("bid"));
+		user = (User) request.getSession().getAttribute("user");
 		book.setBid(bid);
 		booklist = bookService.find(book, "bid");
 		if(booklist.size()!=0){
@@ -267,6 +272,14 @@ public class BookAction extends BaseAction {
 			request.getSession().setAttribute("page", 1);//默认为第1页
 			request.getSession().setAttribute("book", book);
 			request.getSession().setAttribute("work", null);//类似workaction里面的
+			if(user!=null){
+				List<Favour> favlist = userService.findF(user,book);
+				if(favlist.size()!=0){
+					Favour favour = favlist.get(0);
+					favour.setUpdateFlag(0);//清零
+					userService.updateF(favour);
+				}
+			}
 			return "goto_book";
 		}
 		return "goto_index";
@@ -279,10 +292,6 @@ public class BookAction extends BaseAction {
 		System.out.println("message:"+message);
 		System.out.println("flag:"+flag);
 		if(message!=null&&flag!=null){
-			/*String Flag = flag.substring(0, 1).toUpperCase()+flag.substring(1,flag.length());
-			book.getClass().getMethod("set" + Flag).invoke(book,message);
-			System.out.println(book.getClass().getMethod("get" + Flag)
-							.invoke(book));*/
 			if(flag.equals("type")){
 				book.setType(message);
 				request.getSession().setAttribute("classfy", message);
@@ -329,8 +338,14 @@ public class BookAction extends BaseAction {
 							request.setAttribute("uploadResult", "该书本已存在");
 						} else {
 							book.setPath(result);
-							boolean rs2 = bookService.update(book);
+							boolean rs2 = bookService.update(book);//持久化断掉了
 							if(rs2){
+								//更新提示
+								book = bookService.find(book, "bid").get(0);
+								Set<Favour> fav_set= book.getFavour();
+								for (Favour favour : fav_set) {
+									favour.setUpdateFlag(1);//更新
+								}
 								t_upload.setBook(book);
 								long time = System.currentTimeMillis()/1000;
 								t_upload.setTime(time);
@@ -363,6 +378,7 @@ public class BookAction extends BaseAction {
 		}
 		return "goto_edit";
 	}
+	//批量上传
 	public String bulkUpload() throws Exception{
 		user = (User) request.getSession().getAttribute("user");
 		if (user == null) {
@@ -371,16 +387,17 @@ public class BookAction extends BaseAction {
 		List<String> uploadResult = new ArrayList<String>();
 		for(int i=0;i<flist.size();i++){
 			File file = flist.get(i);
-			String fileName = flfn.get(i);
-			String contType = flct.get(i);
+			String fileName = flistFileName.get(i);
+			String contType = flistContentType.get(i);
 			System.out.println("file:"+file+";fileName:"+fileName+";contType:"+contType);
 			File image = ilist.get(i);
-			String imageName = ilfn.get(i);
-			String imageType = ilct.get(i);
+			String imageName = ilistFileName.get(i);
+			String imageType = ilistContentType.get(i);
 			System.out.println("image:"+image+";imageName:"+imageName+";imageType:"+imageType);
 			int year = Integer.valueOf(ylist.get(i));
 			int month = Integer.valueOf(mlist.get(i));
 			int day = Integer.valueOf(dlist.get(i));
+			System.out.println(year+"年"+month+"月"+day+"日");
 			long publish = new Date(year, month, day).getTime()/(1000*60*60);// 转换成时间戳(只需要年月日,为了不丢失精度，保留时)
 			blist.get(i).setPublish(publish);
 			Upload t_upload = new Upload();//不新建应该会变成持久态？
@@ -413,9 +430,9 @@ public class BookAction extends BaseAction {
 					}
 				}
 			}
-			
 		}
-		request.setAttribute("uploadResultList", uploadResult);
+		String rs = JSON.toJSONString(uploadResult);
+		request.setAttribute("uploadResultList",rs);
 		return "goto_bulkUpload";
 	}
 	/***************测试****************/

@@ -22,72 +22,38 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<link rel="stylesheet"
-	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/index.css">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/User.css">
 </head>
 <!-- 你这个时候才开始有想用bootstrap的意思啊喂魂淡 -->
-<body>
+<body onload="checkUser(${empty sessionScope.user})">
 	<c:choose>
 		<c:when test="${!empty sessionScope.user}">
-			<div class="header">
-				<a href="${pageContext.request.contextPath}/bookAction_getData">
-					<div class="header_index">
-						首页
+			<div id="header_right" class="header_right">
+				<div class="h_r_user btn btn-default" onmouseover="infoon()" onmouseout="infooff()" onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
+					<span class="glyphicon glyphicon-user"></span> <span
+						style="color:red;font-weight:400">${sessionScope.user.username }</span>
+				</div>
+				<div class="h_r_user btn btn-default">消息</div>
+				<div id="updateFlag"></div>
+				<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
+					<div class="h_r_user btn btn-default">收藏夹</div>
+				</a>
+				<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
+					<div class="user_upload" style="margin-top:-5px;">
+						<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
 					</div>
 				</a>
-				<!-- <div class="header_random">随机</div> -->
-				
-				<c:if test="${sessionScope.user.u_permission }">
-					<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">
-						<div class="managerPage">
-							前往管理员界面
-						</div>
-					</a>
-				</c:if>
-				<!-- 未实现 -->
-				<div class="header_select">
-					<div class="select_text">
-						<input id="select_message" type="text" name="select_message" placeholder="输入作品名/书名(1-20个字符、数字)"
-							onblur="check_selecttext()">
-					</div>
-					<div class="select_select">
-						<select id="select_select">
-							<option value="1">书名</option>
-							<option value="2">作品名</option>
-							<option value="3">作者</option>
-						</select>
-					</div>
-					<div class="select_button">
-						<input type="button" value="搜索" onclick="selectmess()"
-							style="background-color:#80ffff;">
-					</div>
-				</div>
-				<div class="header_user">
-					<div class="user_img" onmouseover="infoon()" onmouseout="infooff()" onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
-						<span class="glyphicon glyphicon-user"></span> <span
-							style="color:red;font-weight:400">${sessionScope.user.username }</span>
-					</div>
-					<c:if test="${!empty sessionScope.user }">
-						<div class="user_message">消息</div>
-						<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
-							<div class="user_favour">收藏夹</div>
-						</a>
-						<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
-							<div class="user_upload">
-								<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
-							</div>
-						</a>
-					</c:if>
-				</div>
 			</div>
 			<!-- 不放到这个位置好像会影响div的onmouserover事件 应该是video标签的问题？ 还是加载顺序的问题？不是很清楚 -->
 			<div class="second">
-				<div class="sec_logo"></div>
-				<div class="sec_font">在线阅读网站</div>
+				<a href="${pageContext.request.contextPath}/bookAction_getData">
+					<div class="sec_logo"></div>
+					<div class="sec_font">在线阅读网站</div>
+				</a>
 				<div class="sec_video">
 					<video width="100%" height="100%" loop="loop" autoplay="autoplay" style="object-fit:fill;">
 						<source src="${pageContext.request.contextPath}/images/video/sec(2).mp4"  type="video/mp4">
@@ -125,11 +91,9 @@
 								设置
 							</div>
 						</a>
-						<a href="${pageContext.request.contextPath}/userAction_logOut">
-							<div class="list_btn">
-								退出
-							</div>
-						</a>
+						<div class="list_btn" onclick="logout()">
+							退出
+						</div>
 					</c:otherwise>
 				</c:choose>
 			</div>
@@ -149,6 +113,11 @@
 						<li>
 							<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
 								收藏夹
+							</a>
+						</li>
+						<li>
+							<a href="${pageContext.request.contextPath}/userAction_getMyUpdateFlag">
+								评论消息
 							</a>
 						</li>
 					</ul>
@@ -233,7 +202,7 @@
 									<c:set var="Alllist" value="${sessionScope.myWork }"></c:set>
 									<c:set var="AllNum" value="${sessionScope.myWork_flag }"></c:set>
 									<div class="User_title">作品区</div><br>
-									<div class="arrow_div" style="top:25.5%;"></div>
+									<div class="arrow_div" style="top:128px;"></div>
 									<c:if test="${empty sessionScope.myWork }">
 										<span style="color:#c0c0c0;">您还没有上传过作品呢。点击右上角上传按钮即刻上传吧~</span>
 									</c:if>
@@ -258,7 +227,7 @@
 									<!-- 分页用 -->
 									<c:set var="AllNum" value="${sessionScope.myFav_size }"></c:set>
 									<div class="User_title">收藏夹</div><br>
-									<div class="arrow_div" style="top:32.5%;"></div>
+									<div class="arrow_div" style="top:169px;"></div>
 									<div class="dropdown">
 										<ul class="nav nav-tabs">
 											<li class="dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1">
@@ -287,6 +256,11 @@
 													<div id="img_cover${num.count }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
 														<div class="cover_btn"><a href="${pageContext.request.contextPath }/workAction_readWork?wid=${fav.work.wid}">进入阅读</a></div>
 													</div>
+													<c:if test="${fav.updateFlag==1}">
+														<div style="width:25px;height:25px;margin-left:-15px;margin-top:-10px;">
+															<img width=100% height=100% alt="" src="${pageContext.request.contextPath }/images/flag/53ca319f790e8.png">
+														</div>
+													</c:if>
 													<div id="work_wname${num.count }" class="work_title">${fav.work.wname }</div>
 													<div class="work_time"><mytags:date value="${fav.work.uploadtime*1000 }"></mytags:date></div>
 												</div>
@@ -304,6 +278,11 @@
 													<div id="img_cover${num.count }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
 														<div class="cover_btn"><a href="${pageContext.request.contextPath }/bookAction_readBook?bid=${fav.book.bid}">进入阅读</a></div>
 													</div>
+													<c:if test="${fav.updateFlag==1}">
+														<div style="width:25px;height:25px;margin-left:-15px;margin-top:-10px;">
+															<img width=100% height=100% alt="" src="${pageContext.request.contextPath }/images/flag/53ca319f790e8.png">
+														</div>
+													</c:if>
 													<div id="work_wname${num.count }" class="work_title">${fav.book.bname }</div>
 													<div class="work_time">出版日期： <mytags:date type="1" value="${fav.book.publish*1000*60*60 }"></mytags:date></div>
 												</div>
@@ -351,6 +330,9 @@
 					</form>
 				</div>
 			</div>
+			<c:if test="${!empty sessionScope.updateFlag }">
+				<div class="user_Update_Flag"></div>
+			</c:if>
 		</c:when>
 		<c:otherwise>
 			<a href="${pageContext.request.contextPath}/pages/user/login.jsp"
@@ -359,6 +341,8 @@
 	</c:choose>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery.cookie.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 <script
 	src="${pageContext.request.contextPath}/js/bootstrap-dropdown.js"></script>

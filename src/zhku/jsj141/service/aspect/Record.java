@@ -96,11 +96,10 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 				int type_flag = operate_m.getType_flag();
 				if(SimpleName.equals("UserServiceImpl")&&user.isU_permission()){//由于只给了管理用户和书本的接口 就不记录关于收藏表 历史表的操作了
 					operate_m.setEntity("user");
-					User user2 = (User) jp.getArgs()[0];//增删改的方法就只有1个参数。。就是需要增删改的实体类
-					value2 = tojson(user2);
+					value2 = tojson((User) jp.getArgs()[0]);//增删改的方法就只有1个参数。。就是需要增删改的实体类
 					operate_m.setValue_after(value2);
 					if(type_flag==3||type_flag==2){//更新或者删除操作的话
-						userlist = userDao.select(user2, "uid");
+						userlist = userDao.select((User) jp.getArgs()[0], "uid");
 						if(!userlist.isEmpty()){
 							value1 = tojson(userlist.get(0));
 							operate_m.setValue_before(value1);
@@ -114,8 +113,7 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 					}
 				}else if(SimpleName.equals("BookServiceImpl")){//由于只给了管理用户和书本的接口 就不记录关于收藏表 历史表的操作了
 					operate_m.setEntity("book");
-					book = (Book) jp.getArgs()[0];
-					value2 = tojson(book);
+					value2 = tojson((Book) jp.getArgs()[0]);
 					operate_m.setValue_after(value2);
 					if(type_flag==3||type_flag==2){//更新或者删除操作的话
 						booklist = bookDao.select(book, "bid");
@@ -132,11 +130,10 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 					}
 				}else if(SimpleName.equals("WorkServiceImpl")){//由于只给了管理用户和书本的接口 就不记录关于收藏表 历史表的操作了
 					operate_m.setEntity("work");
-					work = (Work) jp.getArgs()[0];
-					value2 = tojson(work);
+					value2 = tojson((Work) jp.getArgs()[0]);
 					operate_m.setValue_after(value2);
 					if(type_flag==3||type_flag==2){//更新或者删除操作的话
-						worklist = workDao.select(work, "wid");
+						worklist = workDao.select((Work) jp.getArgs()[0], "wid");
 						if(!worklist.isEmpty()){
 							value1 = tojson(worklist.get(0));
 						operate_m.setValue_before(value1);

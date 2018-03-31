@@ -55,6 +55,11 @@ public class ManagerServiceImpl implements ManagerService {
 		return rs;
 	}
 	@Override
+	public boolean deleteUpload(Upload upload){
+		boolean rs = managerDao.deleteUpload(upload);
+		return rs;
+	}
+	@Override
 	public List<Upload> findUpload(Book book){
 		List<Upload> list = managerDao.findUpload(book);
 		return list;

@@ -60,7 +60,17 @@ public class ManagerDaoImpl implements ManagerDao{
 	@Override
 	public boolean updateUpload(Upload upload){
 		try{
-			hibernateTemplate.update(upload);
+			hibernateTemplate.merge(upload);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public boolean deleteUpload(Upload upload){
+		try{
+			hibernateTemplate.delete(upload);
 		}catch(DataAccessException e){
 			e.printStackTrace();
 			return false;

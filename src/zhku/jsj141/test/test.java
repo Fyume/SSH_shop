@@ -27,6 +27,7 @@ import zhku.jsj141.dao.BookDao;
 import zhku.jsj141.dao.UserDao;
 import zhku.jsj141.dao.Impl.BookDaoImpl;
 import zhku.jsj141.entity.user.User;
+import zhku.jsj141.utils.user.MD5Utils;
 
 public class test {
 /*	Logger log = Logger.getLogger(test.class);
@@ -184,5 +185,9 @@ public class test {
 			System.out.println(field[i].getName());*/
 		}
 		return json;
+	}
+	@Test
+	public void test22(){
+		System.out.println(new MD5Utils("iii").getStr());
 	}
 }

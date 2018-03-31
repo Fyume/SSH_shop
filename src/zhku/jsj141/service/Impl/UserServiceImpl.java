@@ -91,6 +91,11 @@ public class UserServiceImpl implements UserService{
 		boolean rs = userDao.addF(favour);
 		return rs;
 	}
+	@Override
+	public boolean updateF(Favour favour){
+		boolean rs = userDao.updateF(favour);
+		return rs;
+	}
 	/**
 	 * 取消收藏
 	 */

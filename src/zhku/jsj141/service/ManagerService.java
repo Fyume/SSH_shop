@@ -28,4 +28,6 @@ public interface ManagerService {
 	
 	public List<Upload> findUpload(Book book);
 
+	public boolean deleteUpload(Upload upload);
+
 }

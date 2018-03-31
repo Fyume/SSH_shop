@@ -22,14 +22,14 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <!-- 用下载下来的bootstrap.min.css没有图标 不知道为什么 可能是需要其他的文件支持 -->
 <link rel="stylesheet"
 	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/manager/edit.css">
 </head>
 
-<body onload="page('${requestScope.DBRs}')">
+<body onload="page('${requestScope.DBRs}');checkUser(${empty sessionScope.user})">
 	<c:if test="${empty sessionScope.user }">
 		<a href="${pageContext.request.contextPath}/pages/user/login.jsp"
 			style="margin-left:600px;">前往登录</a>
@@ -37,7 +37,7 @@
 	<c:if test="${sessionScope.user.u_permission }">
 		<div class="header">
 			<div class="header_logo"></div>
-			<a href="${pageContext.request.contextPath}/pages/index.jsp">
+			<a href="${pageContext.request.contextPath}/bookAction_getData">
 				<div class="header_index">
 					首页
 				</div>
@@ -102,11 +102,9 @@
 							设置
 						</div>
 					</a>
-					<a href="${pageContext.request.contextPath}/userAction_logOut">
-						<div class="list_btn">
-							退出
-						</div>
-					</a>
+					<div class="list_btn" onclick="logout()">
+						退出
+					</div>
 				</c:otherwise>
 			</c:choose>
 		</div>
@@ -505,9 +503,6 @@
 										</c:if>
 										<c:if test="${operate.type_flag eq 2}">
 											<span id="operate${num.count }">删除操作</span>
-											删除前-->
-											<span id="entity2${num.count }" class="record_entity">${operate.entity }</span><span id="chevron2${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(2,${num.count})"></span>
-											<span id="value_before${num.count }" style="display:none;">${operate.value_before}</span>
 										</c:if>
 										<c:if test="${operate.type_flag eq 3}">
 											<span id="operate${num.count }">修改操作 </span>
@@ -535,9 +530,6 @@
 										</c:if>
 										<c:if test="${operate.type_flag eq 2}">
 											<span id="operate${num.count }">删除操作</span>
-											删除前-->
-											<span id="entity2${num.count }" class="record_entity">${operate.entity }</span><span id="chevron2${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(2,${num.count})"></span>
-											<span id="value_before${num.count }" style="display:none;">${operate.value_before}</span>
 										</c:if>
 										<c:if test="${operate.type_flag eq 3}">
 											<span id="operate${num.count }">修改操作 </span>
@@ -580,7 +572,7 @@
 		</div>
 		<!-- Δ=80px -->
 		<div id="book_update_div" class="book_update_div">
-			<form action="${ pageContext.request.contextPath}/bookAction_update">
+			<form action="${ pageContext.request.contextPath}/bookAction_update" method="post" enctype="multipart/form-data">
 				书本名字:
 				<br>
 				《<span id="bookName" style="color:red"></span>》
@@ -594,9 +586,11 @@
 		</div>
 	</c:if>
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+	src="${pageContext.request.contextPath}/js/jquery.cookie.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/manager/edit.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 </body>
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/manager/edit.css">
 </html>

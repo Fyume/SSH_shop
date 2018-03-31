@@ -73,8 +73,9 @@ a,a:hover{
 	margin-left:1px;
 	cursor:pointer;
 }
-.header_index:hover,.h_user:hover,.h_book:hover{
+.header_index:hover,.h_user:hover,.h_book:hover,.h_record:hover{
 	background-image:url("../../images/flag/header_min.png");
+	background-size:100% 100%;
 }
 .header_user{
 	width:170px;

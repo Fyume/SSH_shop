@@ -1,5 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
@@ -17,33 +17,32 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath }/css/user/login.css">
-<body>
-<div style="float:right;width:50px;height:50px;font-size:15px;font-weight: 900;"><a href="${pageContext.request.contextPath}/pages/index.jsp">前往首页</a></div>
-	<div style="font-family: 华文彩云;font-size:33px;font-weight: 500;margin-left:1020px;margin-top:95px;color:green;padding-bottom:10px;">在 线 阅 读</div>
-	<div class="login_form">
+</head>
+<body onload="checkUser(${empty sessionScope.user})">
+	<a class="a_login" href="${pageContext.request.contextPath}/pages/index.jsp">前往首页</a>
+	<div class="webName">在 线 阅 读</div>
+	<div id="login_form" class="login_form">
 		<form id="form"
 			action="${pageContext.request.contextPath }/userAction_login"
 			method="post" onsubmit="return checkform()">
 			<div class="login_table">
-				<label class="table_label">
-					<div class="table_label_font">用户ID:</div>
+				<div class="table_label">
+					<div class="table_label_font">帐 号 :</div>
 					<div class="table_label_input">
 						<input id="uid" type="text" name="user.uid" maxlength="8" placeholder="输入用户ID">
 						<a href="${pageContext.request.contextPath }/pages/user/register.jsp">注册用户</a>
 					</div>
+					
 					<div id="u_warn" class="warning">${requestScope.uidpass_flag }</div>
-				</label>
-				<label class="table_label">
+				</div>
+				<div class="table_label">
 					<div class="table_label_font">密 码 :</div>
 					<div class="table_label_input">
 						<input id="password" type="password" name="user.password" maxlength="16">
 						<a href="${pageContext.request.contextPath }/pages/user/forget.jsp">忘记密码</a>
 					</div>
-				</label> 
-				<label class="table_label">
+				</div>
+				<div class="table_label">
 					<div class="table_label_font">验证码:</div>
 					<div class="table_label_input">
 						<input type="text" id="vCode_text" name="验证码">
@@ -55,16 +54,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</div>
 					<div id="vC_warn" class="warning">${requestScope.vCode_flag}</div>
 					
-				</label> <input id="login_table_submit" class="login_table_submit"
-					type="submit" value="登  录">
-					<a href="${pageContext.request.contextPath }/pages/user/activate.jsp" style="float:left;margin-left:200px;margin-top:7px;">帐号未激活？去激活</a>
+				</div>
+				<input id="login_table_submit" class="login_table_submit" type="submit" value="登  录">
+				<a href="${pageContext.request.contextPath }/pages/user/activate.jsp" style="float:left;margin-left:200px;margin-top:7px;">帐号未激活？去激活</a>
+				<input type="checkbox" name="checkbox" value="1" checked="checked"><span style="font-size:14px;">记住我</span>
+				<input type="text" name="www" value="login" style="display:none;">
 			</div>
 		</form>
 	</div>
+	<c:if test="${!empty sessionScope.user}">
+		<div id="login_form2" class="login_form2">
+			<div class="img_div">
+				<c:choose>
+					<c:when test="${empty sessionScope.user.image}">
+						<img src="${pageContext.request.contextPath}/images/flag/user_img(default).png">
+					</c:when>
+					<c:otherwise>
+						<img src="${pageContext.request.contextPath}/images/user/userImg${sessionScope.user.image}">
+					</c:otherwise>
+				</c:choose>
+				<div class="userName">${sessionScope.user.username }</div>
+				<div class="btn btn-default" onclick="exchange()">切换账号<span class="glyphicon glyphicon-sort" style="transform:rotate(90deg)"></span></div>
+			</div>
+		</div>
+	</c:if>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery.cookie.js"></script>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/user/index.js"></script>
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/user/login.js"></script>
-</head>
 </body>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath }/css/user/login.css">
 </html>

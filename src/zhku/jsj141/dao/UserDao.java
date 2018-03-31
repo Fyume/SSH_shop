@@ -202,4 +202,10 @@ public interface UserDao {
 	 * @return List<Long>
 	 */
 	public List<Long> findRfr_work_nearest(Work work, User user);
+	/**
+	 * 更新收藏表
+	 * @param favour
+	 * @return
+	 */
+	public boolean updateF(Favour favour);
 }

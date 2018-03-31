@@ -34,151 +34,95 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/book.css">
 </head>
-<body>
+<body onload="checkUser(${empty sessionScope.user})">
 	<div class="header">
 		<a href="${pageContext.request.contextPath}/bookAction_getData">
-			<div class="header_index">首页</div>
-		</a> <a href="${pageContext.request.contextPath}/bookAction_getData">
-			<div class="header_classify" onmouseover="classifyon()"
-				onmouseout="classifyoff()">全部分类</div>
-		</a> <a href="${pageContext.request.contextPath}/workAction_getData">
-			<div class="header_work">用户作品</div>
-		</a>
-		<a href="${pageContext.request.contextPath}/userAction_random">
-			<div class="header_classify">
-				随便看看
+			<div class="header_logo">
+				<img width=100% height=100% alt="" src="${pageContext.request.contextPath}/images/flag/2018-03-31_164359.png">
 			</div>
 		</a>
-		<!-- <div class="header_random">随机</div> -->
-
-		<c:if test="${sessionScope.user.u_permission }">
-			<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">
-				<div class="managerPage">前往管理员界面</div>
-			</a>
-		</c:if>
-		<!-- 未实现 -->
-		<div class="header_select">
-			<div class="select_text">
-				<input id="select_message" type="text" name="select_message"
-					placeholder="输入作品名/书名(1-20个字符、数字)" onblur="check_selecttext()">
-			</div>
-			<div class="select_select">
+		<div class="header_center">
+			<fieldset>
 				<select id="select_select">
 					<option value="1">书名</option>
 					<option value="2">作品名</option>
 					<option value="3">作者</option>
 				</select>
-			</div>
-			<div class="select_button">
-				<input type="button" value="搜索" onclick="selectmess()"
-					style="background-color:#80ffff;">
-			</div>
+				<input class="fs_input1" id="select_message" type="text" name="select_message" placeholder="输入作品名/书名(1-20个字符、数字)"onblur="check_selecttext()">
+				<input class="fs_input2 btn btn-info" type="button" value="搜索" onclick="selectmess()">
+			</fieldset>
 		</div>
-		<div class="header_user">
-			<div class="user_img" onmouseover="infoon()" onmouseout="infooff()"
-				onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
+		<c:if test="${sessionScope.user.u_permission }">
+			<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">
+				<div class="managerPage">
+					前往管理员界面
+				</div>
+			</a>
+		</c:if>
+		<div id="header_right" class="header_right">
+			<div class="h_r_user btn btn-default" onmouseover="infoon()" onmouseout="infooff()" onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
 				<span class="glyphicon glyphicon-user"></span> <span
 					style="color:red;font-weight:400">${sessionScope.user.username }</span>
 			</div>
-			<c:if test="${!empty sessionScope.user }">
-				<div class="user_message">消息</div>
-				<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
-					<div class="user_favour">收藏夹</div>
-				</a>
-				<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
-					<div class="user_upload">
-						<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
-					</div>
-				</a>
-			</c:if>
+			<div class="h_r_user btn btn-default">消息</div>
+			<div id="updateFlag"></div>
+			<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
+				<div class="h_r_user btn btn-default">收藏夹</div>
+			</a>
+			<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
+				<div class="user_upload" style="margin-top:-5px;">
+					<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
+				</div>
+			</a>
 		</div>
 	</div>
-	<!-- 不放到这个位置好像会影响div的onmouserover事件 应该是video标签的问题？ 还是加载顺序的问题？不是很清楚 -->
-	<div class="second">
-		<div class="sec_logo"></div>
-		<div class="sec_font">在线阅读网站</div>
-		<div class="sec_video">
-			<video width="100%" height="100%" loop="loop" autoplay="autoplay"
-				style="object-fit:fill;"> <source
-				src="${pageContext.request.contextPath}/images/video/sec(2).mp4"
-				type="video/mp4"></video>
-		</div>
-	</div>
-	<div id="user_info" class="user_info" onmouseover="infoon()"
-		onmouseout="infooff()">
-		<c:choose>
-			<c:when test="${empty sessionScope.user }">
-				<div class="list_login">
-					<a href="${pageContext.request.contextPath}/pages/user/login.jsp">前往登录</a>
-				</div>
-			</c:when>
-			<c:otherwise>
-				<div class="info_img">
-					<c:choose>
-						<c:when test="${empty sessionScope.user.image }">
-							<img id="user_img" alt="头像" style="border-radius:100%;"
-								src="${pageContext.request.contextPath }/images/flag/user_img(default).png">
-						</c:when>
-						<c:otherwise>
-							<img id="user_img" alt="头像" style="border-radius:100%;"
-								src="${pageContext.request.contextPath }/images/user/userImg/${sessionScope.user.image }">
-						</c:otherwise>
-					</c:choose>
-				</div>
-				<div class="list_half">
-					ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span>
-				</div>
-				<div class="list_half">
-					用户名:<span style="color:red;">${sessionScope.user.username }</span>
-				</div>
-				<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
-					<div class="list_all">
-						<span style="font-weight:550;font-size:15px;">个人中心</span>
+	<div class="index_center" style="background-color:#c8e3b3;">
+		<div id="index_title" class="index_title">
+			<div class="class_title" style="border-left:0;">
+				<a href="${pageContext.request.contextPath}/bookAction_getData">
+					首页
+				</a>
+			</div>
+			<c:forEach items="${sessionScope.typelist }" var="type"
+				varStatus="num">
+				<div>
+					<div class="class_title" onmouseover="classUlon(${num.count})"
+						onmouseout="classUloff(${num.count})">
+						<a
+							href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=${type.type}">${type.type }</a>
 					</div>
-				</a>
-				<!-- 未实现暂时用User.jsp过渡 -->
-				<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
-					<div class="list_btn">设置</div>
-				</a>
-				<a href="${pageContext.request.contextPath}/userAction_logOut">
-					<div class="list_btn">退出</div>
-				</a>
-			</c:otherwise>
-		</c:choose>
-	</div>
-	<div class="classify_st" id="classify_st" onmouseover="classifyon()"
-		onmouseout="classifyoff()">
-		<c:forEach items="${sessionScope.typelist }" var="type"
-			varStatus="num">
-			<div>
-
-				<div class="class_title" style="border-right:1px #c0c0c0 solid"
+	
+				</div>
+				<%-- <div id="class_ul${num.count}" class="class_ul${num.count}"
 					onmouseover="classUlon(${num.count})"
 					onmouseout="classUloff(${num.count})">
-					<a
-						href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=${type.type}">${type.type }</a>
-				</div>
-
+			<!-- 数据库里面用";"分开 -->
+					<c:set value="${fn:split(type.type_flag,';') }" var="type_flag"></c:set>
+					<c:forEach items="${type_flag }" var="flag" begin="0" end="5">
+						<ul>
+							<li><a
+								href="${pageContext.request.contextPath}/bookAction_selectB?flag=type_flag&message=${type.type}">${flag }</a></li>
+						</ul>
+					</c:forEach>
+					<c:forEach items="${type_flag }" var="flag" begin="6" end="12">
+						<ul>
+							<li><a
+								href="${pageContext.request.contextPath}/bookAction_selectB?flag=type_flag&message=${type.type}">${flag }</a></li>
+						</ul>
+					</c:forEach>
+				</div> --%>
+			</c:forEach>
+			<div class="class_title">
+				<a href="${pageContext.request.contextPath}/workAction_getData">
+					用户作品
+				</a>
 			</div>
-			<div id="class_ul${num.count}" class="class_ul${num.count}"
-				onmouseover="classUlon(${num.count})"
-				onmouseout="classUloff(${num.count})">
-				<!-- 数据库里面用";"分开 -->
-				<c:set value="${fn:split(type.type_flag,';') }" var="type_flag"></c:set>
-				<c:forEach items="${type_flag }" var="flag" begin="0" end="5">
-					<ul>
-						<li><a
-							href="${pageContext.request.contextPath}/bookAction_selectB?flag=type_flag&message=${type.type}">${flag }</a></li>
-					</ul>
-				</c:forEach>
-				<c:forEach items="${type_flag }" var="flag" begin="6" end="12">
-					<ul>
-						<li><a
-							href="${pageContext.request.contextPath}/bookAction_selectB?flag=type_flag&message=${type.type}">${flag }</a></li>
-					</ul>
-				</c:forEach>
+			<div class="class_title">
+				<a href="${pageContext.request.contextPath}/userAction_random">
+					随便看看
+				</a>
 			</div>
-		</c:forEach>
+		</div>
 	</div>
 	<div class="b_bottom">
 		<input id="empty_book" type="text" value="${empty sessionScope.book }"
@@ -428,6 +372,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<input id="reviewsRs" type="text" value="${requestScope.reviewsRs }">
 	</div>
 </body>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery.cookie.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 <script src="${pageContext.request.contextPath}/js/user/book.js"></script>

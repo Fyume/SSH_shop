@@ -17,6 +17,9 @@ public class bookUtils {
 	private static String FimagePath = "F:\\java\\SSH_test\\WebRoot\\images\\bookImg";// 图片最终存放路径
 	private static String managerPath = "manager\\";
 
+	/*private static String DiskPath = "C:\\SSH_test\\main\\";// 默认存取路径
+	private static String FimagePath = "C:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\SSH_test\\images\\bookImg";// 图片最终存放路径
+	private static String managerPath = "manager\\";*/
 	// 读取管理员上传的文件
 	public static List<String> readbook(String type, String bpath)
 			throws FileNotFoundException, UnsupportedEncodingException {
@@ -160,7 +163,7 @@ public class bookUtils {
 		return false;
 	}
 
-	public boolean moveBook(String path,String type,String newType){//移动磁盘中存放的书本
+	public static boolean moveBook(String path,String type,String newType){//移动磁盘中存放的书本
 		String folder = path.substring(0, path.indexOf("\\"));
 		String totalpath = DiskPath + managerPath + type + "\\";
 		String totalpath2 = DiskPath + managerPath + newType + "\\";

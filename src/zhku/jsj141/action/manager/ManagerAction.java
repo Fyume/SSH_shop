@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import redis.clients.jedis.Jedis;
 import zhku.jsj141.action.BaseAction;
 import zhku.jsj141.entity.Type;
+import zhku.jsj141.entity.Upload;
 import zhku.jsj141.entity.manager.Operate_m;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.User;
@@ -33,8 +34,6 @@ public class ManagerAction extends BaseAction {
 	private UserService userService;
 	private BookService bookService;
 	private WorkService workService;
-	private bookUtils bookUtils;
-	private workUtils workUtils;
 	
 	Jedis jedis = null;
 	Map<String, String> map = new HashMap<String, String>();
@@ -45,6 +44,7 @@ public class ManagerAction extends BaseAction {
 	User user = new User();
 	Book book = new Book();
 	Work work = new Work();
+	Upload t_upload = new Upload();
 	public Work getWork() {
 		return work;
 	}
@@ -88,22 +88,6 @@ public class ManagerAction extends BaseAction {
 
 	public void setWorkService(WorkService workService) {
 		this.workService = workService;
-	}
-
-	public bookUtils getBookUtils() {
-		return bookUtils;
-	}
-
-	public void setBookUtils(bookUtils bookUtils) {
-		this.bookUtils = bookUtils;
-	}
-	
-	public workUtils getWorkUtils() {
-		return workUtils;
-	}
-
-	public void setWorkUtils(workUtils workUtils) {
-		this.workUtils = workUtils;
 	}
 
 	//获取用户信息
@@ -209,13 +193,20 @@ public class ManagerAction extends BaseAction {
 				work.setAuthor(uid);
 				worklist = workService.find(work, "author");
 				if(worklist!=null){//如果有作品，把作品信息也删了
-					rs = workUtils.removeWork(uid);//磁盘
-					if(rs){
-						for (Work work2 : worklist) {//数据库
-							boolean rs2 = workService.delete(work2);
-							/*if(!rs2){
-								request.setAttribute("w_deleteRs", "删除作品期间出错了");
-							}*/
+					work = worklist.get(0);
+					List<Upload> list = managerService.findUpload(work);
+					if(list.size()!=0){
+						t_upload = list.get(0);
+						if(managerService.deleteUpload(t_upload)){//配置文件设置了外键多方去维护
+							rs = workUtils.removeWork(uid);//磁盘
+							if(rs){
+								for (Work work2 : worklist) {//数据库
+									boolean rs2 = workService.delete(work2);
+									/*if(!rs2){
+										request.setAttribute("w_deleteRs", "删除作品期间出错了");
+									}*/
+								}
+							}
 						}
 					}
 				}
@@ -229,15 +220,21 @@ public class ManagerAction extends BaseAction {
 	public String delete_B() throws Exception{
 		/*String uid = (String)request.getParameter("uid");*/
 		int bid = Integer.parseInt(request.getParameter("bid"));
-		if(bid>0){
+		if(bid>=0){
 			book.setBid(bid);
 			booklist = bookService.find(book, "bid");
 			if(booklist!=null){
 				book = booklist.get(0);
 				if(bookUtils.removeBook(book.getPath(), book.getType())){//先删除磁盘文件
-					if(bookService.delete(book)){//再删除数据库的信息
-						request.setAttribute("DBRs", "true");
-						return "goto_edit";
+					List<Upload> list = managerService.findUpload(book);
+					if(list.size()!=0){
+						t_upload = list.get(0);
+						if(managerService.deleteUpload(t_upload)){//配置文件设置了外键多方去维护
+							if(bookService.delete(book)){//再删除数据库的信息
+								request.setAttribute("DBRs", "true");
+								return getBook();
+							}
+						}
 					}
 				}
 			}

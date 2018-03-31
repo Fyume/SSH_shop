@@ -17,19 +17,13 @@
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
 <meta http-equiv="expires" content="0">
-<link rel="stylesheet"
-	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/user/upload.css">
-<link rel="stylesheet" type="text/css"
-	href="${pageContext.request.contextPath}/css/manager/edit.css">
 </head>
-<body>
+<body style="background-image: url('${pageContext.request.contextPath}/images/background/935677fc3f0bb9e.jpg');background-size:100% 100%;" onload="checkUser(${empty sessionScope.user})">
 	<c:choose>
 		<c:when test="${!empty sessionScope.user.u_permission}">
-			<div class="header">
+			<div class="header" style="background-color:white;">
 				<div class="header_logo"></div>
-				<a href="${pageContext.request.contextPath}/pages/index.jsp">
+				<a href="${pageContext.request.contextPath}/bookAction_getData">
 					<div class="header_index">
 						首页
 					</div>
@@ -94,15 +88,14 @@
 								设置
 							</div>
 						</a>
-						<a href="${pageContext.request.contextPath}/userAction_logOut">
-							<div class="list_btn">
-								退出
-							</div>
-						</a>
+						<div class="list_btn" onclick="logout()">
+							退出
+						</div>
 					</c:otherwise>
 				</c:choose>
 			</div>
-			<div class="upload_bottom">
+			<div class="upload_bottom2">
+				<a href="${pageContext.request.contextPath }/pages/manager/bulkUpload.jsp"><div class="BulkUpload"><span class="glyphicon glyphicon-arrow-up">批量上传</span></div></a>
 				<input id="uploadResult" type="text" value="${requestScope.uploadResult}" style="display:none">
 				<div class="upload_form2">
 					<form action="${pageContext.request.contextPath }/bookAction_upload"
@@ -184,6 +177,8 @@
 				style="margin-left:600px;">前往登录</a>
 		</c:otherwise>
 	</c:choose>
+<script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery.cookie.js"></script>
 <script
 	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script type="text/javascript"
@@ -195,4 +190,10 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/user/index.js"></script>
 </body>
+<link rel="stylesheet"
+	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/user/upload.css">
+<link rel="stylesheet" type="text/css"
+	href="${pageContext.request.contextPath}/css/manager/edit.css">
 </html>

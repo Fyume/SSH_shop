@@ -61,6 +61,16 @@ public class UserDaoImpl implements UserDao{
 		return true;
 	}
 	@Override
+	public boolean updateF(Favour favour){
+		try{
+			hibernateTemplate.merge(favour);
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	@Override
 	public boolean delF(Favour favour){
 		try{
 			hibernateTemplate.delete(favour);

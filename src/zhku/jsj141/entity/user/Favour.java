@@ -6,6 +6,7 @@ public class Favour {
 	private int bid;
 	private int wid;
 	private long time;//收藏时间
+	private int updateFlag=0;//书本or作品更新提示
 	
 	private User user;
 	private Work work;
@@ -59,10 +60,16 @@ public class Favour {
 	public void setTime(long time) {
 		this.time = time;
 	}
+	public int getUpdateFlag() {
+		return updateFlag;
+	}
+	public void setUpdateFlag(int updateFlag) {
+		this.updateFlag = updateFlag;
+	}
 	@Override
 	public String toString() {
 		return "Favour [fid=" + fid + ", uid=" + uid + ", bid=" + bid
-				+ ", wid=" + wid + ", time=" + time +  "]";
+				+ ", wid=" + wid + ", time=" + time + ", updateFlag=" + updateFlag +  "]";
 	}
 	
 }

@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -36,6 +37,7 @@ import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.ManagerService;
 import zhku.jsj141.service.UserService;
 import zhku.jsj141.service.WorkService;
+import zhku.jsj141.utils.user.MD5Utils;
 import zhku.jsj141.utils.user.bookUtils;
 import zhku.jsj141.utils.user.userUtils;
 import zhku.jsj141.utils.user.workUtils;
@@ -176,6 +178,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		user.setCode(code);
 		System.out.println(user.toString());
 		if (user != null) {
+			user.setPassword(new MD5Utils(user.getPassword()).getStr());//md5加密一下
 			userService.add(user);
 			userUtils.sendmail(user.getEmail(), user.getCode());
 			request.setAttribute("functionname", "注册成功,激活邮件已发送到您的邮箱上,注意查收,");// loading页面需要显示
@@ -360,71 +363,120 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 				.getAttribute("checkcode");
 		String vCode = (String) request.getParameter("验证码");
 		System.out.println("s_vCode:" + s_vCode + " vCode:" + vCode);
-		if (vCode != "" && vCode != null) {
-			if (vCode.equalsIgnoreCase(s_vCode)) {
-				/*或许可以搞个手机绑定然后通过手机也可以登录，后面再搞了
-				 * String username = request.getParameter("用户名"); String name =
-				 * request.getParameter("姓名"); String email =
-				 * request.getParameter("邮箱");
-				 */
-				String password = user.getPassword();
-				userlist = userService.finds(user, "uid");
-				if (userlist.size()!=0) {
-					user = userlist.get(0);
-					if (user.isU_status()) {// 已激活
-						String time = String.valueOf(System.currentTimeMillis());
-						time = time.substring(time.length() - 8, time.length());
-						long time2 = user.getPs_time() - Integer.parseInt(time);
-						if(time2>=180000||user.getPs_time()==0){
-							String rpassword = user.getPassword();
-							if (rpassword.equals(password)) {
-								request.getSession().setAttribute("user", null);//为了redis中的登陆表
-								request.getSession().setAttribute("user", user);
-								System.out.println("login_ok");
-								typelist = bookService.findT();
-								booklist = bookService.findAll();
-								request.getSession().setAttribute("typelist", typelist);
-								request.getSession().setAttribute("classfy", "网络小说");
-								request.getSession().setAttribute("booklist", booklist);
-								if(user.isU_permission()){//如果是管理员
-									return "goto_manager";
-								}else{
-									return "goto_index";
-								}
-							} else {
-								System.out.println("密码错误");
-								int num = user.getPs_false();
-								if(num==3){
-									user.setPs_false(0);
-								}else{
-									user.setPs_false(num+1);
-								}
-								String ps_time = String.valueOf(System.currentTimeMillis());
-								ps_time = ps_time.substring(ps_time.length() - 8, ps_time.length());
-								user.setPs_time(Integer.valueOf(ps_time));
-								request.setAttribute("uidpass_flag", "用户或者密码错误");
-							}
-						}else{
-							request.setAttribute("uidpass_flag", "密码输错3次,请3分钟后再试");
-						}
-					} else {
-						System.out.println("帐号未激活");
-						request.setAttribute("uidpass_flag", "该帐号未激活");
+		String checkbox = request.getParameter("checkbox");
+		System.out.println(checkbox);
+		Cookie[] cookies = request.getCookies();
+		String password = null;
+		if(cookies!=null){//有 则取cookie
+			for (Cookie cookie : cookies) {
+				if(cookie.getName().equals("user")){
+					if(cookie.getValue()!=""){
+						String info = cookie.getValue();
+						int n = info.indexOf(",");
+						String uid = info.substring(0,n);//cookie的
+						user.setUid(uid);
+						password = info.substring(n+1,info.length());
 					}
-				} else {
-					System.out.println("用户名错误");
-					request.setAttribute("uidpass_flag", "用户或者密码错误");
 				}
-			} else {
-				System.out.println("验证码错误");
-				request.setAttribute("vCode_flag", "验证码错误");
 			}
 		}
-
-		return "goto_login";
+		if(password==null){//cookie里面没有
+			if(s_vCode!=null){
+				if (s_vCode.equalsIgnoreCase(vCode)) {
+					/*或许可以搞个手机绑定然后通过手机也可以登录，后面再搞了*/
+					password = new MD5Utils(user.getPassword()).getStr();
+				}else{
+					System.out.println("验证码错误");
+					request.setAttribute("vCode_flag", "验证码错误");
+					return "goto_login";
+				}
+			}
+		}
+		if(password==null){
+			return NONE;
+		}
+		userlist = userService.finds(user, "uid");
+		if (userlist.size()!=0) {
+			user = userlist.get(0);
+			if (user.isU_status()) {// 已激活
+				String time = String.valueOf(System.currentTimeMillis());
+				time = time.substring(time.length() - 8, time.length());
+				long time2 = user.getPs_time() - Integer.parseInt(time);
+				if(time2>=180000||user.getPs_time()==0){
+					String rpassword = user.getPassword();
+					System.out.println(rpassword+";"+password);
+					if (rpassword.equals(password)) {
+						request.getSession().setAttribute("user", null);//为了redis中的登陆表
+						request.getSession().setAttribute("user", user);
+						System.out.println("login_ok");
+						
+						if("1".equals(checkbox)){//使用cookie
+							String info = user.getUid()+","+ rpassword;
+							Cookie cookie = new Cookie("user", info);
+							cookie.setMaxAge(60*60*24*365);//单位是秒 设为一年（365天）
+							cookie.setPath("/");//cookie可访问的位置？（整个服务器）
+							response.addCookie(cookie);
+						}
+						
+						Cookie sessionId = new Cookie("JSESESSIONID",request.getSession().getId());
+						response.addCookie(sessionId);
+						if(user.isU_permission()){//如果是管理员
+							return "goto_manager";
+						}else{
+							return "goto_index";
+						}
+					} else {
+						System.out.println("密码错误");
+						int num = user.getPs_false();
+						if(num==3){
+							user.setPs_false(0);
+						}else{
+							user.setPs_false(num+1);
+						}
+						String ps_time = String.valueOf(System.currentTimeMillis());
+						ps_time = ps_time.substring(ps_time.length() - 8, ps_time.length());
+						user.setPs_time(Integer.valueOf(ps_time));
+						request.setAttribute("uidpass_flag", "用户或者密码错误");
+						logOut();
+					}
+				}else{
+					request.setAttribute("uidpass_flag", "密码输错3次,请3分钟后再试");
+					logOut();
+				}
+			} else {
+				System.out.println("帐号未激活");
+				request.setAttribute("uidpass_flag", "该帐号未激活");
+				logOut();
+			}
+		} else {
+			System.out.println("用户名错误");
+			request.setAttribute("uidpass_flag", "用户或者密码错误");
+			logOut();
+		}
+		String www = request.getParameter("www");
+		if("login".equals(www)){
+			return "goto_login";
+		}else{
+			return NONE;
+		}
 	}
 	public String logOut() throws Exception {// 注销
 		request.getSession().setAttribute("user", null);//清空
+		Cookie[] cookies= request.getCookies();
+		PrintWriter out = response.getWriter();
+		int n = 0;
+		for (Cookie cookie : cookies) {
+			if(cookie.getName().equals("user")){
+				if(!"".equals(cookie.getValue())){
+					n +=1 ;
+					out.print("111");
+				}
+			}
+		}
+		if(n==0){
+			out.print("");
+			close(out);
+		}
 		return "goto_index";
 	}
 	public String addF() throws Exception{//添加收藏(ajax)
@@ -517,40 +569,38 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	public String getHistAndFav() throws Exception{//获取用户相关的书本浏览记录和收藏记录（后来加上的 查询有关上传该书本的信息）
 		System.out.println("--------getHistAndFav------------");
 		user = (User) request.getSession().getAttribute("user");
-		if(user==null){
-			return "goto_read";
-		}
 		String json = (String)request.getParameter("json");
 		JSONObject jsonObj = JSONObject.parseObject(json);
 		PrintWriter out = response.getWriter();//好像不返回数据ajax会没反应..
-		System.out.println(json);
 		String font = (String)jsonObj.get("font");
 		int id = (int) jsonObj.get("id");
 		Map<String, Object> map = new HashMap<String, Object>();
-		if(font.equals("bid")){
-			book.setBid(id);
-			favlist = userService.findF(user, book);
-			histlist = userService.findH(user, book);
-		}else if(font.equals("wid")){
-			work.setWid(id);
-			favlist = userService.findF(user, work);
-			histlist = userService.findH(user, work);
-		}
-		if(histlist.size()!=0){//有 则将浏览历史加入
-			history = histlist.get(0);
-			request.getSession().setAttribute("history", history);
-			map.put("h_page", history.getPageNum());//有  最近浏览的页数
-		}else{
-			map.put("h_page", 0);//无
-			request.getSession().setAttribute("history", null);
-		}
-		if(favlist.size()!=0){//有 则提示已收藏
-			favour = favlist.get(0);
-			request.getSession().setAttribute("favour", favour);
-			map.put("f_flag", 1);//有
-		}else{
-			map.put("f_flag", 0);//无
-			request.getSession().setAttribute("favour", null);
+		if(user!=null){
+			if(font.equals("bid")){
+				book.setBid(id);
+				favlist = userService.findF(user, book);
+				histlist = userService.findH(user, book);
+			}else if(font.equals("wid")){
+				work.setWid(id);
+				favlist = userService.findF(user, work);
+				histlist = userService.findH(user, work);
+			}
+			if(histlist.size()!=0){//有 则将浏览历史加入
+				history = histlist.get(0);
+				request.getSession().setAttribute("history", history);
+				map.put("h_page", history.getPageNum());//有  最近浏览的页数
+			}else{
+				map.put("h_page", 0);//无
+				request.getSession().setAttribute("history", null);
+			}
+			if(favlist.size()!=0){//有 则提示已收藏
+				favour = favlist.get(0);
+				request.getSession().setAttribute("favour", favour);
+				map.put("f_flag", 1);//有
+			}else{
+				map.put("f_flag", 0);//无
+				request.getSession().setAttribute("favour", null);
+			}
 		}
 		if(font.equals("bid")){
 			book.setBid(id);
@@ -814,6 +864,47 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 			}
 		}
 		return "goto_book";
+	}
+	//获取更新提示
+	public String updateFlag() throws Exception{
+		user = (User) request.getSession().getAttribute("user");
+		if(user==null){
+			return NONE;
+		}
+		userlist = userService.finds(user, "uid");
+		PrintWriter out = response.getWriter();
+		boolean flag = false;
+		if(userlist.size()!=0){
+			user = userlist.get(0);//重新开启session
+			Set<Favour> fav_set= user.getFavour();
+			for (Favour favour : fav_set) {
+				if(favour.getUpdateFlag()==1){
+					//提示红点
+					flag = true;
+					request.getSession().setAttribute("updateFlag", true);
+					out.print("updateFlag");
+					break;
+				}
+			}
+		}
+		if(!flag){//没更新
+			out.print("");
+		}
+		close(out);
+		/*book = (Book) request.getSession().getAttribute("book");
+		if(book==null){
+			favlist = userService.findF(user,book);
+		}else{
+			work = (Work) request.getSession().getAttribute("work");
+			favlist = userService.findF(user,work);
+		}
+		if(favlist.size()!=0){
+			favour = favlist.get(0);
+			if(favour.getUpdateFlag()==1){
+				//提示
+			}
+		}*/
+		return NONE;
 	}
 	/********************************************************/
 	/*public String test() throws Exception{//测试一方的外键实体是否直接能拿到数据

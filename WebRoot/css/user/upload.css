@@ -119,6 +119,9 @@ div{
 	background-image: url("../../images/background/935677fc3f0bb9e.jpg");
 	background-size:100% 100%;
 }
+.upload_bottom2{
+	width:100%;
+}
 .upload_bottom input[type='button']{
 	border-radius:3px;
 	background-image:url("../../images/button/1 (50).gif");
@@ -157,4 +160,21 @@ div{
 }
 .upload_bottom input[type='submit']:hover{
 	color:#ffff00;
+}
+
+.BulkUpload {
+	position: absolute;
+	top: 100px;
+	right: 100px;
+	width: 100px;
+	height: 30px;
+	border: 1px #c0c0c0 solid;
+	border-radius: 4px;
+	text-align: center;
+	background-color: white;
+	padding-top: 5px;
+	cursor:pointer;
+}
+.BulkUpload:HOVER {
+	color:#ff8000;
 }

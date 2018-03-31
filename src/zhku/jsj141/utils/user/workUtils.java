@@ -16,7 +16,9 @@ public class workUtils {
 	private static String DiskPath = "D:\\SSH_test\\main\\";// 默认存取路径
 	private static String FimagePath = "F:\\java\\SSH_test\\WebRoot\\images\\user\\workImg";// 图片最终存放路径
 	private static String userPath = "user\\";
-
+	/*private static String DiskPath = "C:\\SSH_test\\main\\";// 默认存取路径
+	private static String FimagePath = "C:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\SSH_test\\images\\user\\workImg";// 图片最终存放路径
+	private static String userPath = "user\\";*/
 	// 读取用户作品
 	public static List<String> readbook_U(String uid, String bpath)
 			throws FileNotFoundException, UnsupportedEncodingException {
@@ -151,7 +153,7 @@ public class workUtils {
 		return false;
 	}
 	//删除磁盘中的用户所有作品
-	public boolean removeWork(String uid){
+	public static boolean removeWork(String uid){
 		String totalpath = DiskPath + userPath + uid;
 		try{
 			if(new File(totalpath).exists()){//假如存在用户作品文件夹

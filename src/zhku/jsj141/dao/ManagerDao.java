@@ -30,4 +30,6 @@ public interface ManagerDao {
 	
 	public List<Upload> findUpload(Book book);
 
+	public boolean deleteUpload(Upload upload);
+
 }
