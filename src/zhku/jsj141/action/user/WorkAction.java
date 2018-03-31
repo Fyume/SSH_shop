@@ -5,9 +5,11 @@ import java.util.List;
 
 import zhku.jsj141.action.BaseAction;
 import zhku.jsj141.entity.Upload;
+import zhku.jsj141.entity.user.Favour;
 import zhku.jsj141.entity.user.User;
 import zhku.jsj141.entity.user.Work;
 import zhku.jsj141.service.ManagerService;
+import zhku.jsj141.service.UserService;
 import zhku.jsj141.service.WorkService;
 import zhku.jsj141.utils.user.workUtils;
 
@@ -18,6 +20,7 @@ public class WorkAction extends BaseAction {
 	 */
 	private static final long serialVersionUID = 1L;
 	private WorkService workService;
+	private UserService userService;
 	private ManagerService managerService;
 	private File upload;
 	private String uploadFileName;
@@ -43,7 +46,12 @@ public class WorkAction extends BaseAction {
 	public void setWork(Work work) {
 		this.work = work;
 	}
-	
+	public UserService getUserService() {
+		return userService;
+	}
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
 	public WorkService getWorkService() {
 		return workService;
 	}
@@ -190,6 +198,17 @@ public class WorkAction extends BaseAction {
 			request.getSession().setAttribute("page", 1);
 			request.getSession().setAttribute("work", work);
 			request.getSession().setAttribute("book", null);//清空（暂时保留这个，1.减少存储的大小2.方便前端判断）
+			if(user!=null){
+				List<Favour> favlist = userService.findF(user,work);
+				if(favlist.size()!=0){
+					Favour favour = favlist.get(0);
+					if(favour.getUpdateFlag()!=0){
+						favour.setUpdateFlag(0);//清零
+						userService.updateF(favour);
+						request.getSession().setAttribute("updateFlag", null);
+					}
+				}
+			}
 			return "goto_book";
 		}
 		return "goto_index";

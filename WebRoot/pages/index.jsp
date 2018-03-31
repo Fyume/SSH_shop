@@ -30,15 +30,25 @@
 			</div>
 		</a>
 		<div class="header_center">
-			<fieldset>
-				<select id="select_select">
-					<option value="1">书名</option>
-					<option value="2">作品名</option>
-					<option value="3">作者</option>
-				</select>
-				<input class="fs_input1" id="select_message" type="text" name="select_message" placeholder="输入作品名/书名(1-20个字符、数字)"onblur="check_selecttext()">
-				<input class="fs_input2 btn btn-info" style="border-radius:0;" type="button" value="搜索" onclick="selectmess()">
-			</fieldset>
+			<select id="select_select" name="flag" style="display:none;">
+				<option value="bname" checked>书名</option>
+				<option value="wname">作品名</option>
+				<option value="author">作者</option>
+			</select>
+			<ul class="nav nav-tabs" style="width:280px;border-bottom:1px #c0c0c0 solid;background-color:#5bc0de;padding-top:-5px;height:45px;border-radius:30px;">
+				<li><input type="text" id="select_message" placeholder="输入作品名/书名(1-20个字符、数字)" style="height:40px;width:170px;margin-top:-8px;margin-left:20px;"></li>
+				<ul class="nav nav-stacked" style="width:60px;height:39px;margin-top:-7px;margin-left:-10px;" onmouseover="showFlag()" onmouseout="hideFlag()">
+					<li id="ls_1" onclick="exchangeFlag(1)">书名<span class="glyphicon glyphicon-play" style="font-size:5px;transform:rotate(90deg);"></span>
+					</li>
+					<li id="ls_2" onclick="exchangeFlag(2)">作品名</li>
+					<li id="ls_3" onclick="exchangeFlag(3)">作者</li>
+				</ul>
+				<li>
+					<div class="fs_input2" onclick="selectmess()">
+						<span class="glyphicon glyphicon-search" style="font-size:25px;margin-top:10px;margin-left:0;"></span>
+					</div>
+				</li>
+			</ul>
 		</div>
 		<c:if test="${sessionScope.user.u_permission }">
 			<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">

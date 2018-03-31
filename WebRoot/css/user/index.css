@@ -38,7 +38,7 @@ img{
 	width:205px;height:100%;margin-left:10%;margin-top:-1px;
 }
 .header_center{
-	width:250px;height:40px;margin-top:15px;border:1px #c0c0c0 solid;margin-left:100px;
+	width:250px;height:40px;margin-top:15px;margin-left:100px;
 }
 .header_center select{
 	height:37px;width:50px;border:0;
@@ -50,10 +50,14 @@ fieldset{
 	width:145px;height:37.1px;margin-left:-5px;margin-bottom:1px;
 }
 .fs_input2{
-	width:50px;height:39px;border:0;margin-left:-2px;
+	height:40px;width:30px;border-radius:0;margin-top:-10px;border:0;border-top-right-radius:30px;border-bottom-right-radius:30px;text-align:center;cursor:pointer;
+}
+.fs_input2:hover{
+	color:white;
+	background-color:#55bedd ;
 }
 .header_right{
-	position:fixed;right:0;top:0;width:325px;height:45px;border:1px #c0c0c0 solid;padding-top:5px;float:right;background-color:rgba(255,255,255,0.7);
+	position:fixed;right:0;top:0;width:325px;height:45px;padding-top:5px;float:right;background-color:rgba(255,255,255,0.7);box-shadow:1px 2px 2px #c0c0c0;
 }
 .h_r_user{
 	width:80px;height:35px;text-align:center;padding-top:5px;border:0;border-right:1px #c0c0c0 dotted;	background-color:rgba(255,255,255,0.7);
@@ -156,6 +160,9 @@ fieldset{
 	height:40px;
 	border-right:2px white dotted;
 }
+.class_title:HOVER{
+	background-color:#e37200;
+}
 .class_title a{
 	color:white;
 }
@@ -167,11 +174,15 @@ fieldset{
 	width:100px;
 	height:30px;
 	padding-top:5px;
-	margin-left:10px;
+	margin-top:25px;
+	margin-left:50px;
 	background-color:#ff80c0;
 	border-top-right-radius:10px;
 	border-bottom-left-radius:10px;
 	color:#000000;
+}
+.managerPage:hover{
+	color:white;
 }
 .second{
 	width:100%;
@@ -197,6 +208,33 @@ fieldset{
 .sec_video{
 	width:500px;
 	height:80px;
+}
+/* select{
+	appearance:none;
+}
+option{
+	
+} */
+.nav-tabs li{
+	border:0;
+}
+.nav-stacked li {
+	background-color: white;
+	width:60px;
+	height: 37.6px;
+	color: black;
+	text-align: center;
+	padding-top: 8px;
+	border-left: 1px #5bc0de dotted;
+	cursor:pointer;
+}
+.nav-stacked li:hover{
+	color:#ff8000;
+}
+#ls_2,#ls_3{
+	border:1px #c0c0c0 solid;
+	margin-top:-2px;
+	display:none;
 }
 /***********************/
 /* .header input,.header select{

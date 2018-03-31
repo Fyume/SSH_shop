@@ -29,7 +29,7 @@ $(document).ready(function(){
 			$("#user_info").css("right","200px");
 			$("#user_info").css("top","43px");
 			$("#updateFlag").css("position","absolute");
-			$("#updateFlag").css("right","168px");
+			$("#updateFlag").css("right","88px");
 			$("#updateFlag").css("top","5px");
 		}
 	});
@@ -159,45 +159,62 @@ function check_selecttext() {
 		$("#select_message").val('');
 	}
 }
+function exchangeFlag(num){
+	var ls_1s = $("#ls_1").html();
+	var ls_1 = ls_1s.substr(0,ls_1s.indexOf("<"));//选中的值
+	var str = ls_1s.substr(ls_1s.indexOf("<"),ls_1s.length);//图标
+	var ls_2 = $("#ls_2").html();
+	var ls_3 = $("#ls_3").html();
+	switch(num){
+		case 1:break;
+		case 2:
+			changeSelect(ls_2);
+			$("#ls_1").html(ls_2+str);
+			$("#ls_2").html(ls_1);
+			break;
+		case 3:
+			changeSelect(ls_3);
+			$("#ls_1").html(ls_3+str);
+			$("#ls_3").html(ls_1);
+			break;
+		default:break;
+	}
+}
+function changeSelect(str){
+	if(str=='书名'){
+		$("#select_select").val("bname");
+	}else if(str=='作品名'){
+		$("#select_select").val("wname");
+	}else if(str=='作者'){
+		$("#select_select").val("author");
+	}
+}
+function showFlag(){
+	$("#ls_2").css("display","block");
+	$("#ls_3").css("display","block");
+	$("#ls_2").css("position","fixed");
+	$("#ls_2").css("z-index","999");
+	$("#ls_3").css("position","fixed");
+	$("#ls_3").css("top","90px");
+	$("#ls_3").css("z-index","999");
+}
+function hideFlag(){
+	$("#ls_2").css("display","none");
+	$("#ls_3").css("display","none");
+}
 function selectmess() {
-	var num = $("#select_select").val();
+	var flag = $("#select_select").val();
 	var flag;
 	var message = $("#select_message").val();
-	if (num == 1) {
-		$.ajax({
-				url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag=bname&message='
-						+ message,
-				type : "POST",
-				async : false,// 取消异步请求
-				timeout : 1000,
-				cache : false,
-				success : function reloadJSP() {
-					window.location.href="http://localhost:8080/SSH_test";
-				}
-			})
-	} else if (num == 3) {
-		$.ajax({
-				url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag=author&message='
-						+ message,
-				type : "POST",
-				async : false,// 取消异步请求
-				timeout : 1000,
-				cache : false,
-				success : function reloadJSP() {
-					window.location.href="http://localhost:8080/SSH_test";
-				}
-			})
-	} else if (num == 2) {
-		$.ajax({
-				url : 'http://localhost:8080/SSH_test/workAction_selectW?flag=wname&message='
-						+ message,
-				type : "POST",
-				async : false,// 取消异步请求
-				timeout : 1000,
-				cache : false,
-				success : function reloadJSP() {
-					window.location.href="http://localhost:8080/SSH_test";
-				}
-			})
-	}
+	$.ajax({
+			url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag='+flag+'&message='
+					+ message,
+			type : "POST",
+			async : false,// 取消异步请求
+			timeout : 1000,
+			cache : false,
+			success : function reloadJSP() {
+				window.location.href="http://localhost:8080/SSH_test";
+			},
+	});
 }

@@ -276,8 +276,11 @@ public class BookAction extends BaseAction {
 				List<Favour> favlist = userService.findF(user,book);
 				if(favlist.size()!=0){
 					Favour favour = favlist.get(0);
-					favour.setUpdateFlag(0);//清零
-					userService.updateF(favour);
+					if(favour.getUpdateFlag()!=0){
+						favour.setUpdateFlag(0);//清零
+						userService.updateF(favour);
+						request.getSession().setAttribute("updateFlag", null);
+					}
 				}
 			}
 			return "goto_book";
