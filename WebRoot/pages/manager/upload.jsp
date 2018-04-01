@@ -178,11 +178,11 @@
 		</c:otherwise>
 	</c:choose>
 <script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery.cookie.js"></script>
 <script
 	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/manager/edit.js"></script>
 <script type="text/javascript"

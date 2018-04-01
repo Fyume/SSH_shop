@@ -81,7 +81,9 @@ function createPageNum(){
 	var M_page = window.M_page_r;//获取当前分页菜单的页数
 	/*alert("M_page:"+M_page+";p_page:"+p_page);*/
 	if(M_page==p_page){//最后一页
-		for(var i = ((M_page-1)*48+1);i<=Math.round(count/100);i++){
+		var allpage = Math.ceil(count/100);
+		var max = allpage%48;
+		for(var i = ((M_page-1)*48+1);i<((M_page-1)*48+1+max);i++){
 			/*var page = "<div class='page_div' onclick='history("+user+","+sg+","+(i*M_page)+")'></div>";*/
 			var page = $('<div>'+i+'</div>');
 			page.attr('id',i);

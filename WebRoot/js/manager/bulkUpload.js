@@ -41,10 +41,16 @@ $(document).ready(function(){
 		var file = this.files;
 		for(var i=0;i<file.length;i++){
 			var fileName = file[i].name;
+			var n = fileName.indexOf(".");
+			alert(fileName);
+			var m = fileName.indexOf(";");
+			var name = fileName.substr(m+1,n);//这个substr有毒
+			$("#Bname"+i).val(name);
 			if (!checkFile(file[i].name)) {
 				alert("文本仅限doc,docx,txt！");
 			}else{
-				var div = $("<div class='div_value_1'>"+fileName+"</div>");
+				var div = $("<div class='div_value_1' id='File"+i+"'>"+fileName+"</div>");
+				$("#File"+i).remove();
 				div.appendTo($("#div_value"+i));//文件
 			}
 		}
@@ -63,6 +69,8 @@ function getObjectURL(file) {
 }
 function bulkImage(){
 	$("#image").click();
+	$("#bu_totalBook").html("");//清空
+	$("#image").val("");
 }
 function bulkFile(){
 	$("#file").click();
@@ -122,7 +130,7 @@ function checkBulkForm(){
 }
 //检查书名
 function checkBname(num){
-	var title = /^[a-zA-Z0-9\u4e00-\u9fa5 ]{1,20}$/;
+	var title = /^[a-zA-Z0-9\u4e00-\u9fa5- ()]{1,20}$/;
 	var res = title.test($("#Bname"+num).val());
 	if(res==false){
 		alert("第"+(num+1)+"本书的书名有误！");
@@ -169,7 +177,7 @@ function createDiv(num,src){//记得num存window（真累）
 	var book_div = $("<div></div>");
 	book_div.attr("id","book_div"+num);
 	book_div.attr("class","book_div");
-	book_div.appendTo($("#bulkForm"));
+	book_div.appendTo($("#bu_totalBook"));
 	//上下行div
 	var div_font = $("<div></div>");
 	div_font.attr("id","div_font"+num);

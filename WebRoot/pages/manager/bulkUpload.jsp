@@ -108,7 +108,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				</c:choose>
 			</div>
 			<div id="bu_bottom" class="bu_bottom">
-				<form id="bulkForm" action="" enctype="multipart/form-data" method="post" onsubmit="return checkBulkForm()">
+				<form id="bulkForm" action="${ pageContext.request.contextPath}/bookAction_bulkUpload" enctype="multipart/form-data" method="post" onsubmit="return checkBulkForm()">
 					<input id="image" type="file" name="ilist" multiple="multiple" accept="image/jpg,image/jpeg">
 					<div class="tips">
 						第一步 <span class="glyphicon glyphicon-arrow-right" style="color:rgba(227,227,0,1);"></span>
@@ -131,9 +131,11 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 							</ul>
 						</ul>
 					</div>
-					<div></div>
 					<input type="submit" class="btn btn-info pull-left" value="提交" disabled>
-					<div style="width:100%;height:1px;"></div>
+					<div style="padding-top:15px;"><span style="font-weight:550;">文件命名格式：</span>最好是(序号+";"+)书名;序号和图片顺序一一对应（以便排序的正确）</div>
+					<div id="bu_totalBook" style="width:100%;">
+					
+					</div>
 				</form>
 			</div>
 		</c:otherwise>

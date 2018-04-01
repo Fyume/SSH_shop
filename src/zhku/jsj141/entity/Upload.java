@@ -69,8 +69,7 @@ public class Upload {
 	@Override
 	public String toString() {
 		return "Upload [ulid=" + ulid + ", uid=" + uid + ", bid=" + bid
-				+ ", wid=" + wid + ", time=" + time + ", work=" + work
-				+ ", user=" + user + ", book=" + book + "]";
+				+ ", wid=" + wid + ", time=" + time + "]";
 	}
 	
 }

@@ -38,7 +38,7 @@ public class JedisUtils {
 	    File dir = new File("C:\\Redis\\Redis");
 	    Process process = null;  
 	    try {  
-	        process = runtime.exec("C:\\Redis\\Redis\\redis-server_startup.bat", null, dir);
+	        process = runtime.exec("C:\\Redis\\Redis\\redis-server", null, dir);
 	    } catch (final Exception e) {  
 	        System.out.println("Error exec!");  
 	    }  

@@ -42,6 +42,7 @@
 				<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
 					<div class="h_r_user btn btn-default">收藏夹</div>
 				</a>
+				<div id="updateFlag2"></div>
 				<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
 					<div class="user_upload" style="margin-top:-5px;">
 						<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
@@ -332,6 +333,9 @@
 			</div>
 			<c:if test="${!empty sessionScope.updateFlag }">
 				<div class="user_Update_Flag"></div>
+			</c:if>
+			<c:if test="${!empty sessionScope.updateFlag2 }">
+				<div class="user_Update_Flag" style="top:245px;"></div>
 			</c:if>
 		</c:when>
 		<c:otherwise>

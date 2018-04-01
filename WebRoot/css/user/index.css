@@ -65,6 +65,9 @@ fieldset{
 #updateFlag{
 	position:absolute;top:5px;right:88px;width:10px;height:10px;color:red;font-size:30px;background-color:red;border-radius:10px;
 }
+#updateFlag2{
+	position:absolute;top:5px;right:168px;width:10px;height:10px;color:red;font-size:30px;background-color:red;border-radius:10px;
+}
 .user_upload{
 	padding-top:10px;
 	text-align:center;
@@ -236,6 +239,54 @@ option{
 	margin-top:-2px;
 	display:none;
 }
+.bottom{
+	width:100%;
+}
+.totalBook{
+	border-left:1px #c0c0c0 solid;
+	border-right:1px #c0c0c0 solid;
+	border-bottom:1px #c0c0c0 solid;
+	width:80%;
+	margin-left:10%;
+	background-color:#ffffff;
+}
+.book_border {
+	width: 120px;
+	height: 185px;
+	border-top: 1px #c0c0c0 solid;
+	margin-left: 20px;
+	margin-top: 10px;
+}
+
+.book_border a {
+	color: #000000;
+}
+
+.book_img {
+	width: 120px;
+	height: 145px;
+	border: 1px #c0c0c0 solid;
+}
+
+.book_title {
+	width: 120px;
+	height: 25px;
+	text-align: center;
+	text-overflow: ellipsis;
+	white-space: overflow;
+	overflow: hidden;
+	border-top: 0;
+	font-family: 幼圆;
+	font-weight: 540;
+	padding-top: 3px
+}
+
+.book_publish {
+	width: 120px;
+	height: 20px;
+	text-align: center;
+	color: #c0c0c0;
+}
 /***********************/
 /* .header input,.header select{
 	border-radius:5px;
@@ -366,24 +417,6 @@ option{
 	100%{background-color:rgba(128,128,255,0.5);height:260px;}
 }
 */
-
-.bottom{
-	width:100%;
-}
-.totalBook{
-	border-left:1px #c0c0c0 solid;
-	border-right:1px #c0c0c0 solid;
-	border-bottom:1px #c0c0c0 solid;
-	width:80%;
-	margin-left:10%;
-	background-color:#ffffff;
-}
-.book_border{
-	width:230px;height:180px;margin-left:20px;margin-top:10px;
-}
-.book_border a{
-	color:#8080ff;
-}
 .kindOfBook{
 	width:100%;
 	height:450px;
@@ -416,19 +449,7 @@ option{
 .book_top_right a{
 	color:#0000ff;
 }
-.book_title{
-	font-weight:600;
-	text-align:left;
-	width:99%;
-	height:15%;
-	padding-left:1%;
-	font-size:18px;
-}
-.book_img{
-	border:1px #808080 solid;
-	width:60%;
-	height:85%;
-}
+
 .book_description{
 	padding-left:3px;
 	width:40%;

@@ -275,6 +275,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 			user2.setAddress(user.getAddress());
 			user2.setIDCN(user.getIDCN());
 			user2.setTelnum(user.getTelnum());
+			userService.update(user2);
 			request.getSession().setAttribute("user", user2);
 		}
 		return "goto_user";
@@ -760,6 +761,11 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 			}else{
 				request.getSession().setAttribute("reviewsRs", "no");
 			}
+		}else{
+			rfb.setTime(now);
+			userService.addRfb(rfb);
+			getReviews();//更新session
+			request.getSession().setAttribute("reviewsRs", "yes");
 		}
 		//记得在bookaction和workaction中添加加载评论记录的功能 至于是什么时候加载这些细节后面再说了
 		return "goto_book";
@@ -830,6 +836,19 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		}
 		return "goto_book";
 	}
+	public String getMyReviews() throws Exception{//获取所有相关评论
+		user = (User) request.getSession().getAttribute("user");
+		if(user==null){
+			return "goto_login";
+		}
+		userlist = userService.finds(user, "uid");
+		user = userlist.get(0);
+		Set<ReviewsForReviews> rfr1_set = user.getRfr1();//回复的评论
+		Set<ReviewsForReviews> rfr2_set = user.getRfr2();//被回复的评论
+		request.getSession().setAttribute("MyRfr1Set",rfr1_set);
+		request.getSession().setAttribute("MyRfr2Set",rfr2_set);
+		return "goto_user";
+	}
 	//随机读取书本或作品
 	public String random() throws Exception{
 		double n = Math.random();
@@ -873,37 +892,36 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		}
 		userlist = userService.finds(user, "uid");
 		PrintWriter out = response.getWriter();
-		boolean flag = false;
+		int a[] = {0,0};
 		if(userlist.size()!=0){
 			user = userlist.get(0);//重新开启session
-			Set<Favour> fav_set= user.getFavour();
+			Set<ReviewsForReviews> rfr_set = user.getRfr2();//自己被评论的记录
+			Set<Favour> fav_set = user.getFavour();
 			for (Favour favour : fav_set) {
 				if(favour.getUpdateFlag()==1){
 					//提示红点
-					flag = true;
 					request.getSession().setAttribute("updateFlag", true);
-					out.print("updateFlag");
+					a[0]=1;
+					break;
+				}
+			}
+			for (ReviewsForReviews rfr : rfr_set) {
+				if(rfr.getFlag()==1){//有人评论
+					request.getSession().setAttribute("updateFlag2", true);
+					a[1]=1;
 					break;
 				}
 			}
 		}
-		if(!flag){//没更新
-			out.print("");
+		if(a[0]==0){
+			request.getSession().setAttribute("updateFlag", null);
 		}
+		if(a[1]==0){
+			request.getSession().setAttribute("updateFlag2", null);
+		}
+		String str  = JSON.toJSONString(a);
+		out.print(str);
 		close(out);
-		/*book = (Book) request.getSession().getAttribute("book");
-		if(book==null){
-			favlist = userService.findF(user,book);
-		}else{
-			work = (Work) request.getSession().getAttribute("work");
-			favlist = userService.findF(user,work);
-		}
-		if(favlist.size()!=0){
-			favour = favlist.get(0);
-			if(favour.getUpdateFlag()==1){
-				//提示
-			}
-		}*/
 		return NONE;
 	}
 	/********************************************************/

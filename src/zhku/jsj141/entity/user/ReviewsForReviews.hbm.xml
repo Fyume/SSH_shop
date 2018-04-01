@@ -8,6 +8,7 @@
  			<generator class="native"></generator>
  		</id>
  		<property name="content"></property>
+ 		<property name="flag"></property>
  		<property name="time"></property>
  		<many-to-one name="rfb" class="zhku.jsj141.entity.user.ReviewsForBook" column="rbid"></many-to-one>
  		<many-to-one name="user1" class="zhku.jsj141.entity.user.User" column="uid1"></many-to-one>

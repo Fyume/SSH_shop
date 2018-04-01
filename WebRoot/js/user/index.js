@@ -17,6 +17,9 @@ $(document).ready(function(){
 			$("#updateFlag").css("position","fixed");
 			$("#updateFlag").css("right","24px");
 			$("#updateFlag").css("top","77px");
+			$("#updateFlag2").css("position","fixed");
+			$("#updateFlag2").css("right","24px");
+			$("#updateFlag2").css("top","42px");
 		}else{
 			$("#index_title").css("position","relative");
 			$("#index_title").css("top","0");
@@ -31,6 +34,9 @@ $(document).ready(function(){
 			$("#updateFlag").css("position","absolute");
 			$("#updateFlag").css("right","88px");
 			$("#updateFlag").css("top","5px");
+			$("#updateFlag2").css("position","absolute");
+			$("#updateFlag2").css("right","168px");
+			$("#updateFlag2").css("top","5px");
 		}
 	});
 });
@@ -43,12 +49,11 @@ function start(msg,user) {
 			type : "POST",
 			timeout : 1000,
 			cache : false,
-			async : false,// 取消异步请求
 			success : function(data) {
 				if(data=="111"){
 					$.cookie('user',null,{expires: -1,path: '/'});
-					window.location.reload();
 				}
+				window.location.reload();
 			},
 		});
 	}else{
@@ -58,10 +63,16 @@ function start(msg,user) {
 			timeout : 1000,
 			cache : false,
 			success : function(data) {
-				if(data=="updateFlag"){
+				var j = JSON.parse(data);
+				if(j[0]==1){//收藏通知
 					$("#updateFlag").css("display","block");
 				}else{
 					$("#updateFlag").css("display","none");
+				}
+				if(j[1]==1){//评论通知
+					$("#updateFlag2").css("display","block");
+				}else{
+					$("#updateFlag2").css("display","none");
 				}
 			},
 		});
@@ -72,9 +83,7 @@ function start(msg,user) {
 			type : "POST",
 			timeout : 1000,
 			cache : false,
-			async : false,// 取消异步请求
 			success : function() {
-				window.location.reload();
 			},
 		});
 	}

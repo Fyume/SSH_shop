@@ -8,6 +8,7 @@ public class ReviewsForReviews {
 	private int bid;//评论相关的书本ID
 	private int wid;//评论相关的作品ID
 	private String content;//回复内容
+	private int flag=1;//消息通知用 默认有
 	private long time;//评论时间（查询的时候根据这个排序就行了）
 	
 	private ReviewsForBook rfb;
@@ -93,11 +94,17 @@ public class ReviewsForReviews {
 	public void setWork(Work work) {
 		this.work = work;
 	}
+	public int getFlag() {
+		return flag;
+	}
+	public void setFlag(int flag) {
+		this.flag = flag;
+	}
 	@Override
 	public String toString() {
 		return "ReviewsForReviews [rrid=" + rrid + ", rbid=" + rbid + ", uid1="
 				+ uid1 + ", uid2=" + uid2 + ", bid=" + bid + ", wid=" + wid
-				+ ", content=" + content + ", time=" + time + "]";
+				+ ", content=" + content + ", time=" + time + ", flag=" + flag +"]";
 	}
 	
 }

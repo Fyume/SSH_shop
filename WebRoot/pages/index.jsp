@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
+<%@ taglib uri="/mytags" prefix="myTags"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://"
@@ -30,7 +30,7 @@
 			</div>
 		</a>
 		<div class="header_center">
-			<select id="select_select" name="flag" style="display:none;">
+			<select id="select_select" name="flag" style="display:none;"> 
 				<option value="bname" checked>书名</option>
 				<option value="wname">作品名</option>
 				<option value="author">作者</option>
@@ -67,6 +67,7 @@
 				<div class="h_r_user btn btn-default">收藏夹</div>
 			</a>
 			<div id="updateFlag"></div>
+			<div id="updateFlag2"></div>
 			<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
 				<div class="user_upload" style="margin-top:-5px;">
 					<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
@@ -84,10 +85,8 @@
 			<c:forEach items="${sessionScope.typelist }" var="type"
 				varStatus="num">
 				<div>
-					<div class="class_title" onmouseover="classUlon(${num.count})"
-						onmouseout="classUloff(${num.count})">
-						<a
-							href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=${type.type}">${type.type }</a>
+					<div class="class_title" >
+						<a href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=${type.type}">${type.type }</a>
 					</div>
 	
 				</div>
@@ -169,36 +168,25 @@
 						</div>
 						<c:if test="${empty param.page }">
 								<c:set var="begin" value="0"></c:set>
-								<c:set var="end" value="7"></c:set>
+								<c:set var="end" value="13"></c:set>
 						</c:if>
 						<c:if test="${!empty param.page }">
-								<c:set var="begin" value="${(param.page-1)*8 }"></c:set>
-								<c:set var="end" value="${param.page*8-1 }"></c:set>
+								<c:set var="begin" value="${(param.page-1)*14 }"></c:set>
+								<c:set var="end" value="${param.page*14-1 }"></c:set>
 						</c:if>
 						<c:forEach items="${sessionScope.worklist }" var="work" begin="${begin }" end="${end }">
 							<div class="book_border">
+								<a title="${work.wname }" href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
+									<div class="book_img">
+										<img width=100% height=100% src="${pageContext.request.contextPath}/images/user/workImg/${work.image }" alt="${work.wname }">
+									</div>
+								</a>
 								<div class="book_title">
-									<a
-										href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
+									<a title="${work.wname }" href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
 										${work.wname } </a>
 								</div>
-								<div class="book_img">
-									<a href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
-										<img width=100% height=100% src="${pageContext.request.contextPath}/images/user/workImg/${work.image }" alt="${work.wname }">
-									</a>
-								</div>
-								<div class="book_description">
-									<span class="desc_font">作者</span>
-									<br>
-									<span class="desc_value">${work.user.uid }</span>
-									<br>
-									<span class="desc_font">概述</span>
-									<br>
-									<div class="desc_value">${work.description }</div>
-									<br>
-									<span class="desc_font">分类</span>
-									<br>
-									<span class="desc_value" style="font-size:13px;font-weight: 600;color:#ff8000;">用户作品</span>
+								<div class="book_publish">
+									<myTags:date type="1" value="${work.uploadtime*1000 }"></myTags:date>
 								</div>
 							</div>
 						</c:forEach>
@@ -223,11 +211,11 @@
 									<c:otherwise>
 										<c:if test="${empty param.page }">
 												<c:set var="begin" value="0"></c:set>
-												<c:set var="end" value="7"></c:set>
+												<c:set var="end" value="13"></c:set>
 										</c:if>
 										<c:if test="${!empty param.page }">
-												<c:set var="begin" value="${(param.page-1)*8 }"></c:set>
-												<c:set var="end" value="${param.page*8-1 }"></c:set>
+												<c:set var="begin" value="${(param.page-1)*14 }"></c:set>
+												<c:set var="end" value="${param.page*14-1 }"></c:set>
 										</c:if>
 									</c:otherwise>
 								</c:choose>
@@ -236,59 +224,37 @@
 								<c:if test="${book.type eq '网络小说' }">
 									<c:choose>
 										<c:when test="${sessionScope.classfy=='全部分类' }">
-											<c:if test="${type1 != 8 }">
+											<c:if test="${type1 != 14 }">
 												<c:set var="type1" value="${type1+1}"></c:set>
 												<div class="book_border">
+													<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+														<div class="book_img">
+															<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+														</div>
+													</a>
 													<div class="book_title">
-														<a
-															href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+														<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
 															${book.bname } </a>
 													</div>
-													<div class="book_img">
-														<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-															<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
-														</a>
-													</div>
-													<div class="book_description">
-														<span class="desc_font">作者</span>
-														<br>
-														<span class="desc_value">${book.author }</span>
-														<br>
-														<span class="desc_font">概述</span>
-														<br>
-														<div class="desc_value">${book.description }</div>
-														<br>
-														<span class="desc_font">分类</span>
-														<br>
-														<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
+													<div class="book_publish">
+														<myTags:date type="1" value="${book.publish*1000*60*60 }"></myTags:date>
 													</div>
 												</div>
 											</c:if>
 										</c:when>
 										<c:otherwise>
 											<div class="book_border">
+												<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+													<div class="book_img">
+														<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+													</div>
+												</a>
 												<div class="book_title">
-													<a
-														href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+													<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
 														${book.bname } </a>
 												</div>
-												<div class="book_img">
-													<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-														<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
-													</a>
-												</div>
-												<div class="book_description">
-													<span class="desc_font">作者</span>
-													<br>
-													<span class="desc_value">${book.author }</span>
-													<br>
-													<span class="desc_font">概述</span>
-													<br>
-													<div class="desc_value">${book.description }</div>
-													<br>
-													<span class="desc_font">分类</span>
-													<br>
-													<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
+												<div class="book_publish">
+													<myTags:date type="1" value="${book.publish*1000*60*60 }"></myTags:date>
 												</div>
 											</div>
 										</c:otherwise>
@@ -316,11 +282,11 @@
 									<c:otherwise>
 										<c:if test="${empty param.page }">
 												<c:set var="begin" value="0"></c:set>
-												<c:set var="end" value="7"></c:set>
+												<c:set var="end" value="13"></c:set>
 										</c:if>
 										<c:if test="${!empty param.page }">
-												<c:set var="begin" value="${(param.page-1)*8 }"></c:set>
-												<c:set var="end" value="${param.page*8-1 }"></c:set>
+												<c:set var="begin" value="${(param.page-1)*14 }"></c:set>
+												<c:set var="end" value="${param.page*14-1 }"></c:set>
 										</c:if>
 									</c:otherwise>
 								</c:choose>
@@ -329,59 +295,37 @@
 								<c:if test="${book.type eq '文学作品' }">
 									<c:choose>
 										<c:when test="${sessionScope.classfy=='全部分类' }">
-											<c:if test="${type2 != 8 }">
+											<c:if test="${type2 != 14 }">
 												<c:set var="type2" value="${type2+1}"></c:set>
 												<div class="book_border">
+													<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+														<div class="book_img">
+															<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+														</div>
+													</a>
 													<div class="book_title">
-														<a
-															href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+														<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
 															${book.bname } </a>
 													</div>
-													<div class="book_img">
-														<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-															<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
-														</a>
-													</div>
-													<div class="book_description">
-														<span class="desc_font">作者</span>
-														<br>
-														<span class="desc_value">${book.author }</span>
-														<br>
-														<span class="desc_font">概述</span>
-														<br>
-														<div class="desc_value">${book.description }</div>
-														<br>
-														<span class="desc_font">分类</span>
-														<br>
-														<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
+													<div class="book_publish">
+														<myTags:date type="1" value="${book.publish*1000*60*60 }"></myTags:date>
 													</div>
 												</div>
 											</c:if>
 										</c:when>
 										<c:otherwise>
 											<div class="book_border">
+												<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+													<div class="book_img">
+														<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+													</div>
+												</a>
 												<div class="book_title">
-													<a
-														href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+													<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
 														${book.bname } </a>
 												</div>
-												<div class="book_img">
-													<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-														<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
-													</a>
-												</div>
-												<div class="book_description">
-													<span class="desc_font">作者</span>
-													<br>
-													<span class="desc_value">${book.author }</span>
-													<br>
-													<span class="desc_font">概述</span>
-													<br>
-													<div class="desc_value">${book.description }</div>
-													<br>
-													<span class="desc_font">分类</span>
-													<br>
-													<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
+												<div class="book_publish">
+													<myTags:date type="1" value="${book.publish*1000*60*60 }"></myTags:date>
 												</div>
 											</div>
 										</c:otherwise>
@@ -409,11 +353,11 @@
 									<c:otherwise>
 										<c:if test="${empty param.page }">
 												<c:set var="begin" value="0"></c:set>
-												<c:set var="end" value="7"></c:set>
+												<c:set var="end" value="13"></c:set>
 										</c:if>
 										<c:if test="${!empty param.page }">
-												<c:set var="begin" value="${(param.page-1)*8 }"></c:set>
-												<c:set var="end" value="${param.page*8-1 }"></c:set>
+												<c:set var="begin" value="${(param.page-1)*14 }"></c:set>
+												<c:set var="end" value="${param.page*14-1 }"></c:set>
 										</c:if>
 									</c:otherwise>
 								</c:choose>
@@ -422,61 +366,39 @@
 								<c:if test="${book.type eq '社会科学' }">
 								<c:choose>
 									<c:when test="${sessionScope.classfy=='全部分类' }">
-										<c:if test="${type3 != 8 }">
+										<c:if test="${type3 != 14 }">
 											<c:set var="type3" value="${type3+1}"></c:set>
 											<div class="book_border">
+												<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+													<div class="book_img">
+														<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
+													</div>
+												</a>
 												<div class="book_title">
-													<a
-														href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+													<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
 														${book.bname } </a>
 												</div>
-												<div class="book_img">
-													<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-														<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
-													</a>
-												</div>
-												<div class="book_description">
-													<span class="desc_font">作者</span>
-													<br>
-													<span class="desc_value">${book.author }</span>
-													<br>
-													<span class="desc_font">概述</span>
-													<br>
-													<div class="desc_value">${book.description }</div>
-													<br>
-													<span class="desc_font">分类</span>
-													<br>
-													<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
+												<div class="book_publish">
+													<myTags:date type="1" value="${book.publish*1000*60*60 }"></myTags:date>
 												</div>
 											</div>
 										</c:if>
 									</c:when>
 									<c:otherwise>
 										<div class="book_border">
-												<div class="book_title">
-													<a
-														href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-														${book.bname } </a>
-												</div>
+											<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
 												<div class="book_img">
-													<a href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
-														<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
-													</a>
+													<img width=100% height=100% src="${pageContext.request.contextPath}/images/bookImg/${book.image }" alt="${book.bname }">
 												</div>
-												<div class="book_description">
-													<span class="desc_font">作者</span>
-													<br>
-													<span class="desc_value">${book.author }</span>
-													<br>
-													<span class="desc_font">概述</span>
-													<br>
-													<div class="desc_value">${book.description }</div>
-													<br>
-													<span class="desc_font">分类</span>
-													<br>
-													<span class="desc_value" style="font-size:13px;font-weight: 600;color:#008000;">${book.type }</span>
-												</div>
+											</a>
+											<div class="book_title">
+												<a title="${book.bname }" href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
+													${book.bname } </a>
 											</div>
+											<div class="book_publish">
+												<myTags:date type="1" value="${book.publish*1000*60*60 }"></myTags:date>
+											</div>
+										</div>
 									</c:otherwise>
 								</c:choose>
 								</c:if>
@@ -489,12 +411,12 @@
 			<c:if test="${sessionScope.classfy!='全部分类' }">
 				<div class="index_page_div">
 					<c:if test="${!empty sessionScope.worklist }">
-						<c:forEach items="${sessionScope.worklist }" begin="0" end="${sessionScope.listSize/8 }" varStatus="num">
+						<c:forEach items="${sessionScope.worklist }" begin="0" end="${sessionScope.listSize/14 }" varStatus="num">
 							<a id="page_a${param.page }" href="${pageContext.request.contextPath}/pages/index.jsp?page=${num.count}">${num.count }</a>
 						</c:forEach>
 					</c:if>
 					<c:if test="${!empty sessionScope.booklist }">
-						<c:forEach items="${sessionScope.booklist }" begin="0" end="${sessionScope.listSize/8 }" varStatus="num">
+						<c:forEach items="${sessionScope.booklist }" begin="0" end="${sessionScope.listSize/14 }" varStatus="num">
 							<a id="page_a${param.page }" href="${pageContext.request.contextPath}/pages/index.jsp?page=${num.count}">${num.count }</a>
 						</c:forEach>
 					</c:if>

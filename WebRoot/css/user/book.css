@@ -85,8 +85,10 @@ div{
 }
 .bt_part{
 	width:95%;
-	height:170px;
 	padding-top:5px;
+}
+.bt_part input{
+	display:none;
 }
 .part_div{
 	margin:3px;
@@ -99,6 +101,53 @@ div{
 	border-radius:2px;
 	text-align:center;
 	cursor:pointer;
+}
+.chapter_bottom{
+	width:100%;height:30px;text-align:center;
+}
+.aaa{
+	margin-left:40%;width:150px;height:100%;
+}
+.bbb{
+	width:40%;height:100%;border:1px #c0c0c0 solid;border-radius:5px;padding-top:5px;cursor:pointer;
+}
+.bbb:HOVER{
+	background-color:#7979ff;
+	color:white;
+}
+.cpt_bt_center{
+	width:25%;height:100%;margin-left:37.5%;
+}
+.cpt_bt_c_btn {
+	width: 28%;
+	height: 100%;
+	border: 1px #c0c0c0 solid;
+	text-align: center;
+	padding-top: 5px;
+	background-color:#efefef;
+	cursor: pointer;
+}
+.cpt_bt_c_btn2 {
+	width: 28%;
+	height: 100%;
+	border: 1px #c0c0c0 solid;
+	text-align: center;
+	padding-top: 5px;
+	background-color:#efefef;
+	cursor: pointer;
+	opacity:0.5;
+}
+.cpt_bt_c_btn:HOVER{
+	color:white;
+	background-color:#9595ff;
+}
+.cpt_bt_c_center{
+	width:44%;height:100%;border:1px #c0c0c0 solid;
+}
+.cpt_bt_c_center input{
+	width:100%;
+	height:100%;
+	text-align: center;
 }
 .book_btn2{
 	width:100px;

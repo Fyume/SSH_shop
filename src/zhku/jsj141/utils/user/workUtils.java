@@ -33,26 +33,58 @@ public class workUtils {
 				System.out.println("没有这个作品");
 			} else {
 				try {
-					BufferedReader in = new BufferedReader(
-							new InputStreamReader(new FileInputStream(text),
-									"UTF-8"));
+					BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(text),"GBK"));
 					String read = null;
+					boolean mssyCode = false;
 					while ((read = in.readLine()) != null) {
-						int line = 50;//根据页面的显示要求 每50个字符换一行显示(虽然我也觉得这样做挺滑稽的，或许应该交给前端 方便前后端分离？)
-						int num = read.length()/line;
-						if(num>=1){
+						if(read.indexOf("�")!=-1){//乱码的话(判断的贼简陋。。。)
+							mssyCode = true;
+							break;
+						}
+						int line = 50;// 根据页面的显示要求
+										// 每50个字符换一行显示(虽然我也觉得这样做挺滑稽的，或许应该交给前端
+										// 方便前后端分离？)
+						int num = read.length() / line;
+						if (num >= 1) {
 							String str1 = "";
 							String str2 = "";
-							for(int i=1;i<=num;i++){
-								str1 = str1+read.substring(line*(i-1),line*i)+"</h4><h4>";
+							for (int i = 1; i <= num; i++) {
+								str1 = str1
+										+ read.substring(line * (i - 1), line
+												* i) + "</h4><h4>";
 							}
-							str2 = read.substring(num*line, read.length());
+							str2 = read.substring(num * line, read.length());
 							read = str1 + str2;
 						}
-						read = "　　"+read;
+						read = "　　" + read;
 						list.add(read);
 					}
 					in.close();
+					if(mssyCode){
+						list.clear();
+						BufferedReader in1 = new BufferedReader(
+								new InputStreamReader(new FileInputStream(text),"UTF-8"));
+						while ((read = in1.readLine()) != null) {
+							int line = 50;// 根据页面的显示要求
+											// 每50个字符换一行显示(虽然我也觉得这样做挺滑稽的，或许应该交给前端
+											// 方便前后端分离？)
+							int num = read.length() / line;
+							if (num >= 1) {
+								String str1 = "";
+								String str2 = "";
+								for (int i = 1; i <= num; i++) {
+									str1 = str1
+											+ read.substring(line * (i - 1), line
+													* i) + "</h4><h4>";
+								}
+								str2 = read.substring(num * line, read.length());
+								read = str1 + str2;
+							}
+							read = "　　" + read;
+							list.add(read);
+						}
+						in1.close();
+					}
 					return list;
 				} catch (IOException e) {
 					// TODO Auto-generated catch block

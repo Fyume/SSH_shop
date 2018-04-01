@@ -6,7 +6,6 @@
  	<class name="zhku.jsj141.entity.user.Work" table="t_Work"> 
  		<id name="wid" column="wid">
  			<generator class="native"></generator>
- 			
  		</id>
  		<property name="wname"></property>
  		<property name="uploadtime"></property>
