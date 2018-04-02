@@ -178,7 +178,6 @@ public class WorkAction extends BaseAction {
 		work.setAuthor(user.getUid());
 		worklist = workService.find(work, "author");
 		request.getSession().setAttribute("myWork", worklist);
-		request.setAttribute("list", 2);
 		request.getSession().setAttribute("myWork_flag", worklist.size());
 		return "goto_user";
 	}

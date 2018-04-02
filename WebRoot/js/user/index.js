@@ -2,6 +2,20 @@
  * 
  */
 $(document).ready(function(){
+	$("#header_right").load("/SSH_test/pages/user/index_header_right.jsp");
+	$("#index_center").load("/SSH_test/pages/user/index_center.jsp");
+	$("#totalBook").load("/SSH_test/pages/user/index_Allbook.jsp");
+	if ($("#typelist").val() == 'true') {
+		$.ajax({
+			url : 'http://localhost:8080/SSH_test/bookAction_getData',
+			type : "POST",
+			timeout : 1000,
+			cache : false,
+			success : function() {
+				$("#totalBook").load("/SSH_test/pages/user/index_Allbook.jsp");
+			},
+		});
+	}
 	$(window).scroll(function(){
 		if($(window).scrollTop()>82){
 			//显示绝对位置div
@@ -21,7 +35,7 @@ $(document).ready(function(){
 			$("#updateFlag2").css("right","24px");
 			$("#updateFlag2").css("top","42px");
 		}else{
-			$("#index_title").css("position","relative");
+			$("#index_title").css("position","inherit");
 			$("#index_title").css("top","0");
 			$("#index_title").css("left","0");
 			$("#header_right div").css("border","0");
@@ -40,7 +54,7 @@ $(document).ready(function(){
 		}
 	});
 });
-function start(msg,user) {
+function start(user) {
 	if(user == true){
 		var page = $("#page_num").html();
 		$("#page_a"+page).css("color","red");
@@ -53,7 +67,7 @@ function start(msg,user) {
 				if(data=="111"){
 					$.cookie('user',null,{expires: -1,path: '/'});
 				}
-				window.location.reload();
+				$("#header_right").load("/SSH_test/pages/user/index_header_right.jsp");
 			},
 		});
 	}else{
@@ -74,16 +88,6 @@ function start(msg,user) {
 				}else{
 					$("#updateFlag2").css("display","none");
 				}
-			},
-		});
-	}
-	if (msg == true) {
-		$.ajax({
-			url : 'http://localhost:8080/SSH_test/bookAction_getData',
-			type : "POST",
-			timeout : 1000,
-			cache : false,
-			success : function() {
 			},
 		});
 	}
@@ -121,6 +125,21 @@ function checkUser(user) {
 		});
 	}
 }
+function centerLoad(path,str){
+	if(str==null){
+		str = "totalBook";
+	}
+	$.ajax({
+		url : path,
+		type : "POST",
+		timeout : 1000,
+		cache : false,
+		async : false,// 取消异步请求
+		success : function() {
+			$("#"+str).load("/SSH_test/pages/user/index_AkindOfBook.jsp");
+		},
+	});
+}
 function logout(){
 	$.ajax({
 		url : '/SSH_test/userAction_logOut',
@@ -143,13 +162,6 @@ function login(user, path) {
 		window.location.href = path + "/pages/user/User.jsp";
 	}
 }
-function classifyon() {
-	$("#classify_st").css("display", "inline");
-}
-function classifyoff() {
-	$("#classify_st").css("display", "none");
-}
-
 function classUlon(num) {
 	$("#class_ul"+num).css("display", "inline");
 }
@@ -157,6 +169,7 @@ function classUloff(num) {
 	$("#class_ul"+num).css("display", "none");
 }
 function infoon() {
+	$("#user_info").css("z-index","999");
 	$("#user_info").css("display", "inline");
 }
 function infooff() {

@@ -30,7 +30,10 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#header_right").click(function(){
-		$("#header_right").load("/SSH_test/userAction_login");
+		$("#header_right").load("/SSH_test/pages/test/test2.jsp");
+	});
+	$("#aaa").click(function(){
+		$("#aaa").load("/SSH_test/pages/test/test3.jsp");
 	});
 });
 </script>
@@ -42,6 +45,8 @@ $(document).ready(function(){
 	<c:forEach items="${sessionScope.test.work }" var="work" >
 		${work.wid }<br>${work.wname }<br>${work.uploadtime }
 	</c:forEach>  --%>
-	<!-- <div id="header_right">12312313</div> -->
+	<div id="header_right" style="width:300px;height:500px;border:1px red solid;">
+		
+	</div>
 </body>
 </html>

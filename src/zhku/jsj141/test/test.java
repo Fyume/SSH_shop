@@ -3,6 +3,7 @@ package zhku.jsj141.test;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -185,9 +186,5 @@ public class test {
 			System.out.println(field[i].getName());*/
 		}
 		return json;
-	}
-	@Test
-	public void test22(){
-		System.out.println(new MD5Utils("iii").getStr());
 	}
 }

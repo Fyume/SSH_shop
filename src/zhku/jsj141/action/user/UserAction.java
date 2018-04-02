@@ -676,7 +676,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		if(user==null){
 			return "goto_login";
 		}
-		request.setAttribute("list", 3);
 		int type = Integer.valueOf(request.getParameter("type"));
 		switch (type) {
 			case 0:
@@ -841,12 +840,19 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		if(user==null){
 			return "goto_login";
 		}
+		rfrlist = userService.findRfr_User1(user);
+		request.getSession().setAttribute("MyRfrList",rfrlist);
+		return "goto_user";
+	}
+	public String getReviewsAboutMe() throws Exception{//获取所有相关评论
+		user = (User) request.getSession().getAttribute("user");
+		if(user==null){
+			return "goto_login";
+		}
 		userlist = userService.finds(user, "uid");
 		user = userlist.get(0);
-		Set<ReviewsForReviews> rfr1_set = user.getRfr1();//回复的评论
 		Set<ReviewsForReviews> rfr2_set = user.getRfr2();//被回复的评论
-		request.getSession().setAttribute("MyRfr1Set",rfr1_set);
-		request.getSession().setAttribute("MyRfr2Set",rfr2_set);
+		request.getSession().setAttribute("MyRfrSet",rfr2_set);
 		return "goto_user";
 	}
 	//随机读取书本或作品
@@ -924,6 +930,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		close(out);
 		return NONE;
 	}
+	
 	/********************************************************/
 	/*public String test() throws Exception{//测试一方的外键实体是否直接能拿到数据
 		user.setUid("aaa");

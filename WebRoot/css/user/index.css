@@ -150,18 +150,31 @@ fieldset{
 	0%{height:0px;opacity:0;}
 	100%{height:108px;}
 }
-.index_center{
-	width:100%;height:50px;
+.index_center {
+	width: 100%;
+	height: 50px;
 }
-.index_title{
-	width:82%;height:50px;background-color:#ff9b37;margin-left:9%;border-bottom-right-radius:20px;border-bottom-left-radius:20px;box-shadow:3px 0px 1px #c0c0c0;border-bottom:2px #c0c0c0 solid;padding-left:30px;padding-top:5px;
+
+.index_title {
+	width: 82%;
+	height: 50px;
+	background-color: #ff9b37;
+	margin-left: 9%;
+	border-bottom-right-radius: 20px;
+	border-bottom-left-radius: 20px;
+	box-shadow: 3px 0px 1px #c0c0c0;
+	border-bottom: 2px #c0c0c0 solid;
+	padding-left: 30px;
+	padding-top: 5px;
 }
+
 .class_title{
 	padding-top:7px;
 	text-align:center;
 	width:100px;
 	height:40px;
 	border-right:2px white dotted;
+	cursor:pointer;
 }
 .class_title:HOVER{
 	background-color:#e37200;
@@ -473,7 +486,7 @@ option{
 }
 .index_page_div{
 	position:absolute;
-	top:91%;
+	top:93%;
 	width:79.8%;
 	height:6%;
 	padding-top:0.6%;

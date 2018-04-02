@@ -26,21 +26,21 @@
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath}/css/user/upload.css">
 </head>
-<body onload="start(${empty sessionScope.typelist },${empty sessionScope.user})">
+<body onload="start(${empty sessionScope.user})">
 	<c:choose>
 		<c:when test="${empty sessionScope.user }">
 			<a href="${pageContext.request.contextPath}/pages/user/login.jsp"
 				style="margin-left:600px;">前往登录</a>
-		</c:when>
-		<c:otherwise>
-			<div class="header">
+				</c:when>
+				<c:otherwise>
+					<div class="header">
 				<a href="${pageContext.request.contextPath}/bookAction_getData">
 					<div class="header_logo">
 						<img width=100% height=100% alt="" src="${pageContext.request.contextPath}/images/flag/2018-03-31_164359.png">
 					</div>
 				</a>
 				<div class="header_center">
-					<select id="select_select" name="flag" style="display:none;">
+					<select id="select_select" name="flag" style="display:none;"> 
 						<option value="bname" checked>书名</option>
 						<option value="wname">作品名</option>
 						<option value="author">作者</option>
@@ -68,69 +68,10 @@
 					</a>
 				</c:if>
 				<div id="header_right" class="header_right">
-					<div class="h_r_user btn btn-default" onmouseover="infoon()" onmouseout="infooff()" onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
-						<span class="glyphicon glyphicon-user"></span> <span
-							style="color:red;font-weight:400">${sessionScope.user.username }</span>
-					</div>
-					<div class="h_r_user btn btn-default">消息</div>
-					<div id="updateFlag"></div>
-					<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
-						<div class="h_r_user btn btn-default">收藏夹</div>
-					</a>
-					<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
-						<div class="user_upload" style="margin-top:-5px;">
-							<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
-						</div>
-					</a>
 				</div>
 			</div>
-			<div class="index_center" style="background-color:#b7b7b7;">
-				<div id="index_title" class="index_title">
-					<div class="class_title" style="border-left:0;">
-						<a href="${pageContext.request.contextPath}/bookAction_getData">
-							首页
-						</a>
-					</div>
-					<c:forEach items="${sessionScope.typelist }" var="type"
-						varStatus="num">
-						<div>
-							<div class="class_title" onmouseover="classUlon(${num.count})"
-								onmouseout="classUloff(${num.count})">
-								<a
-									href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=${type.type}">${type.type }</a>
-							</div>
-			
-						</div>
-						<%-- <div id="class_ul${num.count}" class="class_ul${num.count}"
-							onmouseover="classUlon(${num.count})"
-							onmouseout="classUloff(${num.count})">
-					<!-- 数据库里面用";"分开 -->
-							<c:set value="${fn:split(type.type_flag,';') }" var="type_flag"></c:set>
-							<c:forEach items="${type_flag }" var="flag" begin="0" end="5">
-								<ul>
-									<li><a
-										href="${pageContext.request.contextPath}/bookAction_selectB?flag=type_flag&message=${type.type}">${flag }</a></li>
-								</ul>
-							</c:forEach>
-							<c:forEach items="${type_flag }" var="flag" begin="6" end="12">
-								<ul>
-									<li><a
-										href="${pageContext.request.contextPath}/bookAction_selectB?flag=type_flag&message=${type.type}">${flag }</a></li>
-								</ul>
-							</c:forEach>
-						</div> --%>
-					</c:forEach>
-					<div class="class_title">
-						<a href="${pageContext.request.contextPath}/workAction_getData">
-							用户作品
-						</a>
-					</div>
-					<div class="class_title">
-						<a href="${pageContext.request.contextPath}/userAction_random">
-							随便看看
-						</a>
-					</div>
-				</div>
+			<div id="index_center" class="index_center" style="background-color:#efefef;">
+				
 			</div>
 			<div class="upload_bottom">
 				<input id="uploadResult" type="text"

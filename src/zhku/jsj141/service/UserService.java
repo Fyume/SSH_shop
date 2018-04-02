@@ -162,5 +162,17 @@ public interface UserService {
 	 * @return
 	 */
 	public boolean updateF(Favour favour);
+	/**
+	 * 寻找自己评论过的记录
+	 * @param user
+	 * @return
+	 */
+	public List<ReviewsForReviews> findRfr_User1(User user);
+	/**
+	 * 寻找被评论过的记录
+	 * @param user
+	 * @return
+	 */
+	public List<ReviewsForReviews> findRfr_User2(User user);
 
 }

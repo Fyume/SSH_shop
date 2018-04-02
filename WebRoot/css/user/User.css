@@ -235,3 +235,16 @@ textarea{
 .user_Update_Flag{
 	position:absolute;top:200px;left:80px;width:10px;height:10px;font-size:30px;background-color:red;border-radius:10px;
 }
+.MyReviews {
+	width: 95%;
+	height: 450px;
+	border: 1px red solid;
+	margin-top: 40px;
+	background-color: #c0c0c0;
+	overflow-y: auto;
+	overflow-x: auto;
+	height: 450px;
+	border: 1px red solid;
+	margin-top: 40px;
+	background-color: #c0c0c0;
+}

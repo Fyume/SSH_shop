@@ -13,6 +13,9 @@ $(document).ready(function(){
 	window.mess = $("#mess").val();
 	var dpage = Math.ceil(window.docCount/100);//第一轮分页总页数
 	var max = dpage-Math.floor(dpage/161);//余数
+	if(max>161){
+		max=161;
+	}
 	$("#ccc").html("");
 	for(var i=1;i<=max;i++){
 		createPageDiv(i,window.emptyUser,window.mess);
@@ -216,8 +219,9 @@ function pageAdd(){
 	}
 }
 /***********评论区**********/
-function checklogin(str){
-	if(str==true){
+function checklogin(){
+	var str = $("#USER").val();
+	if(str=='true'){
 		if(confirm("没登录呢,是否前往登录？")){
 			window.location.href='/SSH_test/pages/user/login.jsp';
 			return false;//有用？
@@ -283,9 +287,24 @@ function getReviews($this){
 		async : false,
 		cache : false,
 		success : function(){
-			window.location.href='/SSH_test/pages/user/book.jsp?close=1';
+			$("#Allreviews").load('/SSH_test/pages/user/bookReviews.jsp');
+			$($this).css("display","none");
 		},
 	});
+}
+function submitReviews(formid){
+	if(checklogin()){
+		$.ajax({  
+	        type : "post",  
+	        url : $("#"+formid).attr("action"),  
+	        data : $("#"+formid).serialize(),  
+	        cache : false,  
+	        dataType : "json",  
+	        success : function() {  
+	        	$("#Allreviews").load('/SSH_test/pages/user/bookReviews.jsp');
+	        },  
+	    }); 
+	}
 }
 function openReviewsPlace(){//显示评论区
 	var str = $("#r_close").html();

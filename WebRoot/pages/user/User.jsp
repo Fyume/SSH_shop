@@ -1,7 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
 <%@ taglib uri="/mytags" prefix="mytags"%>
 <%
 	String path = request.getContextPath();
@@ -106,128 +104,54 @@
 								基本资料
 							</a>
 						</li>
-						<li>
-							<a href="${pageContext.request.contextPath}/workAction_getMyWork">
+						<li onclick="getMyWork()">
+							<a>
 								我的作品
 							</a>
 						</li>
-						<li>
-							<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
+						<li onclick="getMyFav(0)">
+							<a>
 								收藏夹
 							</a>
 						</li>
-						<li>
-							<a href="${pageContext.request.contextPath}/userAction_getMyUpdateFlag">
-								评论消息
-							</a>
+						<li class="dropdown">
+							<li class="dropdown-toggle" id="CommentMenu1" data-toggle="dropdown" >
+								<a>我的评论<span class="caret"></span></a>
+							</li>
+							<ul class="dropdown-menu" aria-labelledy="CommentMenu1" style="margin-top:-345px;">
+								<li onclick="loadMyReviews()"><a>我评论的</a></li>
+								<li><a href="${pageContext.request.contextPath}/userAction_getReviewsAboutMe">被回复的</a></li>
+							</ul>
 						</li>
 					</ul>
 				</div>
-				<div class="User_table">
+				<div id="User_table" class="User_table">
 					<c:choose>
 						<c:when test="${(requestScope.list==1&&empty param.list)||(empty param.list&&empty requestScope.list)}">
-							<div class="User_title">基本信息</div>
-							<div class="arrow_div" style="border-top-left-radius:25px;"></div>
-							<form action="${pageContext.request.contextPath }/userAction_update" method="post" enctype="multipart/form-data"
-									onsubmit="return checkForm()">
-								<div style="width:10%;height:20%;">
-									<c:choose>
-										<c:when test="${empty sessionScope.user.image }">
-											<img id="User_img" alt="头像" src="${pageContext.request.contextPath }/images/flag/user_img(default).png">
-										</c:when>
-										<c:otherwise>
-											<img id="User_img" alt="头像" src="${pageContext.request.contextPath }/images/user/userImg/${sessionScope.user.image }">
-										</c:otherwise>
-									</c:choose>
-									<div class="file_button">
-										<input id="image_btn" type="button" value="修改头像" onclick="uploadi()" disabled="disabled"> <br>
-										<div style="font-size:12px;color:red;">(仅限jpg,jpeg)</div>
-										<input type="file" id="image" name="image" accept="image/*">
-									</div>
-								</div>
-								<div id="User_AllInfo" class="User_AllInfo">
-										<span class="User_font">用户ID：</span>
-										<input type="text" name="user.uid" style="display:none;" value="${sessionScope.user.uid }">
-										<span class="User_value">${sessionScope.user.uid }</span>
-										<br><br>
-										<span class="User_font">用户名：</span>
-										<span class="User_value"><input type="text" disabled="disabled" name="user.username" value="${sessionScope.user.username }"></span>
-										<br><br>
-										<span class="User_font">姓名：</span>
-										<span class="User_value"><input type="text" disabled="disabled" name="user.name" value="${sessionScope.user.name }"></span>
-										<br><br>
-										<span class="User_font">地址：</span>
-										<span class="User_value"><input type="text" disabled="disabled" name="user.address" value="${sessionScope.user.address }"></span>
-										<br><br>
-										<span class="User_font">身份证：</span>
-										<span class="User_value">
-											<input type="text" name="hide" disabled="disabled" value="<mytags:hide value='${sessionScope.user.IDCN }'></mytags:hide>">
-											<input type="text" name="user.IDCN" class="edit_text" value="${sessionScope.user.IDCN }">
-										</span>
-										<br><br>
-										<span class="User_font">手机号：</span>
-										<span class="User_value">
-											<input type="text" name="hide" disabled="disabled" name="user.telnum" value="<mytags:hide value='${sessionScope.user.telnum }'></mytags:hide>">
-											<input type="text" name="user.telnum" class="edit_text" value="${sessionScope.user.telnum }" onchange="checktelnum()">
-										</span>
-										<br><br>
-										<span class="User_font">邮箱：</span>
-										<span class="User_value"><mytags:hide value="${sessionScope.user.email }"></mytags:hide></span>
-										<a style="float:right;margin-right:30%;padding-top:5px;"href="${pageContext.request.contextPath }/pages/user/activate.jsp">修改邮箱</a>
-										<br><br>
-										<span class="User_font">激活时间：</span>
-										<span class="User_value"><mytags:date value="${sessionScope.user.activateTime }"></mytags:date></span>
-										<br><br>
-								</div>
-								<input class="User_btn" id="edit_btn" type="button" value="进入编辑" onclick="edit()">
-								<br><br>
-								<input class="User_btn" id="submit_btn" type="submit" value="提交" disabled="disabled" style="opacity:0.5;">
-							</form>
+							
 						</c:when>
 						<c:otherwise>
 							<c:choose>
-								<c:when test="${!empty param.page }">
-									<c:set var="begin" value="${(param.page-1)*8}"></c:set>
-									<c:set var="end" value="${(param.page*8)-1}"></c:set>	
+								<c:when test="${!empty param.page }" >
+									<c:set var="begin" value="${(param.page-1)*8}" scope="session"></c:set>
+									<c:set var="end" value="${(param.page*8)-1}" scope="session"></c:set>	
 								</c:when>
 								<c:otherwise>
-									<c:set var="begin" value="0"></c:set>
-									<c:set var="end" value="7"></c:set>	
+									<c:set var="begin" value="0" scope="session"></c:set>
+									<c:set var="end" value="7" scope="session"></c:set>	
 								</c:otherwise>
 							</c:choose>
-							<c:set var="AllNum" value="0"></c:set>
+							<c:set var="AllNum" value="0" scope="session"></c:set>
 							<!-- 作品 -->
-							<c:if test="${(requestScope.list==2&&empty param.list)||param.list==2}">
-								<div class="MyFav" style="height:85%;">
-									<!-- 分页用 -->
-									<c:set var="Alllist" value="${sessionScope.myWork }"></c:set>
-									<c:set var="AllNum" value="${sessionScope.myWork_flag }"></c:set>
-									<div class="User_title">作品区</div><br>
-									<div class="arrow_div" style="top:128px;"></div>
-									<c:if test="${empty sessionScope.myWork }">
-										<span style="color:#c0c0c0;">您还没有上传过作品呢。点击右上角上传按钮即刻上传吧~</span>
-									</c:if>
-									<c:forEach items="${sessionScope.myWork }" var="work" begin="${begin }" end="${end }" varStatus="num">
-										<div class="work_border">
-											<div class="work_img" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
-												<img id="work_img${num.count }" alt="${work.wid }" title="${work.description }" src="${pageContext.request.contextPath }/images/user/workImg${work.image}">
-											</div>
-											<div id="img_cover${num.count }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
-												<div class="cover_btn"><a href="${pageContext.request.contextPath }/workAction_readWork?wid=${work.wid}">进入阅读</a></div>
-												<div class="cover_btn" onclick="edit_divOn(${num.count})">编辑</div>
-											</div>
-											<div id="work_wname${num.count }" class="work_title">${work.wname }</div>
-											<div class="work_time"><mytags:date value="${work.uploadtime*1000 }"></mytags:date></div>
-										</div>
-									</c:forEach>
-								</div>
-							</c:if>
+							
 							<!-- 收藏夹 -->
-							<c:if test="${(requestScope.list==3&&empty param.list)||param.list==3}">
+							
+							<!-- 评论消息 -->
+							<%-- <c:if test="${(requestScope.list==4&&empty param.list)||param.list==4}">
 								<div class="MyFav">
 									<!-- 分页用 -->
 									<c:set var="AllNum" value="${sessionScope.myFav_size }"></c:set>
-									<div class="User_title">收藏夹</div><br>
+									<div class="User_title">评论消息</div><br>
 									<div class="arrow_div" style="top:169px;"></div>
 									<div class="dropdown">
 										<ul class="nav nav-tabs">
@@ -291,13 +215,10 @@
 										</c:if>
 									</div>
 								</div>
-							</c:if>
-							<div style="width:99%;height:30px;border-top:1px #c0c0c0 solid;text-align:center;">
-								<div>页码:</div>
-								<c:forEach items="${Alllist }" begin="0" end="${AllNum/8 }" varStatus="num">
-									<a href="${pageContext.request.contextPath }/pages/user/User.jsp?list=${requestScope.list}&&page=${num.count}">${num.count }</a>
-								</c:forEach>
-							</div>
+							</c:if> --%>
+							
+							
+							
 						</c:otherwise>
 					</c:choose>
 				</div>

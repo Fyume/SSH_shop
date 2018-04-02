@@ -19,6 +19,7 @@ $(document).ready(function() {
 			$("#Work_img").attr("src", path);//浏览器缓存是最骚的 暂时不理
 		}
 	});
+	getMyInfo();
 });
 function getObjectURL(file) {
 	var url = null;
@@ -163,4 +164,43 @@ function workImg(){
 }
 function checkForm2(){
 	
+}
+/**********重新用load优化el******/
+function getMyInfo(){
+	$("#User_table").load("/SSH_test/pages/user/MyInfo.jsp");
+}
+function getMyWork(){
+	$.ajax({
+		url : '/SSH_test/workAction_getMyWork',
+		type : "POST",
+		timeout : 1000,
+		cache : false,
+		success : function() {
+			$("#User_table").load("/SSH_test/pages/user/MyWork.jsp");
+		},
+	});
+}
+function getMyFav(num){
+	$.ajax({
+		url : '/SSH_test/userAction_getMyFavBy?type='+num,
+		type : "POST",
+		timeout : 1000,
+		cache : false,
+		success : function() {
+			$("#User_table").load("/SSH_test/pages/user/MyFavour.jsp");
+		},
+	});
+}
+/************评论*********/
+// href="${pageContext.request.contextPath}/userAction_getMyReviews"
+function loadMyReviews(){
+	$.ajax({
+		url : '/SSH_test/userAction_getMyReviews',
+		type : "POST",
+		timeout : 1000,
+		cache : false,
+		success : function() {
+			$("#User_table").load("/SSH_test/pages/user/Reviews.jsp");
+		},
+	});
 }

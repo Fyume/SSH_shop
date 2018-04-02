@@ -264,6 +264,20 @@ public class UserDaoImpl implements UserDao{
 	}
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<ReviewsForReviews> findRfr_User1(User user) {
+		List<ReviewsForReviews> list = null;
+		list = (List<ReviewsForReviews>) hibernateTemplate.find("from ReviewsForReviews rfr where rfr.user1.uid = ?",user.getUid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReviewsForReviews> findRfr_User2(User user) {
+		List<ReviewsForReviews> list = null;
+		list = (List<ReviewsForReviews>) hibernateTemplate.find("from ReviewsForReviews rfr where rfr.user2.uid = ?",user.getUid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<ReviewsForBook> findRfb_book(Book book) {
 		List<ReviewsForBook> list = null;
 		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook where bid = ? order by time desc",book.getBid());

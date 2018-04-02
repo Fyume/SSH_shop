@@ -1,7 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
 <%@ taglib uri="/mytags" prefix="myTags"%>
 <%
 	String path = request.getContextPath();
@@ -40,148 +38,42 @@
 	<div class="header">
 		<a href="${pageContext.request.contextPath}/bookAction_getData">
 			<div class="header_logo">
-				<img width=100% height=100% alt=""
-					src="${pageContext.request.contextPath}/images/flag/2018-03-31_164359.png">
+				<img width=100% height=100% alt="" src="${pageContext.request.contextPath}/images/flag/2018-03-31_164359.png">
 			</div>
 		</a>
 		<div class="header_center">
-			<select id="select_select" name="flag" style="display:none;">
+			<select id="select_select" name="flag" style="display:none;"> 
 				<option value="bname" checked>书名</option>
 				<option value="wname">作品名</option>
 				<option value="author">作者</option>
 			</select>
-			<ul class="nav nav-tabs"
-				style="width:280px;border-bottom:1px #c0c0c0 solid;background-color:#5bc0de;padding-top:-5px;height:45px;border-radius:30px;">
-				<li><input type="text" id="select_message"
-					placeholder="输入作品名/书名(1-20个字符、数字)"
-					style="height:40px;width:170px;margin-top:-8px;margin-left:20px;"></li>
-				<ul class="nav nav-stacked"
-					style="width:60px;height:39px;margin-top:-7px;margin-left:-10px;"
-					onmouseover="showFlag()" onmouseout="hideFlag()">
-					<li id="ls_1" onclick="exchangeFlag(1)">书名<span
-						class="glyphicon glyphicon-play"
-						style="font-size:5px;transform:rotate(90deg);"></span>
+			<ul class="nav nav-tabs" style="width:280px;border-bottom:1px #c0c0c0 solid;background-color:#5bc0de;padding-top:-5px;height:45px;border-radius:30px;">
+				<li><input type="text" id="select_message" placeholder="输入作品名/书名(1-20个字符、数字)" style="height:40px;width:170px;margin-top:-8px;margin-left:20px;"></li>
+				<ul class="nav nav-stacked" style="width:60px;height:39px;margin-top:-7px;margin-left:-10px;" onmouseover="showFlag()" onmouseout="hideFlag()">
+					<li id="ls_1" onclick="exchangeFlag(1)">书名<span class="glyphicon glyphicon-play" style="font-size:5px;transform:rotate(90deg);"></span>
 					</li>
 					<li id="ls_2" onclick="exchangeFlag(2)">作品名</li>
 					<li id="ls_3" onclick="exchangeFlag(3)">作者</li>
 				</ul>
 				<li>
 					<div class="fs_input2" onclick="selectmess()">
-						<span class="glyphicon glyphicon-search"
-							style="font-size:25px;margin-top:10px;margin-left:0;"></span>
+						<span class="glyphicon glyphicon-search" style="font-size:25px;margin-top:10px;margin-left:0;"></span>
 					</div>
 				</li>
 			</ul>
 		</div>
 		<c:if test="${sessionScope.user.u_permission }">
 			<a href="${pageContext.request.contextPath}/pages/manager/edit.jsp">
-				<div class="managerPage">前往管理员界面</div>
+				<div class="managerPage">
+					前往管理员界面
+				</div>
 			</a>
 		</c:if>
 		<div id="header_right" class="header_right">
-			<div class="h_r_user btn btn-default" onmouseover="infoon()"
-				onmouseout="infooff()"
-				onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
-				<span class="glyphicon glyphicon-user"></span> <span
-					style="color:red;font-weight:400">${sessionScope.user.username }</span>
-			</div>
-			<div class="h_r_user btn btn-default">消息</div>
-			<div id="updateFlag"></div>
-			<a
-				href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
-				<div class="h_r_user btn btn-default">收藏夹</div>
-			<div id="updateFlag2"></div>
-			</a> <a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
-				<div class="user_upload" style="margin-top:-5px;">
-					<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
-				</div>
-			</a>
 		</div>
 	</div>
-	<div class="index_center" style="background-color:#c8e3b3;">
-		<div id="index_title" class="index_title">
-			<div class="class_title" style="border-left:0;">
-				<a href="${pageContext.request.contextPath}/bookAction_getData">
-					首页 </a>
-			</div>
-			<c:forEach items="${sessionScope.typelist }" var="type"
-				varStatus="num">
-				<div>
-					<div class="class_title" onmouseover="classUlon(${num.count})"
-						onmouseout="classUloff(${num.count})">
-						<a
-							href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=${type.type}">${type.type }</a>
-					</div>
-
-				</div>
-				<%-- <div id="class_ul${num.count}" class="class_ul${num.count}"
-					onmouseover="classUlon(${num.count})"
-					onmouseout="classUloff(${num.count})">
-			<!-- 数据库里面用";"分开 -->
-					<c:set value="${fn:split(type.type_flag,';') }" var="type_flag"></c:set>
-					<c:forEach items="${type_flag }" var="flag" begin="0" end="5">
-						<ul>
-							<li><a
-								href="${pageContext.request.contextPath}/bookAction_selectB?flag=type_flag&message=${type.type}">${flag }</a></li>
-						</ul>
-					</c:forEach>
-					<c:forEach items="${type_flag }" var="flag" begin="6" end="12">
-						<ul>
-							<li><a
-								href="${pageContext.request.contextPath}/bookAction_selectB?flag=type_flag&message=${type.type}">${flag }</a></li>
-						</ul>
-					</c:forEach>
-				</div> --%>
-			</c:forEach>
-			<div class="class_title">
-				<a href="${pageContext.request.contextPath}/workAction_getData">
-					用户作品 </a>
-			</div>
-			<div class="class_title">
-				<a href="${pageContext.request.contextPath}/userAction_random">
-					随便看看 </a>
-			</div>
-		</div>
-	</div>
-	<div id="user_info" class="user_info" onmouseover="infoon()"
-		onmouseout="infooff()">
-		<c:choose>
-			<c:when test="${empty sessionScope.user }">
-				<div class="list_login">
-					<a href="${pageContext.request.contextPath}/pages/user/login.jsp">前往登录</a>
-				</div>
-			</c:when>
-			<c:otherwise>
-				<div class="info_img">
-					<c:choose>
-						<c:when test="${empty sessionScope.user.image }">
-							<img id="user_img" alt="头像" style="border-radius:100%;"
-								src="${pageContext.request.contextPath }/images/flag/user_img(default).png">
-						</c:when>
-						<c:otherwise>
-							<img id="user_img" alt="头像" style="border-radius:100%;"
-								src="${pageContext.request.contextPath }/images/user/userImg/${sessionScope.user.image }">
-						</c:otherwise>
-					</c:choose>
-				</div>
-				<div class="list_half">
-					ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span>
-				</div>
-				<div class="list_half">
-					用户名:<span style="color:red;">${sessionScope.user.username }</span>
-				</div>
-				<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
-					<div class="list_all">
-						<span style="font-weight:550;font-size:15px;">个人中心</span>
-					</div>
-				</a>
-				<!-- 未实现暂时用User.jsp过渡 -->
-				<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
-					<div class="list_btn">设置</div>
-				</a>
-				<div class="list_btn" onclick="logout()">退出</div>
-			</c:otherwise>
-		</c:choose>
+	<div id="index_center" class="index_center" style="background-color: #c8e3b3;">
+		
 	</div>
 	<div class="b_bottom">
 		<input id="empty_book" type="text" value="${empty sessionScope.book }"
@@ -303,35 +195,6 @@
 					<div class="bt_t_font">章节选择</div>
 				</div>
 				<div class="bt_part">
-					<%-- <c:choose>
-						<c:when test="${empty param.cptPage||param.cptPage>(sessionScope.doc_count/100/160)}">
-							<c:set var="begin" value="0"></c:set>
-							<c:set var="end" value="160"></c:set>
-						</c:when>
-						<c:otherwise>
-							<c:set var="begin" value="${(param.cptPage-1)*160}"></c:set>
-							<c:set var="end" value="${param.cptPage*160}"></c:set>
-						</c:otherwise>
-					</c:choose>
-					<c:choose>
-						<c:when test="${!empty sessionScope.work}">
-							<input id="btn_getHistAndFav" type="button" onclick="getHistAndFav('${empty sessionScope.user }','wid;${sessionScope.work.wid }',)" style="display:none;">
-							<c:forEach items="${sessionScope.content }" var="line" begin="${begin }" end="${end }" varStatus="num">
-								<div id="page${num.count }" class="part_div" onclick="history('${empty sessionScope.user }','wid;${sessionScope.work.wid }',${num.count+begin})">
-									${num.count+begin }
-								</div>
-							</c:forEach>
-						</c:when>
-						<c:otherwise>
-							<input id="btn_getHistAndFav" type="button" onclick="getHistAndFav('${empty sessionScope.user }','bid;${sessionScope.book.bid }')" style="display:none;">
-							<c:forEach items="${sessionScope.content }" var="line"  begin="${begin }" end="${end }" varStatus="num">
-								<div id="page${num.count }" class="part_div" onclick="history('${empty sessionScope.user }','bid;${sessionScope.book.bid }',${num.count+begin})">
-									${num.count+begin }
-								</div>
-							</c:forEach>
-						</c:otherwise>
-					</c:choose> --%>
-
 					<c:choose>
 						<c:when test="${!empty sessionScope.work}">
 							<input id="btn_getHistAndFav" type="button"
@@ -352,9 +215,6 @@
 						value="${empty sessionScope.user }"> <input id="docCount"
 						type="text" value="${sessionScope.doc_count }">
 					<div class="chapter_bottom">
-						<%-- <c:forEach items="${sessionScope.content }" begin="0" end="${(sessionScope.doc_count/100)/161 }" varStatus="num">
-							<li style="height:30px;float:left;margin-left:5px;margin-top:-2px;"><a href="${pageContext.request.contextPath}/pages/user/book.jsp?cptPage=${num.count}">${num.count }</a></li>
-						</c:forEach> --%>
 						<div class="aaa">
 							<div class="bbb" onclick="pageDec('${param.cptPage}')">
 								<span class="glyphicon glyphicon-chevron-left"></span>
@@ -374,9 +234,7 @@
 
 				<!-- 我的评论 -->
 
-				<form action="${pageContext.request.contextPath}/userAction_Review"
-					method="post"
-					onsubmit="return checklogin(${empty sessionScope.user})">
+				<form id="MyReviewsF" action="${pageContext.request.contextPath}/userAction_Review" method="post">
 					<div class="comment_text">
 						<c:choose>
 							<c:when test="${!empty sessionScope.user }">
@@ -397,7 +255,7 @@
 						</c:choose>
 
 						<div class="text_mycomment">
-							<input type="submit" class="btn btn-info pull-right" value="提交">
+							<input type="button" onclick="submitReviews('MyReviewsF')" class="btn btn-info pull-right" value="提交">
 							<textarea name="rfb.content" cols="20" rows="3"
 								placeholder="来说几句吧。。。。"></textarea>
 						</div>
@@ -407,56 +265,9 @@
 				<!-- 显示评论 -->
 				<div class="reviews">
 					<div class="reviews_title">相关评论</div>
-					<div class="line_btn" id="line_btn" onclick="getReviews()">点击展开评论</div>
-					<div id="Allreviews" style="display:none;">
-						<c:if test="${empty sessionScope.rfb_set }">
-							<span>还没有评论呢，赶紧发表你的感想吧~~</span>
-						</c:if>
-						<c:if test="${!empty sessionScope.rfb_set }">
-							<c:forEach items="${sessionScope.rfb_set }" var="rfb" begin="0"
-								end="7" varStatus="num">
-								<div id="reviews_content${num.count }" class="reviews_content">
-									<div class="content_top">
-										<div class="con_top_img">
-											<img alt=""
-												src="${pageContext.request.contextPath}/images/user/userImg/${rfb.user.image}">
-										</div>
-										<div class="con_top_font">${rfb.user.username}</div>
-										<div class="con_top_font2">的评论</div>
-										<div class="con_top_font" style="float:right;">
-											<myTags:date value="${rfb.time*1000}"></myTags:date>
-										</div>
-									</div>
-									<div class="content_center">${rfb.content }</div>
-									<c:forEach items="${rfb.rfr }" var="rfr" begin="0" end="3"
-										varStatus="nnum">
-										<div id="rfr_div${nnum.count }" class="rfr_div">
-											<div class="content_top">
-												<div class="con_top_img">
-													<img alt=""
-														src="${pageContext.request.contextPath}/images/user/userImg/${rfr.user1.image}">
-												</div>
-												<div class="con_top_font">${rfr.user1.username }</div>
-												<div class="con_top_font2">回复</div>
-												<div class="con_top_img">
-													<img alt=""
-														src="${pageContext.request.contextPath}/images/user/userImg/${rfr.user2.image} ">
-												</div>
-												<div class="con_top_font">${rfr.user2.username }</div>
-												<div class="con_top_font" style="float:right;">
-													<myTags:date value="${rfr.time*1000}"></myTags:date>
-												</div>
-											</div>
-											<div class="content_center">${rfr.content }</div>
-											<div class="content_bottom2" id="inner${nnum.count }"
-												onclick="openReviews(this,'rfr_div${nnum.count}')">回复</div>
-										</div>
-									</c:forEach>
-									<div class="content_bottom" id="outer${num.count }"
-										onclick="openReviews(this,'reviews_content${num.count}')">回复</div>
-								</div>
-							</c:forEach>
-						</c:if>
+					<div class="line_btn" id="line_btn" onclick="getReviews(this)">点击展开评论</div>
+					<div id="Allreviews">
+						
 					</div>
 					<!-- 分页 -->
 					<div></div>
@@ -469,15 +280,13 @@
 			</div>
 		</div>
 	</div>
+	<input id="USER" type="text" value="${empty sessionScope.user}">
 	<div id="con_bottom_reviews" class="con_bottom_reviews">
-		<form
-			action="${pageContext.request.contextPath}/userAction_ReviewForR"
-			method="post"
-			onsubmit="return checklogin(${empty sessionScope.user})">
+		<form id="reviewForm" action="${pageContext.request.contextPath}/userAction_ReviewForR">
 			<input id="font_id" name="font_id" type="text" value="">
 			<div class="text_mycomment">
-				<input type="submit" class="btn btn-info btn-sm pull-right"
-					value="提交">
+				<input type="button" class="btn btn-info btn-sm pull-right"
+					value="提交" onclick="submitReviews('reviewForm')">
 				<textarea name="rfr.content" cols="20" rows="3"
 					placeholder="来说几句吧。。。。"></textarea>
 			</div>

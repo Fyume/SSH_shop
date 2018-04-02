@@ -28,8 +28,8 @@
  -->
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
+<!-- <script type="text/javascript">
+ $(document).ready(function(){
 		$("#file").on("change",function(){
 			var file = this.files;
 			for(var i=0;i<file.length;i++){
@@ -37,15 +37,20 @@ $(document).ready(function(){
 			}
 		});
 	}
-);
+); </script> -->
+<script type="text/javascript">
 </script>
 </head>
 
 <body>
 	<%-- <a href="${pageContext.request.contextPath }/pages/test/test.jsp">test</a> --%>
-	<form action="${pageContext.request.contextPath }/bookAction_test" enctype="multipart/form-data" method="post">
+	<%-- <form action="${pageContext.request.contextPath }/bookAction_test" enctype="multipart/form-data" method="post">
 		<input id="file" type="file" name="test" multiple="multiple">
 		<input type="submit" value="111">
-	</form>
+	</form> --%>
+	<div id="aaa" style="width:1000px;height:800px;border:1px black solid;"></div>
+	<p>6666666666666<br>
+	66666666666666666
+	</p>
 </body>
 </html>
