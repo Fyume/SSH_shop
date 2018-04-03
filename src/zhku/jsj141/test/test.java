@@ -187,4 +187,16 @@ public class test {
 		}
 		return json;
 	}
+	@Test
+	public void testjson(){
+		test3 t3 = new test3();
+		t3.setT3(123);
+		test4 t4 = new test4();
+		t4.setT4(456);
+		t4.setT4str("test4");
+		t3.setTest4(t4);
+		t3.setTest4_1(t4);
+		System.out.println(JSON.toJSONString(t4));
+		System.out.println(JSON.toJSONString(t3));
+	}
 }

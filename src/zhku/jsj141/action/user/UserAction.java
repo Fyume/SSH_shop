@@ -44,6 +44,7 @@ import zhku.jsj141.utils.user.workUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -723,6 +724,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 				rfblist = userService.findRfb_Work(work);
 			}
 		}
+		rfblist = JSON.parseObject(JSON.toJSONString(rfblist),new TypeReference<List<ReviewsForBook>>(){});
 		request.getSession().setAttribute("rfb_set", rfblist);
 		return "goto_book";
 	}
@@ -732,6 +734,14 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		System.out.println(rfb.getContent());
 		if(user==null){
 			return "goto_login";
+		}
+		Map<String,String> map = new HashMap<String, String>();
+		PrintWriter out =  response.getWriter();
+		if(rfb.getContent()==null||rfb.getContent().trim().isEmpty()){
+			map.put("reviewsRs", "评论内容不能为空");
+			out.print(JSON.toJSONString(map));
+			close(out);
+			return NONE;
 		}
 		rfb.setUser(user);
 		book = (Book) request.getSession().getAttribute("book");
@@ -756,16 +766,18 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 				rfb.setTime(now);
 				userService.addRfb(rfb);
 				getReviews();//更新session
-				request.getSession().setAttribute("reviewsRs", "yes");
+				map.put("reviewsRs", "评论成功");
 			}else{
-				request.getSession().setAttribute("reviewsRs", "no");
+				map.put("reviewsRs", "30秒才能回复一次");
 			}
 		}else{
 			rfb.setTime(now);
 			userService.addRfb(rfb);
 			getReviews();//更新session
-			request.getSession().setAttribute("reviewsRs", "yes");
+			map.put("reviewsRs", "评论成功");
 		}
+		out.print(JSON.toJSONString(map));
+		close(out);
 		//记得在bookaction和workaction中添加加载评论记录的功能 至于是什么时候加载这些细节后面再说了
 		return "goto_book";
 	}
@@ -775,6 +787,14 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		user = (User) request.getSession().getAttribute("user");
 		if(user==null){
 			return "goto_login";
+		}
+		Map<String,String> map = new HashMap<String, String>();
+		PrintWriter out =  response.getWriter();
+		if(rfr.getContent()==null||rfr.getContent().trim().isEmpty()){
+			map.put("reviewsRs", "评论内容不能为空");
+			out.print(JSON.toJSONString(map));
+			close(out);
+			return NONE;
 		}
 		String fontAndId = (String) request.getParameter("font_id");
 		int n = fontAndId.indexOf(":");
@@ -807,7 +827,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		if(book!=null){
 			rfr.setBook(book);
 			llist = userService.findRfr_Book_nearest(book, user);
-			
 		}else{
 			work = (Work) request.getSession().getAttribute("work");
 			if(work!=null){
@@ -823,36 +842,47 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 				rfr.setTime(now);
 				userService.addRfr(rfr);
 				getReviews();//更新session
-				request.getSession().setAttribute("reviewsRs", "yes");
+				map.put("reviewsRs", "评论成功");
 			}else{
-				request.getSession().setAttribute("reviewsRs", "no");
+				map.put("reviewsRs", "评论间隔30秒！");
 			}
 		}else{
 			rfr.setTime(now);
 			userService.addRfr(rfr);
 			getReviews();//更新session
-			request.getSession().setAttribute("reviewsRs", "yes");
+			map.put("reviewsRs", "评论成功");
 		}
+		out.print(JSON.toJSONString(map));
+		close(out);
 		return "goto_book";
 	}
+	@SuppressWarnings("unchecked")
 	public String getMyReviews() throws Exception{//获取所有相关评论
 		user = (User) request.getSession().getAttribute("user");
 		if(user==null){
 			return "goto_login";
 		}
-		rfrlist = userService.findRfr_User1(user);
-		request.getSession().setAttribute("MyRfrList",rfrlist);
+		rfrlist = userService.findRfr_User1(user);//主动评论的
+		String rfr1_str = JSON.toJSONString(rfrlist);
+		/*为了前端load页面的时候不会报session关闭全部值都取出来重写了一遍、、、
+		 * 当然了 这样很不可取。当表多了，表和表之间的关系错综烦杂的时候这个负担可不是一般的大。。。
+		 * 不过 假如是前后端分离的情况，应该要考虑写一下nativeSQL将需要的数据查出来封装到json以便ajax调用吧，
+		 * 不过为了方便，就不自己写sql语句了
+		*/
+		rfrlist = JSON.parseObject(rfr1_str,new TypeReference<List<ReviewsForReviews>>(){});
+		request.getSession().setAttribute("MyRfrSet",rfrlist);
 		return "goto_user";
 	}
+	@SuppressWarnings("unchecked")
 	public String getReviewsAboutMe() throws Exception{//获取所有相关评论
 		user = (User) request.getSession().getAttribute("user");
 		if(user==null){
 			return "goto_login";
 		}
-		userlist = userService.finds(user, "uid");
-		user = userlist.get(0);
-		Set<ReviewsForReviews> rfr2_set = user.getRfr2();//被回复的评论
-		request.getSession().setAttribute("MyRfrSet",rfr2_set);
+		rfrlist = userService.findRfr_User2(user);//主动评论的
+		String rfr2_str = JSON.toJSONString(rfrlist);
+		rfrlist = JSON.parseObject(rfr2_str,new TypeReference<List<ReviewsForReviews>>(){});
+		request.getSession().setAttribute("MyRfrSet",rfrlist);
 		return "goto_user";
 	}
 	//随机读取书本或作品
@@ -932,29 +962,4 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	}
 	
 	/********************************************************/
-	/*public String test() throws Exception{//测试一方的外键实体是否直接能拿到数据
-		user.setUid("aaa");
-		userlist = userService.finds(user, "uid");
-		user = userlist.get(0);
-		book.setBid(1);
-		book = bookService.find(book, "bid").get(0);
-		favour.setUser(user);
-		favour.setBook(book);
-		favour.setTime(111111111);
-		userService.addF(favour);
-		Set<Favour> set_favour = user.getFavour();
-		for (Favour favour : set_favour) {
-			System.out.println(favour.getUser().toString());
-			if(favour.getBook()!=null){
-				System.out.println(favour.getBook().toString());
-			}
-			if(favour.getWork()!=null){
-				System.out.println(favour.getWork().toString());
-			}
-		
-		}
-		request.getSession().setAttribute("test", user);
-		System.out.println(user.toString());
-		return NONE;
-	}*/
 }

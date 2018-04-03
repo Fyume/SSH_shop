@@ -1,6 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="/mytags" prefix="myTags"%>
+<script type="text/javascript">
+</script>
 <c:if test="${empty sessionScope.rfb_set }">
 	<span>还没有评论呢，赶紧发表你的感想吧~~</span>
 </c:if>
@@ -20,28 +22,24 @@
 				</div>
 			</div>
 			<div class="content_center">${rfb.content }</div>
-			<c:forEach items="${rfb.rfr }" var="rfr" begin="0" end="3"
-				varStatus="nnum">
+			<c:forEach items="${rfb.rfr }" var="rfr" begin="0" end="3" varStatus="nnum">
 				<div id="rfr_div${nnum.count }" class="rfr_div">
 					<div class="content_top">
 						<div class="con_top_img">
-							<img alt=""
-								src="${pageContext.request.contextPath}/images/user/userImg/${rfr.user1.image}">
+							<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/${rfr.user1.image}">
 						</div>
 						<div class="con_top_font">${rfr.user1.username }</div>
 						<div class="con_top_font2">回复</div>
 						<div class="con_top_img">
-							<img alt=""
-								src="${pageContext.request.contextPath}/images/user/userImg/${rfr.user2.image} ">
+							<img alt="" src="${pageContext.request.contextPath}/images/user/userImg/${rfr.user2.image} ">
 						</div>
 						<div class="con_top_font">${rfr.user2.username }</div>
-						<div class="con_top_font" style="float:right;">
-							<myTags:date value="${rfr.time*1000}"></myTags:date>
-						</div>
+						<div class="con_top_font" style="float:right;"><myTags:date value="${rfr.time*1000}"></myTags:date></div>
 					</div>
-					<div class="content_center">${rfr.content }</div>
-					<div class="content_bottom2" id="inner${nnum.count }"
-						onclick="openReviews(this,'rfr_div${nnum.count}')">回复</div>
+					<div class="content_center">
+						${rfr.content }
+					</div>
+					<div class="content_bottom2" id="inner${nnum.count }" onclick="openReviews(this,'rfr_div${nnum.count}')">回复</div>
 				</div>
 			</c:forEach>
 			<div class="content_bottom" id="outer${num.count }"

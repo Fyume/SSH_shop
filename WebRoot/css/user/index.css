@@ -23,6 +23,9 @@ img{
 	width:100%;
 	height:100%;
 }
+input[type='text']:hover{
+	border:2px #6060ff solid;
+}
 /* .header{
 	position:fixed;
 	top:0;
@@ -79,6 +82,10 @@ fieldset{
 	box-shadow:2px 2px 2px #c0c0c0;
 	cursor:pointer;
 	background-color: #1e6ce1;
+}
+.user_upload:HOVER{
+	padding-top:13px;
+	height:48px;
 }
 #upload_flag{
 	color:white;
@@ -176,14 +183,13 @@ fieldset{
 	border-right:2px white dotted;
 	cursor:pointer;
 }
-.class_title:HOVER{
-	background-color:#e37200;
-}
 .class_title a{
 	color:white;
 }
-.class_title:HOVER a{
-	color:black;
+.class_title:HOVER{
+	background-color:#ffb062;
+	font-size:15px;
+	color:#4c4c4c;
 }
 .managerPage{
 	border:1px #c0c0c0 solid;
@@ -280,7 +286,9 @@ option{
 	height: 145px;
 	border: 1px #c0c0c0 solid;
 }
-
+.book_img:HOVER{
+	border:2px #5353ff solid;
+}
 .book_title {
 	width: 120px;
 	height: 25px;
@@ -457,6 +465,9 @@ option{
 	height:100%;
 	float:right;
 	padding-top:5px;
+	font-size:16px;
+}
+.book_top_right:hover{
 	font-size:18px;
 }
 .book_top_right a{

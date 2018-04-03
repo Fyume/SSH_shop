@@ -32,9 +32,6 @@ $(document).ready(function(){
 	$("#header_right").click(function(){
 		$("#header_right").load("/SSH_test/pages/test/test2.jsp");
 	});
-	$("#aaa").click(function(){
-		$("#aaa").load("/SSH_test/pages/test/test3.jsp");
-	});
 });
 </script>
 </head>

@@ -72,8 +72,6 @@ function getHistAndFav(user,msg){
 					$("#font_favour").attr("class","glyphicon glyphicon-star");
 					$("#fav_btn").attr('onclick','cancFavour()');
 				}
-				$("#managerID").html(data.managerID);
-				$("#publish_t").val(data.time);
 				DateFormat();
 			},
 		});
@@ -279,8 +277,8 @@ function closeReviews($this,id){//关闭回复入口
 	}
 	
 }
-function getReviews($this){
-	$($this).html("loading.....");
+function getReviews(){
+	$("#line_btn").html("loading.....");
 	$.ajax({
 		url : '/SSH_test/userAction_getReviews',
 		type : "POST",
@@ -288,7 +286,7 @@ function getReviews($this){
 		cache : false,
 		success : function(){
 			$("#Allreviews").load('/SSH_test/pages/user/bookReviews.jsp');
-			$($this).css("display","none");
+			$("#line_btn").css("display","none");
 		},
 	});
 }
@@ -299,9 +297,13 @@ function submitReviews(formid){
 	        url : $("#"+formid).attr("action"),  
 	        data : $("#"+formid).serialize(),  
 	        cache : false,  
+	        async: false,
 	        dataType : "json",  
-	        success : function() {  
-	        	$("#Allreviews").load('/SSH_test/pages/user/bookReviews.jsp');
+	        success : function(data) { 
+	        	if(data.reviewsRs!=""){
+	        		alert(data.reviewsRs);
+	        		getReviews();
+	        	}
 	        },  
 	    }); 
 	}

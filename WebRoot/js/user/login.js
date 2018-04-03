@@ -19,6 +19,3 @@ function checkform(){
 	});
 	return flag;
 }
-function exchange(){
-	$("#login_form2").css("display","none");
-}

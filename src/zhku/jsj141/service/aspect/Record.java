@@ -23,11 +23,10 @@ import zhku.jsj141.entity.user.User;
 import zhku.jsj141.entity.user.Work;
 import zhku.jsj141.test.testClass;
 
-public class Record extends BaseAction{//要不要直接操作dao层？ 因为service层都被增强了 记得spring的事务配置。。被坑的不少
+public class Record{//要不要直接操作dao层？ 因为service层都被增强了 记得spring的事务配置。。被坑的不少
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
 	private String SimpleName;//类的简单名
 	private String Method;//方法名
 	private String value1;//实体类的json字符串(更新前)
@@ -116,7 +115,7 @@ public class Record extends BaseAction{//要不要直接操作dao层？ 因为se
 					value2 = tojson((Book) jp.getArgs()[0]);
 					operate_m.setValue_after(value2);
 					if(type_flag==3||type_flag==2){//更新或者删除操作的话
-						booklist = bookDao.select(book, "bid");
+						booklist = bookDao.select((Book) jp.getArgs()[0], "bid");
 						if(!booklist.isEmpty()){
 							value1 = tojson(booklist.get(0));
 							operate_m.setValue_before(value1);

@@ -1,56 +1,28 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
-%>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-<head>
-<base href="<%=basePath%>">
-
-<title>My JSP 'test.jsp' starting page</title>
-
-<meta http-equiv="pragma" content="no-cache">
-<meta http-equiv="cache-control" content="no-cache">
-<meta http-equiv="expires" content="0">
-<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-<meta http-equiv="description" content="This is my page">
-<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
-<!-- <script type="text/javascript">
-	alert("test2:"+window.ppp);
-</script>
- -->
-<script type="text/javascript"
-	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<!-- <script type="text/javascript">
+<script type="text/javascript">
  $(document).ready(function(){
-		$("#file").on("change",function(){
+		/* $("#file").on("change",function(){
 			var file = this.files;
 			for(var i=0;i<file.length;i++){
 				alert(file[i].name);
 			}
+		}); */
+		alert("111");
+		$("#aaa").on("click",function(e){
+			alert("222");
+			e.stopPropagation();
 		});
-	}
-); </script> -->
-<script type="text/javascript">
+}); 
 </script>
-</head>
 
-<body>
 	<%-- <a href="${pageContext.request.contextPath }/pages/test/test.jsp">test</a> --%>
 	<%-- <form action="${pageContext.request.contextPath }/bookAction_test" enctype="multipart/form-data" method="post">
 		<input id="file" type="file" name="test" multiple="multiple">
 		<input type="submit" value="111">
 	</form> --%>
-	<div id="aaa" style="width:1000px;height:800px;border:1px black solid;"></div>
-	<p>6666666666666<br>
-	66666666666666666
-	</p>
-</body>
-</html>
+	<div id="aaa" style="width:1000px;height:800px;border:1px black solid;">
+		<p>6666666666666<br>
+		66666666666666666
+		</p>
+	</div>

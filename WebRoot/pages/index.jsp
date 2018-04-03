@@ -25,7 +25,7 @@
 	<div class="header">
 		<a href="${pageContext.request.contextPath}/bookAction_getData">
 			<div class="header_logo">
-				<img width=100% height=100% alt="" src="${pageContext.request.contextPath}/images/flag/2018-03-31_164359.png">
+				<img width=100% height=100% title="在线阅读网站" src="${pageContext.request.contextPath}/images/flag/2018-03-31_164359.png">
 			</div>
 		</a>
 		<div class="header_center">

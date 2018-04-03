@@ -5,7 +5,9 @@
 	<span class="glyphicon glyphicon-user"></span> <span
 		style="color:red;font-weight:400">${sessionScope.user.username }</span>
 </div>
-<div class="h_r_user btn btn-default">消息</div>
+<a href="${pageContext.request.contextPath}/userAction_getMyReviews">
+	<div class="h_r_user btn btn-default">消息</div>
+</a>
 <a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
 	<div class="h_r_user btn btn-default">收藏夹</div>
 </a>

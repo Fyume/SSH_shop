@@ -204,3 +204,6 @@ function loadMyReviews(){
 		},
 	});
 }
+function gogogo(url){
+	window.location.replace(url);
+}

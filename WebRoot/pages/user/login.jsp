@@ -74,7 +74,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					</c:otherwise>
 				</c:choose>
 				<div class="userName">${sessionScope.user.username }</div>
-				<div class="btn btn-default" onclick="exchange()">切换账号<span class="glyphicon glyphicon-sort" style="transform:rotate(90deg)"></span></div>
+				<div class="btn btn-default" onclick="logout()">切换账号<span class="glyphicon glyphicon-sort" style="transform:rotate(90deg)"></span></div>
 			</div>
 		</div>
 	</c:if>

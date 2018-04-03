@@ -38,7 +38,7 @@
 	<div class="header">
 		<a href="${pageContext.request.contextPath}/bookAction_getData">
 			<div class="header_logo">
-				<img width=100% height=100% alt="" src="${pageContext.request.contextPath}/images/flag/2018-03-31_164359.png">
+				<img width=100% height=100% title="在线阅读网站" src="${pageContext.request.contextPath}/images/flag/2018-03-31_164359.png">
 			</div>
 		</a>
 		<div class="header_center">
@@ -97,7 +97,7 @@
 						id="publish_t" type="text"
 						value="${sessionScope.uploadRecord.time}"> <span
 						id="publish" class="r_value"></span> <br> <br> <span
-						class="r_font">上传人员：</span> <span class="r_value" id="managerID">${sessionScope.uploadRecord.user.uid }</span>
+						class="r_font">上传人员：</span> <span class="r_value" id="managerID">${sessionScope.uploadRecord.user.username }</span>
 					<br> <br>
 					<c:choose>
 						<c:when test="${empty sessionScope.history}">
@@ -151,7 +151,7 @@
 					<span class="r_font">更新日期：</span> <input id="publish_t" type="text"
 						value="${sessionScope.uploadRecord.time}"> <span
 						id="publish" class="r_value"></span> <br> <br> <span
-						class="r_font">上传人员：</span> <span class="r_value" id="managerID">${sessionScope.uploadRecord.user.uid }</span>
+						class="r_font">上传人员：</span> <span class="r_value" id="managerID">${sessionScope.uploadRecord.user.username }</span>
 					<br> <br>
 					<c:choose>
 						<c:when test="${empty sessionScope.history}">
@@ -192,7 +192,7 @@
 			</c:if>
 			<div class="tt_chapter">
 				<div class="bt_title">
-					<div class="bt_t_font">章节选择</div>
+					<div class="bt_t_font">页数选择</div>
 				</div>
 				<div class="bt_part">
 					<c:choose>
@@ -244,28 +244,31 @@
 								</div>
 								<div class="con_top_font" style="float:left;">${sessionScope.user.username }
 									评论：</div>
+								<div class="text_mycomment">
+									<input type="button" onclick="submitReviews('MyReviewsF')" class="btn btn-info pull-right" value="提交">
+									<textarea name="rfb.content" cols="20" rows="3"
+										placeholder="来说几句吧。。。。"></textarea>
+								</div>
 							</c:when>
 							<c:otherwise>
 								<div class="con_top_img" style="float:left;">
 									<img alt=""
 										src="${pageContext.request.contextPath}/images/user/userImg/aaa.jpg">
 								</div>
-								<div class="con_top_font" style="float:left;">XXXX 评论：</div>
+								<div class="con_top_font" style="float:left;">XXXX 评论：</div>、
+								<div class="text_mycomment">
+									<input type="submit" class="btn btn-info pull-right" value="提交">
+									<textarea name="rfb.content" cols="20" rows="3" placeholder="来说几句吧。。。。"></textarea>
+								</div>
 							</c:otherwise>
 						</c:choose>
-
-						<div class="text_mycomment">
-							<input type="button" onclick="submitReviews('MyReviewsF')" class="btn btn-info pull-right" value="提交">
-							<textarea name="rfb.content" cols="20" rows="3"
-								placeholder="来说几句吧。。。。"></textarea>
-						</div>
 					</div>
 				</form>
 
 				<!-- 显示评论 -->
 				<div class="reviews">
 					<div class="reviews_title">相关评论</div>
-					<div class="line_btn" id="line_btn" onclick="getReviews(this)">点击展开评论</div>
+					<div class="line_btn" id="line_btn" onclick="getReviews()">点击展开评论</div>
 					<div id="Allreviews">
 						
 					</div>
