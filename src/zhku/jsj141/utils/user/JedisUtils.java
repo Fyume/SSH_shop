@@ -35,10 +35,8 @@ public class JedisUtils {
 	//又学到了一样东西 Runtime.getRuntime().exec() (假如要执行与工作目录（环境）有关的批处理文件，那么就用exec(批处理文件路径，))
 	public void openExe() {//启动redis
 	    final Runtime runtime = Runtime.getRuntime();  
-	    File dir = new File("C:\\Redis\\Redis");
-	    Process process = null;  
 	    try {  
-	        process = runtime.exec("C:\\Redis\\Redis\\redis-server", null, dir);
+	    	runtime.exec("C:\\Redis\\Redis\\redis-server.exe");
 	    } catch (final Exception e) {  
 	        System.out.println("Error exec!");  
 	    }  

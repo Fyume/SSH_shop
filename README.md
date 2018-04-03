@@ -24,7 +24,11 @@
 
 #### 备忘：(未实现)
 
-如果放到阿里云的话 记得修改3个工具类（jedisUtils,bookUtils,workUtils）因为磁盘路径的问题（其实还有一些js的路径我就懒得改了）
+如果放到阿里云的话 记得
+
+修改3个工具类（jedisUtils,bookUtils,workUtils）因为磁盘路径的问题（其实还有一些js的路径我就懒得改了
+
+打开因跨域问题设置的filter的注解
 
 ok:
 

@@ -81,7 +81,7 @@ function start(user) {
 }
 function loadIndex(){
 	$.ajax({
-		url : 'http://localhost:8080/SSH_test/bookAction_getData',
+		url : '/SSH_test/bookAction_getData',
 		type : "POST",
 		timeout : 1000,
 		cache : false,
@@ -235,14 +235,14 @@ function selectmess() {
 	var flag;
 	var message = $("#select_message").val();
 	$.ajax({
-			url : 'http://localhost:8080/SSH_test/bookAction_selectB?flag='+flag+'&message='
+			url : '/SSH_test/bookAction_selectB?flag='+flag+'&message='
 					+ message,
 			type : "POST",
 			async : false,// 取消异步请求
 			timeout : 1000,
 			cache : false,
 			success : function reloadJSP() {
-				window.location.href="http://localhost:8080/SSH_test";
+				window.location.replace("/SSH_test");
 			},
 	});
 }
