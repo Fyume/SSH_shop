@@ -92,7 +92,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<div style="width:99%;height:30px;border-top:1px #c0c0c0 solid;text-align:center;">
 		<div>页码:</div>
 		<c:forEach items="${Alllist }" begin="0" end="${AllNum/8 }" varStatus="num">
-			<a href="${pageContext.request.contextPath }/pages/user/User.jsp?list=${requestScope.list}&&page=${num.count}">${num.count }</a>
+			<div class="index_page" id="page_a${param.page }" onclick="bottomLoad('${pageContext.request.contextPath }/pages/user/MyFavour.jsp?page=${num.count}')">${num.count }</div>
 		</c:forEach>
 	</div>
   </body>

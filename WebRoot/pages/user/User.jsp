@@ -119,8 +119,9 @@
 								<a>我的评论<span class="caret"></span></a>
 							</li>
 							<ul class="dropdown-menu" aria-labelledy="CommentMenu1" style="margin-top:-345px;">
-								<li onclick="loadMyReviews()"><a>我评论的</a></li>
-								<li><a href="${pageContext.request.contextPath}/userAction_getReviewsAboutMe">被回复的</a></li>
+								<li onclick="loadMyReviews(0)"><a>我的书评</a></li>
+								<li onclick="loadMyReviews(1)"><a>我评论的评论</a></li>
+								<li onclick="loadMyReviews(2)"><a>被回复的</a></li>
 							</ul>
 						</li>
 					</ul>

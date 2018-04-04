@@ -1,6 +1,37 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="/mytags" prefix="mytags"%>
+<<script type="text/javascript">
+$(document).ready(function(){
+	$("#image").change(function() {
+		if (!checkimg($("#image").val())) {
+			alert("图片格式不对啊！");
+		} else {
+			var path = getObjectURL(this.files[0]);
+			$("#User_img").attr("src", path);//浏览器缓存是最骚的 暂时不理
+		}
+	});
+	$("#workimage").change(function() {
+		if (!checkimg($("#workimage").val())) {
+			alert("图片格式不对啊！");
+		} else {
+			var path = getObjectURL(this.files[0]);
+			$("#Work_img").attr("src", path);//浏览器缓存是最骚的 暂时不理
+		}
+	});
+});
+function getObjectURL(file) {
+	var url = null;
+	if (window.createObjectURL != undefined) { // basic
+		url = window.createObjectURL(file);
+	} else if (window.URL != undefined) { // mozilla(firefox)
+		url = window.URL.createObjectURL(file);
+	} else if (window.webkitURL != undefined) { // webkit or chrome
+		url = window.webkitURL.createObjectURL(file);
+	}
+	return url;
+}
+</script>
     <div class="User_title">基本信息</div>
 		<div class="arrow_div" style="border-top-left-radius:25px;"></div>
 		<form action="${pageContext.request.contextPath }/userAction_update" method="post" enctype="multipart/form-data"

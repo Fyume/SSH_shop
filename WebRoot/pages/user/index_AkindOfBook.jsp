@@ -160,15 +160,13 @@
 	<c:if test="${!empty sessionScope.worklist }">
 		<c:forEach items="${sessionScope.worklist }" begin="0"
 			end="${sessionScope.listSize/14 }" varStatus="num">
-			<a id="page_a${param.page }"
-				href="${pageContext.request.contextPath}/pages/index.jsp?page=${num.count}">${num.count }</a>
+			<div class="index_page" id="page_a${param.page }" onclick="bottomLoad('${pageContext.request.contextPath}/pages/user/index_AkindOfBook.jsp?page=${num.count}')">${num.count }</div>
 		</c:forEach>
 	</c:if>
 	<c:if test="${!empty sessionScope.booklist }">
 		<c:forEach items="${sessionScope.booklist }" begin="0"
 			end="${sessionScope.listSize/14 }" varStatus="num">
-			<a id="page_a${param.page }"
-				href="${pageContext.request.contextPath}/pages/index.jsp?page=${num.count}">${num.count }</a>
+			<div class="index_page" id="page_a${param.page }" onclick="bottomLoad('${pageContext.request.contextPath}/pages/user/index_AkindOfBook.jsp?page=${num.count}')">${num.count }</div>
 		</c:forEach>
 	</c:if>
 </div>

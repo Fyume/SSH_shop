@@ -217,6 +217,11 @@ public class UserServiceImpl implements UserService{
 		return list;
 	}
 	@Override
+	public List<ReviewsForBook> findRfb(User user) {
+		List<ReviewsForBook> list =userDao.findRfb(user);
+		return list;
+	}
+	@Override
 	public List<ReviewsForReviews> findRfr_User1(User user){
 		List<ReviewsForReviews> list = userDao.findRfr_User1(user);
 		return list;

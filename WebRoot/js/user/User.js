@@ -3,35 +3,8 @@
  */
 $(document).ready(function() {
 	var list = $("#listNum").attr('title');
-	$("#image").change(function() {
-		if (!checkimg($("#image").val())) {
-			alert("图片格式不对啊！");
-		} else {
-			var path = getObjectURL(this.files[0]);
-			$("#User_img").attr("src", path);//浏览器缓存是最骚的 暂时不理
-		}
-	});
-	$("#workimage").change(function() {
-		if (!checkimg($("#workimage").val())) {
-			alert("图片格式不对啊！");
-		} else {
-			var path = getObjectURL(this.files[0]);
-			$("#Work_img").attr("src", path);//浏览器缓存是最骚的 暂时不理
-		}
-	});
 	getMyInfo();
 });
-function getObjectURL(file) {
-	var url = null;
-	if (window.createObjectURL != undefined) { // basic
-		url = window.createObjectURL(file);
-	} else if (window.URL != undefined) { // mozilla(firefox)
-		url = window.URL.createObjectURL(file);
-	} else if (window.webkitURL != undefined) { // webkit or chrome
-		url = window.webkitURL.createObjectURL(file);
-	}
-	return url;
-}
 function uploadi() {
 	$("#image").click();
 }
@@ -193,14 +166,27 @@ function getMyFav(num){
 }
 /************评论*********/
 // href="${pageContext.request.contextPath}/userAction_getMyReviews"
-function loadMyReviews(){
+function loadMyReviews(num){
+	var url = "/SSH_test/userAction_getMyBookReviews";
+	var jsp = "/SSH_test/pages/user/ReviewsForB.jsp";
+	switch(num){
+		case 1:
+			url = "/SSH_test/userAction_getMyReviews";
+			jsp = "/SSH_test/pages/user/ReviewsForR.jsp";
+			break;
+		case 2:
+			url = "/SSH_test/userAction_getReviewsAboutMe";
+			jsp = "/SSH_test/pages/user/ReviewsAboutMe.jsp";
+			break;
+		default:break;
+	}
 	$.ajax({
-		url : '/SSH_test/userAction_getMyReviews',
+		url : url,
 		type : "POST",
 		timeout : 1000,
 		cache : false,
 		success : function() {
-			$("#User_table").load("/SSH_test/pages/user/Reviews.jsp");
+			$("#User_table").load(jsp);
 		},
 	});
 }

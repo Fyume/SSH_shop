@@ -220,4 +220,10 @@ public interface UserDao {
 	 * @return
 	 */
 	public List<ReviewsForReviews> findRfr_User2(User user);
+	/**
+	 * 返回用户所有书评
+	 * @param user
+	 * @return
+	 */
+	public List<ReviewsForBook> findRfb(User user);
 }

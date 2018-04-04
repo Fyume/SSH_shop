@@ -299,7 +299,8 @@ function submitReviews(formid){
 	        cache : false,  
 	        async: false,
 	        dataType : "json",  
-	        success : function(data) { 
+	        success : function(data) {
+	        	alert(data);
 	        	if(data.reviewsRs!=""){
 	        		alert(data.reviewsRs);
 	        		getReviews();

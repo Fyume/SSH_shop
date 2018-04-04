@@ -146,6 +146,9 @@ function centerLoad(path){
 		},
 	});
 }
+function bottomLoad(value){
+	$("#totalBook").load(value);
+}
 function logout(){
 	$.ajax({
 		url : '/SSH_test/userAction_logOut',

@@ -510,3 +510,21 @@ option{
 	display:inline;
 	margin-left:3px;
 }
+.index_page {
+	width: 10px;
+	height: 20px;
+	cursor: pointer;
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+.index_page:HOVER{
+	font-size:16px;
+	font-weight:510;
+}
+.index_page:ACTIVE {
+	color:red;
+}

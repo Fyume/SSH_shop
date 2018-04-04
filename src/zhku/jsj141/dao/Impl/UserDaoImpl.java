@@ -1,6 +1,7 @@
 package zhku.jsj141.dao.Impl;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
@@ -264,6 +265,13 @@ public class UserDaoImpl implements UserDao{
 	}
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<ReviewsForBook> findRfb(User user) {
+		List<ReviewsForBook> list = null;
+		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook where uid = ?",user.getUid());
+		return list;
+	}
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<ReviewsForReviews> findRfr_User1(User user) {
 		List<ReviewsForReviews> list = null;
 		list = (List<ReviewsForReviews>) hibernateTemplate.find("from ReviewsForReviews rfr where rfr.user1.uid = ?",user.getUid());
@@ -279,14 +287,14 @@ public class UserDaoImpl implements UserDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReviewsForBook> findRfb_book(Book book) {
-		List<ReviewsForBook> list = null;
+		List<ReviewsForBook> list = new ArrayList<ReviewsForBook>();
 		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook where bid = ? order by time desc",book.getBid());
 		return list;
 	}
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ReviewsForBook> findRfb_work(Work work){
-		List<ReviewsForBook> list = null;
+		List<ReviewsForBook> list = new ArrayList<ReviewsForBook>();
 		list = (List<ReviewsForBook>) hibernateTemplate.find("from ReviewsForBook where wid = ? order by time desc",work.getWid());
 		return list;
 	}

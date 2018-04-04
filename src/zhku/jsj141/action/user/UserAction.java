@@ -765,7 +765,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 			if((now - time)>30){//每隔30秒才能回复一次
 				rfb.setTime(now);
 				userService.addRfb(rfb);
-				getReviews();//更新session
 				map.put("reviewsRs", "评论成功");
 			}else{
 				map.put("reviewsRs", "30秒才能回复一次");
@@ -773,7 +772,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		}else{
 			rfb.setTime(now);
 			userService.addRfb(rfb);
-			getReviews();//更新session
 			map.put("reviewsRs", "评论成功");
 		}
 		out.print(JSON.toJSONString(map));
@@ -841,7 +839,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 			if((now - time)>30){//每隔30秒才能回复一次
 				rfr.setTime(now);
 				userService.addRfr(rfr);
-				getReviews();//更新session
 				map.put("reviewsRs", "评论成功");
 			}else{
 				map.put("reviewsRs", "评论间隔30秒！");
@@ -849,15 +846,24 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		}else{
 			rfr.setTime(now);
 			userService.addRfr(rfr);
-			getReviews();//更新session
 			map.put("reviewsRs", "评论成功");
 		}
 		out.print(JSON.toJSONString(map));
 		close(out);
 		return "goto_book";
 	}
-	@SuppressWarnings("unchecked")
-	public String getMyReviews() throws Exception{//获取所有相关评论
+	public String getMyBookReviews() throws Exception{//获取用户所有书评
+		user = (User) request.getSession().getAttribute("user");
+		if(user==null){
+			return "goto_login";
+		}
+		rfblist = userService.findRfb(user);//主动评论的
+		String rfb_str = JSON.toJSONString(rfblist);
+		rfblist = JSON.parseObject(rfb_str,new TypeReference<List<ReviewsForBook>>(){});
+		request.getSession().setAttribute("MyRfbSet",rfblist);
+		return "goto_user";
+	}
+	public String getMyReviews() throws Exception{//获取用户评论的评论
 		user = (User) request.getSession().getAttribute("user");
 		if(user==null){
 			return "goto_login";
@@ -873,13 +879,12 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		request.getSession().setAttribute("MyRfrSet",rfrlist);
 		return "goto_user";
 	}
-	@SuppressWarnings("unchecked")
-	public String getReviewsAboutMe() throws Exception{//获取所有相关评论
+	public String getReviewsAboutMe() throws Exception{//获取用户被回复的评论
 		user = (User) request.getSession().getAttribute("user");
 		if(user==null){
 			return "goto_login";
 		}
-		rfrlist = userService.findRfr_User2(user);//主动评论的
+		rfrlist = userService.findRfr_User2(user);//被回复的
 		String rfr2_str = JSON.toJSONString(rfrlist);
 		rfrlist = JSON.parseObject(rfr2_str,new TypeReference<List<ReviewsForReviews>>(){});
 		request.getSession().setAttribute("MyRfrSet",rfrlist);
