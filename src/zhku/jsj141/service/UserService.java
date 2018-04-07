@@ -180,5 +180,17 @@ public interface UserService {
 	 * @return
 	 */
 	public List<ReviewsForBook> findRfb(User user);
+	/**
+	 * 修改用户所有更新提示字段（为0取消提示）
+	 * @param user
+	 * @return
+	 */
+	public boolean updateF(User user);
+	/**
+	 * 去掉所有该用户的消息提示
+	 * @param user
+	 * @return
+	 */
+	public boolean updateRfr(User user);
 
 }

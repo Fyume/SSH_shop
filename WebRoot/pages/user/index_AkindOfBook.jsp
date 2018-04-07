@@ -14,8 +14,7 @@
 			<c:set var="begin" value="${(param.page-1)*14 }"></c:set>
 			<c:set var="end" value="${param.page*14-1 }"></c:set>
 		</c:if>
-		<c:forEach items="${sessionScope.worklist }" var="work"
-			begin="${begin }" end="${end }">
+		<c:forEach items="${sessionScope.worklist }" var="work" begin="${begin }" end="${end }">
 			<div class="book_border">
 				<a title="${work.wname }"
 					href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
@@ -53,7 +52,6 @@
 		</div>
 		<c:forEach items="${sessionScope.booklist }" var="book"
 			begin="${begin }" end="${end }">
-			<c:if test="${book.type eq '网络小说' }">
 				<div class="book_border">
 					<a title="${book.bname }"
 						href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
@@ -72,7 +70,6 @@
 						<myTags:date type="1" value="${book.publish*1000*60*60 }"></myTags:date>
 					</div>
 				</div>
-			</c:if>
 		</c:forEach>
 	</div>
 </c:if>
@@ -93,7 +90,6 @@
 		</div>
 		<c:forEach items="${sessionScope.booklist }" var="book"
 			begin="${begin }" end="${end }">
-			<c:if test="${book.type eq '文学作品' }">
 				<div class="book_border">
 					<a title="${book.bname }"
 						href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
@@ -112,7 +108,6 @@
 						<myTags:date type="1" value="${book.publish*1000*60*60 }"></myTags:date>
 					</div>
 				</div>
-			</c:if>
 		</c:forEach>
 	</div>
 </c:if>
@@ -133,7 +128,6 @@
 		</div>
 		<c:forEach items="${sessionScope.booklist }" var="book"
 			begin="${begin }" end="${end }">
-			<c:if test="${book.type eq '社会科学' }">
 				<div class="book_border">
 					<a title="${book.bname }"
 						href="${pageContext.request.contextPath}/bookAction_readBook?bid=${book.bid}">
@@ -152,7 +146,6 @@
 						<myTags:date type="1" value="${book.publish*1000*60*60 }"></myTags:date>
 					</div>
 				</div>
-			</c:if>
 		</c:forEach>
 	</div>
 </c:if>

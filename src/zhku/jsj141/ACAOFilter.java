@@ -10,7 +10,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletResponse;
-/*@WebFilter(filterName="ACAOFilter",urlPatterns="/*")*/
+@WebFilter(filterName="ACAOFilter",urlPatterns="/*")
 public class ACAOFilter implements Filter {
 
 	@Override

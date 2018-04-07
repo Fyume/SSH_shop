@@ -265,10 +265,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 					rs = userUtils.changeI(image, user2.getUid(), user2.getImage(), imageContentType);
 				}
 				System.out.println("rs:"+rs);
-				if(!rs.equals("")){
-					//修改数据库表 头像信息
-					user2.setImage(rs);
-				}
 			}
 			//直接更新user好像会覆盖。。。这就很尴尬
 			user2.setUsername(user.getUsername());
@@ -276,7 +272,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 			user2.setAddress(user.getAddress());
 			user2.setIDCN(user.getIDCN());
 			user2.setTelnum(user.getTelnum());
-			userService.update(user2);
 			request.getSession().setAttribute("user", user2);
 		}
 		return "goto_user";
@@ -852,6 +847,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		close(out);
 		return "goto_book";
 	}
+	/*****************用于用户评论历史显示************/
 	public String getMyBookReviews() throws Exception{//获取用户所有书评
 		user = (User) request.getSession().getAttribute("user");
 		if(user==null){
@@ -879,14 +875,17 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		request.getSession().setAttribute("MyRfrSet",rfrlist);
 		return "goto_user";
 	}
-	public String getReviewsAboutMe() throws Exception{//获取用户被回复的评论
+	public String getReviewsAboutMe() throws Exception{//获取用户被回复的评论(顺便清除flag)
+		System.out.println("------getReviewsAboutMe-----");
 		user = (User) request.getSession().getAttribute("user");
 		if(user==null){
 			return "goto_login";
 		}
+		userService.updateRfr(user);
 		rfrlist = userService.findRfr_User2(user);//被回复的
 		String rfr2_str = JSON.toJSONString(rfrlist);
 		rfrlist = JSON.parseObject(rfr2_str,new TypeReference<List<ReviewsForReviews>>(){});
+		request.getSession().setAttribute("updateFlag2", null);
 		request.getSession().setAttribute("MyRfrSet",rfrlist);
 		return "goto_user";
 	}

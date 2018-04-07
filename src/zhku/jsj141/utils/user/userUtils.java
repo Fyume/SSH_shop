@@ -18,10 +18,7 @@ import javax.mail.Transport;
 import javax.mail.Message.RecipientType;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
+import javax.mail.internet.MimeUtility;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -31,6 +28,10 @@ import org.apache.struts2.ServletActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class userUtils extends ActionSupport {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static String FimagePath = "F:\\java\\SSH_test\\WebRoot\\images\\user\\userImg";// 头像最终存放路径
 	//验证码长宽
 	private int width = 100;
@@ -78,7 +79,7 @@ public class userUtils extends ActionSupport {
 	    message.setSubject("激活邮件");  
 
 	    // 设置邮件的内容体  
-	    message.setContent("<h1>激活请点击以下链接(有效时间10分钟)</h1><h3><a href='http://localhost:8080/SSH_test/userAction_activate?code="+code+"'>点击跳转激活</a></h3>", "text/html;charset=UTF-8");  
+	    message.setContent("<h1>激活请点击以下链接(有效时间10分钟)</h1><h3><a href='http://47.106.104.150:8080/SSH_test/userAction_activate?code="+code+"'>点击跳转激活</a></h3>", "text/html;charset=UTF-8");  
 
 	    // 发送邮件  
 	    Transport.send(message);  
@@ -114,8 +115,7 @@ public class userUtils extends ActionSupport {
 	    // 创建邮件消息  
 	    MimeMessage message = new MimeMessage(mailSession);  
 	    // 设置发件人  
-	    InternetAddress form = new InternetAddress(  
-	            props.getProperty("mail.user"));  
+	    InternetAddress form = new InternetAddress(MimeUtility.encodeText("在线阅读网站"));  
 	    message.setFrom(form);  
 
 	    // 设置收件人  
@@ -161,7 +161,7 @@ public class userUtils extends ActionSupport {
 	private String setfont(Graphics2D g) {
 		
 		g.setColor(Color.WHITE);
-		g.setFont(new Font("仿宋", Font.BOLD, 20));
+		g.setFont(new Font("Consolas", Font.BOLD, 20));
 		int x=20;			
 		String str = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		StringBuffer sb=new StringBuffer();

@@ -186,6 +186,7 @@ function loadMyReviews(num){
 		timeout : 1000,
 		cache : false,
 		success : function() {
+			$("#flag2").css("display","none");
 			$("#User_table").load(jsp);
 		},
 	});

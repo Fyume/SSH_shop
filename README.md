@@ -26,7 +26,7 @@
 
 如果放到阿里云的话 记得
 
-修改3个工具类（jedisUtils,bookUtils,workUtils）因为磁盘路径的问题（其实还有一些js的路径我就懒得改了
+修改4个工具类（jedisUtils,bookUtils,workUtils,userUtils）因为磁盘路径或者项目路径的问题（其实还有一些js的路径我就懒得改了
 
 打开因跨域问题设置的filter的注解
 

@@ -1,18 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="/mytags" prefix="mytags"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
-%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
-
 <title>用户信息界面</title>
 
 <meta http-equiv="pragma" content="no-cache">
@@ -31,21 +22,6 @@
 	<c:choose>
 		<c:when test="${!empty sessionScope.user}">
 			<div id="header_right" class="header_right">
-				<div class="h_r_user btn btn-default" onmouseover="infoon()" onmouseout="infooff()" onclick="login('${empty sessionScope.user}','${pageContext.request.contextPath}')">
-					<span class="glyphicon glyphicon-user"></span> <span
-						style="color:red;font-weight:400">${sessionScope.user.username }</span>
-				</div>
-				<div class="h_r_user btn btn-default">消息</div>
-				<div id="updateFlag"></div>
-				<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
-					<div class="h_r_user btn btn-default">收藏夹</div>
-				</a>
-				<div id="updateFlag2"></div>
-				<a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
-					<div class="user_upload" style="margin-top:-5px;">
-						<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>
-					</div>
-				</a>
 			</div>
 			<!-- 不放到这个位置好像会影响div的onmouserover事件 应该是video标签的问题？ 还是加载顺序的问题？不是很清楚 -->
 			<div class="second">
@@ -58,43 +34,6 @@
 						<source src="${pageContext.request.contextPath}/images/video/sec(2).mp4"  type="video/mp4">
 					</video>
 				</div>
-			</div>
-			<div id="user_info" class="user_info" onmouseover="infoon()" onmouseout="infooff()">
-				<c:choose>
-					<c:when test="${empty sessionScope.user }">
-						<div class="list_login">
-							<a href="${pageContext.request.contextPath}/pages/user/login.jsp">前往登录</a>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<div class="info_img">
-							<c:choose>
-								<c:when test="${empty sessionScope.user.image }">
-									<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/flag/user_img(default).png">
-								</c:when>
-								<c:otherwise>
-									<img id="user_img" alt="头像" style="border-radius:100%;" src="${pageContext.request.contextPath }/images/user/userImg/${sessionScope.user.image }">
-								</c:otherwise>
-							</c:choose>
-						</div>
-						<div class="list_half">ID：<span style="color:#0080c0;">${sessionScope.user.uid }</span></div>
-						<div class="list_half">用户名:<span style="color:red;">${sessionScope.user.username }</span></div>
-						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
-							<div class="list_all">
-								<span style="font-weight:550;font-size:15px;">个人中心</span>
-							</div>
-						</a>
-						<!-- 未实现暂时用User.jsp过渡 -->
-						<a href="${ pageContext.request.contextPath}/pages/user/User.jsp">
-							<div class="list_btn">
-								设置
-							</div>
-						</a>
-						<div class="list_btn" onclick="logout()">
-							退出
-						</div>
-					</c:otherwise>
-				</c:choose>
 			</div>
 			<div class="User_bottom">
 				<div class="bottom_list">
@@ -121,7 +60,10 @@
 							<ul class="dropdown-menu" aria-labelledy="CommentMenu1" style="margin-top:-345px;">
 								<li onclick="loadMyReviews(0)"><a>我的书评</a></li>
 								<li onclick="loadMyReviews(1)"><a>我评论的评论</a></li>
-								<li onclick="loadMyReviews(2)"><a>被回复的</a></li>
+								<li onclick="loadMyReviews(2)"><a>被回复的</a>
+								<c:if test="${!empty sessionScope.updateFlag2 }">
+									<div id="flag2" style="width:10px;height:10px;background-color:red;border-radius:10px;margin-top:-30px;margin-left:80px;"></div>
+								</c:if></li>
 							</ul>
 						</li>
 					</ul>
@@ -183,10 +125,10 @@
 				</div>
 			</div>
 			<c:if test="${!empty sessionScope.updateFlag }">
-				<div class="user_Update_Flag"></div>
+				<div id="flag1" class="user_Update_Flag"></div>
 			</c:if>
 			<c:if test="${!empty sessionScope.updateFlag2 }">
-				<div class="user_Update_Flag" style="top:245px;"></div>
+				<div id="flag2" class="user_Update_Flag" style="top:245px;"></div>
 			</c:if>
 		</c:when>
 		<c:otherwise>

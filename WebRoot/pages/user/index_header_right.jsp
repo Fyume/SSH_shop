@@ -5,14 +5,18 @@
 	<span class="glyphicon glyphicon-user"></span> <span
 		style="color:red;font-weight:400">${sessionScope.user.username }</span>
 </div>
-<a href="${pageContext.request.contextPath}/userAction_getMyReviews">
+<a href="${pageContext.request.contextPath}/userAction_getReviewsAboutMe">
 	<div class="h_r_user btn btn-default">消息</div>
 </a>
 <a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
 	<div class="h_r_user btn btn-default">收藏夹</div>
 </a>
-<div id="updateFlag"></div>
-<div id="updateFlag2"></div>
+<c:if test="${!empty sessionScope.updateFlag }">
+	<div id="updateFlag"></div>
+</c:if>
+<c:if test="${!empty sessionScope.updateFlag2 }">
+	<div id="updateFlag2"></div>
+</c:if>
 <a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
 	<div class="user_upload" style="margin-top:-5px;">
 		<span id="upload_flag" class="glyphicon glyphicon-arrow-up">上传</span>

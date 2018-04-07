@@ -34,6 +34,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean update(User user){
 		try{
+			hibernateTemplate.getSessionFactory().getCurrentSession().clear();
 			hibernateTemplate.merge(user);
 		}catch(DataAccessException e){
 			e.printStackTrace();
@@ -72,6 +73,26 @@ public class UserDaoImpl implements UserDao{
 		return true;
 	}
 	@Override
+	public boolean updateF(User user){
+		try{
+			hibernateTemplate.bulkUpdate("update Favour set updateFlag = 0 where uid = ?", user.getUid());
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	@Override
+	public boolean updateRfr(User user){
+		try{
+			hibernateTemplate.bulkUpdate("update ReviewsForReviews set flag = 0 where uid2 = ?", user.getUid());
+		}catch(DataAccessException e){
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
+	@Override
 	public boolean delF(Favour favour){
 		try{
 			hibernateTemplate.delete(favour);
@@ -87,6 +108,7 @@ public class UserDaoImpl implements UserDao{
 		String name_m = name.substring(0, 1).toUpperCase()+name.substring(1,name.length());
 		List<User> list = null;
 		try {
+			hibernateTemplate.getSessionFactory().getCurrentSession().clear();
 			if(name.equals("u_status")==false&&name.equals("u_permission")==false){
 			list = (List<User>) hibernateTemplate.find("from User where "
 					+ name + "=?",
@@ -179,7 +201,11 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public List<Favour> findF(User user,Work work) {
 		List<Favour> list = null;
-		list = (List<Favour>) hibernateTemplate.find("from Favour where uid = ? and wid = ?",user.getUid(),work.getWid());
+		list = (List<Favour>) hibernateTemplate.find("from Favour f where uid = ? and wid = ?",user.getUid(),work.getWid());
+		List<Favour> list2 = (List<Favour>) hibernateTemplate.find("from Favour f where uid = ?",user.getUid());
+		for (Favour favour : list2) {
+			System.out.println(favour.toString());
+		}
 		return list;
 	}
 	///////////////浏览历史相关//////////////

@@ -298,7 +298,7 @@ public class BookAction extends BaseAction {
 			if(flag.equals("type")){
 				book.setType(message);
 				request.getSession().setAttribute("classfy", message);
-			}else if(flag.equals("type_flag")){
+			}else if(flag.equals("work")){
 				book.setType_flag(message);
 			}else if(flag.equals("bname")){
 				book.setBname(message);
@@ -309,6 +309,7 @@ public class BookAction extends BaseAction {
 			for (Book book2 : booklist) {
 				System.out.println(book2.toString());
 			}
+			request.getSession().setAttribute("worklist", null);
 			request.getSession().setAttribute("booklist", booklist);
 			request.getSession().setAttribute("listSize", booklist.size());//用于分页
 		}

@@ -197,6 +197,7 @@ public class WorkAction extends BaseAction {
 			request.getSession().setAttribute("page", 1);
 			request.getSession().setAttribute("work", work);
 			request.getSession().setAttribute("book", null);//清空（暂时保留这个，1.减少存储的大小2.方便前端判断）
+			user = (User) request.getSession().getAttribute("user");
 			if(user!=null){
 				List<Favour> favlist = userService.findF(user,work);
 				if(favlist.size()!=0){
@@ -215,7 +216,7 @@ public class WorkAction extends BaseAction {
 	public String selectW() throws Exception{//查询作品
 		String message = request.getParameter("message");//具体参数
 		message = new String(message.getBytes("ISO-8859-1"),"utf-8"); 
-		String flag = request.getParameter("flag");//book的某个属性
+		String flag = request.getParameter("flag");//wname
 		System.out.println("message:"+message);
 		System.out.println("flag:"+flag);
 		if(message!=null&&flag!=null){
@@ -223,6 +224,7 @@ public class WorkAction extends BaseAction {
 				work.setWname(message);
 			}
 			worklist = workService.find_indistinct(work, flag);
+			request.getSession().setAttribute("booklist", null);
 			request.getSession().setAttribute("worklist", worklist);
 			request.getSession().setAttribute("classfy", "用户作品");
 		}

@@ -495,16 +495,22 @@
 										<span id="time${num.count }" style="color:red;"><data:date value="${operate.time*1000 }"></data:date></span>
 										用户<span id="managerID${num.count }" class="record_id">${operate.user.uid }</span>
 										对
-										<span id="entity1${num.count }" class="record_entity">${operate.entity }</span><span id="chevron1${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(1,${num.count})"></span>
-										<span id="value_after${num.count }" style="display:none;">${operate.value_after}</span>
-										实体进行了
 										<c:if test="${operate.type_flag eq 1}">
+											<span id="entity1${num.count }" class="record_entity">${operate.entity }</span><span id="chevron1${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(1,${num.count})"></span>
+											<span id="value_after${num.count }" style="display:none;">${operate.value_after}</span>
+											实体进行了
 											<span id="operate${num.count }">插入操作</span>
 										</c:if>
 										<c:if test="${operate.type_flag eq 2}">
+											<span id="entity1${num.count }" class="record_entity">${operate.entity }</span><span id="chevron1${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(1,${num.count})"></span>
+											<span id="value_after${num.count }" style="display:none;">${operate.value_before}</span>
+											实体进行了
 											<span id="operate${num.count }">删除操作</span>
 										</c:if>
 										<c:if test="${operate.type_flag eq 3}">
+											<span id="entity1${num.count }" class="record_entity">${operate.entity }</span><span id="chevron1${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(1,${num.count})"></span>
+											<span id="value_after${num.count }" style="display:none;">${operate.value_after}</span>
+											实体进行了
 											<span id="operate${num.count }">修改操作 </span>
 											修改前-->
 											<span id="entity2${num.count }" class="record_entity">${operate.entity }</span><span id="chevron2${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(2,${num.count})"></span>
@@ -522,16 +528,22 @@
 										<span id="time${num.count }" style="color:red;"><data:date value="${operate.time*1000 }"></data:date></span>
 										用户<span id="managerID${num.count }" class="record_id">${operate.user.uid }</span>
 										对
-										<span id="entity1${num.count }" class="record_entity">${operate.entity }</span><span id="chevron1${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(1,${num.count})"></span>
-										<span id="value_after${num.count }" style="display:none;">${operate.value_after}</span>
-										实体进行了
 										<c:if test="${operate.type_flag eq 1}">
+											<span id="entity1${num.count }" class="record_entity">${operate.entity }</span><span id="chevron1${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(1,${num.count})"></span>
+											<span id="value_after${num.count }" style="display:none;">${operate.value_after}</span>
+											实体进行了
 											<span id="operate${num.count }">插入操作</span>
 										</c:if>
 										<c:if test="${operate.type_flag eq 2}">
+											<span id="entity1${num.count }" class="record_entity">${operate.entity }</span><span id="chevron1${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(1,${num.count})"></span>
+											<span id="value_after${num.count }" style="display:none;">${operate.value_before}</span>
+											实体进行了
 											<span id="operate${num.count }">删除操作</span>
 										</c:if>
 										<c:if test="${operate.type_flag eq 3}">
+											<span id="entity1${num.count }" class="record_entity">${operate.entity }</span><span id="chevron1${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(1,${num.count})"></span>
+											<span id="value_after${num.count }" style="display:none;">${operate.value_after}</span>
+											实体进行了
 											<span id="operate${num.count }">修改操作 </span>
 											修改前-->
 											<span id="entity2${num.count }" class="record_entity">${operate.entity }</span><span id="chevron2${num.count }" class="glyphicon glyphicon-chevron-down" style="cursor:pointer;" onclick="entity(2,${num.count})"></span>

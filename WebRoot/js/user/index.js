@@ -57,26 +57,6 @@ function start(user) {
 				$("#header_right").load("/SSH_test/pages/user/index_header_right.jsp");
 			},
 		});
-	}else{
-		$.ajax({
-			url:'/SSH_test/userAction_updateFlag',
-			type : "POST",
-			timeout : 1000,
-			cache : false,
-			success : function(data) {
-				var j = JSON.parse(data);
-				if(j[0]==1){//收藏通知
-					$("#updateFlag").css("display","block");
-				}else{
-					$("#updateFlag").css("display","none");
-				}
-				if(j[1]==1){//评论通知
-					$("#updateFlag2").css("display","block");
-				}else{
-					$("#updateFlag2").css("display","none");
-				}
-			},
-		});
 	}
 }
 function loadIndex(){
@@ -89,6 +69,25 @@ function loadIndex(){
 			$("#header_right").load("/SSH_test/pages/user/index_header_right.jsp");
 			$("#index_center").load("/SSH_test/pages/user/index_center.jsp");
 			$("#totalBook").load("/SSH_test/pages/user/index_Allbook.jsp");
+		},
+	});
+	$.ajax({
+		url:'/SSH_test/userAction_updateFlag',
+		type : "POST",
+		timeout : 1000,
+		cache : false,
+		success : function(data) {
+			var j = JSON.parse(data);
+			if(j[0]==1){//收藏通知
+				$("#updateFlag").css("display","block");
+			}else{
+				$("#updateFlag").css("display","none");
+			}
+			if(j[1]==1){//评论通知
+				$("#updateFlag2").css("display","block");
+			}else{
+				$("#updateFlag2").css("display","none");
+			}
 		},
 	});
 }
@@ -237,15 +236,29 @@ function selectmess() {
 	var flag = $("#select_select").val();
 	var flag;
 	var message = $("#select_message").val();
-	$.ajax({
+	if(flag=='wname'){
+		$.ajax({
+			url : '/SSH_test/workAction_selectW?flag='+flag+'&message='
+					+ message,
+			type : "POST",
+			async : false,// 取消异步请求
+			timeout : 1000,
+			cache : false,
+			success : function() {
+				$("#totalBook").load("/SSH_test/pages/user/index_Allbook.jsp");
+			},
+		});
+	}else{
+		$.ajax({
 			url : '/SSH_test/bookAction_selectB?flag='+flag+'&message='
 					+ message,
 			type : "POST",
 			async : false,// 取消异步请求
 			timeout : 1000,
 			cache : false,
-			success : function reloadJSP() {
-				window.location.replace("/SSH_test");
+			success : function() {
+				$("#totalBook").load("/SSH_test/pages/user/index_Allbook.jsp");
 			},
 	});
+	}
 }
