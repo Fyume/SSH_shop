@@ -147,3 +147,21 @@ input{
 	text-align:center;
 	text-decoration: none;
 }
+.function_div {
+	width: 80px;
+	height: 30px;
+	border: 1px #80ffff solid;
+	border-radius: 2px;
+	position: absolute;
+	top: 210px;
+	left: 335px;
+	background-color: white;
+	text-align:center;
+	padding-top:3px;
+	font-size:15px;
+}
+.function_div:hover{
+	background-color:#80ffff;
+	color:#000000;
+	font-weight:550;
+}

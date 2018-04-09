@@ -106,8 +106,7 @@
 						<input type="file" id="workimage" name="image" accept="image/*" onclick="event.cancelBubble = true">
 						<ul>
 							<li>
-								<span class="Form_font">作品ID：</span>
-								<input id="Work_wid" type="text" name="work.wid" placeholder="作品ID">
+								<input id="Work_wid_t" class="hidden" type="text" name="work.wid">
 							</li>
 							<li>
 								<span class="Form_font">作品名：</span>

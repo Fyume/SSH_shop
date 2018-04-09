@@ -1,24 +1,28 @@
 /* 重发*/
-function step1() {
-	$("#step1").attr("class", "step2");
+function step(num){
+	$("#step1").attr("class", "step");
 	$("#step2").attr("class", "step");
 	$("#step3").attr("class", "step");
+	switch(num){
+		case 2:$("#step2").attr("class", "step2");break;
+		case 3:$("#step3").attr("class", "step2");break;
+		default:$("#step1").attr("class", "step2");break;
+	}
+}
+function step1() {
+	step(1);
 	$("#act_resend2").css('display', 'none');
 	$("#act_resend1").css('display', 'inline');
 }
 function step2() {
 	if (checkuid("uid1")) {
-		$("#step1").attr("class", "step");
-		$("#step2").attr("class", "step2");
-		$("#step3").attr("class", "step");
+		step(2);
 		$("#act_resend1").css('display', 'none');
 		$("#act_resend2").css('display', 'inline');
 	}
 }
 function step3() {
-	$("#step1").attr("class", "step");
-	$("#step2").attr("class", "step");
-	$("#step3").attr("class", "step2");
+	step(3);
 	$("#act_resend2").css('display', 'none');
 	$("#act_resend3").css('display', 'inline');
 	$("#form1").submit();
@@ -26,9 +30,7 @@ function step3() {
 /* 修改邮箱 */
 function c_step2() {
 	if (checkuid("uid2")) {
-		$("#step1").attr("class", "step");
-		$("#step2").attr("class", "step2");
-		$("#step3").attr("class", "step");
+		step(2);
 		$("#form_label1").css('display', 'none');
 		$("#form_label2").css('display', 'inline');
 	}
@@ -36,14 +38,33 @@ function c_step2() {
 function c_step3() {
 		AjaxE();
 		if ($("#Ewarnning").text() == "") {
-			$("#step1").attr("class", "step");
-			$("#step2").attr("class", "step");
-			$("#step3").attr("class", "step2");
+			step(3);
 			$("#form_label2").css('display', 'none');
 			$("#form_label3").css('display', 'inline');
 			$("#form2").submit();
 		}
+}
+/***无登陆修改密码***/
+function p_step2(){
+	if (checkuid("uid2")) {
+		step(2);
+		$("#form_label1").css('display', 'none');
+		$("#form_label2").css('display', 'inline');
 	}
+}
+function p_step3(){
+	$.ajax({
+		url:"/SSH_test/userAction_updatePassword",
+		type : "POST",
+		data:{ uid: $("#uid3").val()},
+		async:false,//取消异步请求
+		success: function(){
+			step(3);
+			$("#form_label2").css('display', 'none');
+			$("#form_label3").css('display', 'inline');
+		}
+	});
+}
 /* 验证用户ID */
 function checkuid(str1) {
 	var str = /[a-zA-Z0-9_]{1,16}/;

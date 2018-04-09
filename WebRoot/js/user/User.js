@@ -8,11 +8,17 @@ $(document).ready(function() {
 function uploadi() {
 	$("#image").click();
 }
+function loadPs(){
+	$("#User_table").load("/SSH_test/pages/user/updatePassword.jsp");
+}
 // 检查上传图片的格式
 function checkimg(path) {
 	var str = /[.](jpg|jpeg)$/;
 	var res = str.test(path);
 	return res;
+}
+function bottomLoad_U(value){
+	$("#User_table").load(value);break;
 }
 /*
  * function getData(user){ var row = $("#row").val(); if(!user){
@@ -111,6 +117,66 @@ function checktelnum() {
 	}
 	return true;
 }
+/************修改密码*************/
+function u_checkPs(){
+	var oldPs = $("#ps1").val();
+	var newPs = $("#ps2").val();
+	var newPs_c = $("#ps3").val();
+	var flag = true;
+	for(var i=1;i<4;i++){
+		if($("#ps"+i).val().match(/\S+/) == null){
+			$("#U_flag"+i).html("不能为空");
+			flag = false;
+			return false;
+		}else{
+			$("#U_flag"+i).html("");
+		}//还没写完的啊！！！！！！！！！！！！1
+	}
+	if(flag){
+		if (newPs != newPs_c ) {
+			$("#U_flag3").html("两次密码不一样");
+			flag = false;
+			return false;
+		}else{
+			$("#U_flag3").html("");
+			return true;
+		}
+	}
+	return flag;
+}
+function submitPs(){
+	if(u_checkPs()){
+		$.ajax({
+			url:'/SSH_test/userAction_updatePs',
+			type:'POST',
+			data:$("#PsForm").serialize(),
+			dataType:'json',
+			async:false,
+			cache:false,
+			success:function(){
+				alert("修改成功");
+			},
+		});
+	}
+}
+function checkpw() {
+	var r_ps = $("#r_password").val();
+	var ps = $("#RG_password").val();
+	if(ps.match(/\S+/) == null){
+		$("#pswarnning").html("密码不能为空");
+		return false;
+	}else{
+		$("#pswarnning").html("");
+		if (r_ps != ps ) {
+			$("#rpswarnning").html("两次密码不一样");
+			return false;
+		}else{
+			
+			$("#rpswarnning").html("");
+			return true;
+		}
+	}
+}
 /**********作品部分*************/
 function coveron(num){
 	$("#img_cover"+num).css("display","block");
@@ -124,7 +190,8 @@ function edit_divOn(num){
 	var src = $("#work_img"+num).attr("src");
 	var wname = $("#work_wname"+num).html();
 	var description = $("#work_img"+num).attr("title");
-	$("#Work_wid").val(wid);
+	$("#Work_wid_t").val(wid);
+	$("#Work_wid").html(wid);
 	$("#Work_img").attr("src",src);
 	$("#Work_wname").val(wname);
 	$("#Work_description").val(description);

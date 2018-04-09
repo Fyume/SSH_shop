@@ -1,18 +1,8 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="/struts-tags" prefix="s"%>
-<%
-	String path = request.getContextPath();
-	String basePath = request.getScheme() + "://"
-			+ request.getServerName() + ":" + request.getServerPort()
-			+ path + "/";
-%>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<base href="<%=basePath%>">
-
 <title>激活页面</title>
 
 <meta http-equiv="pragma" content="no-cache">
@@ -22,7 +12,7 @@
 <meta http-equiv="description" content="This is my page">
 <link rel="stylesheet" type="text/css"
 	href="${pageContext.request.contextPath }/css/user/activate.css">
-<body onload="change()">
+<body>
 	<div class="act_form">
 		<div class="act_step">
 			<div class="step2" id="step1">
@@ -48,10 +38,6 @@
 						</div>
 						<div>
 							<input type="button" value="下一步" class="button" onclick="step2()">
-						</div>
-						<div>
-							<a
-								href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=2">邮箱换了？点这里</a>
 						</div>
 					</label>
 				</form>
@@ -87,10 +73,6 @@
 							<input type="button" value="下一步" class="button"
 								onclick="c_step2()">
 						</div>
-						<div>
-							<a
-								href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=1">前往重新激活</a>
-						</div>
 					</label> <label class="form_label" id="form_label2">
 						<div class="form_label_font">新邮箱:</div>
 						<div class="form_label_input">
@@ -100,10 +82,6 @@
 							<input type="button" value="发送激活邮件" class="button"
 								onclick="c_step3()">
 						</div>
-						<div>
-							<a
-								href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=1">前往重新激活</a>
-						</div>
 						<div id="Ewarnning" class="div_flag"></div>
 					</label> <label class="form_label" id="form_label3">
 						<div>激活邮件已发送至新邮箱,有效时间10分钟,请注意查收</div>
@@ -111,6 +89,31 @@
 				</form>
 			</div>
 		</c:if>
+		<c:if test="${param.method==3}">
+			<div class="title">修改密码</div>
+			<div class="act_changeE">
+				<label class="form_label" id="form_label1">
+					<div class="form_label_font">用户ID:</div>
+					<div class="form_label_input">
+						<input id="uid3" name="user.uid" type="text">
+					</div>
+					<div>
+						<input type="button" value="下一步" class="button"
+							onclick="p_step2()">
+					</div>
+				</label> <label class="form_label" id="form_label2">
+					<div>
+						<input type="button" value="发送改密邮件" class="button" style="margin-left:100px;"
+							onclick="p_step3()">
+					</div>
+				</label> <label class="form_label" id="form_label3">
+					<div>邮件已发送至邮箱,请注意查收</div>
+				</label>
+			</div>
+		</c:if>
+		<a href="${pageContext.request.contextPath}/pages/user/activate.jsp"><div class="function_div">重新激活</div></a>
+		<a href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=2"><div class="function_div" style="top:240px;">修改邮箱</div></a>
+		<a href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=3"><div class="function_div" style="top:270px;">修改密码</div></a>
 	</div>
 	<div class="login_a">
 		<a href="${pageContext.request.contextPath }/pages/user/login.jsp">

@@ -25,8 +25,8 @@
 	</c:forEach>
 </div>
 <div style="width:99%;height:30px;border-top:1px #c0c0c0 solid;text-align:center;">
-	<div>页码:</div>
+	<span style="float:left;">页码:</span>
 	<c:forEach items="${Alllist }" begin="0" end="${AllNum/8 }" varStatus="num">
-		<div class="index_page" id="page_a${param.page }" onclick="bottomLoad('${pageContext.request.contextPath }/pages/user/MyWork.jsp?page=${num.count}')">${num.count }</div>
+		<a id="page_a${param.page }" onclick="bottomLoad_U('${pageContext.request.contextPath }/pages/user/MyWork.jsp?page=${num.count}')">${num.count }</a>
 	</c:forEach>
 </div>

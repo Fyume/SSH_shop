@@ -15,6 +15,7 @@
  		<property name="email"></property>
  		<property name="image"></property>
  		<property name="u_status"></property>
+ 		<property name="psCode"></property>
  		<property name="code"></property>
  		<property name="activateTime"></property>
  		<property name="u_permission"></property>

@@ -13,7 +13,10 @@ li:HOVER + .dropdown-menu,.dropdown-menu:hover{
 }
 input[type='text']{
 	border-radius:4px;
-	border:1px;
+	border:0;
+}
+input[type='text']:hover{
+	border:0;
 }
 input[type='file']{
 	display:none;
@@ -81,6 +84,13 @@ input[type='file']{
 }
 .User_value{
 	font-size:23px;
+}
+.U_flag{
+	width:150px;
+	height:20px;
+	color:red;
+	font-family: 宋体;
+	font-size:13px;
 }
 .file_button{
 	margin-top:5px;
@@ -221,7 +231,7 @@ input[type='file']{
 }
 textarea{
 	width:85%;
-	height:21%;
+	height:30%;
 }
 .MyFav {
 	width: 100%;

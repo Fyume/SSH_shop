@@ -245,7 +245,7 @@ public class WorkAction extends BaseAction {
 			worklist = workService.find(work, "wid");
 			if(worklist.size()!=0){
 				Work work2 = worklist.get(0);//持久态
-				if(!work2.getAuthor().equals(user.getUid())){//有人通过非法手段修改别人的作品信息
+				if(!work2.getUser().getUid().equals(user.getUid())){//有人通过非法手段修改别人的作品信息
 					request.getSession().setAttribute("user",null);
 					return "goto_login";
 				}
@@ -281,9 +281,10 @@ public class WorkAction extends BaseAction {
 				}
 				work2.setWname(work.getWname());
 				work2.setDescription(work.getDescription());
+				workService.update(work2);
 			}
 		}
-		return "goto_edit";
+		return "goto_user";
 	}
 	//修改作品封面
 	public String updateI() throws Exception{

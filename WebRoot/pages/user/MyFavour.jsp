@@ -1,26 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="/mytags" prefix="mytags"%>
-<%
-String path = request.getContextPath();
-String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
-%>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-  <head>
-    <base href="<%=basePath%>">
-    
-    <title>My JSP 'MyFavour.jsp' starting page</title>
-    
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-  </head>
-  
-  <body>
 	<div class="MyFav">
 		<!-- 分页用 -->
 		<c:set var="AllNum" value="${sessionScope.myFav_size }"></c:set>
@@ -90,10 +70,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 	</div>
 	<div style="width:99%;height:30px;border-top:1px #c0c0c0 solid;text-align:center;">
-		<div>页码:</div>
+		<span style="float:left;">页码:</span>
 		<c:forEach items="${Alllist }" begin="0" end="${AllNum/8 }" varStatus="num">
-			<div class="index_page" id="page_a${param.page }" onclick="bottomLoad('${pageContext.request.contextPath }/pages/user/MyFavour.jsp?page=${num.count}')">${num.count }</div>
+			<a id="page_a${param.page }" onclick="bottomLoad_U('${pageContext.request.contextPath }/pages/user/MyFavour.jsp?page=${num.count}')">${num.count }</a>
 		</c:forEach>
 	</div>
-  </body>
-</html>

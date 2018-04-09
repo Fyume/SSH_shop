@@ -249,6 +249,53 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		}
 		return NONE;
 	}
+	public String updatePassword() throws Exception{//无登陆修改密码
+		String uid = request.getParameter("uid");
+		user.setUid(uid);
+		userlist = userService.finds(user,"uid");
+		if(userlist.size()!=0){
+			user = userlist.get(0);
+			String psCode = userUtils.sendmail_ps(user.getEmail(), user.getUid());
+			user.setPsCode(psCode);
+		}
+		return NONE;
+	}
+	public String updatePs() throws Exception{//信息页面修改密码
+		System.out.println(user.toString());
+		User user2 = (User) request.getSession().getAttribute("user");
+		if(user2==null){
+			return "goto_login";
+		}
+		String newPs = request.getParameter("NewPassword");
+		if(new MD5Utils(user.getPassword()).getStr().equals(user2.getPassword())){
+			user2.setPassword(new MD5Utils(newPs).getStr());
+			userService.update(user2);
+		}
+		PrintWriter out = response.getWriter();
+		out.print("1");
+		close(out);
+		return NONE;
+	}
+	public String confirmUpdatePs() throws Exception{//确认修改密码
+		String code = request.getParameter("code");
+		String uid = request.getParameter("uid");
+		user.setUid(uid);
+		userlist = userService.finds(user, "uid");
+		if(userlist.size()!=0){
+			user = userlist.get(0);
+			if(!user.getPsCode().isEmpty()){
+				String confirmStr = new MD5Utils(user.getPsCode()).getStr();
+				if(confirmStr.equals(code)){
+					user.setPassword(user.getPsCode());
+					user.setPsCode(null);
+					request.setAttribute("functionname", "改密成功,请尽快修改属于自己的密码");// loading页面需要显示
+					request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
+					return "goto_Loading";
+				}
+			}
+		}
+		return NONE;
+	}
 	public String update() throws Exception {// 修改个人信息
 		System.out.println("-------update---------");
 		User user2 = (User) request.getSession().getAttribute("user");

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.mail.Authenticator;
 import javax.mail.Message.RecipientType;
@@ -189,7 +190,7 @@ public class test {
 	}
 	@Test
 	public void testjson(){
-		test3 t3 = new test3();
+		/*test3 t3 = new test3();
 		t3.setT3(123);
 		test4 t4 = new test4();
 		t4.setT4(456);
@@ -197,6 +198,13 @@ public class test {
 		t3.setTest4(t4);
 		t3.setTest4_1(t4);
 		System.out.println(JSON.toJSONString(t4));
-		System.out.println(JSON.toJSONString(t3));
+		System.out.println(JSON.toJSONString(t3));*/
+		String str = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		StringBuffer sb=new StringBuffer();
+		for(int i=0;i<6;i++){
+			String s=str.charAt(new Random().nextInt(str.length()))+"";
+			sb.append(s);
+		}
+		System.out.println(sb.toString().trim());
 	}
 }

@@ -19,6 +19,7 @@ public class User {
 	private String image;//头像部分路径
 	private boolean u_status=false;//激活状态,默认未激活
 	private String code;//激活用激活码
+	private String psCode;//无登录用修改密码
 	private long activateTime;//第一次激活的时间
 	private boolean u_permission = false;//用户权限(默认为普通用户，只有修改为true的时候才是管理员)
 	private int ps_false=0;//密码错误次数
@@ -144,6 +145,12 @@ public class User {
 		this.u_status = u_status;
 	}
 	
+	public String getPsCode() {
+		return psCode;
+	}
+	public void setPsCode(String psCode) {
+		this.psCode = psCode;
+	}
 	public String getCode() {
 		return code;
 	}

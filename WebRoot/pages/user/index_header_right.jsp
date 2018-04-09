@@ -11,10 +11,10 @@
 <a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
 	<div class="h_r_user btn btn-default">收藏夹</div>
 </a>
-<c:if test="${!empty sessionScope.updateFlag }">
+<c:if test="${sessionScope.updateFlag eq true}">
 	<div id="updateFlag"></div>
 </c:if>
-<c:if test="${!empty sessionScope.updateFlag2 }">
+<c:if test="${sessionScope.updateFlag2 eq true}">
 	<div id="updateFlag2"></div>
 </c:if>
 <a href="${pageContext.request.contextPath}/pages/user/upload.jsp">
