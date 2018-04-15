@@ -79,9 +79,11 @@ function checktitle(){
 }
 // 检查上传文件是否为空
 function checkF(){
-	if($("#upload").val()==""){
+	var txt = /.txt$/;
+	var doc = /.doc$/;
+	var docx = /.docx$/;
+	if(!txt.test($("#upload").val())&&!doc.test($("#upload").val())&&!docx.test($("#upload").val())){
 		$("#file_F").attr('class',"upload_flag_false");
-		alert("上传的文件不能为空");
 		return false;
 	}else{
 		$("#file_F").attr('class',"upload_flag_true");

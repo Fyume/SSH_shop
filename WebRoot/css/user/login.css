@@ -5,6 +5,9 @@ a{
 	font-size: 12px;
 	font-family: 宋体;
 }
+li{
+	text-decoration: none;
+}
 .a_login{
 	float: right;
 	width: 50px;

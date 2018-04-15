@@ -68,6 +68,7 @@ label div{
 }
 /* main1 */
 .act_resend{
+	margin-top:10px;
 	margin-left:300px;
 	width:400px;
 	height:350px;

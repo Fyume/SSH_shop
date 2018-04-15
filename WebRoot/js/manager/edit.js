@@ -377,7 +377,7 @@ function checkBook(arr1) {// 统一检查book筛选条件
 function checkUid() {
 	var str = /[a-zA-Z0-9_]{0,16}/;
 	if ($("#slt_id").val() != "") {
-		if ($("#slt_id").val().match(str) == null) {
+		if (!str.test($("#slt_id").val())) {
 			alert("由0到16位数字字母下划线组成！");
 			return false;
 		}
@@ -385,10 +385,10 @@ function checkUid() {
 	return true;
 }
 function checkUname() {
-	var str = /^[\u4E00-\u9FA5]{2,4}$/;// 2个到4个中文
+	var str = /^[A-Za-z0-9]{1,8}$/;// 1-8的字母数字
 	if ($("#slt_name").val() != "") {
 		if (str.test($("#slt_name").val()) == false) {
-			alert("由2-4个中文组成！");
+			alert("username由1-8个的字母或数字组成！");
 			$("#slt_name").focus();
 			return false;
 		}

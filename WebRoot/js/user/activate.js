@@ -1,4 +1,28 @@
 /* 重发*/
+$(document).ready(function(){
+	var method = $("#method").val();
+	if(method==""){
+		method = 1;
+	}
+	var n = parseInt(method);
+	switch(n){
+	case 2:
+		$("#function_div2").css("background-color","#80ffff");
+		$("#function_div2").css("color","#000000");
+		$("#function_div2").css("font-weight","550");
+		break;
+	case 3:
+		$("#function_div3").css("background-color","#80ffff");
+		$("#function_div3").css("color","#000000");
+		$("#function_div3").css("font-weight","550");
+		break;
+	default:
+		$("#function_div1").css("background-color","#80ffff");
+		$("#function_div1").css("color","#000000");
+		$("#function_div1").css("font-weight","550");
+		break;
+	}
+});
 function step(num){
 	$("#step1").attr("class", "step");
 	$("#step2").attr("class", "step");

@@ -143,7 +143,7 @@
 						</div>
 						<div class="font2-font">用户ID</div>
 						<div id="u_select" class="font2_select1">
-							<input id="slt_id" type="text" placeholder="用户ID" onchange="return checkUid()">
+							<input id="slt_id" type="text" placeholder="用户ID" onchange="return checkUid()" onblur="return checkUid()">
 							<input id="slt_name" type="text" placeholder="用户名" onchange="return checkUname()">
 							<select id="slt_status" >
 								<option value="0">未激活</option>

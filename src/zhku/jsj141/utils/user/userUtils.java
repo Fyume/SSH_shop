@@ -78,12 +78,12 @@ public class userUtils extends ActionSupport {
 	    message.setSubject("激活邮件");  
 
 	    // 设置邮件的内容体  
-	    message.setContent("<h1>激活请点击以下链接(有效时间10分钟)</h1><h3>"
+	   /* message.setContent("<h1>激活请点击以下链接(有效时间10分钟)</h1><h3>"
 	    		+ "<a href='http://47.106.104.150:8080/SSH_test/userAction_activate?code="+code+"'>点击跳转激活</a>"
-	    				+ "</h3>", "text/html;charset=UTF-8");  
-	  /*  message.setContent("<h1>激活请点击以下链接(有效时间10分钟)</h1><h3>"
+	    				+ "</h3>", "text/html;charset=UTF-8");  */
+	    message.setContent("<h1>激活请点击以下链接(有效时间10分钟)</h1><h3>"
 	    		+ "<a href='http://localhost:8080/SSH_test/userAction_activate?code="+code+"'>点击跳转激活</a>"
-	    				+ "</h3>", "text/html;charset=UTF-8");*/
+	    				+ "</h3>", "text/html;charset=UTF-8");
 	    // 发送邮件  
 	    Transport.send(message);  
 	    return "email_ok";
@@ -136,12 +136,12 @@ public class userUtils extends ActionSupport {
 	    message.setSubject("激活邮件");  
 
 	    // 设置邮件的内容体  
-	    message.setContent("<h1>新密码如下：(如果不是本人修改的密码请不要点击该链接)</h1><h3>"
+	   /* message.setContent("<h1>新密码如下：(如果不是本人修改的密码请不要点击该链接)</h1><h3>"
 	    		+ "<a href='http://47.106.104.150:8080/SSH_test/userAction_confirmUpdatePs?uid="+uid+"&&code="+psCode+"'>点击改密生效</a>"
-	    				+ "</h3>", "text/html;charset=UTF-8");  
-	  /*  message.setContent("<h1>新密码如下：(如果不是本人修改的密码请不要点击该链接)</h1><h3>"
-	    		+ "<a href='http://localhost:8080/SSH_test/userAction_confirmUpdatePs?uid="+uid+"&&code="+psCode+"'>点击改密生效</a>"
 	    				+ "</h3>", "text/html;charset=UTF-8");  */
+	    message.setContent("<h1>新密码如下：(如果不是本人修改的密码请不要点击该链接)</h1><h3>"
+	    		+ "<a href='http://localhost:8080/SSH_test/userAction_confirmUpdatePs?uid="+uid+"&&code="+psCode+"'>点击改密生效</a>"
+	    				+ "</h3>", "text/html;charset=UTF-8");  
 
 	    // 发送邮件  
 	    Transport.send(message);  

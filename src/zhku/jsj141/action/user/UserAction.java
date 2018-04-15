@@ -374,7 +374,6 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		return NONE;
 	}
 
-	@SuppressWarnings("unused")
 	public String resendEmail() throws Exception {// 重发激活邮件
 		request.setCharacterEncoding("UTF-8");
 		String uid = request.getParameter("uid1");
@@ -481,28 +480,19 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 						ps_time = ps_time.substring(ps_time.length() - 8, ps_time.length());
 						user.setPs_time(Integer.valueOf(ps_time));
 						request.setAttribute("uidpass_flag", "用户或者密码错误");
-						logOut();
 					}
 				}else{
 					request.setAttribute("uidpass_flag", "密码输错3次,请3分钟后再试");
-					logOut();
 				}
 			} else {
 				System.out.println("帐号未激活");
 				request.setAttribute("uidpass_flag", "该帐号未激活");
-				logOut();
 			}
 		} else {
 			System.out.println("用户名错误");
 			request.setAttribute("uidpass_flag", "用户或者密码错误");
-			logOut();
 		}
-		String www = request.getParameter("www");
-		if("login".equals(www)){
-			return "goto_login";
-		}else{
-			return NONE;
-		}
+		return "goto_login";
 	}
 	public String logOut() throws Exception {// 注销
 		request.getSession().setAttribute("user", null);//清空
@@ -521,7 +511,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 			out.print("");
 			close(out);
 		}
-		return "goto_index";
+		return NONE;
 	}
 	public String addF() throws Exception{//添加收藏(ajax)
 		user = (User) request.getSession().getAttribute("user");

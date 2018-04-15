@@ -94,10 +94,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</ul>
 			<form action="${pageContext.request.contextPath}/userAction_register" method="post" onsubmit="return checkformRG()">
 				<ul class="rg_bt_right">
-					<li><input type="text" id="RG_uid" name="user.uid" maxlength="8" placeholder="只能由字母数字字符下划线组成，最长8位" onchange="checkuid_RG()">
+					<li><input type="text" id="RG_uid" name="user.uid" maxlength="16" placeholder="1-16位数字字母下划线" onchange="checkuid_RG()">
 					<div class="div_flag" id="uidwarnning"></div>
 					</li>
-					<li><input type="text" id="username" name="user.username" onchange="checkUserName()">
+					<li><input type="text" id="username" name="user.username" maxlength="8" onchange="checkUserName()" placeholder="1-8位数字字母">
 					<div class="div_flag" id="unwarnning"></div>
 					</li>
 					<li><input type="password" id="RG_password" name="user.password" maxlength="16" placeholder="最长16位">

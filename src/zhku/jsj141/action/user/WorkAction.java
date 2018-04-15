@@ -305,4 +305,23 @@ public class WorkAction extends BaseAction {
 		}
 		return "goto_edit";
 	}
+	public String delete() throws Exception{
+		int wid = Integer.valueOf(request.getParameter("wid"));
+		work.setWid(wid);
+		worklist = workService.find(work, "wid");
+		if(worklist.size()!=0){
+			work = worklist.get(0);
+			List<Upload> list = managerService.findUpload(work);
+			if(list.size()!=0){
+				t_upload = list.get(0);
+				if(managerService.deleteUpload(t_upload)){
+					if(workUtils.removeWork(work.getUser().getUid(), work.getWname())){
+						workService.delete(work);
+					}
+				}
+			}
+		}
+		
+		return "goto_user";
+	}
 }

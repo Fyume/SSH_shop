@@ -111,9 +111,10 @@
 				</label>
 			</div>
 		</c:if>
-		<a href="${pageContext.request.contextPath}/pages/user/activate.jsp"><div class="function_div">重新激活</div></a>
-		<a href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=2"><div class="function_div" style="top:240px;">修改邮箱</div></a>
-		<a href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=3"><div class="function_div" style="top:270px;">修改密码</div></a>
+		<input type="text" id="method" value="${param.method }" style="display:none;">
+		<a href="${pageContext.request.contextPath}/pages/user/activate.jsp"><div id="function_div1" class="function_div">重新激活</div></a>
+		<a href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=2"><div id="function_div2" class="function_div" style="top:240px;">修改邮箱</div></a>
+		<a href="${pageContext.request.contextPath}/pages/user/activate.jsp?method=3"><div id="function_div3" class="function_div" style="top:270px;">修改密码</div></a>
 	</div>
 	<div class="login_a">
 		<a href="${pageContext.request.contextPath }/pages/user/login.jsp">

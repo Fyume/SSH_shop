@@ -283,7 +283,7 @@
 			</div>
 		</div>
 	</div>
-	<input id="USER" type="text" value="${empty sessionScope.user}">
+	<input id="USER" type="text" value="${empty sessionScope.user}" class="hidden">
 	<div id="con_bottom_reviews" class="con_bottom_reviews">
 		<form id="reviewForm" action="${pageContext.request.contextPath}/userAction_ReviewForR">
 			<input id="font_id" name="font_id" type="text" value="">

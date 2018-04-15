@@ -3,7 +3,7 @@ package zhku.jsj141.utils.user;
 import java.io.File;
 
 import redis.clients.jedis.Jedis;
-/*public class JedisUtils {
+public class JedisUtils {
 	private Jedis jedis;
 	//又学到了一样东西 Runtime.getRuntime().exec() (假如要执行与工作目录（环境）有关的批处理文件，那么就用exec(批处理文件路径，))
 	public void openExe() {//启动redis
@@ -29,8 +29,8 @@ import redis.clients.jedis.Jedis;
 		System.out.println("获取jedis!");
 		return jedis;
 	}
-}*/
-public class JedisUtils {
+}
+/*public class JedisUtils {
 	private Jedis jedis;
 	//又学到了一样东西 Runtime.getRuntime().exec() (假如要执行与工作目录（环境）有关的批处理文件，那么就用exec(批处理文件路径，))
 	public void openExe() {//启动redis
@@ -54,4 +54,4 @@ public class JedisUtils {
 		System.out.println("获取jedis!");
 		return jedis;
 	}
-}
+}*/

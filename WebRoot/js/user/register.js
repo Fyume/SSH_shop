@@ -1,3 +1,4 @@
+
 function openRG(){
 	$("#register_cover_div").css("display","block");
 }
@@ -28,7 +29,8 @@ function checkformRG() {// 检查表单必填数据
 }
 
 function checkuid_RG() {
-	if ($("#RG_uid").val().match(/[a-zA-Z0-9_]{1,16}/) != null) {// 限制输入的用户ID只能有数字英文字符下划线组成的1到16位
+	var uid = /[a-zA-Z0-9_]{1,16}/;
+	if (uid.test($("#RG_uid").val())) {// 限制输入的用户ID只能有数字英文字符下划线组成的1到16位
 		$.ajax({
 			url : '/SSH_test/userAction_checkuid',
 			type : "POST",
@@ -56,8 +58,9 @@ function checkuid_RG() {
 	}
 }
 function checkUserName(){
-	if($("#username").val().match(/\S+/) == null){
-		$("#unwarnning").html("用户名不能为空！！");
+	var username = /^[A-Za-z0-9]{1,8}$/;
+	if(!username.test($("#username").val())){
+		$("#unwarnning").html("用户名有误！！");
 		return false;
 	}else{
 		$("#unwarnning").html("");
