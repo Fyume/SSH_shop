@@ -257,6 +257,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 			user = userlist.get(0);
 			String psCode = userUtils.sendmail_ps(user.getEmail(), user.getUid());
 			user.setPsCode(psCode);
+			userService.update(user);
 		}
 		return NONE;
 	}
@@ -283,11 +284,13 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		userlist = userService.finds(user, "uid");
 		if(userlist.size()!=0){
 			user = userlist.get(0);
-			if(!user.getPsCode().isEmpty()){
+			String str = user.getPsCode();
+			if(str!=null){
 				String confirmStr = new MD5Utils(user.getPsCode()).getStr();
 				if(confirmStr.equals(code)){
-					user.setPassword(user.getPsCode());
+					user.setPassword(confirmStr);
 					user.setPsCode(null);
+					userService.update(user);
 					request.setAttribute("functionname", "改密成功,请尽快修改属于自己的密码");// loading页面需要显示
 					request.setAttribute("gohere", "pages/user/login.jsp");// loading页面需要显示
 					return "goto_Loading";
@@ -413,12 +416,14 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		if(cookies!=null){//有 则取cookie
 			for (Cookie cookie : cookies) {
 				if(cookie.getName().equals("user")){
-					if(cookie.getValue()!=""){
+					if(cookie.getValue()!=""||cookie.getValue()!="null"){
 						String info = cookie.getValue();
-						int n = info.indexOf(",");
-						String uid = info.substring(0,n);//cookie的
-						user.setUid(uid);
-						password = info.substring(n+1,info.length());
+						int n = info.indexOf("&");
+						if(n!=-1){
+							String uid = info.substring(0,n);//cookie的
+							user.setUid(uid);
+							password = info.substring(n+1,info.length());
+						}
 					}
 				}
 			}
@@ -454,7 +459,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 						System.out.println("login_ok");
 						
 						if("1".equals(checkbox)){//使用cookie
-							String info = user.getUid()+","+ rpassword;
+							String info = user.getUid()+"&"+ rpassword;
 							Cookie cookie = new Cookie("user", info);
 							cookie.setMaxAge(60*60*24*365);//单位是秒 设为一年（365天）
 							cookie.setPath("/");//cookie可访问的位置？（整个服务器）
@@ -496,21 +501,9 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	}
 	public String logOut() throws Exception {// 注销
 		request.getSession().setAttribute("user", null);//清空
-		Cookie[] cookies= request.getCookies();
 		PrintWriter out = response.getWriter();
-		int n = 0;
-		for (Cookie cookie : cookies) {
-			if(cookie.getName().equals("user")){
-				if(!"".equals(cookie.getValue())){
-					n +=1 ;
-					out.print("111");
-				}
-			}
-		}
-		if(n==0){
-			out.print("");
-			close(out);
-		}
+		out.print("111");
+		close(out);
 		return NONE;
 	}
 	public String addF() throws Exception{//添加收藏(ajax)

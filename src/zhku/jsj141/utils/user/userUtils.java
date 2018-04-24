@@ -46,7 +46,8 @@ public class userUtils extends ActionSupport {
 	     */  
 	    // 表示SMTP发送邮件，需要进行身份验证  
 	    props.put("mail.smtp.auth", "true");  
-	    props.put("mail.smtp.host", "smtp.163.com");  
+	    props.put("mail.smtp.host", "smtp.163.com"); 
+	  /*  props.setProperty("mail.smtp.port", "465");*/
 	    // 发件人的账号  
 	    props.put("mail.user", "xxx947530369@163.com");  
 	    // 访问SMTP服务时需要提供的密码  
@@ -69,14 +70,15 @@ public class userUtils extends ActionSupport {
 	    // 设置发件人  
 	    InternetAddress form = new InternetAddress(props.getProperty("mail.user"));  
 	    message.setFrom(form);  
-
+	    
 	    // 设置收件人  
 	    InternetAddress to = new InternetAddress(emailAddress);  
 	    message.setRecipient(RecipientType.TO, to);  
 
 	    // 设置邮件标题  
 	    message.setSubject("激活邮件");  
-
+	    
+	    
 	    // 设置邮件的内容体  
 	   /* message.setContent("<h1>激活请点击以下链接(有效时间10分钟)</h1><h3>"
 	    		+ "<a href='http://47.106.104.150:8080/SSH_test/userAction_activate?code="+code+"'>点击跳转激活</a>"
@@ -105,6 +107,7 @@ public class userUtils extends ActionSupport {
 	    // 表示SMTP发送邮件，需要进行身份验证  
 	    props.put("mail.smtp.auth", "true");  
 	    props.put("mail.smtp.host", "smtp.163.com");  
+	   /* props.setProperty("mail.smtp.port", "465");*/
 	    // 发件人的账号  
 	    props.put("mail.user", "xxx947530369@163.com");  
 	    // 访问SMTP服务时需要提供的密码  
@@ -133,14 +136,14 @@ public class userUtils extends ActionSupport {
 	    message.setRecipient(RecipientType.TO, to);  
 
 	    // 设置邮件标题  
-	    message.setSubject("激活邮件");  
+	    message.setSubject("改密邮件");  
 
 	    // 设置邮件的内容体  
 	   /* message.setContent("<h1>新密码如下：(如果不是本人修改的密码请不要点击该链接)</h1><h3>"
-	    		+ "<a href='http://47.106.104.150:8080/SSH_test/userAction_confirmUpdatePs?uid="+uid+"&&code="+psCode+"'>点击改密生效</a>"
+	    		+ "<a href='http://47.106.104.150:8080/SSH_test/userAction_confirmUpdatePs?uid="+uid+"&code="+psCode+"'>点击改密生效</a>"
 	    				+ "</h3>", "text/html;charset=UTF-8");  */
-	    message.setContent("<h1>新密码如下：(如果不是本人修改的密码请不要点击该链接)</h1><h3>"
-	    		+ "<a href='http://localhost:8080/SSH_test/userAction_confirmUpdatePs?uid="+uid+"&&code="+psCode+"'>点击改密生效</a>"
+	    message.setContent("<h1>新密码如下："+str+"(如果不是本人修改的密码请不要点击该链接)</h1><h3>"
+	    		+ "<a href='http://localhost:8080/SSH_test/userAction_confirmUpdatePs?uid="+uid+"&code="+psCode+"'>点击改密生效</a>"
 	    				+ "</h3>", "text/html;charset=UTF-8");  
 
 	    // 发送邮件  

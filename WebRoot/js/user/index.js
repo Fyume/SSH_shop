@@ -42,21 +42,18 @@ $(document).ready(function(){
 	});
 });
 function start(user) {
-	if(user == true){
-		var page = $("#page_num").html();
-		$("#page_a"+page).css("color","red");
-		$.ajax({
-			url : '/SSH_test/userAction_login',
-			type : "POST",
-			timeout : 1000,
-			cache : false,
-			success : function(data) {
-				if(data=="111"){
-					$.cookie('user',null,{expires: -1,path: '/'});
-				}
-				$("#header_right").load("/SSH_test/pages/user/index_header_right.jsp");
-			},
-		});
+	if(user == true){//没登陆
+		if($.cookie('user')!='null'){//但有cookie
+			$.ajax({
+				url : '/SSH_test/userAction_login',
+				type : "POST",
+				timeout : 1000,
+				cache : false,
+				success : function(data) {
+					$("#header_right").load("/SSH_test/pages/user/index_header_right.jsp");
+				},
+			});
+		}
 	}
 }
 function loadIndex(){
@@ -92,23 +89,8 @@ function loadIndex(){
 	});
 }
 function checkUser(user) {
-	if(user == true){
-		var page = $("#page_num").html();
-		$("#page_a"+page).css("color","red");
-		$.ajax({
-			url : '/SSH_test/userAction_login',
-			type : "POST",
-			timeout : 1000,
-			cache : false,
-			async : false,// 取消异步请求
-			success : function(data) {
-				if(data=="111"){
-					$.cookie('user',null,{expires: -1,path: '/'});
-					$("#header_right").load("/SSH_test/pages/user/index_header_right.jsp");
-				}
-			},
-		});
-	}else{
+	start(user);
+	if(user==false){
 		$.ajax({
 			url:'/SSH_test/userAction_updateFlag',
 			type : "POST",
@@ -157,7 +139,7 @@ function logout(){
 		async : false,// 取消异步请求
 		success : function(data) {
 			if(data!=""){
-				$.cookie('user',null,{expires: -1,path: '/'});
+				$.cookie('user',null,{ path: "/"});
 				window.location.reload();
 			}
 		},

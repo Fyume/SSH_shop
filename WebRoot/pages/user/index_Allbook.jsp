@@ -5,11 +5,7 @@
 	<div class="book_top_type">
 		<div class="book_top_left">网络小说</div>
 		<c:set var="type1" value="0"></c:set>
-		<div class="book_top_right">
-			<a
-				href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=网络小说">
-				更多>> </a>
-		</div>
+		
 		<c:set var="begin" value="0"></c:set>
 		<c:set var="end" value="${sessionScope.listSize }"></c:set>
 	</div>
@@ -44,11 +40,7 @@
 	<div class="book_top_type">
 		<div class="book_top_left">文学作品</div>
 		<c:set var="type2" value="0"></c:set>
-		<div class="book_top_right">
-			<a
-				href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=文学作品">
-				更多>> </a>
-		</div>
+		
 		<c:set var="begin" value="0"></c:set>
 		<c:set var="end" value="${sessionScope.listSize }"></c:set>
 		</div>
@@ -79,11 +71,7 @@
 	<div class="book_top_type">
 		<div class="book_top_left">社会科学</div>
 		<c:set var="type3" value="0"></c:set>
-		<div class="book_top_right">
-			<a href="${pageContext.request.contextPath}/bookAction_selectB?flag=type&message=社会科学">
-				更多>>
-			</a>
-		</div>
+		
 		<c:set var="begin" value="0"></c:set>
 		<c:set var="end" value="${sessionScope.listSize }"></c:set>
 	</div>
@@ -112,11 +100,7 @@
 <div class="kindOfBook">
 	<div class="book_top_type">
 		<div class="book_top_left">用户作品</div>
-		<div class="book_top_right">
-			<a href="${pageContext.request.contextPath}/workAction_getData">
-				更多>>
-			</a>
-		</div>
+		
 	</div>
 	<c:if test="${empty param.page }">
 			<c:set var="begin" value="0"></c:set>

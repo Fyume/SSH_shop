@@ -123,6 +123,8 @@
 <script type="text/javascript"
 	src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript"
+	src="${pageContext.request.contextPath}/js/jquery.cookie.js"></script>
+<script type="text/javascript"
 	src="${pageContext.request.contextPath }/js/user/activate.js"></script>
 </head>
 </body>

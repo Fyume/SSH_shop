@@ -260,29 +260,31 @@ function u_select() {
 	// alert($("#u_select").css("display"));
 }
 function select_u() {
-	var json = {
-		uid : $("#slt_id").val(),
-		username : $("#slt_name").val(),
-		u_status : $("#slt_status").val(),
-		u_permission : $("#slt_permission").val()
+	if(checkUser_select()){
+		var json = {
+				uid : $("#slt_id").val(),
+				username : $("#slt_name").val(),
+				u_status : $("#slt_status").val(),
+				u_permission : $("#slt_permission").val()
+			}
+			$.ajax({
+				url : '/SSH_test/managerAction_select_U',
+				type : "POST",
+				timeout : 1000,
+				data : {
+					json : JSON.stringify(json)
+				},
+				async : false,// 取消异步请求
+				dataType : "json",
+				cache : false,
+				success : function() {// 返回时的方法
+					window.location.href = '/SSH_test/pages/manager/edit.jsp';
+				},
+				error : function() {
+					alert("错误");
+				}
+			});
 	}
-	$.ajax({
-		url : '/SSH_test/managerAction_select_U',
-		type : "POST",
-		timeout : 1000,
-		data : {
-			json : JSON.stringify(json)
-		},
-		async : false,// 取消异步请求
-		dataType : "json",
-		cache : false,
-		success : function() {// 返回时的方法
-			window.location.href = '/SSH_test/pages/manager/edit.jsp';
-		},
-		error : function() {
-			alert("错误");
-		}
-	});
 }
 // 书本筛选部分
 function b_select() {
@@ -353,7 +355,7 @@ function checkTime(arr) {
 	alert("日期错误！");
 	return false;
 }
-function checkUser() {// 统一检查user筛选条件
+function checkUser_select() {// 统一检查user筛选条件
 	if (checkUid() == true && checkUname() == true) {
 		return true;
 	}

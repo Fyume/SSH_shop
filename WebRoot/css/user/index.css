@@ -186,9 +186,8 @@ fieldset{
 	color:white;
 }
 .class_title:HOVER{
-	background-color:#ffb062;
+	font-weight:550;
 	font-size:15px;
-	color:#4c4c4c;
 }
 .managerPage{
 	border:1px #c0c0c0 solid;

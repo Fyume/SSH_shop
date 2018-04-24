@@ -83,6 +83,7 @@ function p_step3(){
 		data:{ uid: $("#uid3").val()},
 		async:false,//取消异步请求
 		success: function(){
+			$.cookie('user',null,{ path: "/"});
 			step(3);
 			$("#form_label2").css('display', 'none');
 			$("#form_label3").css('display', 'inline');
