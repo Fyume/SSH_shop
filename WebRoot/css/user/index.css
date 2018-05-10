@@ -263,8 +263,8 @@ option{
 	border-left:1px #c0c0c0 solid;
 	border-right:1px #c0c0c0 solid;
 	border-bottom:1px #c0c0c0 solid;
-	width:80%;
 	margin-left:10%;
+	width:80%;
 	background-color:#ffffff;
 }
 .book_border {
@@ -288,12 +288,12 @@ option{
 	border:2px #5353ff solid;
 }
 .book_title {
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
 	width: 120px;
 	height: 25px;
 	text-align: center;
-	text-overflow: ellipsis;
-	white-space: overflow;
-	overflow: hidden;
 	border-top: 0;
 	font-family: 幼圆;
 	font-weight: 540;

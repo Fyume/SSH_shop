@@ -184,6 +184,22 @@ function coveron(num){
 function coveroff(num){
 	$("#img_cover"+num).css("display","none");
 }
+function deleteWork(wid){
+	if(confirm("确定删除该作品？")){
+		$.ajax({
+			url:'/SSH_test/workAction_delete',
+			type:'post',
+			data:{
+				wid:wid
+			},
+			async : false,
+			cache : false,
+			success : function(){
+				$("#User_table").load("/SSH_test/pages/user/MyWork.jsp");
+			},
+		});
+	}
+}
 function edit_divOn(num){
 	$("#work_edit_div").css("display","block");
 	var wid = $("#work_img"+num).attr("alt");
@@ -202,8 +218,47 @@ function edit_divOff(){
 function workImg(){
 	$("#workimage").click();
 }
-function checkForm2(){
+function workFile(){
+	$("#workfile").click();
+}
+/*function checkForm2(){
 	
+}*/
+/*************收藏夹**************/
+function cancFav(user,msg){
+	if(user=="false"){
+		if(confirm("确定取消收藏？")){
+			var n = msg.indexOf(";");
+			var font = msg.substring(0, n);
+			var id = parseInt(msg.substr(n+1, msg.length));
+			var json = {
+					font : font,
+					id : id,
+					where : "user"
+			}
+			$.ajax({
+				url : '/SSH_test/userAction_delF',
+				type : "POST",
+				dataType : 'json',
+				data : {
+					json : JSON.stringify(json)
+				},
+				async : false,
+				cache : false,
+				success : function(){
+					if(font=="wid"){
+						$("#work_"+id).remove();
+					}else if(font=="bid"){
+						$("#book_"+id).remove();
+					}
+				},
+			});
+		}
+	}else{//虽然有c:choose控制 万一session过期
+		if(confirm("还没登录呢 要前往登录吗？")){
+			window.location.replace='/SSH_test/pages/user/login.jsp';
+		}
+	}
 }
 /**********重新用load优化el******/
 function getMyInfo(){

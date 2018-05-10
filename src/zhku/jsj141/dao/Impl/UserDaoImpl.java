@@ -163,7 +163,7 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public List<Favour> findF_Book(User user) {
 		List<Favour> list = null;
-		list = (List<Favour>) hibernateTemplate.find("from Favour f where f.user.uid = ? and f.book.bid is not null",user.getUid());
+		list = (List<Favour>) hibernateTemplate.find("from Favour f where f.user.uid = ? and f.book is not null",user.getUid());
 		System.out.println(list.size());
 		return list;
 	}
@@ -202,10 +202,10 @@ public class UserDaoImpl implements UserDao{
 	public List<Favour> findF(User user,Work work) {
 		List<Favour> list = null;
 		list = (List<Favour>) hibernateTemplate.find("from Favour f where uid = ? and wid = ?",user.getUid(),work.getWid());
-		List<Favour> list2 = (List<Favour>) hibernateTemplate.find("from Favour f where uid = ?",user.getUid());
+		/*List<Favour> list2 = (List<Favour>) hibernateTemplate.find("from Favour f where uid = ?",user.getUid());
 		for (Favour favour : list2) {
 			System.out.println(favour.toString());
-		}
+		}*/
 		return list;
 	}
 	///////////////浏览历史相关//////////////

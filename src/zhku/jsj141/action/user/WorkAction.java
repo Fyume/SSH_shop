@@ -112,7 +112,16 @@ public class WorkAction extends BaseAction {
 	public void setImageContentType(String imageContentType) {
 		this.imageContentType = imageContentType;
 	}
-
+	//所有作品
+	public String getData() throws Exception {
+		worklist = workService.findAll();
+		request.getSession().setAttribute("classfy", "用户作品");
+		request.getSession().setAttribute("worklist", worklist);
+		request.getSession().setAttribute("booklist", null);
+		request.getSession().setAttribute("listSize", worklist.size());
+		/*test();*/
+		return "goto_index";
+	}
 	// 上传用户作品（不允许重名）
 	public String upload() throws Exception {
 		System.out.println("uploadFileName:" + uploadFileName);
@@ -160,15 +169,6 @@ public class WorkAction extends BaseAction {
 		}
 		return "goto_upload";
 
-	}
-	public String getData() throws Exception {
-		worklist = workService.findAll();
-		request.getSession().setAttribute("classfy", "用户作品");
-		request.getSession().setAttribute("worklist", worklist);
-		request.getSession().setAttribute("booklist", null);
-		request.getSession().setAttribute("listSize", worklist.size());
-		/*test();*/
-		return "goto_index";
 	}
 	public String getMyWork() throws Exception {//有必要吗？感觉直接前端el点出来就好了。。。
 		user = (User) request.getSession().getAttribute("user");
@@ -274,7 +274,6 @@ public class WorkAction extends BaseAction {
 								long time = System.currentTimeMillis()/1000;
 								t_upload.setTime(time);
 								managerService.updateUpload(t_upload);
-								request.setAttribute("upload", "success");
 							}
 						}
 					}
@@ -282,6 +281,7 @@ public class WorkAction extends BaseAction {
 				work2.setWname(work.getWname());
 				work2.setDescription(work.getDescription());
 				workService.update(work2);
+				request.setAttribute("upload", "success");
 			}
 		}
 		return "goto_user";
@@ -309,6 +309,7 @@ public class WorkAction extends BaseAction {
 		int wid = Integer.valueOf(request.getParameter("wid"));
 		work.setWid(wid);
 		worklist = workService.find(work, "wid");
+		System.out.println("--deleteOK----");
 		if(worklist.size()!=0){
 			work = worklist.get(0);
 			List<Upload> list = managerService.findUpload(work);
@@ -321,7 +322,7 @@ public class WorkAction extends BaseAction {
 				}
 			}
 		}
-		
-		return "goto_user";
+		return getMyWork();
 	}
+	
 }

@@ -15,12 +15,12 @@
 			<div class="work_img" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
 				<img id="work_img${num.count }" alt="${work.wid }" title="${work.description }" src="${pageContext.request.contextPath }/images/user/workImg${work.image}">
 			</div>
-			<div id="img_cover${num.count }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
-				<div style="margin-left:100px;width:20px;height:20px;color:white;border-radius:20px;position:absolute;"><a href="${pageContext.request.contextPath }/workAction_delete?wid=${work.wid}">✖</a></div>
+			<div id="img_cover${num.count }" class="work_img_cover" title="${work.wname }" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
+				<div class="cover_close" onclick="deleteWork(${work.wid})">✖</div>
 				<div class="cover_btn"><a href="${pageContext.request.contextPath }/workAction_readWork?wid=${work.wid}">进入阅读</a></div>
 				<div class="cover_btn" onclick="edit_divOn(${num.count})">编辑</div>
 			</div>
-			<div id="work_wname${num.count }" class="work_title">${work.wname }</div>
+			<div id="work_wname${num.count }" class="work_title" title="${work.wname }">${work.wname }</div>
 			<div class="work_time"><mytags:date value="${work.uploadtime*1000 }"></mytags:date></div>
 		</div>
 	</c:forEach>

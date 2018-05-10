@@ -14,9 +14,11 @@ import zhku.jsj141.entity.Upload;
 import zhku.jsj141.entity.user.Book;
 import zhku.jsj141.entity.user.Favour;
 import zhku.jsj141.entity.user.User;
+import zhku.jsj141.entity.user.Work;
 import zhku.jsj141.service.BookService;
 import zhku.jsj141.service.ManagerService;
 import zhku.jsj141.service.UserService;
+import zhku.jsj141.service.WorkService;
 import zhku.jsj141.utils.user.bookUtils;
 
 
@@ -27,6 +29,7 @@ public class BookAction extends BaseAction {
 	private static final long serialVersionUID = 1L;
 	private BookService bookService;
 	private UserService userService;
+	private WorkService workService;
 	private ManagerService managerService;
 	
 	private File upload;
@@ -39,6 +42,7 @@ public class BookAction extends BaseAction {
 	Upload t_upload = new Upload();
 	List<Type> typelist = null;
 	List<Book> booklist = null;
+	List<Work> worklist = null;
 	
 	User user = new User();
 	Book book = new Book();
@@ -148,6 +152,12 @@ public class BookAction extends BaseAction {
 	public void setManagerService(ManagerService managerService) {
 		this.managerService = managerService;
 	}
+	public WorkService getWorkService() {
+		return workService;
+	}
+	public void setWorkService(WorkService workService) {
+		this.workService = workService;
+	}
 	public File getUpload() {
 		return upload;
 	}
@@ -196,15 +206,16 @@ public class BookAction extends BaseAction {
 		this.imageContentType = imageContentType;
 	}
 	
-	//页面初始数据获取
+	//页面初始数据获取（包括用户作品）
 	public String getData() throws Exception {
 		typelist = bookService.findT();
-		booklist = bookService.findAll();
 		request.getSession().setAttribute("typelist", typelist);
-		request.getSession().setAttribute("classfy", "全部分类");
+		booklist = bookService.findAll();
 		request.getSession().setAttribute("booklist", booklist);
-		request.getSession().setAttribute("worklist", null);
-		request.getSession().setAttribute("listSize", booklist.size());
+		//
+		worklist = workService.findAll();
+		request.getSession().setAttribute("worklist", worklist);
+		//
 		return "goto_index";
 	}
 	// 上传书本
@@ -291,8 +302,8 @@ public class BookAction extends BaseAction {
 	public String selectB() throws Exception{
 		String flag = request.getParameter("flag");//book的某个属性
 		String message = request.getParameter("message");//具体参数
-		/*message = new String(message.getBytes("ISO-8859-1"),"utf-8"); //URL传参好像是默认ISO-8859-1？反正试了发现这个可以
-*/		System.out.println("message:"+message);
+		/*message = new String(message.getBytes("ISO-8859-1"),"utf-8");*/ //URL传参好像是默认ISO-8859-1？反正试了发现这个可以
+		System.out.println("message:"+message);
 		System.out.println("flag:"+flag);
 		if(message!=null&&flag!=null){
 			if(flag.equals("type")){
@@ -313,7 +324,7 @@ public class BookAction extends BaseAction {
 			request.getSession().setAttribute("booklist", booklist);
 			request.getSession().setAttribute("listSize", booklist.size());//用于分页
 		}
-		return "goto_index";
+		return NONE;
 	}
 	//更新书本内容(仅更新文档,数据库表的其他属性不更新,和前端有关)
 	public String update() throws Exception{

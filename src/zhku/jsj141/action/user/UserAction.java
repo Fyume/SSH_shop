@@ -551,9 +551,13 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	public String delF() throws Exception{//取消收藏
 		user = (User) request.getSession().getAttribute("user");
 		String json = (String)request.getParameter("json");
-		JSONObject jsonObj = JSONObject.parseObject(json);
 		PrintWriter out = response.getWriter();//好像不返回数据ajax会没反应..
-		System.out.println(json);
+		if(json==null){
+			out.print("");
+			close(out);
+			return NONE;
+		}
+		JSONObject jsonObj = JSONObject.parseObject(json);
 		if(user!=null){
 			String font = (String)jsonObj.get("font");
 			int id = (int) jsonObj.get("id");

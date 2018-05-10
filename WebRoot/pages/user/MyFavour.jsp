@@ -28,19 +28,20 @@
 			<c:if test="${!empty sessionScope.myFav_Work }">
 				<c:set var="Alllist" value="${sessionScope.myFav_Work }"></c:set>
 				<c:forEach items="${sessionScope.myFav_Work }" var="fav" begin="${begin }" end="${end }" varStatus="num">
-					<div class="work_border">
+					<div class="work_border" id="work_${fav.work.wid }">
 						<div class="work_img" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
-							<img id="work_img${num.count }" alt="${fav.work.wid }" title="${fav.work.description }" src="${pageContext.request.contextPath }/images/user/workImg${fav.work.image}">
+							<img id="work_img${num.count }" alt="${fav.work.wname }" title="${fav.work.description }" src="${pageContext.request.contextPath }/images/user/workImg${fav.work.image}">
 						</div>
-						<div id="img_cover${num.count }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
+						<div id="img_cover${num.count }" class="work_img_cover" title="${fav.work.wname }" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
 							<div class="cover_btn"><a href="${pageContext.request.contextPath }/workAction_readWork?wid=${fav.work.wid}">进入阅读</a></div>
+							<div class="cover_btn" onclick="cancFav('${empty sessionScope.user}','wid;${fav.work.wid }')">取消收藏</div>
 						</div>
 						<c:if test="${fav.updateFlag==1}">
 							<div style="width:25px;height:25px;margin-left:-15px;margin-top:-10px;">
 								<img width=100% height=100% alt="" src="${pageContext.request.contextPath }/images/flag/53ca319f790e8.png">
 							</div>
 						</c:if>
-						<div id="work_wname${num.count }" class="work_title">${fav.work.wname }</div>
+						<div id="work_wname${num.count }" class="work_title" title="${fav.work.wname }">${fav.work.wname }</div>
 						<div class="work_time"><mytags:date value="${fav.work.uploadtime*1000 }"></mytags:date></div>
 					</div>
 				</c:forEach>
@@ -50,19 +51,20 @@
 				<!-- 分页用 -->
 				<c:set var="Alllist" value="${sessionScope.myFav_Book }"></c:set>
 				<c:forEach items="${sessionScope.myFav_Book }" var="fav" begin="${begin }" end="${end }" varStatus="num">
-					<div class="work_border">
+					<div class="work_border" id="book_${fav.book.bid }">
 						<div class="work_img" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
 							<img id="work_img${num.count }" alt="${fav.book.bid }" title="${fav.book.description }" src="${pageContext.request.contextPath }/images/bookImg${fav.book.image}">
 						</div>
-						<div id="img_cover${num.count }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
+						<div id="img_cover${num.count }" title="${fav.book.bname }" class="work_img_cover" onmousemove="coveron(${num.count})" onmouseout="coveroff(${num.count})">
 							<div class="cover_btn"><a href="${pageContext.request.contextPath }/bookAction_readBook?bid=${fav.book.bid}">进入阅读</a></div>
+							<div class="cover_btn" onclick="cancFav('${empty sessionScope.user}','bid;${fav.book.bid }')">取消收藏</div>
 						</div>
 						<c:if test="${fav.updateFlag==1}">
 							<div style="width:25px;height:25px;margin-left:-15px;margin-top:-10px;">
 								<img width=100% height=100% alt="" src="${pageContext.request.contextPath }/images/flag/53ca319f790e8.png">
 							</div>
 						</c:if>
-						<div id="work_wname${num.count }" class="work_title">${fav.book.bname }</div>
+						<div id="work_wname${num.count }" class="work_title" title="${fav.book.bname }">${fav.book.bname }</div>
 						<div class="work_time">出版日期： <mytags:date type="1" value="${fav.book.publish*1000*60*60 }"></mytags:date></div>
 					</div>
 				</c:forEach>

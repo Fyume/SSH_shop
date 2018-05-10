@@ -4,7 +4,7 @@
 <html>
 <head>
 
-<title>Index.jsp</title>
+<title>在线阅读网站</title>
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 </head>
 <body onload="start(${empty sessionScope.user })">

@@ -20,7 +20,7 @@
 					href="${pageContext.request.contextPath}/workAction_readWork?wid=${work.wid}">
 					<div class="book_img">
 						<img width=100% height=100%
-							src="${pageContext.request.contextPath}/images/user/workImg/${work.image }"
+							src="${pageContext.request.contextPath}/images/user/workImg${work.image }"
 							alt="${work.wname }">
 					</div>
 				</a>

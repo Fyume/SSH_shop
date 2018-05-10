@@ -68,39 +68,42 @@
 						</li>
 					</ul>
 				</div>
+				<c:choose>
+					<c:when test="${!empty param.page }" >
+						<c:set var="begin" value="${(param.page-1)*8}" scope="session"></c:set>
+						<c:set var="end" value="${(param.page*8)-1}" scope="session"></c:set>
+					</c:when>
+					<c:otherwise>
+						<c:set var="begin" value="0" scope="session"></c:set>
+						<c:set var="end" value="7" scope="session"></c:set>	
+					</c:otherwise>
+				</c:choose>
+				<c:set var="AllNum" value="0" scope="session"></c:set>
+				<%-- <c:choose>
+					<c:when test="${(requestScope.list==1&&empty param.list)||(empty param.list&&empty requestScope.list)}">
+						
+					</c:when>
+					<c:otherwise>
+						<!-- 作品 -->
+						
+						<!-- 收藏夹 -->
+						
+						<!-- 评论消息 -->
+						
+					</c:otherwise>
+				</c:choose> --%>
+				
 				<div id="User_table" class="User_table">
-					<c:choose>
-						<c:when test="${(requestScope.list==1&&empty param.list)||(empty param.list&&empty requestScope.list)}">
-							
-						</c:when>
-						<c:otherwise>
-							<c:choose>
-								<c:when test="${!empty param.page }" >
-									<c:set var="begin" value="${(param.page-1)*8}" scope="session"></c:set>
-									<c:set var="end" value="${(param.page*8)-1}" scope="session"></c:set>	
-								</c:when>
-								<c:otherwise>
-									<c:set var="begin" value="0" scope="session"></c:set>
-									<c:set var="end" value="7" scope="session"></c:set>	
-								</c:otherwise>
-							</c:choose>
-							<c:set var="AllNum" value="0" scope="session"></c:set>
-							<!-- 作品 -->
-							
-							<!-- 收藏夹 -->
-							
-							<!-- 评论消息 -->
-							
-						</c:otherwise>
-					</c:choose>
+						
 				</div>
 			</div>
 			<div id="work_edit_div" class="work_edit_div">
 				<div class="Work_form">
 					<div class="Form_close" onclick="edit_divOff()"><span class="glyphicon glyphicon-remove" style="font-size:20px;"></span></div>
+					<div class="Form_title">作品信息修改</div>
 					<div class="Form_img">
 						<img width=100% height=100% id="Work_img" alt="作品封面" src="">
-						<input type="button" value="修改封面" onclick="workImg()">
+						<input type="button" class="btn btn-primary" value="修改封面" onclick="workImg()">
 					</div>
 					<form action="${pageContext.request.contextPath}/workAction_update" method="post" enctype="multipart/form-data" onsubmit="return checkForm2()">
 						<input type="file" id="workimage" name="image" accept="image/*" onclick="event.cancelBubble = true">
@@ -111,6 +114,10 @@
 							<li>
 								<span class="Form_font">作品名：</span>
 								<input id="Work_wname" type="text" name="work.wname" placeholder="作品名">
+							</li>
+							<li>
+								<input type="file" id="workfile" name="upload" accept=".txt" onclick="event.cancelBubble = true">
+								<input type="button" class="btn btn-primary" style="height:25px;width:200px;padding-top:2px;" value="更新文本文件" onclick="workFile()">
 							</li>
 							<li>
 								<span class="Form_font">描述：</span>

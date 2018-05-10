@@ -67,7 +67,7 @@ public class SessionListener implements HttpSessionListener,HttpSessionAttribute
 	public void attributeReplaced(HttpSessionBindingEvent arg0) {
 		System.out.println("-----替换session的值---------");
 		System.out.println(arg0.getName());
-		long now = System.currentTimeMillis()/1000;
+		/*long now = System.currentTimeMillis()/1000;
 		if(arg0.getName().equals("user")){//当user存到session的时候 也就是登录的时候
 			user = (User) arg0.getValue();
 			System.out.println(user.toString());
@@ -75,7 +75,7 @@ public class SessionListener implements HttpSessionListener,HttpSessionAttribute
 				map.put(user.getUid(), String.valueOf(now));
 				jedis.hmset("Login_time", map);
 			}
-		}
+		}*/
 	}
 	public void updateRedis(long now){
 		map = jedis.hgetAll("Login_time");
@@ -87,7 +87,7 @@ public class SessionListener implements HttpSessionListener,HttpSessionAttribute
 			System.out.println(" ; time:"+time);
 			long delta_time = now-Integer.parseInt(time);
 			if(delta_time>=1800){
-				iterator.remove();//有没有必要？
+				/*iterator.remove();//有没有必要？*/
 				jedis.hdel("Login_time", entry.getKey());//删除过期用户记录
 			}
 		}

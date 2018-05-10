@@ -115,15 +115,25 @@ function centerLoad(path){
 		async : false,// 取消异步请求
 		success : function() {
 			var path = window.location.href;
+			/*debugger*/
 			var q = path.indexOf("?");
+			var m = path.lastIndexOf("/")+1;
 			if(q==-1){
 				q = path.length;
 			}
-			path = path.substr(path.lastIndexOf("/")+1,q) ;
-			if(path!="index.jsp"&&path!="bookAction_getData"){
-				window.location.replace("/SSH_test/pages/index.jsp");
+			path = path.substring(m,q) ;
+			var div = "";
+			if(path=="index.jsp"||path=="bookAction_getData"){
+				div="totalBook";
+			}else if(path=="workAction_readWork"||path=="bookAction_readBook"){
+				div="b_bottom";
+				$("#index_center").css("background-color","#efefef");
+				$("#"+div).attr("class","totalBook");
+			}else if(path=="upload.jsp"){
+				div="upload_bottom";
+				$("#"+div).attr("class","totalBook");
 			}
-			$("#totalBook").load("/SSH_test/pages/user/index_AkindOfBook.jsp");
+			$("#"+div).load("/SSH_test/pages/user/index_AkindOfBook.jsp");
 		},
 	});
 }

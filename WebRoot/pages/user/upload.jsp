@@ -73,7 +73,7 @@
 			<div id="index_center" class="index_center" style="background-color:#efefef;">
 				
 			</div>
-			<div class="upload_bottom">
+			<div class="upload_bottom" id="upload_bottom">
 				<input id="uploadResult" type="text"
 					value="${requestScope.uploadResult}" style="display:none">
 				<div class="upload_form">

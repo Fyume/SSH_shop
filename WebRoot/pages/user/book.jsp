@@ -75,7 +75,7 @@
 	<div id="index_center" class="index_center" style="background-color: #c8e3b3;">
 		
 	</div>
-	<div class="b_bottom">
+	<div id="b_bottom" class="b_bottom">
 		<input id="empty_book" type="text" value="${empty sessionScope.book }"
 			style="display:none;"> <input id="empty_work" type="text"
 			value="${empty sessionScope.work }" style="display:none;">
