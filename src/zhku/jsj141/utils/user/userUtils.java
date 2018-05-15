@@ -49,9 +49,9 @@ public class userUtils extends ActionSupport {
 	    props.put("mail.smtp.host", "smtp.163.com"); 
 	    /*props.setProperty("mail.smtp.port", "465");*/
 	    // 发件人的账号  
-	    props.put("mail.user", "xxx947530369@163.com");  
+	    props.put("mail.user", "Fyume_test@163.com");  
 	    // 访问SMTP服务时需要提供的密码  
-	    props.put("mail.password", "xXx122560234");  
+	    props.put("mail.password", "xXx569874123xXx");  
 
 	    // 构建授权信息，用于进行SMTP进行身份验证  
 	    Authenticator authenticator = new Authenticator() {  
@@ -109,9 +109,9 @@ public class userUtils extends ActionSupport {
 	    props.put("mail.smtp.host", "smtp.163.com");  
 	    /*props.setProperty("mail.smtp.port", "465");*/
 	    // 发件人的账号  
-	    props.put("mail.user", "xxx947530369@163.com");  
+	    props.put("mail.user", "Fyume_test@163.com");  
 	    // 访问SMTP服务时需要提供的密码  
-	    props.put("mail.password", "xXx122560234");  
+	    props.put("mail.password", "xXx569874123xXx");  
 
 	    // 构建授权信息，用于进行SMTP进行身份验证  
 	    Authenticator authenticator = new Authenticator() {  

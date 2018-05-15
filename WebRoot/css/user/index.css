@@ -1,4 +1,4 @@
-@CHARSET "UTF-8";
+﻿@CHARSET "UTF-8";
 div{
 	float:left;
 }
@@ -104,7 +104,7 @@ fieldset{
 .user_info{
 	position:fixed;
 	top:43px;  
-    right:200px; 
+    	right:200px; 
 	display:none;
 	border:1px #0080ff solid;
 	border-bottom:1px white solid;
