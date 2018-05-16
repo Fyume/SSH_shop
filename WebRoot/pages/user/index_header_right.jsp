@@ -5,10 +5,10 @@
 	<span class="glyphicon glyphicon-user"></span> <span
 		style="color:red;font-weight:400">${sessionScope.user.username }</span>
 </div>
-<a href="${pageContext.request.contextPath}/userAction_getReviewsAboutMe">
+<a href="${pageContext.request.contextPath}/pages/user/User.jsp?func=0">
 	<div class="h_r_user btn btn-default">消息</div>
 </a>
-<a href="${pageContext.request.contextPath}/userAction_getMyFavBy?type=0">
+<a href="${pageContext.request.contextPath}/pages/user/User.jsp?func=1">
 	<div class="h_r_user btn btn-default">收藏夹</div>
 </a>
 <c:if test="${sessionScope.updateFlag eq true}">

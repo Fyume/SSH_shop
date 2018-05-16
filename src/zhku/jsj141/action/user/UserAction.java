@@ -912,6 +912,7 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 	public String getReviewsAboutMe() throws Exception{//获取用户被回复的评论(顺便清除flag)
 		System.out.println("------getReviewsAboutMe-----");
 		user = (User) request.getSession().getAttribute("user");
+		String type = (String) request.getSession().getAttribute("ty");
 		if(user==null){
 			return "goto_login";
 		}
@@ -921,6 +922,9 @@ public class UserAction extends BaseAction{//(用了属性封装 和BaseAction �
 		rfrlist = JSON.parseObject(rfr2_str,new TypeReference<List<ReviewsForReviews>>(){});
 		request.getSession().setAttribute("updateFlag2", null);
 		request.getSession().setAttribute("MyRfrSet",rfrlist);
+		if("aj"==type){
+			return "goto_headerR";
+		}
 		return "goto_user";
 	}
 	//随机读取书本或作品

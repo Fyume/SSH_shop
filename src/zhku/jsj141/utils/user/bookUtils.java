@@ -15,13 +15,13 @@ import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
 
 public class bookUtils {
-	private static String DiskPath = "D:\\SSH_test\\main\\";// 默认存取路径
+	/*private static String DiskPath = "D:\\SSH_test\\main\\";// 默认存取路径
 	private static String FimagePath = "D:\\SSH_test\\images\\bookImg";// 图片最终存放路径
-	private static String managerPath = "manager\\";
-	
-	/*private static String DiskPath = "C:\\SSH_test\\main\\";// 默认存取路径
-	private static String FimagePath = "C:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\SSH_test\\images\\bookImg";// 图片最终存放路径 
 	private static String managerPath = "manager\\";*/
+	
+	private static String DiskPath = "C:\\SSH_test\\main\\";// 默认存取路径
+	private static String FimagePath = "C:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\SSH_test\\images\\bookImg";// 图片最终存放路径 
+	private static String managerPath = "manager\\";
 	 
 	// 读取管理员上传的文件
 	public static List<String> readbook(String type, String bpath)

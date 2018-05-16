@@ -40,6 +40,7 @@
 			<result name="goto_book">/pages/user/book.jsp</result>
 			<result name="goto_read">/pages/user/read.jsp</result>
 			<result name="goto_user">/pages/user/User.jsp</result>
+			<result name="goto_headerR">/pages/user/index_header_right.jsp</result>
 		</action>
 		<!-- 书本相关模块 -->
 		<action name="bookAction_*" class="bookAction" method="{1}">

@@ -302,7 +302,7 @@ public class BookAction extends BaseAction {
 	public String selectB() throws Exception{
 		String flag = request.getParameter("flag");//book的某个属性
 		String message = request.getParameter("message");//具体参数
-		/*message = new String(message.getBytes("ISO-8859-1"),"utf-8");*/ //URL传参好像是默认ISO-8859-1？反正试了发现这个可以
+		message = new String(message.getBytes("ISO-8859-1"),"utf-8"); //URL传参好像是默认ISO-8859-1？反正试了发现这个可以
 		System.out.println("message:"+message);
 		System.out.println("flag:"+flag);
 		if(message!=null&&flag!=null){

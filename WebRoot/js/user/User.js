@@ -3,7 +3,25 @@
  */
 $(document).ready(function() {
 	var list = $("#listNum").attr('title');
-	getMyInfo();
+	var path = window.location.href;
+	var q = path.indexOf("?");
+	var r = path.indexOf("&");
+	if(q==-1){
+		getMyInfo();
+	}else if(r==-1){
+		var eq = path.indexOf("=");
+		var param = path.substring(q+1, eq);
+		if(param=='func'){
+			var value = path.substring(eq+1, path.length);
+			if(value==0){//消息
+				loadMyReviews(2);
+			}else if(value==1){//收藏夹
+				getMyFav(0);
+			}else{
+				getMyInfo();
+			}
+		}
+	}
 });
 function uploadi() {
 	$("#image").click();
