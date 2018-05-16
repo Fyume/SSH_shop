@@ -13,12 +13,12 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 
 public class workUtils {
-	/*private static String DiskPath = "D:\\SSH_test\\main\\";// 默认存取路径
+	private static String DiskPath = "D:\\SSH_test\\main\\";// 默认存取路径
 	private static String FimagePath = "D:\\SSH_test\\images\\user\\workImg";// 图片最终存放路径
-	private static String userPath = "user\\";*/
-	private static String DiskPath = "C:\\SSH_test\\main\\";// 默认存取路径
-	private static String FimagePath = "C:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\SSH_test\\images\\user\\workImg";// 图片最终存放路径
 	private static String userPath = "user\\";
+	/*private static String DiskPath = "C:\\SSH_test\\main\\";// 默认存取路径
+	private static String FimagePath = "C:\\Program Files\\Apache Software Foundation\\Tomcat 7.0\\webapps\\SSH_test\\images\\user\\workImg";// 图片最终存放路径
+	private static String userPath = "user\\";*/
 	// 读取用户作品
 	public static List<String> readbook_U(String uid, String bpath)
 			throws FileNotFoundException, UnsupportedEncodingException {
